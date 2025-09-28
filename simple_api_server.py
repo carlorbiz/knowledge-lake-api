@@ -56,6 +56,6 @@ def add_knowledge():
     })
 
 if __name__ == '__main__':
-    print("🚀 Starting Carla's Simple Knowledge Lake API...")
-    print("📍 API will be available at: http://localhost:5000" )
+    print("Starting Carla's Simple Knowledge Lake API...")
+    print("API will be available at: http://localhost:5000" )
     app.run(host='127.0.0.1', port=5000, debug=True)
