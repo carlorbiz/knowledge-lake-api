@@ -1,0 +1,85 @@
+{
+  "name": "Monolithic Course Generator - BULLETPROOF",
+  "nodes": [
+    {
+      "parameters": {
+        "event": "rowsAdded",
+        "triggerOn": "specificSheet",
+        "sheetName": "Course Requests",
+        "options": {}
+      },
+      "id": "sheets-trigger",
+      "name": "Google Sheets Trigger",
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "your-google-sheets-credential-id",
+          "name": "Google Sheets"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "http://192.168.68.61:5000/course/complete-pipeline",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"course_concept\": \"{{ $json['Course Concept'] }}\",\n  \"audience_type\": \"{{ $json['Audience Type'] }}\",\n  \"source_urls\": \"{{ $json['Source URLs'] || '' }}\",\n  \"voice_type\": \"{{ $json['Voice Selection'] || 'Charon' }}\",\n  \"research_foundation\": \"Available - comprehensive evidence base will be generated\"\n}",
+        "options": {
+          "timeout": 600000,
+          "headers": {
+            "Content-Type": "application/json"
+          }
+        }
+      },
+      "id": "complete-pipeline",
+      "name": "Complete Course Generation",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"success\": true,\n  \"message\": \"Course generated successfully!\",\n  \"course_concept\": \"{{ $node['Complete Course Generation'].json.course.course_concept }}\",\n  \"modules_generated\": {{ $node['Complete Course Generation'].json.modules_ready_for_audio }},\n  \"knowledge_id\": {{ $node['Complete Course Generation'].json.knowledge_id }},\n  \"course_architecture\": {{ $node['Complete Course Generation'].json.course.course_architecture }},\n  \"audio_ready\": {{ $node['Complete Course Generation'].json.audio_generation_ready }},\n  \"next_step\": \"Course complete and ready for audio generation\"\n}"
+      },
+      "id": "webhook-response",
+      "name": "Course Complete",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [680, 300]
+    }
+  ],
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Complete Course Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Complete Course Generation": {
+      "main": [
+        [
+          {
+            "node": "Course Complete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "versionId": "monolithic-v1.0",
+  "id": "monolithic-course-generator",
+  "meta": {
+    "instanceId": "carla-bulletproof-system"
+  }
+}

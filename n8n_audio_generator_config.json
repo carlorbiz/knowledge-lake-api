@@ -1,0 +1,38 @@
+{
+  "name": "Generate Audio via Apps Script",
+  "type": "n8n-nodes-base.httpRequest",
+  "position": [800, 400],
+  "parameters": {
+    "url": "https://script.google.com/macros/s/AKfycbzvEl0RK05sdKsjwqVWraThbWwQ8NL-ZnoNUjQ9qhjQh3Oe-rVvRdU2__pPnwCWy1mq-Q/exec",
+    "method": "POST",
+    "sendHeaders": true,
+    "headerParameters": {
+      "parameters": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    "sendBody": true,
+    "bodyParameters": {
+      "parameters": [
+        {
+          "name": "voiceScript",
+          "value": "={{ $json.voiceScript }}"
+        },
+        {
+          "name": "voiceType",
+          "value": "={{ $json.voiceType || 'professional' }}"
+        },
+        {
+          "name": "slideName",
+          "value": "={{ $json.slideName || 'slide' }}"
+        }
+      ]
+    },
+    "options": {
+      "timeout": 120000
+    }
+  }
+}

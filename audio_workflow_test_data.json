@@ -1,0 +1,75 @@
+{
+  "webhook_test_data": {
+    "slide_number": 1,
+    "slide_title": "Introduction to Evidence-Based Practice",
+    "slide_content": "• Definition and core principles of EBP\n• Integration of clinical expertise with research evidence\n• Patient-centered care in Australian healthcare context\n• AHPRA standards and professional requirements\n• Quality improvement frameworks\n• Clinical decision-making processes",
+    "module_title": "Evidence-Based Practice Fundamentals",
+    "course_title": "Professional Healthcare Practice",
+    "voice_selection": "professional",
+    "target_audience": "Registered Nurses",
+    "timestamp": "2025-09-29T01:00:00.000Z"
+  },
+
+  "parse_slide_data_output": {
+    "slide_number": 1,
+    "slide_title": "Introduction to Evidence-Based Practice",
+    "slide_content": "• Definition and core principles of EBP\n• Integration of clinical expertise with research evidence\n• Patient-centered care in Australian healthcare context\n• AHPRA standards and professional requirements\n• Quality improvement frameworks\n• Clinical decision-making processes",
+    "module_title": "Evidence-Based Practice Fundamentals",
+    "course_title": "Professional Healthcare Practice",
+    "voice_selection": "professional",
+    "target_audience": "Registered Nurses",
+    "timestamp": "2025-09-29T01:00:00.000Z"
+  },
+
+  "anthropic_response_example": {
+    "content": [
+      {
+        "text": "Evidence-based practice represents the cornerstone of modern healthcare delivery in Australia, seamlessly integrating the best available research evidence with clinical expertise and patient values to inform decision-making. Within the Australian healthcare framework, EBP ensures that registered nurses meet AHPRA standards while delivering patient-centered care that aligns with contemporary evidence and professional guidelines.\n\nThis systematic approach transforms clinical decision-making by establishing quality improvement frameworks that enhance patient outcomes across diverse healthcare settings. Through evidence-based practice, nurses develop the critical thinking skills necessary to evaluate research findings, apply clinical expertise, and incorporate patient preferences into comprehensive care plans that reflect the highest standards of professional practice.",
+        "type": "text"
+      }
+    ],
+    "id": "msg_test123",
+    "model": "claude-3-5-sonnet-20241022",
+    "role": "assistant",
+    "stop_reason": "end_turn",
+    "stop_sequence": null,
+    "type": "message",
+    "usage": {
+      "input_tokens": 245,
+      "output_tokens": 145
+    }
+  },
+
+  "extract_clean_script_output": {
+    "slide_number": 1,
+    "slide_title": "Introduction to Evidence-Based Practice",
+    "voiceScript": "Evidence-based practice represents the cornerstone of modern healthcare delivery in Australia, seamlessly integrating the best available research evidence with clinical expertise and patient values to inform decision-making. Within the Australian healthcare framework, EBP ensures that registered nurses meet AHPRA standards while delivering patient-centered care that aligns with contemporary evidence and professional guidelines. This systematic approach transforms clinical decision-making by establishing quality improvement frameworks that enhance patient outcomes across diverse healthcare settings. Through evidence-based practice, nurses develop the critical thinking skills necessary to evaluate research findings, apply clinical expertise, and incorporate patient preferences into comprehensive care plans that reflect the highest standards of professional practice.",
+    "voice_selection": "professional",
+    "slideName": "slide_1",
+    "module_title": "Evidence-Based Practice Fundamentals",
+    "course_title": "Professional Healthcare Practice"
+  },
+
+  "apps_script_response_example": {
+    "success": true,
+    "audioUrl": "https://drive.google.com/uc?export=download&id=1h-risz_GpBXsvjFrbVz3sQGjDS22ZSSR",
+    "voiceType": "professional"
+  },
+
+  "knowledge_lake_final_data": {
+    "content": "Audio generated for Evidence-Based Practice Fundamentals - Slide 1",
+    "metadata": {
+      "type": "audio_generation",
+      "slide_number": "1",
+      "slide_title": "Introduction to Evidence-Based Practice",
+      "module_title": "Evidence-Based Practice Fundamentals",
+      "course_title": "Professional Healthcare Practice",
+      "voice_script": "Evidence-based practice represents the cornerstone of modern healthcare delivery in Australia, seamlessly integrating the best available research evidence with clinical expertise and patient values to inform decision-making...",
+      "audio_url": "https://drive.google.com/uc?export=download&id=1h-risz_GpBXsvjFrbVz3sQGjDS22ZSSR",
+      "voice_type": "professional",
+      "generation_timestamp": "2025-09-29T01:15:30.000Z",
+      "audio_success": "true",
+      "slide_name": "slide_1"
+    }
+  }
+}

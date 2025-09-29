@@ -1,0 +1,130 @@
+{
+  "name": "AI Brain Course Generator - Production",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ai-brain-course-generator",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Course Generation Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://192.168.68.61:5000/ai/audience-analysis",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"course_concept\": \"{{ $json.course_concept }}\",\n  \"audience_type\": \"{{ $json.audience_type }}\", \n  \"research_foundation\": \"{{ $json.research_foundation }}\"\n}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "audience-analysis",
+      "name": "AI Brain - Audience Analysis",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://192.168.68.61:5000/course/architect",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"course_concept\": \"{{ $json.course_concept }}\",\n  \"audience_type\": \"{{ $json.audience_type }}\",\n  \"research_foundation\": \"{{ $json.research_foundation }}\"\n}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "course-architect",
+      "name": "AI Brain - Course Architecture",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://192.168.68.61:5000/ai/distribute-tasks",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"course_architecture\": \"{{ $node['AI Brain - Course Architecture'].json.course_architecture }}\",\n  \"audience_profile\": \"{{ $node['AI Brain - Audience Analysis'].json.audience_analysis }}\"\n}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "task-distribution",
+      "name": "AI Brain - Task Distribution",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"success\": true,\n  \"course_concept\": \"{{ $json.course_concept }}\",\n  \"audience_analysis\": {{ $node['AI Brain - Audience Analysis'].json.audience_analysis }},\n  \"course_architecture\": {{ $node['AI Brain - Course Architecture'].json.course_architecture }},\n  \"task_distribution\": {{ $node['AI Brain - Task Distribution'].json.task_distribution }},\n  \"timestamp\": \"{{ $now }}\",\n  \"next_steps\": \"Course architecture complete. Ready for module generation and audio creation.\"\n}"
+      },
+      "id": "webhook-response",
+      "name": "Course Generation Complete",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1120, 300]
+    }
+  ],
+  "connections": {
+    "Course Generation Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Brain - Audience Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Brain - Audience Analysis": {
+      "main": [
+        [
+          {
+            "node": "AI Brain - Course Architecture",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Brain - Course Architecture": {
+      "main": [
+        [
+          {
+            "node": "AI Brain - Task Distribution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Brain - Task Distribution": {
+      "main": [
+        [
+          {
+            "node": "Course Generation Complete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "versionId": "ai-brain-v1.0",
+  "id": "ai-brain-course-generator",
+  "meta": {
+    "instanceId": "carla-ai-brain-system"
+  }
+}

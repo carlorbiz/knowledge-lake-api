@@ -1,0 +1,171 @@
+{
+  "name": "Monolithic Course Generator - COMPLETE",
+  "nodes": [
+    {
+      "parameters": {
+        "event": "rowsAdded",
+        "triggerOn": "specificSheet",
+        "sheetName": "Course Requests",
+        "options": {}
+      },
+      "id": "sheets-trigger",
+      "name": "Google Sheets Trigger",
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "your-google-sheets-credential-id",
+          "name": "Google Sheets"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "course_concept",
+              "name": "course_concept",
+              "value": "={{ $json['Course Concept'] }}",
+              "type": "string"
+            },
+            {
+              "id": "audience_type",
+              "name": "audience_type",
+              "value": "={{ $json['Audience Type'] }}",
+              "type": "string"
+            },
+            {
+              "id": "source_urls",
+              "name": "source_urls",
+              "value": "={{ $json['Source URLs'] || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "voice_selection",
+              "name": "voice_selection",
+              "value": "={{ $json['Voice Selection'] || 'Charon' }}",
+              "type": "string"
+            },
+            {
+              "id": "timestamp",
+              "name": "timestamp",
+              "value": "={{ $json['Timestamp'] || $now }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": false,
+        "options": {}
+      },
+      "id": "set-initial-context",
+      "name": "Set Initial Context",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "timestamp",
+              "order": "descending"
+            }
+          ]
+        },
+        "options": {
+          "keepOnlySet": 1
+        }
+      },
+      "id": "sort-newest",
+      "name": "Sort Newest",
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://192.168.68.61:5000/course/complete-pipeline",
+        "authentication": "none",
+        "requestFormat": "json",
+        "jsonParameters": true,
+        "parametersJson": "={\n  \"course_concept\": \"{{ $json.course_concept }}\",\n  \"audience_type\": \"{{ $json.audience_type }}\",\n  \"source_urls\": \"{{ $json.source_urls }}\",\n  \"voice_type\": \"{{ $json.voice_selection }}\",\n  \"research_foundation\": \"Available - comprehensive evidence base will be generated\"\n}",
+        "options": {
+          "timeout": 900000
+        }
+      },
+      "id": "complete-pipeline",
+      "name": "Complete Course Generation",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"success\": true,\n  \"message\": \"Premium course generated successfully!\",\n  \"course_concept\": \"{{ $node['Complete Course Generation'].json.course.course_concept }}\",\n  \"modules_generated\": {{ $node['Complete Course Generation'].json.modules_ready_for_audio }},\n  \"premium_components\": {{ $node['Complete Course Generation'].json.premium_components_generated }},\n  \"knowledge_id\": {{ $node['Complete Course Generation'].json.knowledge_id }},\n  \"audio_ready\": {{ $node['Complete Course Generation'].json.audio_generation_ready }},\n  \"premium_course_ready\": {{ $node['Complete Course Generation'].json.premium_course_ready }},\n  \"processing_time\": \"{{ $now }}\",\n  \"next_step\": \"Complete premium course ready for deployment with all components\"\n}"
+      },
+      "id": "webhook-response",
+      "name": "Premium Course Complete",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1120, 300]
+    }
+  ],
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set Initial Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Initial Context": {
+      "main": [
+        [
+          {
+            "node": "Sort Newest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort Newest": {
+      "main": [
+        [
+          {
+            "node": "Complete Course Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Complete Course Generation": {
+      "main": [
+        [
+          {
+            "node": "Premium Course Complete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "versionId": "monolithic-complete-v1.0",
+  "id": "monolithic-complete-course-generator",
+  "meta": {
+    "instanceId": "carla-complete-premium-system"
+  }
+}

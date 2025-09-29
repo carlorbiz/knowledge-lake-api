@@ -1,0 +1,168 @@
+{
+  "nodes": [
+    {
+      "id": "generate-script",
+      "name": "Generate Voiceover Script",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "url": "https://api.anthropic.com/v1/messages",
+        "method": "POST",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "x-api-key",
+              "value": "={{ $vars.ANTHROPIC_API_KEY }}"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            }
+          ]
+        },
+        "sendBody": true,
+        "jsonParameters": true,
+        "body": {
+          "model": "claude-3-5-sonnet-20241022",
+          "max_tokens": 4000,
+          "temperature": 0.3,
+          "messages": [
+            {
+              "role": "user",
+              "content": "Transform the following slide content into flowing, engaging paragraphs for professional Australian healthcare practitioners:\n\nRequirements:\n1. Transform the outline into flowing, engaging paragraphs (NO bullet points)\n2. Use sophisticated, professional language suitable for healthcare professionals\n3. Include practical applications and real-world examples\n4. Reference Australian healthcare context naturally (AHPRA, NMBA, PBS, MBS where relevant)\n5. Aim for 120-150 words for optimal voiceover timing\n6. Create content that demonstrates authority and expertise\n7. Use evidence-based language and cite relevant Australian guidelines\n8. Include transition phrases for smooth audio flow\n\nSlide Content: {{ $json.slide_content }}\nModule: {{ $json.module_title }}\nAudience: {{ $json.target_audience }}\n\nGenerate professional voiceover script:"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "position": [900, 300]
+    },
+    {
+      "id": "extract-script",
+      "name": "Extract Clean Script",
+      "type": "n8n-nodes-base.code",
+      "parameters": {
+        "jsCode": "// Extract the clean script from Anthropic response\nconst response = $json.content[0].text || '';\n\n// Clean the script for TTS\nconst cleanScript = response\n  .replace(/\\*\\*.*?\\*\\*/g, '') // Remove bold markers\n  .replace(/\\[.*?\\]/g, ' ') // Remove all bracket instructions\n  .replace(/\\n\\n+/g, ' ') // Replace multiple newlines with space\n  .replace(/\\s+/g, ' ') // Normalize whitespace\n  .trim();\n\nreturn {\n  slide_number: $json.slide_number,\n  slide_title: $json.slide_title,\n  voiceScript: cleanScript,\n  voice_selection: $json.voice_selection || 'professional',\n  slideName: `slide_${$json.slide_number}`,\n  module_title: $json.module_title,\n  course_title: $json.course_title\n};"
+      },
+      "position": [1120, 300]
+    },
+    {
+      "id": "generate-audio",
+      "name": "Generate Audio via Australian Healthcare TTS",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "url": "https://script.google.com/macros/s/AKfycbzvEl0RK05sdKsjwqVWraThbWwQ8NL-ZnoNUjQ9qhjQh3Oe-rVvRdU2__pPnwCWy1mq-Q/exec",
+        "method": "POST",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "jsonParameters": true,
+        "body": {
+          "voiceScript": "={{ $json.voiceScript }}",
+          "voiceType": "={{ $json.voice_selection }}",
+          "slideName": "={{ $json.slideName }}"
+        },
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "position": [1340, 300]
+    },
+    {
+      "id": "store-audio-knowledge",
+      "name": "Store Audio in Knowledge Lake",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "url": "http://localhost:5000/knowledge/add",
+        "method": "POST",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "jsonParameters": true,
+        "body": {
+          "content": "Audio generated for {{ $json.module_title }} - Slide {{ $json.slide_number }}",
+          "metadata": {
+            "type": "audio_generation",
+            "slide_number": "={{ $json.slide_number }}",
+            "slide_title": "={{ $json.slide_title }}",
+            "module_title": "={{ $json.module_title }}",
+            "course_title": "={{ $json.course_title }}",
+            "voice_script": "={{ $json.voiceScript }}",
+            "audio_url": "={{ $json.audioUrl }}",
+            "voice_type": "={{ $json.voice_selection }}",
+            "generation_timestamp": "={{ new Date().toISOString() }}",
+            "audio_success": "={{ $json.success }}",
+            "slide_name": "={{ $json.slideName }}"
+          }
+        }
+      },
+      "position": [1560, 300]
+    }
+  ],
+  "connections": {
+    "prepare-script-prompt": {
+      "main": [
+        [
+          {
+            "node": "generate-script",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "generate-script": {
+      "main": [
+        [
+          {
+            "node": "extract-script",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "extract-script": {
+      "main": [
+        [
+          {
+            "node": "generate-audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "generate-audio": {
+      "main": [
+        [
+          {
+            "node": "store-audio-knowledge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
