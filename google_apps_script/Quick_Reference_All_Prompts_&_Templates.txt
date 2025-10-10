@@ -1,0 +1,572 @@
+⚡ Quick Reference: All Prompts & Templates
+Copy/Paste Prompts for Every Phase
+Save this document for instant access to every prompt you need!
+________________
+
+
+🔬 PHASE 1: RESEARCH FOUNDATION
+Prompt 1.1: Web Research Gem
+Research current best practices for [YOUR TOPIC] training in [INDUSTRY/CONTEXT].
+
+
+Focus on:
+1. Latest industry standards and compliance requirements
+2. Common challenges faced by [TARGET AUDIENCE]
+3. Proven teaching methods and pedagogical approaches
+4. Current trends and developments (2024-2025)
+5. Success metrics and learning outcomes
+
+
+Target: 2500-3500 words with citations
+Replace:
+* [YOUR TOPIC] = e.g., "leadership development", "data analytics", "customer service"
+* [INDUSTRY/CONTEXT] = e.g., "healthcare organisations", "financial services", "retail management"
+* [TARGET AUDIENCE] = e.g., "mid-level managers", "frontline staff", "technical specialists"
+________________
+
+
+Prompt 1.2: NotebookLM Internal Resources
+Analyse these internal resources and extract:
+1. Key concepts that must be included
+2. Company-specific terminology and approaches
+3. Real examples and case studies
+4. Compliance requirements specific to our organisation
+5. Learning gaps from previous training initiatives
+
+
+Synthesise into a structured summary that complements external research.
+Use when: You have internal documents, policies, or previous training materials to incorporate
+________________
+
+
+🏗️ PHASE 2: COURSE ARCHITECTURE
+Prompt 2.1: Course Architecture Gem
+Using the research foundation below, design a comprehensive course architecture for:
+
+
+**Course Topic:** [Your course title]
+**Target Audience:** [Detailed audience description - role, experience level, context]
+**Key Constraints:** [Time limits, compliance requirements, any specific focus areas]
+
+
+**Research Foundation:**
+[PASTE YOUR COMPLETE 2500-3500 WORD RESEARCH HERE]
+
+
+Generate:
+1. Course overview and learning pathway
+2. 8-15 modules with clear progression
+3. For each module:
+   - Module title (clear, engaging, descriptive)
+   - 3-5 specific learning objectives (measurable, action-oriented)
+   - Core content focus (key topics and concepts to cover)
+   - Pedagogical rationale (why this module, why this sequence)
+   - Connection to research foundation (evidence base)
+
+
+Ensure logical competency progression from foundational to advanced concepts.
+Replace:
+* [Your course title] = e.g., "Leadership Essentials for New Managers"
+* [Detailed audience description] = e.g., "Recently promoted team leaders with 1-3 years management experience in technology companies, managing teams of 5-15 people, primarily millennial/Gen Z workforce"
+* [Key constraints] = e.g., "10 modules, 30-45 minutes each, must include compliance with XYZ standards"
+________________
+
+
+📝 PHASE 5: PREMIUM ENRICHMENT
+Prompt 5.1: Workbook Development
+Based on this module content [PASTE MODULE], create comprehensive workbook materials:
+
+
+**Target Audience:** [Your specific learner profile]
+**Learning Objectives:** [Module objectives]
+
+
+Generate:
+
+
+1. **REFLECTION EXERCISES** (2-3 per module)
+   - Thought-provoking questions
+   - Application to learner's context
+   - Space for personal insights
+
+
+2. **PRACTICAL TOOLS** (1-2 per module)
+   - Templates they can use immediately
+   - Checklists or frameworks
+   - Planning worksheets
+
+
+3. **SELF-ASSESSMENT ACTIVITIES**
+   - Pre-module knowledge check
+   - Post-module confidence rating
+   - Action planning template
+
+
+4. **NOTE-TAKING GUIDE**
+   - Key concepts with space for notes
+   - Important definitions
+   - Personal examples section
+
+
+Format: Ready to import into professional workbook template
+Replace:
+* [PASTE MODULE] = Copy your complete module content
+* [Your specific learner profile] = e.g., "Healthcare administrators with clinical background transitioning to leadership roles"
+* [Module objectives] = Copy the learning objectives from that specific module
+________________
+
+
+Prompt 5.2: Case Study Development
+Develop 2-3 detailed case studies for this module: [PASTE MODULE]
+
+
+**Learner Profile:** [Specific role, industry, experience level]
+**Module Focus:** [Core learning objectives]
+
+
+For each case study provide:
+
+
+1. **SCENARIO DESCRIPTION** (150-200 words)
+   - Realistic workplace situation
+   - Relevant to target audience
+   - Incorporates module concepts
+   - Includes enough detail for analysis
+
+
+2. **CHALLENGE/PROBLEM STATEMENT**
+   - Clear issue to resolve
+   - Multiple factors to consider
+   - No obvious "right" answer
+
+
+3. **DISCUSSION QUESTIONS** (3-5 questions)
+   - Encourage critical thinking
+   - Apply module concepts
+   - Consider different perspectives
+   - Relate to learners' own context
+
+
+4. **TEACHING NOTES** (for facilitators)
+   - Key learning points
+   - Common misconceptions to address
+   - Discussion facilitation tips
+   - Suggested solutions/approaches
+
+
+Ensure cases reflect diversity of context and realistic complexity.
+Replace:
+* [PASTE MODULE] = Your complete module content
+* [Specific role, industry, experience level] = e.g., "Operations managers in manufacturing, 5+ years experience, managing unionised workforce"
+* [Core learning objectives] = The 3-5 objectives from this module
+________________
+
+
+Prompt 5.3: Extended Reading & Resources
+Based on this module [PASTE MODULE] and the research foundation [PASTE RESEARCH], curate extended learning resources:
+
+
+1. **RECOMMENDED READING** (3-5 sources)
+   - Mix of: articles, reports, case studies, tools
+   - Varying depth (quick reads to deep dives)
+   - Current sources (prefer last 2-3 years)
+   - Include WHY each resource is valuable
+
+
+2. **PRACTICAL TOOLS & TEMPLATES**
+   - Free resources learners can access
+   - Industry-standard frameworks
+   - Assessment or diagnostic tools
+
+
+3. **VIDEO RESOURCES** (optional)
+   - Short explainer videos (under 10 min)
+   - Expert interviews or talks
+   - Demonstrations or tutorials
+
+
+4. **PROFESSIONAL COMMUNITIES**
+   - Relevant LinkedIn groups or forums
+   - Professional associations
+   - Online communities of practice
+
+
+Format: Annotated bibliography with direct links and brief descriptions.
+Replace:
+* [PASTE MODULE] = Your module content
+* [PASTE RESEARCH] = Your original 2500-3500 word research foundation
+________________
+
+
+🎯 PHASE 6: ASSESSMENT DESIGN
+Prompt 6.1: Quiz Question Development
+Develop comprehensive assessment items for this module: [PASTE MODULE]
+
+
+**Learning Objectives to Assess:** [LIST MODULE OBJECTIVES]
+**Target Audience:** [Learner profile]
+**Assessment Context:** [Formative/Summative, Stakes level]
+
+
+Generate:
+
+
+1. **KNOWLEDGE CHECKS** (5-7 questions)
+   - Multiple choice (4 options)
+   - Mix of recall and comprehension
+   - Include plausible distractors
+   - Clear, unambiguous stems
+
+
+2. **APPLICATION QUESTIONS** (3-5 questions)
+   - Scenario-based
+   - Require learners to apply concepts
+   - Multiple choice or multiple response
+   - Realistic workplace contexts
+
+
+3. **ANALYSIS/EVALUATION ITEMS** (2-3 questions)
+   - Higher-order thinking
+   - Case study analysis
+   - "What would you do?" scenarios
+   - May include multiple correct approaches
+
+
+For EACH question provide:
+- Question stem
+- 4 answer options (for MC)
+- Correct answer marked clearly
+- Rationale/explanation for correct answer
+- Brief feedback for common incorrect choices
+- Link to specific module content/objective
+Replace:
+* [PASTE MODULE] = Your complete module content
+* [LIST MODULE OBJECTIVES] = Bullet list of the 3-5 objectives
+* [Learner profile] = e.g., "Sales representatives with 2-5 years experience"
+* [Formative/Summative, Stakes level] = e.g., "Formative assessment, low stakes, for learning reinforcement"
+________________
+
+
+Prompt 6.2: Role Play Scenario Development
+Design engaging role play scenarios for this module: [PASTE MODULE]
+
+
+**Learner Profile:** [Specific role and context]
+**Module Skills/Behaviors:** [What they should practice]
+
+
+Develop 2-3 role play scenarios including:
+
+
+1. **SCENARIO SETUP** (100-150 words)
+   - Realistic workplace situation
+   - Clear context and background
+   - Stakeholder information
+   - Specific objective for the learner
+
+
+2. **ROLE DESCRIPTIONS**
+   - Learner role (what they're responsible for)
+   - Other character roles (if applicable)
+   - Personality traits and motivations
+   - Key information each person has
+
+
+3. **CHALLENGE ELEMENTS**
+   - Conflict or complication
+   - Multiple factors to juggle
+   - Emotional or interpersonal aspects
+   - Time pressure or constraints (if relevant)
+
+
+4. **PERFORMANCE CRITERIA**
+   - Observable behaviors to demonstrate
+   - Key phrases or approaches to use
+   - Common mistakes to avoid
+   - Success indicators
+
+
+5. **FACILITATOR NOTES**
+   - Setup instructions
+   - Timing guidance (typically 5-10 minutes)
+   - Debrief questions
+   - Teaching points to emphasise
+
+
+6. **AUDIO SCRIPT** (for iSpring Suite Max)
+   - Narration for scenario introduction
+   - Character dialogue (if pre-recorded responses)
+   - Feedback statements
+   - Transition narration
+
+
+Ensure scenarios are:
+- Authentic to the target audience's work context
+- Challenging but achievable
+- Culturally appropriate
+- Suitable for solo or paired practice
+Replace:
+* [PASTE MODULE] = Your module content
+* [Specific role and context] = e.g., "Customer service representatives in call centre environment, handling difficult customer interactions"
+* [What they should practice] = e.g., "Active listening, de-escalation techniques, empathy statements, problem-solving"
+________________
+
+
+🎨 ISPRING SUITE MAX: AUDIO NARRATION SCRIPTS
+Template: Quiz Feedback Narration
+Correct Answer:
+"Excellent! [Explain why this answer is correct in 1-2 sentences, referencing the module content]. This demonstrates your understanding of [key concept]."
+Incorrect Answer:
+"Not quite. [Explain the common misconception briefly]. The correct approach is [brief explanation]. Review [specific module section] for more detail."
+Example:
+Correct: "Excellent! Active listening requires both verbal and non-verbal acknowledgment. By paraphrasing what the customer said, you demonstrate understanding and build trust."
+
+
+Incorrect: "Not quite. Simply staying silent isn't active listening - it's passive hearing. Active listening requires engagement through paraphrasing, questions, and acknowledgment. Review the 'Elements of Active Listening' section for more detail."
+
+________________
+Template: Role Play Introduction Narration
+"Welcome to this role play scenario. You are [ROLE], and you're about to [SITUATION]. 
+
+
+Your objective is to [GOAL]. 
+
+
+You'll need to demonstrate [KEY SKILLS] while navigating [CHALLENGE]. 
+
+
+Remember the key principles from this module: [2-3 KEY CONCEPTS].
+
+
+When you're ready, click 'Begin' to start the scenario. Good luck!"
+Example:
+"Welcome to this role play scenario. You are Alex, a team leader, and you're about to have a performance conversation with a struggling team member.
+
+
+Your objective is to identify the root causes of the performance issues and create an action plan together.
+
+
+You'll need to demonstrate active listening, ask open-ended questions, and maintain a supportive yet honest tone.
+
+
+Remember the key principles from this module: approach with curiosity not judgment, focus on observable behaviors, and collaborate on solutions.
+
+
+When you're ready, click 'Begin' to start the scenario. Good luck!"
+
+________________
+Template: Role Play Feedback Narration
+Good Choice:
+"Great choice! [Explain why this response was effective]. This approach [positive outcome]. [Optional: In a real situation, you might also consider...]"
+Poor Choice:
+"This response might not achieve your goal. [Explain what went wrong]. A more effective approach would be [alternative]. Try again?"
+Example:
+Good: "Great choice! By asking an open-ended question, you've invited the team member to share their perspective. This approach builds trust and often reveals information you wouldn't get from a direct accusation. In a real situation, you might also consider asking about any challenges outside of work that might be impacting performance."
+
+
+Poor: "This response might shut down the conversation. Jumping straight to consequences without understanding the root cause often leads to defensiveness rather than improvement. A more effective approach would be to ask about what's changed recently or what barriers they're facing. Try again?"
+
+________________
+📱 QUICK COPY CHECKLIST PROMPTS
+Content Quality Check Prompt
+Review this module content and assess:
+
+
+1. **Alignment:** Do learning objectives match the content covered?
+2. **Audience Appropriateness:** Is language and complexity suitable for [TARGET AUDIENCE]?
+3. **Evidence Base:** Is content grounded in the research foundation?
+4. **Practical Application:** Are there clear, actionable takeaways?
+5. **Engagement:** Does content maintain interest? Are examples relevant?
+6. **Structure:** Does content flow logically?
+7. **Completeness:** Are all objectives adequately addressed?
+
+
+Provide specific feedback on any gaps or areas for improvement.
+
+________________
+Assessment Quality Check Prompt
+Evaluate these assessment questions for:
+
+
+1. **Validity:** Do questions measure the stated learning objectives?
+2. **Clarity:** Are question stems clear and unambiguous?
+3. **Difficulty:** Is difficulty appropriate for target audience?
+4. **Distractor Quality:** Are incorrect options plausible?
+5. **Bias:** Are questions free from cultural or demographic bias?
+6. **Authenticity:** Do scenarios reflect real workplace situations?
+7. **Feedback Quality:** Is feedback specific and instructive?
+
+
+Flag any questions that need revision and suggest improvements.
+
+________________
+🚀 WORKFLOW SHORTCUTS
+All-in-One Course Generation Mega-Prompt (For Advanced Users)
+I need to create a complete professional training course. Help me develop:
+
+
+**COURSE DETAILS:**
+- Topic: [YOUR TOPIC]
+- Audience: [DETAILED AUDIENCE DESCRIPTION]
+- Duration: [X modules, Y minutes each]
+- Constraints: [Any specific requirements]
+
+
+**DELIVERABLES NEEDED:**
+1. Research-based course architecture (8-15 modules)
+2. For EACH module:
+   - Core content (2000-3000 words)
+   - Comprehensive workbook (4+ activities)
+   - 2 detailed case studies
+   - Curated additional resources
+   - 10-15 quiz questions with feedback
+   - 2 role play scenarios with scripts
+
+
+**MY RESEARCH FOUNDATION:**
+[PASTE YOUR 2500-3500 WORD RESEARCH HERE]
+
+
+**APPROACH:**
+Start with course architecture first, then I'll tell you which module to develop.
+Warning: This mega-prompt is powerful but requires careful review of outputs. Best used when you're familiar with the individual phase prompts.
+________________
+
+
+💡 PROMPT CUSTOMISATION TIPS
+Making Prompts Work Better for Your Context
+Add Industry-Specific Language:
+Original: "Target Audience: Mid-level managers"
+Enhanced: "Target Audience: Mid-level managers in healthcare (nurse managers, department heads) with clinical background, managing teams of 10-30 staff across multiple shifts"
+Specify Tone and Style:
+Add to any prompt: "Use a professional yet conversational tone. Avoid jargon where possible, or define it clearly when necessary. Write at a Year 12 reading level."
+Include Compliance Requirements:
+Add to any prompt: "Ensure all content aligns with [relevant standards, e.g., NSQLS, ISO, industry regulations]. Include references to compliance requirements where applicable."
+Request Specific Examples:
+Add to any prompt: "Include examples specifically from [industry/context, e.g., retail operations, remote team management, healthcare settings]. Avoid generic business examples."
+
+________________
+📋 PROMPT USAGE TRACKING
+Use this checklist to track which prompts you've completed:
+Phase 1: Research
+* [ ] Web Research Gem prompt
+* [ ] NotebookLM internal resources prompt (if applicable)
+Phase 2: Architecture
+* [ ] Course Architecture Gem prompt
+Phase 5: Enrichment (per module)
+* [ ] Workbook development prompt
+* [ ] Case study development prompt
+* [ ] Extended resources prompt
+Phase 6: Assessments (per module)
+* [ ] Quiz questions prompt
+* [ ] Role play scenarios prompt
+* [ ] Audio scripts written
+* [ ] Quality check prompts run
+________________
+
+
+🎯 WHEN TO MODIFY PROMPTS
+Shorten Prompts If:
+* You need faster turnaround
+* Content is straightforward/simple topic
+* Target audience requires less depth
+* Budget/time constraints are tight
+Remove: Extra activities, reduce case studies to 1, fewer quiz questions (minimum 5)
+Expand Prompts If:
+* Topic is complex or technical
+* Compliance requirements are strict
+* Audience is highly experienced
+* Premium/executive-level course
+Add: More case studies, additional resources, scenario variations, supplementary readings
+Adapt Prompts For:
+* Non-English courses: Add "Generate in [LANGUAGE]" at start
+* Certification courses: Add "Align with [CERTIFICATION BODY] standards"
+* Micro-learning: Reduce module length requirements, focus on single objective
+* Blended learning: Add "Include suggestions for in-person activities"
+________________
+
+
+⚡ EMERGENCY TROUBLESHOOTING PROMPTS
+"My content is too generic"
+Review this module content: [PASTE CONTENT]
+
+
+Target audience: [SPECIFIC DESCRIPTION]
+
+
+The content feels generic. Please:
+1. Identify where audience-specific context is missing
+2. Replace generic examples with [INDUSTRY/ROLE]-specific scenarios
+3. Add terminology familiar to [AUDIENCE]
+4. Include challenges specific to [CONTEXT]
+5. Maintain all learning objectives and structure
+
+
+Provide revised sections with improved specificity.
+
+________________
+"My assessments are too easy/hard"
+Review these assessment questions: [PASTE QUESTIONS]
+
+
+Current difficulty feels [too easy / too hard] for [TARGET AUDIENCE with EXPERIENCE LEVEL].
+
+
+Please:
+1. Identify questions that don't match audience capability
+2. For easy questions: Add complexity, nuance, or scenario elements
+3. For hard questions: Simplify language, provide more context, or adjust cognitive load
+4. Maintain alignment with learning objectives
+5. Keep total questions at [NUMBER]
+
+
+Provide revised questions with difficulty explanations.
+
+________________
+"My case studies aren't realistic"
+Review these case studies: [PASTE CASE STUDIES]
+
+
+For learners who are [SPECIFIC ROLE] in [SPECIFIC CONTEXT], these scenarios don't feel authentic.
+
+
+Please:
+1. Identify unrealistic elements
+2. Add authentic details (terminology, processes, constraints)
+3. Include common complications faced by [ROLE]
+4. Ensure challenges reflect real [INDUSTRY] issues
+5. Maintain learning objectives focus
+
+
+Provide revised case studies with authenticity notes.
+
+________________
+💾 SAVE THESE PROMPTS
+Pro Tips:
+1. Save this document to your Google Drive or Notion
+2. Create a prompt library specific to your industry/courses
+3. Version your customised prompts (helps track what works)
+4. Share standardised prompts with your team for consistency
+5. Build a prompt database in Notion with tags for easy search
+Template for Your Prompt Library:
+Prompt Name: [Descriptive title]
+Phase: [1-8]
+Purpose: [What it generates]
+Best Used For: [Course type, audience, context]
+Last Updated: [Date]
+Success Rate: [Your experience]
+Notes: [Customisations that worked well]
+
+________________
+🎓 MASTERY TIP
+The best prompt is one you've tested and refined! Don't be afraid to:
+* Add your own style to these prompts
+* Combine prompts that work well together
+* Iterate based on output quality
+* Build your own prompt library over time
+These prompts are starting points, not commandments!
+Adapt them to your voice, your audience, and your context. The workflow is the skeleton; your expertise is the soul. 🚀
+________________
+
+
+Ready to copy, paste, and create? You've got everything you need! 📝✨

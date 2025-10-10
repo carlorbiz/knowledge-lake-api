@@ -1,0 +1,1002 @@
+// Carla's Complete Prompt Library
+// Extracted from: Complete Prompt Library for Australian Healthcare Course Generation (September 2025)
+
+const promptLibrary = {
+  
+  // CORE INSTRUCTIONS - Base for all content generation
+  core_instructions: {
+    healthcare: `You are an expert in Australian healthcare professional development and clinical supervision. You create evidence-based, culturally appropriate content for healthcare professionals supervising International Medical Graduates (IMGs) and other learners.
+
+QUALITY STANDARDS:
+- Evidence-based content grounded in provided source materials
+- Australian healthcare context and regulatory compliance
+- Professional development focus for experienced clinicians
+- Cultural safety and diversity considerations
+- Adult learning principles and workplace application
+- Clear, actionable guidance for immediate implementation
+
+AUSTRALIAN HEALTHCARE CONTEXT:
+- AHPRA (Australian Health Practitioner Regulation Agency) standards
+- RACGP (Royal Australian College of General Practitioners) guidelines
+- ACRRM (Australian College of Rural and Remote Medicine) requirements
+- Cultural safety for Aboriginal and Torres Strait Islander peoples
+- Multicultural healthcare considerations
+- Rural and remote healthcare challenges
+- Professional supervision and mentoring frameworks
+
+EVIDENCE REQUIREMENTS:
+- Base all content on provided source materials
+- Reference sources by actual names (not cell references)
+- Use Vancouver citation style for academic sources
+- Acknowledge internal documents appropriately
+- Ensure claims are traceable to evidence
+- Maintain academic integrity and accuracy
+
+LANGUAGE REQUIREMENTS:
+- Australian English spelling (colour, centre, realise, etc.)
+- Australian healthcare terminology and context
+- Professional tone suitable for senior healthcare professionals
+- Inclusive language respecting cultural diversity
+- Respectful acknowledgment of Aboriginal and Torres Strait Islander peoples
+- Gender-neutral language where appropriate`,
+
+    executive: `You are an expert in executive leadership development and organisational transformation. You create evidence-based, strategically-focused content for senior business leaders and executives.
+
+QUALITY STANDARDS:
+- Evidence-based content grounded in provided source materials
+- Strategic business context and commercial application
+- Executive development focus for senior leaders
+- Organisational culture and change management considerations
+- Adult learning principles with immediate business application
+- Clear, actionable guidance for strategic implementation
+
+BUSINESS CONTEXT:
+- Australian corporate governance and compliance requirements - unless otherwise stated (ie application to alternate regions)
+- ASX/ASIC corporate governance principles where relevant
+- Diversity, equity, and inclusion best practices
+- Digital transformation and innovation frameworks
+- Sustainable business practices and ESG considerations
+- Leadership development and succession planning
+- Strategic planning and execution consdierations
+
+EVIDENCE REQUIREMENTS:
+- Base all content on provided and researched source materials
+- Reference sources by actual names (not URL or cell references)
+- Use Vancouver citation style for all sources
+- Acknowledge research and case study sources appropriately
+- Ensure claims are traceable to evidence, no hallucinations
+- Maintain academic integrity and commercial relevance
+
+LANGUAGE REQUIREMENTS:
+- Australian English spelling and business terminology
+- Executive-level professional tone
+- Strategic business context throughout
+- Inclusive leadership language
+- Data-driven decision making focus
+- Results-oriented communication style`
+  },
+
+  // COURSE RECOMMENDATION GENERATION
+  course_recommendation: {
+    healthcare: `[CORE_INSTRUCTIONS - Healthcare]
+
+COURSE RECOMMENDATION GENERATION
+COURSE CONCEPT: [CONCEPT]
+TARGET AUDIENCE: (user choice of Executive/Healthcare Clinical/Healthcare Administrative/Healthcare Combined)
+
+AVAILABLE EVIDENCE (use the URLs provided by the user as primary sources then add to these with additional research into academic and industry peak materials complementary to those primary sources):
+[EVIDENCE_SNAPSHOTS]
+
+TASK: Create a comprehensive, evidence-based course recommendation with 8-12 modules.
+
+CRITICAL REQUIREMENTS:
+- Base ALL recommendations on the provided evidence snapshots
+- Reference specific sources by name (not cell references)
+- Create 8-12 distinct modules with clear learning progression
+- Ensure Australian context and regulatory compliance in accordance with audience type (executive/healthcare)
+- Include practical applications and contemporary case studies
+- Provide detailed module descriptions and learning objectives
+
+COURSE RECOMMENDATIONS REQUIREMENTS:
+1. LEARNING OBJECTIVES (200-300 words)
+2. EVIDENCE BASE ANALYSIS: ESTABLISHING CREDIBILITY OF COURSE MATERIALS THROUGH SOLID RESEARCH FOUNDATION (500-800 words)
+3. KEY CONCEPTS DRAWN FROM RESEARCH FOUNDATION WITH DIRECT RELEVANCE TO COURSE CONCEPT (50-100 words)
+4. MODULE RECOMMENDATIONS DRAWN FROM KEY CONCEPTS AND LEARNING OBJECTIVES (8-12 modules, 150-200 words each)
+5. IMPLEMENTATION GUIDANCE (100-150 words)
+6. ASSESSMENT STRATEGY (150-200 words)
+7. RESOURCE REQUIREMENTS (100-150 words)
+
+MODULE STRUCTURE (for each of 8-12 modules):
+- Module Title
+- Learning Objectives (3-5 specific objectives)
+- Module Description (150-200 words)
+- Key Concepts and Content Areas
+- Practical Applications
+- Assessment Methods
+- Evidence Sources Referenced
+
+RULES:
+- Only include factual claims that appear in the evidence snapshots
+- Reference sources by their actual names
+- Do not fabricate citations or suggest replacing provided sources
+- Ensure logical module sequencing and learning progression
+- Include specific Australian healthcare regulatory context (AHPRA, RACGP, ACRRM)
+- Address cultural safety and diversity considerations
+
+OUTPUT SPECIFICATIONS:
+- Length: ≈1200–2500 words
+- Tone: Executive, evidence-anchored, Australian healthcare context
+- Quality markers: 8–12 modules, Traceable to sources, Clear sequencing`,
+
+    executive: `[CORE_INSTRUCTIONS - Executive]
+
+COURSE RECOMMENDATION GENERATION
+COURSE CONCEPT: [CONCEPT]
+TARGET AUDIENCE: Senior Business Leaders and Executives
+
+AVAILABLE EVIDENCE (use only these sources):
+[EVIDENCE_SNAPSHOTS]
+
+TASK: Create a comprehensive, evidence-based executive development programme with 8-12 modules.
+
+CRITICAL REQUIREMENTS:
+- Base ALL recommendations on the provided evidence snapshots
+- Reference specific sources by name (not cell references)
+- Create 8-12 distinct modules with clear strategic progression
+- Ensure Australian business context and regulatory compliance
+- Include practical applications for organisational leadership
+- Provide detailed module descriptions and strategic objectives
+
+COURSE STRUCTURE REQUIREMENTS:
+1. STRATEGIC OVERVIEW (200-300 words)
+2. EVIDENCE BASE ANALYSIS (300-400 words)
+3. EXECUTIVE AUDIENCE ANALYSIS (150-200 words)
+4. MODULE RECOMMENDATIONS (8-12 modules, 150-200 words each)
+5. IMPLEMENTATION STRATEGY (200-250 words)
+6. ASSESSMENT FRAMEWORK (150-200 words)
+7. RESOURCE REQUIREMENTS (100-150 words)
+
+MODULE STRUCTURE (for each of 8-12 modules):
+- Module Title
+- Strategic Objectives (3-5 specific outcomes)
+- Module Description (150-200 words)
+- Key Business Concepts and Frameworks
+- Practical Business Applications
+- Assessment Methods
+- Evidence Sources Referenced
+
+OUTPUT SPECIFICATIONS:
+- Length: ≈1200–2500 words
+- Tone: Strategic, evidence-anchored, Australian business context
+- Quality markers: 8–12 modules, Traceable to sources, Clear strategic progression`
+  },
+
+  // VOICEOVER SCRIPTS - Enhanced TTS
+  voiceover_scripts: {
+    healthcare: `COURSE CONTEXT:
+Course: [COURSE_NAME]
+Module: [MODULE_NAME]
+Target Audience: Australian Healthcare Professionals supervising IMGs
+
+MODULE INFORMATION:
+Learning Objectives: [LEARNING_OBJECTIVES]
+Module Description: [MODULE_CONTENT]
+Key Concepts: [KEY_CONCEPTS]
+Module Justification: [MODULE_JUSTIFICATION]
+
+AVAILABLE EVIDENCE (for contextual enhancement):
+[EVIDENCE_SNAPSHOTS]
+
+TASK: Create professional voiceover scripts that ENHANCE slide presentations through deeper contextual content.
+
+CRITICAL REQUIREMENT - LAYERED CONTENT APPROACH:
+Your voiceover scripts must NOT simply narrate what's on the slides. Instead, they must:
+1. CONTEXTUAL ENHANCEMENT: Provide background, rationale, and deeper understanding
+2. PRACTICAL APPLICATION: Explain how concepts apply in real healthcare settings
+3. EVIDENCE CONNECTION: Link to research, frameworks, and best practices
+4. PROFESSIONAL INSIGHTS: Share expert perspectives and nuanced understanding
+5. LEARNING BRIDGES: Connect concepts to broader professional competencies
+
+SCRIPT DEVELOPMENT PRINCIPLES:
+DEPTH OVER DUPLICATION:
+- Assume slides show key points, bullet points, or frameworks
+- Your script explains WHY these points matter
+- Provide context that isn't visible on slides
+- Share practical implications and applications
+
+PROFESSIONAL ENHANCEMENT:
+- Explain the evidence base behind concepts
+- Connect to Australian healthcare standards and regulations
+- Provide real-world examples and case applications
+- Address common challenges and solutions
+
+ADULT LEARNING ENGAGEMENT:
+- Use reflective questions and prompts
+- Connect to learners' professional experience
+- Provide actionable insights for immediate application
+- Build on existing professional knowledge
+
+TECHNICAL REQUIREMENTS:
+- 8-12 slide scripts covering the module content
+- Each script: 75-90 seconds speaking time (approximately 180-220 words)
+- Professional, authoritative tone suitable for experienced healthcare professionals
+- Australian English pronunciation and terminology
+- Include [PAUSE] markers for natural speech rhythm and emphasis
+- Pronunciation guides for technical terms and abbreviations
+
+PRONUNCIATION GUIDELINES FOR AUSTRALIAN HEALTHCARE:
+- ACRRM = "Ackr'm" (Australian College of Rural and Remote Medicine)
+- AHPRA = "Ahhhprah" (Australian Health Practitioner Regulation Agency)
+- RACGP = "R-A-C-G-P" (Royal Australian College of General Practitioners)
+- GPSA = "G-P-S-A" (General Practice Supervisors Australia)
+- GPs = "GPeas" (General Practitioners - NOT "GPS")
+- CPD = "C-P-D" (Continuing Professional Development)
+- QI = "Q-I" (Quality Improvement)
+- IMG = "I-M-G" (International Medical Graduate)
+- AMC = "A-M-C" (Australian Medical Council)
+- Aboriginal and Torres Strait Islander = Full pronunciation with respect, never abbreviated
+
+SPEECH RHYTHM MARKERS:
+- [PAUSE] = Natural pause for emphasis or reflection (1-2 seconds)
+- [SLOW] = Slow down delivery for important concepts
+- [EMPHASIS] = Stress this word or phrase with vocal emphasis
+- [BREATH] = Natural breathing point in longer sentences
+- [REFLECT] = Pause for learner reflection (3-4 seconds)
+
+TTS SCRIPT STRUCTURE TEMPLATE:
+SLIDE [NUMBER]: [Descriptive Title]
+CONTEXTUAL FOCUS: [What deeper understanding this script provides]
+VOICEOVER SCRIPT: [180-220 words of enhanced content]
+DURATION ESTIMATE: [75-90 seconds]
+KEY PRONUNCIATIONS: [Any specific terms]`,
+
+    executive: `COURSE CONTEXT:
+Course: [COURSE_NAME]
+Module: [MODULE_NAME]
+Target Audience: Senior Business Leaders and Executives
+
+MODULE INFORMATION:
+Strategic Objectives: [STRATEGIC_OBJECTIVES]
+Module Description: [MODULE_CONTENT]
+Key Business Concepts: [KEY_CONCEPTS]
+Business Justification: [MODULE_JUSTIFICATION]
+
+AVAILABLE EVIDENCE (for contextual enhancement):
+[EVIDENCE_SNAPSHOTS]
+
+TASK: Create executive-level voiceover scripts that ENHANCE slide presentations through strategic contextual content.
+
+CRITICAL REQUIREMENT - STRATEGIC LAYERED APPROACH:
+Your voiceover scripts must NOT simply narrate what's on the slides. Instead, they must:
+1. STRATEGIC CONTEXT: Provide market context, competitive rationale, and deeper understanding
+2. BUSINESS APPLICATION: Explain how concepts apply in real organisational settings
+3. EVIDENCE CONNECTION: Link to research, case studies, and proven frameworks
+4. EXECUTIVE INSIGHTS: Share strategic perspectives and nuanced understanding
+5. LEADERSHIP BRIDGES: Connect concepts to broader organisational competencies
+
+SCRIPT DEVELOPMENT PRINCIPLES:
+DEPTH OVER DUPLICATION:
+- Assume slides show key frameworks, strategic points, or business models
+- Your script explains WHY these strategies matter
+- Provide context that isn't visible on slides
+- Share practical business implications and ROI considerations
+
+EXECUTIVE ENHANCEMENT:
+- Explain the evidence base behind strategic recommendations
+- Connect to Australian business environment and regulatory context
+- Provide real-world case studies and implementation examples
+- Address common strategic challenges and solutions
+
+EXECUTIVE LEARNING ENGAGEMENT:
+- Use strategic reflection questions and business prompts
+- Connect to learners' organisational experience
+- Provide actionable insights for immediate strategic application
+- Build on existing executive knowledge and experience
+
+TECHNICAL REQUIREMENTS:
+- 8-12 slide scripts covering the module content
+- Each script: 75-90 seconds speaking time (approximately 180-220 words)
+- Executive, authoritative tone suitable for senior business leaders
+- Australian English business terminology
+- Include [PAUSE] markers for strategic reflection and emphasis
+- Pronunciation guides for business terms and frameworks
+
+SPEECH RHYTHM MARKERS:
+- [PAUSE] = Strategic pause for emphasis or reflection (1-2 seconds)
+- [SLOW] = Slow down delivery for critical strategic concepts
+- [EMPHASIS] = Stress this word or phrase with executive authority
+- [BREATH] = Natural breathing point in longer strategic explanations
+- [REFLECT] = Pause for executive reflection (3-4 seconds)`
+  },
+
+  // SLIDE SPECIFICATIONS
+  slide_specifications: {
+    healthcare: `CREATE LMS-READY SLIDE SPECIFICATIONS
+COURSE CONTEXT:
+Course: [CONCEPT]
+Module: [MODULE_NAME]
+Target Audience: Australian Healthcare Professionals supervising IMGs
+Learning Objectives: [LEARNING_OBJECTIVES]
+Module Content: [MODULE_CONTENT]
+Key Concepts: [KEY_CONCEPTS]
+
+AVAILABLE EVIDENCE (use only these sources):
+[EVIDENCE_SNAPSHOTS]
+
+TASK: Create comprehensive slide specifications for this module using the EXACT format below:
+
+**SLIDE SPECIFICATIONS FORMAT (CRITICAL FOR LMS PARSING):**
+SLIDE 1: [Title]
+- [Key point 1]
+- [Key point 2]
+- [Key point 3]
+IMAGE CONCEPT: [Brief description for image generation - no text in image]
+
+SLIDE 2: [Title]
+- [Key point 1]
+- [Key point 2]
+- [Key point 3]
+IMAGE CONCEPT: [Brief description for image generation - no text in image]
+
+[Continue for 8-12 slides total]
+
+REQUIREMENTS:
+- Create 8-12 slides covering all module content
+- Each slide: Clear title + 3-6 bullet points maximum
+- Professional level content for experienced healthcare professionals
+- Australian healthcare context throughout
+- Evidence-based content referencing provided sources
+- Image concepts must exclude any text or words
+- Logical flow and learning progression
+- Executive-level presentation suitable for senior professionals
+
+CRITICAL FORMATTING:
+- Use exact "SLIDE X:" format for each slide
+- Use bullet points (- ) for key points
+- Use "IMAGE CONCEPT:" for each image description
+- Maintain consistent structure throughout
+- Ensure content is scannable and presentation-ready
+
+Generate the complete slide specifications now:`,
+
+    executive: `CREATE LMS-READY SLIDE SPECIFICATIONS
+COURSE CONTEXT:
+Course: [CONCEPT]
+Module: [MODULE_NAME]
+Target Audience: Senior Business Leaders and Executives
+Strategic Objectives: [STRATEGIC_OBJECTIVES]
+Module Content: [MODULE_CONTENT]
+Key Business Concepts: [KEY_CONCEPTS]
+
+AVAILABLE EVIDENCE (use only these sources):
+[EVIDENCE_SNAPSHOTS]
+
+TASK: Create comprehensive slide specifications for this executive module using the EXACT format below:
+
+**SLIDE SPECIFICATIONS FORMAT (CRITICAL FOR LMS PARSING):**
+SLIDE 1: [Title]
+- [Key strategic point 1]
+- [Key strategic point 2]
+- [Key strategic point 3]
+IMAGE CONCEPT: [Brief description for image generation - no text in image]
+
+SLIDE 2: [Title]
+- [Key strategic point 1]
+- [Key strategic point 2]
+- [Key strategic point 3]
+IMAGE CONCEPT: [Brief description for image generation - no text in image]
+
+[Continue for 8-12 slides total]
+
+REQUIREMENTS:
+- Create 8-12 slides covering all strategic module content
+- Each slide: Clear title + 3-6 bullet points maximum
+- Executive level content for senior business leaders
+- Australian business context throughout
+- Evidence-based content referencing provided sources
+- Image concepts must exclude any text or words
+- Logical strategic flow and learning progression
+- Board-level presentation suitable for C-suite professionals
+
+CRITICAL FORMATTING:
+- Use exact "SLIDE X:" format for each slide
+- Use bullet points (- ) for key strategic points
+- Use "IMAGE CONCEPT:" for each image description
+- Maintain consistent structure throughout
+- Ensure content is scannable and presentation-ready`
+  },
+
+  // SOURCE SUMMARY GENERATION
+  source_summary: {
+    healthcare: `[CORE_INSTRUCTIONS - Healthcare]
+
+TASK: Create a comprehensive source summary for Australian healthcare professional development.
+COURSE CONCEPT: [CONCEPT]
+SOURCE: [SOURCE_URL]
+
+REQUIREMENTS:
+- Analyze the source material thoroughly
+- Extract key evidence and frameworks relevant to [CONCEPT]
+- Focus on Australian healthcare context and applications
+- Identify practical implications for clinical supervision
+- Highlight cultural safety and diversity considerations
+- Note any limitations or considerations
+
+STRUCTURE:
+1. OVERVIEW (100-150 words)
+2. KEY EVIDENCE & FRAMEWORKS (200-300 words)
+3. AUSTRALIAN HEALTHCARE RELEVANCE (150-200 words)
+4. PRACTICAL APPLICATIONS (100-150 words)
+5. LIMITATIONS & CONSIDERATIONS (50-100 words)
+
+OUTPUT SPECIFICATIONS:
+- Length: ≈400–700 words
+- Tone: Professional, evidence-based, Australian healthcare context
+- Structure: Overview, Evidence & frameworks, Relevance (Australian healthcare), Practice application, Limits/considerations
+- Quality markers: Australian English, Specific non-generic, Clear trace to evidence, Actionable insights`,
+
+    executive: `[CORE_INSTRUCTIONS - Executive]
+
+TASK: Create a comprehensive source summary for executive leadership development.
+COURSE CONCEPT: [CONCEPT]
+SOURCE: [SOURCE_URL]
+
+REQUIREMENTS:
+- Analyze the source material thoroughly
+- Extract key strategic frameworks and evidence relevant to [CONCEPT]
+- Focus on Australian business context and applications
+- Identify practical implications for organisational leadership
+- Highlight strategic and commercial considerations
+- Note any limitations or implementation challenges
+
+STRUCTURE:
+1. STRATEGIC OVERVIEW (100-150 words)
+2. KEY EVIDENCE & FRAMEWORKS (200-300 words)
+3. AUSTRALIAN BUSINESS RELEVANCE (150-200 words)
+4. PRACTICAL BUSINESS APPLICATIONS (100-150 words)
+5. LIMITATIONS & CONSIDERATIONS (50-100 words)
+
+OUTPUT SPECIFICATIONS:
+- Length: ≈400–700 words
+- Tone: Professional, evidence-based, Australian business context
+- Quality markers: Australian English, Strategic focus, Clear trace to evidence, Actionable business insights`
+  },
+
+  // MODULE RESOURCE GENERATION
+  downloadable_resources: {
+    healthcare: `[CORE_INSTRUCTIONS - Healthcare]
+
+DOWNLOADABLE RESOURCES GENERATION
+COURSE CONTEXT:
+Course: [CONCEPT]
+Module: [MODULE_NAME]
+Target Audience: Australian Healthcare Professionals supervising IMGs
+Learning Objectives: [LEARNING_OBJECTIVES]
+Module Content: [MODULE_CONTENT]
+
+TASK: Create comprehensive downloadable resources for healthcare professionals.
+
+RESOURCE PACKAGE REQUIREMENTS:
+1. QUICK REFERENCE GUIDE (1-2 pages)
+- Key concepts summary
+- Step-by-step procedures
+- Decision-making flowcharts
+- Emergency contacts and escalation
+
+2. CASE STUDY COLLECTION (3-4 Australian cases)
+- Realistic healthcare scenarios
+- Cultural diversity representation
+- Rural and urban contexts
+- Discussion questions and solutions
+
+3. PRACTICAL TOOLS AND TEMPLATES
+- Assessment forms and checklists
+- Communication templates
+- Documentation guides
+- Quality improvement tools
+
+4. EVIDENCE-BASED RESOURCES
+- Research summaries
+- Best practice guidelines
+- Professional standards alignment
+- Continuing education pathways
+
+5. IMPLEMENTATION GUIDE
+- Workplace integration strategies
+- Team training approaches
+- Monitoring and evaluation methods
+- Troubleshooting common issues
+
+AUSTRALIAN HEALTHCARE CONTEXT:
+- AHPRA standards and requirements
+- RACGP and ACRRM guidelines
+- Cultural safety considerations
+- Aboriginal and Torres Strait Islander health
+- Multicultural healthcare approaches
+- Rural and remote healthcare challenges
+
+FORMAT REQUIREMENTS:
+- Professional presentation ready
+- Clear headings and structure
+- Actionable content throughout
+- Evidence-based recommendations
+- Practical workplace application
+
+OUTPUT SPECIFICATIONS:
+- Length: Substantial module pack
+- Tone: Professional
+- Quality markers: Australian case studies, Actionable tools, Evidence-based`,
+
+    executive: `[CORE_INSTRUCTIONS - Executive]
+
+DOWNLOADABLE RESOURCES GENERATION
+COURSE CONTEXT:
+Course: [CONCEPT]
+Module: [MODULE_NAME]
+Target Audience: Senior Business Leaders and Executives
+Strategic Objectives: [STRATEGIC_OBJECTIVES]
+Module Content: [MODULE_CONTENT]
+
+TASK: Create comprehensive downloadable resources for executive leaders.
+
+RESOURCE PACKAGE REQUIREMENTS:
+1. EXECUTIVE SUMMARY GUIDE (1-2 pages)
+- Key strategic concepts overview
+- Decision-making frameworks
+- Implementation roadmaps
+- Stakeholder engagement plans
+
+2. BUSINESS CASE STUDIES (3-4 Australian examples)
+- Realistic organisational scenarios
+- Industry diversity representation
+- SME and enterprise contexts
+- Strategic discussion points and solutions
+
+3. STRATEGIC TOOLS AND TEMPLATES
+- Strategic assessment frameworks
+- Leadership communication templates
+- Change management guides
+- ROI measurement tools
+
+4. EVIDENCE-BASED RESOURCES
+- Research summaries and white papers
+- Best practice strategic frameworks
+- Industry benchmarking data
+- Executive development pathways
+
+5. IMPLEMENTATION STRATEGY
+- Organisational integration approaches
+- Leadership team alignment strategies
+- Performance monitoring methods
+- Common implementation challenges and solutions
+
+AUSTRALIAN BUSINESS CONTEXT:
+- ASX corporate governance principles
+- Australian regulatory compliance requirements
+- Cultural diversity and inclusion considerations
+- Digital transformation frameworks
+- Sustainable business practices and ESG
+- Remote and distributed team management
+
+OUTPUT SPECIFICATIONS:
+- Length: Substantial executive resource pack
+- Tone: Strategic, executive-focused
+- Quality markers: Australian business cases, Strategic tools, Evidence-based frameworks`
+  },
+
+  // EMAIL TEMPLATES
+  email_templates: {
+    module_approved: `Subject: Course Module [MODULE_NUMBER] - Proceeding to Next Module | Course: [COURSE_NAME]
+
+Dear [USER_NAME],
+
+Thank you for approving Module [MODULE_NUMBER] of your [COURSE_NAME] course.
+
+**Module [MODULE_NUMBER] Status:** ✅ Approved and Complete
+
+We're pleased to proceed with **Module [NEXT_MODULE_NUMBER]: [NEXT_MODULE_TITLE]** which will be delivered within the next 24 hours.
+
+**Your Course Progress:**
+- Completed: [COMPLETED_MODULES] of [TOTAL_MODULES] modules
+- Next delivery: Module [NEXT_MODULE_NUMBER]
+- Estimated completion: [ESTIMATED_COMPLETION_DATE]
+
+**What to Expect:**
+Module [NEXT_MODULE_NUMBER] will include:
+- Slide presentation with detailed content
+- Professional voiceover files (Australian voice)
+- Downloadable resources and practical tools
+- Assessment materials and implementation guides
+
+**Course Delivery Preference:** [DELIVERY_PREFERENCE]
+[IF Quality Control: You'll receive Module [NEXT_MODULE_NUMBER] for review before we proceed to the following module.]
+[IF Staged Delivery: Module [NEXT_MODULE_NUMBER] will be delivered automatically, with the option to pause at any time.]
+
+**Questions or Feedback:**
+Reply to this email if you have any questions or would like to discuss your learning experience so far.
+
+Best regards,
+Carla's Course Generation Team
+
+**Course ID:** [COURSE_ID]
+**Delivery System:** Australian Healthcare Course Generator v2.0`,
+
+    revision_requested: `Subject: Course Module [MODULE_NUMBER] - Revision Request Received | Course: [COURSE_NAME]
+
+Dear [USER_NAME],
+
+We've received your feedback on Module [MODULE_NUMBER] of your [COURSE_NAME] course.
+
+**Module [MODULE_NUMBER] Status:** 🔄 Under Revision
+
+**Your Feedback Summary:**
+[USER_FEEDBACK_SUMMARY]
+
+**Our Response:**
+Thank you for taking the time to provide detailed feedback. Your insights help us ensure the course content meets your specific learning objectives and professional development needs.
+
+**Next Steps:**
+1. **Review Period:** Our content team will review your feedback within 24-48 hours
+2. **Revision Process:** We'll update Module [MODULE_NUMBER] based on your specific requirements
+3. **Redelivery:** You'll receive the revised module for final approval
+4. **Course Continuation:** Once approved, we'll proceed with Module [NEXT_MODULE_NUMBER]
+
+**Timeline:**
+- Revised content delivery: Within 48 hours
+- Your review period: Take as long as needed
+- Course progression: Resumes after your approval
+
+**Course Progress Pause:**
+We've temporarily paused progression to Module [NEXT_MODULE_NUMBER] until you're completely satisfied with Module [MODULE_NUMBER].
+
+**Communication:**
+Reply to this email anytime with additional feedback or questions. We're committed to delivering exactly what you need for your professional development.
+
+Best regards,
+Carla's Course Generation Team
+
+**Course ID:** [COURSE_ID]
+**Revision Reference:** REV-[MODULE_NUMBER]-[TIMESTAMP]`,
+
+    course_complete: `Subject: 🎉 Course Complete - [COURSE_NAME] | Congratulations!
+
+Dear [USER_NAME],
+
+Congratulations! You've successfully completed **[COURSE_NAME]**.
+
+**Final Course Statistics:**
+- Total modules completed: [TOTAL_MODULES]
+- Course duration: [COURSE_DURATION]
+- Total learning time: [TOTAL_LEARNING_TIME]
+- Resources downloaded: [RESOURCE_COUNT]
+
+**Your Complete Course Package:**
+All course materials remain available for download:
+- ✅ All slide presentations ([SLIDE_COUNT] slides total)
+- ✅ All voiceover files (Australian professional voice)
+- ✅ Complete resource library ([RESOURCE_COUNT] tools and templates)
+- ✅ Assessment materials and completion certificates
+- ✅ Implementation guides and practical checklists
+
+**Course Outcomes Achieved:**
+Based on your learning journey, you've now developed expertise in:
+[LEARNING_OUTCOMES_SUMMARY]
+
+**Continuing Professional Development:**
+This course contributes to your CPD requirements:
+- **Healthcare Professionals:** Aligns with AHPRA, RACGP, and ACRRM standards
+- **Executive Leaders:** Supports ongoing leadership development goals
+
+**Next Steps:**
+1. **Implementation:** Use the practical tools in your workplace
+2. **Sharing:** Consider sharing insights with your team
+3. **Feedback:** We'd love to hear about your implementation success
+4. **Future Learning:** Explore additional course concepts that interest you
+
+**Course Evaluation:**
+Please take 2 minutes to complete our course evaluation: [EVALUATION_LINK]
+Your feedback directly improves future course development.
+
+**Ongoing Support:**
+Reply to this email anytime with questions about implementation or if you'd like to discuss additional learning opportunities.
+
+Thank you for trusting us with your professional development journey!
+
+Best regards,
+Carla's Course Generation Team
+
+**Course ID:** [COURSE_ID]
+**Completion Date:** [COMPLETION_DATE]
+**Certificate ID:** [CERTIFICATE_ID]`,
+
+    quality_control_delivery: `Subject: Course Module [MODULE_NUMBER] Ready for Review | Course: [COURSE_NAME]
+
+Dear [USER_NAME],
+
+Module [MODULE_NUMBER] of your [COURSE_NAME] course is now ready for your review.
+
+**Module [MODULE_NUMBER]: [MODULE_TITLE]**
+
+**📦 Your Module Package Includes:**
+- **Slide Presentation:** [SLIDE_COUNT] professional slides with Australian healthcare context
+- **Voiceover Scripts:** Professional Australian voice narration (75-90 seconds per slide)
+- **Downloadable Resources:** Practical tools, templates, and implementation guides
+- **Assessment Materials:** Case studies, reflection exercises, and evaluation tools
+
+**🔍 Quality Control Review:**
+Please review the module content and let us know if:
+- Content meets your learning objectives
+- Australian healthcare context is appropriate
+- Professional development level is suitable
+- Any adjustments or modifications are needed
+
+**📋 Module Learning Objectives:**
+[MODULE_LEARNING_OBJECTIVES]
+
+**⏱️ Your Review Process:**
+1. **Download and review** all module materials
+2. **Test the content** against your professional development needs
+3. **Reply to this email** with your feedback:
+   - ✅ **"Approved"** - We'll proceed to Module [NEXT_MODULE_NUMBER]
+   - 🔄 **"Revisions needed"** - Tell us what you'd like adjusted
+   - ⏸️ **"Pause course"** - We'll hold progression until you're ready
+
+**🔗 Module Access:**
+[MODULE_DOWNLOAD_LINKS]
+
+**Course Progress:** Module [MODULE_NUMBER] of [TOTAL_MODULES] | [PROGRESS_PERCENTAGE]% Complete
+
+**Timeline:** Take as long as you need for review. There's no rush - quality is our priority.
+
+**Questions?** Reply to this email anytime. We're here to ensure this course delivers exactly what you need for your professional development.
+
+Best regards,
+Carla's Course Generation Team
+
+**Course ID:** [COURSE_ID]
+**Module Reference:** MOD-[MODULE_NUMBER]-[TIMESTAMP]`
+  },
+
+  // ASSESSMENT GENERATION
+  assessment_generation: {
+    healthcare: `[CORE_INSTRUCTIONS - Healthcare]
+
+ASSESSMENT GENERATION
+COURSE CONTEXT:
+Course: [CONCEPT]
+Module: [MODULE_NAME]
+Target Audience: Australian Healthcare Professionals supervising IMGs
+Learning Objectives: [LEARNING_OBJECTIVES]
+Module Content: [MODULE_CONTENT]
+
+TASK: Create 5 different assessment modalities for adult learners in Australian healthcare:
+
+1. CASE ANALYSIS ASSESSMENT:
+- Present complex Australian healthcare scenario
+- Require evidence-based analysis and decision-making
+- Include cultural safety considerations
+- Provide marking rubric with clear criteria
+- Expected completion time: 45-60 minutes
+
+2. REFLECTIVE PORTFOLIO ASSESSMENT:
+- Structured reflection on professional practice
+- Connection to module learning objectives
+- Personal and professional development planning
+- Evidence of learning integration
+- Portfolio guidelines and assessment criteria
+
+3. PEER REVIEW ASSESSMENT:
+- Collaborative learning activity
+- Peer evaluation framework
+- Professional feedback mechanisms
+- Quality assurance processes
+- Structured peer review forms
+
+4. PROBLEM-SOLVING ASSESSMENT:
+- Real-world professional challenges
+- Step-by-step problem-solving approach
+- Multiple solution pathways
+- Implementation planning
+- Outcome evaluation criteria
+
+5. PRESENTATION/DISCUSSION ASSESSMENT:
+- Professional presentation requirements
+- Discussion facilitation skills
+- Knowledge sharing and communication
+- Audience engagement strategies
+- Assessment rubric for presentations
+
+REQUIREMENTS FOR EACH ASSESSMENT:
+- Clear instructions and expectations
+- Marking criteria and rubrics
+- Time allocation guidelines
+- Resource requirements
+- Submission formats
+- Feedback mechanisms
+- Australian healthcare context
+- Professional standards alignment
+- Adult learning principles
+- Workplace application focus
+
+OUTPUT SPECIFICATIONS:
+- Length: Complete assessment set
+- Tone: Professional, adult learning focused
+- Quality markers: Adult learning principles, Workplace application, Australian healthcare context`,
+
+    executive: `[CORE_INSTRUCTIONS - Executive]
+
+ASSESSMENT GENERATION
+COURSE CONTEXT:
+Course: [CONCEPT]
+Module: [MODULE_NAME]
+Target Audience: Senior Business Leaders and Executives
+Strategic Objectives: [STRATEGIC_OBJECTIVES]
+Module Content: [MODULE_CONTENT]
+
+TASK: Create 5 different assessment modalities for executive learners:
+
+1. STRATEGIC CASE ANALYSIS:
+- Present complex business scenario
+- Require strategic analysis and decision-making
+- Include stakeholder and competitive considerations
+- Provide marking rubric with clear criteria
+- Expected completion time: 60-90 minutes
+
+2. LEADERSHIP REFLECTION PORTFOLIO:
+- Structured reflection on leadership practice
+- Connection to module strategic objectives
+- Personal leadership development planning
+- Evidence of strategic learning integration
+- Portfolio guidelines and assessment criteria
+
+3. 360-DEGREE FEEDBACK ASSESSMENT:
+- Multi-stakeholder feedback activity
+- Leadership competency evaluation framework
+- Professional development mechanisms
+- Quality assurance processes
+- Structured feedback collection forms
+
+4. BUSINESS PROBLEM-SOLVING ASSESSMENT:
+- Real-world organisational challenges
+- Strategic problem-solving approach
+- Multiple solution pathways
+- Implementation and change management planning
+- ROI and outcome evaluation criteria
+
+5. EXECUTIVE PRESENTATION ASSESSMENT:
+- Board-level presentation requirements
+- Strategic communication skills
+- Stakeholder engagement and influence
+- Executive presence and authority
+- Assessment rubric for executive presentations
+
+OUTPUT SPECIFICATIONS:
+- Length: Complete executive assessment set
+- Tone: Strategic, executive-focused
+- Quality markers: Strategic thinking, Leadership application, Business context`
+  },
+
+  // INTERACTIVE SCENARIOS
+  interactive_scenarios: {
+    healthcare: `[CORE_INSTRUCTIONS - Healthcare]
+
+INTERACTIVE SCENARIOS GENERATION
+COURSE CONTEXT:
+Course: [CONCEPT]
+Module: [MODULE_NAME]
+Target Audience: Australian Healthcare Professionals supervising IMGs
+Learning Objectives: [LEARNING_OBJECTIVES]
+Module Content: [MODULE_CONTENT]
+
+TASK: Create 3 interactive clinical simulation scenarios for Australian healthcare professionals:
+
+SCENARIO 1: URBAN HEALTHCARE SETTING
+- Complex clinical supervision challenge
+- Multiple decision points with branching paths
+- Realistic Australian urban healthcare context
+- Cultural diversity considerations
+- Professional standards and compliance issues
+- Consequence mapping for each decision
+- Debrief questions and learning points
+
+SCENARIO 2: RURAL/REMOTE HEALTHCARE SETTING
+- Resource-limited environment challenges
+- Telehealth and remote supervision elements
+- ACRRM guidelines and rural-specific considerations
+- Community and cultural factors
+- Professional isolation and support networks
+- Decision pathways and outcomes
+- Reflection and learning integration
+
+SCENARIO 3: COMPLEX PROFESSIONAL DEVELOPMENT SCENARIO
+- Multi-disciplinary team dynamics
+- Professional development planning
+- Quality improvement initiatives
+- Regulatory compliance challenges (AHPRA)
+- Ethical considerations and decision-making
+- Stakeholder management
+- Professional growth pathways
+
+REQUIREMENTS FOR EACH SCENARIO:
+- Detailed scenario setup and context
+- Character profiles and backgrounds
+- 3-5 decision points with branching paths
+- Realistic consequences for each choice
+- Professional learning opportunities
+- Debrief questions and discussion points
+- Connection to module learning objectives
+- Australian healthcare regulatory context
+- Cultural safety and diversity considerations
+- Evidence-based practice integration
+
+STRUCTURE FOR EACH SCENARIO:
+1. SCENARIO SETUP (200-300 words)
+2. DECISION POINTS (3-5 branching choices)
+3. CONSEQUENCES (outcomes for each path)
+4. DEBRIEF QUESTIONS (reflection and learning)
+5. LEARNING INTEGRATION (connection to objectives)
+
+OUTPUT SPECIFICATIONS:
+- Length: 3 complete interactive scenarios
+- Tone: Professional, engaging
+- Quality markers: Branching paths, Realistic consequences, Learning integration`,
+
+    executive: `[CORE_INSTRUCTIONS - Executive]
+
+INTERACTIVE SCENARIOS GENERATION
+COURSE CONTEXT:
+Course: [CONCEPT]
+Module: [MODULE_NAME]
+Target Audience: Senior Business Leaders and Executives
+Strategic Objectives: [STRATEGIC_OBJECTIVES]
+Module Content: [MODULE_CONTENT]
+
+TASK: Create 3 interactive business simulation scenarios for executive leaders:
+
+SCENARIO 1: STRATEGIC TRANSFORMATION CHALLENGE
+- Complex organisational change initiative
+- Multiple stakeholder decision points with branching paths
+- Realistic Australian business context
+- Cultural and change management considerations
+- Corporate governance and compliance issues
+- Strategic consequence mapping for each decision
+- Executive debrief questions and learning points
+
+SCENARIO 2: CRISIS LEADERSHIP SCENARIO
+- High-stakes business crisis management
+- Resource allocation and priority setting elements
+- Stakeholder communication and media considerations
+- Board reporting and investor relations factors
+- Team leadership under pressure dynamics
+- Strategic decision pathways and outcomes
+- Leadership reflection and learning integration
+
+SCENARIO 3: COMPLEX STRATEGIC PLANNING SCENARIO
+- Multi-business unit strategic alignment
+- Market expansion and investment decisions
+- Digital transformation initiatives
+- Regulatory compliance challenges
+- Competitive response considerations
+- Long-term value creation planning
+- Strategic leadership development pathways
+
+REQUIREMENTS FOR EACH SCENARIO:
+- Detailed business scenario setup and context
+- Stakeholder profiles and organisational background
+- 3-5 strategic decision points with branching paths
+- Realistic business consequences for each choice
+- Strategic learning opportunities
+- Executive debrief questions and discussion points
+- Connection to module strategic objectives
+- Australian business regulatory context
+- Stakeholder management and governance considerations
+- Evidence-based strategic practice integration
+
+OUTPUT SPECIFICATIONS:
+- Length: 3 complete interactive business scenarios
+- Tone: Strategic, executive-focused
+- Quality markers: Strategic branching paths, Business-realistic consequences, Executive learning integration`
+  }
+};
+
+module.exports = promptLibrary;

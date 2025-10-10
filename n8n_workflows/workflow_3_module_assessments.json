@@ -1,0 +1,418 @@
+{
+  "name": "3. Module Assessments Generator",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificSheet",
+        "sheetName": {
+          "__rl": true,
+          "value": "Module Content Complete",
+          "mode": "list",
+          "cachedResultName": "Module Content Complete"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "id": "trigger-content-complete",
+      "name": "Trigger: Module Content Complete",
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 2,
+      "position": [240, 400],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Build audience context for assessments\nconst audienceType = $json['Target Audience'] || 'Professional Development';\n\n// Define assessment frameworks by audience\nconst assessmentFrameworks = {\n  'Healthcare Clinical': {\n    framework: 'Miller\\'s Pyramid (Clinical)',\n    level1: 'KNOWS: Clinical knowledge, AHPRA standards, evidence base',\n    level2: 'KNOWS HOW: Clinical scenarios, patient care decisions',\n    level3: 'SHOWS HOW: Clinical simulations, competency demonstration',\n    level4: 'DOES: Real clinical practice, patient outcomes',\n    standards: 'AHPRA, NMBA, NSQHS Standards',\n    scenarioContext: 'clinical practice'\n  },\n  'Healthcare Operational': {\n    framework: 'Competency Levels (Operational)',\n    level1: 'Process knowledge, administrative standards',\n    level2: 'Operational scenarios, workflow decisions',\n    level3: 'Process improvement demonstrations',\n    level4: 'Operational excellence in practice',\n    standards: 'Healthcare Operational Standards',\n    scenarioContext: 'healthcare administration'\n  },\n  'Healthcare Management': {\n    framework: 'Leadership Competency Levels',\n    level1: 'Management theory, leadership frameworks',\n    level2: 'Management scenarios, team situations',\n    level3: 'Leadership simulation, decision-making',\n    level4: 'Strategic execution, organizational impact',\n    standards: 'Healthcare Management Frameworks',\n    scenarioContext: 'healthcare management'\n  },\n  'Healthcare Leadership': {\n    framework: 'Executive Competency Levels',\n    level1: 'Strategic knowledge, governance frameworks',\n    level2: 'Executive scenarios, board-level decisions',\n    level3: 'Strategic simulations, stakeholder management',\n    level4: 'Organizational transformation, executive action',\n    standards: 'Healthcare Governance Standards',\n    scenarioContext: 'healthcare executive/boardroom'\n  },\n  'Executive Leadership': {\n    framework: 'Executive Competency Levels',\n    level1: 'Strategic knowledge, governance frameworks',\n    level2: 'Executive scenarios, board-level decisions',\n    level3: 'Strategic simulations, stakeholder management',\n    level4: 'Organizational transformation, executive action',\n    standards: 'Corporate Governance (ASX)',\n    scenarioContext: 'corporate boardroom'\n  },\n  'Professional Development': {\n    framework: 'Professional Competency Levels',\n    level1: 'Professional knowledge, industry standards',\n    level2: 'Workplace scenarios, professional decisions',\n    level3: 'Skill demonstration, competency performance',\n    level4: 'Professional practice, career application',\n    standards: 'Industry Best Practices',\n    scenarioContext: 'professional workplace'\n  }\n};\n\nconst framework = assessmentFrameworks[audienceType] || assessmentFrameworks['Professional Development'];\n\nreturn [{\n  json: {\n    module_number: $json['Module Number'],\n    module_title: $json['Module Title'],\n    course_title: $json['Course Title'],\n    target_audience: audienceType,\n    enhanced_summary: $json['Enhanced Summary'],\n    learning_objectives: $json['Learning Objectives'],\n    key_concepts: $json['Key Concepts'],\n    assessment_framework: framework.framework,\n    level1_description: framework.level1,\n    level2_description: framework.level2,\n    level3_description: framework.level3,\n    level4_description: framework.level4,\n    standards: framework.standards,\n    scenario_context: framework.scenarioContext,\n    timestamp: $json['Timestamp']\n  }\n}];\n"
+      },
+      "id": "build-assessment-context",
+      "name": "1. Build Assessment Context",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 400]
+    },
+    {
+      "parameters": {
+        "model": "claude-sonnet-4-0",
+        "options": {
+          "temperature": 0.3,
+          "maxTokens": 8000
+        },
+        "systemMessage": "=You are an expert assessment designer creating evaluations for {{ $json.target_audience }}.",
+        "text": "=CREATE ASSESSMENT QUESTIONS for \"{{ $json.module_title }}\" for {{ $json.target_audience }}\n\nCONTEXT:\n- Module: {{ $json.module_title }}\n- Target Audience: {{ $json.target_audience }}\n- Learning Objectives: {{ $json.learning_objectives }}\n- Key Concepts: {{ $json.key_concepts }}\n\nASSESSMENT FRAMEWORK:\n{{ $json.assessment_framework }}\n- Level 1: {{ $json.level1_description }}\n- Level 2: {{ $json.level2_description }}\n- Level 3: {{ $json.level3_description }}\n- Level 4: {{ $json.level4_description }}\n\nSTANDARDS TO REFERENCE:\n{{ $json.standards }}\n\nSCENARIO CONTEXT:\n{{ $json.scenario_context }}\n\nTASK: Create comprehensive assessments across all 4 competency levels plus role-play scenarios.\n\nCRITICAL OUTPUT RULES:\n- Return ONLY valid JSON\n- NO <think> tags\n- NO markdown code blocks\n- Questions must be relevant to {{ $json.target_audience }}\n\nEXACT JSON STRUCTURE:\n{\n  \"level1_knows\": [\n    {\n      \"questionNumber\": 1,\n      \"questionText\": \"Question appropriate for {{ $json.target_audience }} testing knowledge of {{ $json.standards }}\",\n      \"options\": [\n        \"A) Incorrect option\",\n        \"B) Correct answer referencing {{ $json.standards }}\",\n        \"C) Plausible distractor\",\n        \"D) Common misconception\"\n      ],\n      \"correctAnswer\": \"B\",\n      \"feedback\": \"Explanation relevant to {{ $json.target_audience }} citing {{ $json.standards }} and why this answer is correct.\",\n      \"difficulty\": \"Medium\",\n      \"audienceRelevance\": \"{{ $json.target_audience }}\",\n      \"standardReference\": \"{{ $json.standards }}\"\n    },\n    {\n      \"questionNumber\": 2,\n      \"questionText\": \"Second knowledge question for {{ $json.target_audience }}\",\n      \"options\": [],\n      \"correctAnswer\": \"\",\n      \"feedback\": \"\",\n      \"difficulty\": \"Medium\",\n      \"audienceRelevance\": \"{{ $json.target_audience }}\",\n      \"standardReference\": \"{{ $json.standards }}\"\n    },\n    {\n      \"questionNumber\": 3,\n      \"questionText\": \"Third knowledge question\",\n      \"options\": [],\n      \"correctAnswer\": \"\",\n      \"feedback\": \"\",\n      \"difficulty\": \"Medium\",\n      \"audienceRelevance\": \"{{ $json.target_audience }}\"\n    },\n    {\n      \"questionNumber\": 4,\n      \"questionText\": \"Fourth knowledge question\",\n      \"options\": [],\n      \"correctAnswer\": \"\",\n      \"feedback\": \"\",\n      \"difficulty\": \"Hard\",\n      \"audienceRelevance\": \"{{ $json.target_audience }}\"\n    }\n  ],\n  \"level2_knows_how\": [\n    {\n      \"questionNumber\": 5,\n      \"questionText\": \"{{ $json.scenario_context }} scenario: [Describe realistic situation for {{ $json.target_audience }}]. How should {{ $json.target_audience }} respond according to {{ $json.standards }}?\",\n      \"options\": [\n        \"A) Response that violates {{ $json.standards }}\",\n        \"B) Best practice for {{ $json.target_audience }} aligned with {{ $json.standards }}\",\n        \"C) Partially correct but incomplete response\",\n        \"D) Common but inappropriate response\"\n      ],\n      \"correctAnswer\": \"B\",\n      \"feedback\": \"Evidence-based explanation for {{ $json.target_audience }} referencing {{ $json.standards }} and why this is best practice.\",\n      \"scenarioContext\": \"{{ $json.scenario_context }}\",\n      \"difficulty\": \"Medium\",\n      \"audienceRelevance\": \"{{ $json.target_audience }}\"\n    },\n    {\n      \"questionNumber\": 6,\n      \"questionText\": \"Second application scenario\",\n      \"options\": [],\n      \"correctAnswer\": \"\",\n      \"feedback\": \"\",\n      \"scenarioContext\": \"{{ $json.scenario_context }}\",\n      \"difficulty\": \"Medium\"\n    },\n    {\n      \"questionNumber\": 7,\n      \"questionText\": \"Third application scenario\",\n      \"options\": [],\n      \"correctAnswer\": \"\",\n      \"feedback\": \"\",\n      \"scenarioContext\": \"{{ $json.scenario_context }}\",\n      \"difficulty\": \"Hard\"\n    }\n  ],\n  \"level3_shows_how\": [\n    {\n      \"questionNumber\": 8,\n      \"questionText\": \"Performance-based scenario: [Describe complex situation in {{ $json.scenario_context }} requiring {{ $json.target_audience }} to demonstrate competency]. What actions should {{ $json.target_audience }} take?\",\n      \"options\": [\n        \"A) Incomplete or ineffective approach\",\n        \"B) Comprehensive best-practice approach for {{ $json.target_audience }}\",\n        \"C) Overly simplistic response\",\n        \"D) Response that misses key {{ $json.standards }} requirements\"\n      ],\n      \"correctAnswer\": \"B\",\n      \"feedback\": \"Detailed explanation of why this demonstrates competency for {{ $json.target_audience }}, with reference to {{ $json.standards }}.\",\n      \"performanceIndicators\": [\n        \"Key performance indicator 1 for {{ $json.target_audience }}\",\n        \"Key performance indicator 2 aligned with {{ $json.standards }}\"\n      ],\n      \"difficulty\": \"Hard\",\n      \"audienceRelevance\": \"{{ $json.target_audience }}\"\n    },\n    {\n      \"questionNumber\": 9,\n      \"questionText\": \"Second performance scenario\",\n      \"options\": [],\n      \"correctAnswer\": \"\",\n      \"feedback\": \"\",\n      \"performanceIndicators\": [],\n      \"difficulty\": \"Hard\"\n    }\n  ],\n  \"level4_does\": [\n    {\n      \"questionNumber\": 10,\n      \"questionText\": \"Real-world application: [Describe authentic, complex scenario in {{ $json.scenario_context }} that {{ $json.target_audience }} faces in actual practice]. How would you handle this situation?\",\n      \"options\": [\n        \"A) Response lacking {{ $json.standards }} alignment\",\n        \"B) Expert-level response demonstrating mastery for {{ $json.target_audience }}\",\n        \"C) Adequate but not optimal response\",\n        \"D) Response with potential compliance issues\"\n      ],\n      \"correctAnswer\": \"B\",\n      \"feedback\": \"Comprehensive explanation of expert-level practice for {{ $json.target_audience }}, including {{ $json.standards }} requirements, stakeholder considerations, and real-world application.\",\n      \"practiceApplication\": \"How {{ $json.target_audience }} applies this in real {{ $json.scenario_context }} situations\",\n      \"difficulty\": \"Hard\",\n      \"audienceRelevance\": \"{{ $json.target_audience }}\"\n    }\n  ],\n  \"rolePlayScenarios\": [\n    {\n      \"scenarioNumber\": 1,\n      \"title\": \"Realistic role-play title for {{ $json.target_audience }}\",\n      \"setting\": \"{{ $json.scenario_context }}\",\n      \"objectives\": [\n        \"Objective 1: Demonstrate {{ $json.standards }} application\",\n        \"Objective 2: Show {{ $json.target_audience }} competency\"\n      ],\n      \"participants\": [\n        \"{{ $json.target_audience }} (learner)\",\n        \"Relevant stakeholder for {{ $json.target_audience }}\",\n        \"Additional participant if needed\"\n      ],\n      \"scenarioDescription\": \"Write 150-200 words describing a realistic, challenging scenario in {{ $json.scenario_context }} that {{ $json.target_audience }} must navigate. Include competing priorities, stakeholder concerns, and {{ $json.standards }} requirements.\",\n      \"dialogue\": [\n        {\n          \"speaker\": \"Stakeholder\",\n          \"line\": \"Opening statement that presents the challenge or conflict\"\n        },\n        {\n          \"speaker\": \"{{ $json.target_audience }} (Learner)\",\n          \"line\": \"[LEARNER RESPONSE - they improvise based on module learning]\"\n        },\n        {\n          \"speaker\": \"Stakeholder\",\n          \"line\": \"Follow-up or escalation\"\n        },\n        {\n          \"speaker\": \"{{ $json.target_audience }} (Learner)\",\n          \"line\": \"[LEARNER RESPONSE]\"\n        }\n      ],\n      \"audienceConsiderations\": [\n        \"Key consideration 1 specific to {{ $json.target_audience }}\",\n        \"{{ $json.standards }} requirement to address\",\n        \"Stakeholder management consideration\",\n        \"Ethical or compliance consideration\"\n      ],\n      \"evaluationCriteria\": [\n        \"Criterion 1: Application of {{ $json.standards }}\",\n        \"Criterion 2: Communication effectiveness for {{ $json.target_audience }}\",\n        \"Criterion 3: Problem-solving approach\",\n        \"Criterion 4: Stakeholder management\"\n      ]\n    },\n    {\n      \"scenarioNumber\": 2,\n      \"title\": \"Second role-play scenario for {{ $json.target_audience }}\",\n      \"setting\": \"{{ $json.scenario_context }}\",\n      \"objectives\": [],\n      \"participants\": [],\n      \"scenarioDescription\": \"\",\n      \"dialogue\": [],\n      \"audienceConsiderations\": [],\n      \"evaluationCriteria\": []\n    },\n    {\n      \"scenarioNumber\": 3,\n      \"title\": \"Third role-play scenario for {{ $json.target_audience }}\",\n      \"setting\": \"{{ $json.scenario_context }}\",\n      \"objectives\": [],\n      \"participants\": [],\n      \"scenarioDescription\": \"\",\n      \"dialogue\": [],\n      \"audienceConsiderations\": [],\n      \"evaluationCriteria\": []\n    }\n  ]\n}\n\nCREATE ASSESSMENTS FOR {{ $json.target_audience }} AND RETURN ONLY THE JSON."
+      },
+      "id": "generate-assessments",
+      "name": "2. Generate Assessments",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1,
+      "position": [680, 400],
+      "credentials": {
+        "anthropicApi": {
+          "id": "ANTHROPIC_CREDENTIAL_ID",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Parse Anthropic assessment response\nlet rawResponse = '';\n\nif ($json.choices && $json.choices[0]) {\n  rawResponse = $json.choices[0].message.content;\n} else if ($json.content && Array.isArray($json.content)) {\n  rawResponse = $json.content[0].text;\n} else if ($json.text) {\n  rawResponse = $json.text;\n} else if (typeof $json === 'string') {\n  rawResponse = $json;\n} else {\n  return [{ json: {\n    error: 'Unknown Anthropic format',\n    structure: Object.keys($json),\n    raw: JSON.stringify($json).substring(0, 500)\n  }}];\n}\n\n// Clean response\nrawResponse = rawResponse.replace(/<think>[\\s\\S]*?<\\/think>/gi, '');\nrawResponse = rawResponse.replace(/```json\\n?/g, '').replace(/```\\n?/g, '');\nrawResponse = rawResponse.trim();\n\n// Parse JSON\nlet assessmentData;\ntry {\n  assessmentData = JSON.parse(rawResponse);\n} catch (e) {\n  return [{ json: {\n    error: 'JSON parse failed',\n    parseError: e.message,\n    rawResponse: rawResponse.substring(0, 1000)\n  }}];\n}\n\n// Get original data\nconst originalData = $('1. Build Assessment Context').item.json;\n\nreturn [{\n  json: {\n    module_number: originalData.module_number,\n    module_title: originalData.module_title,\n    course_title: originalData.course_title,\n    target_audience: originalData.target_audience,\n    assessment_data: assessmentData,\n    timestamp: originalData.timestamp\n  }\n}];\n"
+      },
+      "id": "parse-assessments",
+      "name": "3. Parse Assessments",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 400]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Concept to Course Requests"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Text Outputs",
+          "mode": "list",
+          "cachedResultName": "Text Outputs"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $json.timestamp }}",
+            "Course Title": "={{ $json.course_title }}",
+            "Module Number": "={{ $json.module_number }}",
+            "Module Title": "={{ $json.module_title }}",
+            "Target Audience": "={{ $json.target_audience }}",
+            "Assessment Data": "={{ JSON.stringify($json.assessment_data) }}",
+            "Status": "Complete"
+          }
+        },
+        "options": {}
+      },
+      "id": "write-text-outputs",
+      "name": "4. Write to Text Outputs",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [1120, 400],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Parse slides for Audio tab (12 rows per module)\nconst moduleData = $('3. Parse Assessments').item.json;\nconst contentCompleteData = $('Trigger: Module Content Complete').item.json;\n\n// Parse slides from content complete data\nlet slides = [];\ntry {\n  slides = JSON.parse(contentCompleteData['Slides']);\n} catch (e) {\n  return [{ json: {\n    error: 'Could not parse slides',\n    parseError: e.message\n  }}];\n}\n\nif (!Array.isArray(slides) || slides.length === 0) {\n  return [{ json: {\n    error: 'No slides found',\n    slides: slides\n  }}];\n}\n\n// Determine if this is Module 1 for initial status setting\nconst isModule1 = (moduleData.module_number === 1);\n\n// Create output for each slide (12 rows)\nconst outputs = [];\n\nfor (const slide of slides) {\n  // Module 1 Slide 1 gets Status = \"Next\", all others get \"Pending\"\n  const isFirstSlide = (isModule1 && slide.slideNumber === 1);\n  \n  outputs.push({\n    json: {\n      timestamp: moduleData.timestamp,\n      course_title: moduleData.course_title,\n      module_number: moduleData.module_number,\n      module_title: moduleData.module_title,\n      target_audience: moduleData.target_audience,\n      slide_number: slide.slideNumber,\n      slide_title: slide.slideTitle,\n      voiceover_script: slide.voiceoverScript || '',\n      image_prompt: slide.imagePrompt || '',\n      content_points: JSON.stringify(slide.contentPoints || []),\n      presenter_notes: slide.presenterNotes || '',\n      status: isFirstSlide ? 'Next' : 'Pending'\n    }\n  });\n}\n\nreturn outputs;\n"
+      },
+      "id": "parse-slides-for-audio",
+      "name": "5. Parse Slides for Audio Tab",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1120, 600]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Concept to Course Requests"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Audio",
+          "mode": "list",
+          "cachedResultName": "Audio"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $json.timestamp }}",
+            "Course Title": "={{ $json.course_title }}",
+            "Module Number": "={{ $json.module_number }}",
+            "Module Title": "={{ $json.module_title }}",
+            "Slide Number": "={{ $json.slide_number }}",
+            "Slide Title": "={{ $json.slide_title }}",
+            "Voiceover Script": "={{ $json.voiceover_script }}",
+            "Image Prompt": "={{ $json.image_prompt }}",
+            "Content Points": "={{ $json.content_points }}",
+            "Presenter Notes": "={{ $json.presenter_notes }}",
+            "Status": "={{ $json.status }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "write-audio-tab",
+      "name": "6. Write to Audio Tab",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [1340, 600],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:5002/knowledge/add",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "course_title",
+              "value": "={{ $json.course_title }}"
+            },
+            {
+              "name": "module_number",
+              "value": "={{ $json.module_number }}"
+            },
+            {
+              "name": "module_title",
+              "value": "={{ $json.module_title }}"
+            },
+            {
+              "name": "target_audience",
+              "value": "={{ $json.target_audience }}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{ $json.timestamp }}"
+            },
+            {
+              "name": "status",
+              "value": "Complete"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "log-knowledge-lake",
+      "name": "7. Log to Knowledge Lake",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1340, 400]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Get module number from parse slides node\nconst slideData = $('5. Parse Slides for Audio Tab').first().json;\n\nreturn [{\n  json: {\n    module_number: slideData.module_number,\n    course_title: slideData.course_title,\n    timestamp: slideData.timestamp\n  }\n}];\n"
+      },
+      "id": "prepare-module-update",
+      "name": "8. Prepare Module Update",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1560, 600]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Concept to Course Requests"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Module Queue",
+          "mode": "list",
+          "cachedResultName": "Module Queue"
+        },
+        "columnToMatchOn": "Module Number",
+        "valueToMatchOn": "={{ $json.module_number }}",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "Done"
+          }
+        },
+        "options": {}
+      },
+      "id": "update-module-done",
+      "name": "9. Update Module Done",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [1780, 600],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Concept to Course Requests"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Module Queue",
+          "mode": "list",
+          "cachedResultName": "Module Queue"
+        },
+        "columnToMatchOn": "Module Number",
+        "valueToMatchOn": "={{ $json.module_number + 1 }}",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "Next"
+          }
+        },
+        "options": {}
+      },
+      "id": "update-next-module",
+      "name": "10. Update Next Module",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [2000, 600],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Trigger: Module Content Complete": {
+      "main": [
+        [
+          {
+            "node": "1. Build Assessment Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1. Build Assessment Context": {
+      "main": [
+        [
+          {
+            "node": "2. Generate Assessments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. Generate Assessments": {
+      "main": [
+        [
+          {
+            "node": "3. Parse Assessments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3. Parse Assessments": {
+      "main": [
+        [
+          {
+            "node": "4. Write to Text Outputs",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "5. Parse Slides for Audio Tab",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4. Write to Text Outputs": {
+      "main": [
+        [
+          {
+            "node": "7. Log to Knowledge Lake",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "5. Parse Slides for Audio Tab": {
+      "main": [
+        [
+          {
+            "node": "6. Write to Audio Tab",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "6. Write to Audio Tab": {
+      "main": [
+        [
+          {
+            "node": "8. Prepare Module Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "8. Prepare Module Update": {
+      "main": [
+        [
+          {
+            "node": "9. Update Module Done",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "9. Update Module Done": {
+      "main": [
+        [
+          {
+            "node": "10. Update Next Module",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-03T00:00:00.000Z",
+  "versionId": "1"
+}

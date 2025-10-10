@@ -1,0 +1,379 @@
+{
+  "name": "Module Generator - Complete (Import This)",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA",
+          "mode": "list",
+          "cachedResultName": "Concept to Course Requests",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1827304897,
+          "mode": "list",
+          "cachedResultName": "Text Outputs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA/edit#gid=1827304897"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [0, 0],
+      "id": "trigger-module-gen",
+      "name": "Trigger: Text Outputs Row Added",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "YOUR_GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "claude-sonnet-4-20250514",
+          "mode": "list",
+          "cachedResultName": "claude-sonnet-4-20250514"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an expert parser. Extract modules from this course recommendation.\n\nINPUT: {{ $json['Course Recommendation'] }}\n\nReturn ONLY valid JSON with NO <think> tags, NO markdown:\n\n{\n  \"courseTitle\": \"Course name\",\n  \"modules\": [\n    {\n      \"moduleNumber\": 1,\n      \"moduleName\": \"Module title\",\n      \"moduleSummary\": \"Summary\",\n      \"learningObjectives\": [\"Objective 1\", \"Objective 2\"],\n      \"keyConcepts\": [\"Concept 1\", \"Concept 2\"]\n    }\n  ]\n}"
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 8000,
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.anthropic",
+      "typeVersion": 1,
+      "position": [200, 0],
+      "id": "parse-course-rec",
+      "name": "1. Parse Course Recommendation",
+      "credentials": {
+        "anthropicApi": {
+          "id": "YOUR_ANTHROPIC_CREDENTIAL_ID",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Extract modules from Anthropic response\nlet rawResponse = $json.content[0].text;\n\n// Strip <think> tags\nrawResponse = rawResponse.replace(/<think>[\\s\\S]*?<\\/think>/gi, '');\nrawResponse = rawResponse.replace(/```json\\n?/g, '').replace(/```\\n?/g, '');\nrawResponse = rawResponse.trim();\n\nlet courseData;\ntry {\n  courseData = JSON.parse(rawResponse);\n} catch (error) {\n  return [{ json: { error: 'Parse failed', raw: rawResponse } }];\n}\n\n// Create individual module items\nconst outputs = [];\nfor (const module of courseData.modules || []) {\n  outputs.push({\n    json: {\n      module_number: module.moduleNumber,\n      module_title: module.moduleName,\n      module_summary: module.moduleSummary,\n      learning_objectives: module.learningObjectives || [],\n      key_concepts: module.keyConcepts || [],\n      course_title: courseData.courseTitle,\n      course_recommendation: $input.first().json['Course Recommendation'],\n      research_foundation: $input.first().json['Research Foundation'],\n      audience_type: $input.first().json['Audience Type']\n    },\n    pairedItem: 0\n  });\n}\n\nreturn outputs;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [400, 0],
+      "id": "extract-modules",
+      "name": "2. Extract Individual Modules"
+    },
+    {
+      "parameters": {
+        "messages": {
+          "message": [
+            {
+              "content": "=You are an Australian healthcare education researcher.\n\nMODULE: {{ $json.module_title }}\nCOURSE: {{ $json.course_title }}\nRESEARCH: {{ $json.research_foundation }}\n\nCRITICAL: Return ONLY valid JSON. NO <think> tags. NO markdown.\n\n{\n  \"moduleNumber\": {{ $json.module_number }},\n  \"moduleTitle\": \"{{ $json.module_title }}\",\n  \"enhancedSummary\": \"Write 350-400 words evidence-based summary with Australian healthcare context (AHPRA/NMBA/NSQHS)\",\n  \"learningObjectives\": [\n    \"Measurable objective 1 using Bloom's taxonomy\",\n    \"Measurable objective 2 with Australian standards\",\n    \"Measurable objective 3 for practical application\",\n    \"Measurable objective 4 with competency focus\"\n  ],\n  \"keyConcepts\": [\n    \"Evidence-based concept 1\",\n    \"Australian context concept 2\",\n    \"Professional practice concept 3\",\n    \"Regulatory framework concept 4\"\n  ],\n  \"enhancedContentAreas\": [\n    \"Theoretical foundations with research\",\n    \"Australian regulatory requirements\",\n    \"Clinical applications and scenarios\"\n  ],\n  \"visualOpportunities\": [\n    \"Framework diagram description\",\n    \"Clinical pathway flowchart\"\n  ],\n  \"professionalResources\": [\n    \"AHPRA standard reference\",\n    \"NMBA guideline reference\"\n  ]\n}\n\nReturn ONLY the JSON above. No other text."
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 8000,
+          "temperature": 0.3
+        }
+      },
+      "type": "n8n-nodes-base.perplexity",
+      "typeVersion": 1,
+      "position": [600, -100],
+      "id": "enhanced-research",
+      "name": "3a. Enhanced Research (Perplexity)",
+      "credentials": {
+        "perplexityApi": {
+          "id": "YOUR_PERPLEXITY_CREDENTIAL_ID",
+          "name": "Perplexity account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Clean Perplexity response\nlet rawResponse = $json.choices[0].message.content;\n\n// Strip <think> tags\nrawResponse = rawResponse.replace(/<think>[\\s\\S]*?<\\/think>/gi, '');\nrawResponse = rawResponse.replace(/```json\\n?/g, '').replace(/```\\n?/g, '');\nrawResponse = rawResponse.trim();\n\nlet enhanced;\ntry {\n  enhanced = JSON.parse(rawResponse);\n} catch (error) {\n  return [{ json: { error: 'Perplexity parse failed', raw: rawResponse.substring(0, 500) } }];\n}\n\n// Get original data\nconst originalData = $('2. Extract Individual Modules').item.json;\n\nreturn [{\n  json: {\n    ...enhanced,\n    course_title: originalData.course_title,\n    audience_type: originalData.audience_type,\n    research_foundation: originalData.research_foundation\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [800, -100],
+      "id": "clean-perplexity",
+      "name": "4a. Clean Perplexity Response"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key={{ $credentials.geminiApiKey }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"contents\": [{\n    \"parts\": [{\n      \"text\": \"You are an instructional designer creating professional healthcare slides.\\n\\nMODULE: {{ $json.moduleTitle }}\\nSUMMARY: {{ $json.enhancedSummary }}\\nOBJECTIVES: {{ JSON.stringify($json.learningObjectives) }}\\nCONCEPTS: {{ JSON.stringify($json.keyConcepts) }}\\n\\nCRITICAL: Return ONLY valid JSON. NO markdown. EXACTLY 12 slides.\\n\\n{\\n  \\\"slides\\\": [\\n    {\\n      \\\"slideNumber\\\": 1,\\n      \\\"slideTitle\\\": \\\"Introduction to {{ $json.moduleTitle }}\\\",\\n      \\\"contentPoints\\\": [\\n        \\\"Clear point 1\\\",\\n        \\\"Clear point 2\\\",\\n        \\\"Clear point 3\\\"\\n      ],\\n      \\\"presenterNotes\\\": \\\"2-3 sentences for presenter\\\",\\n      \\\"voiceoverScript\\\": \\\"Write 300-450 word natural Australian speech script explaining the slide content\\\",\\n      \\\"imagePrompt\\\": \\\"Professional healthcare image. NO TEXT visible.\\\"\\n    }\\n    // ... 12 slides total\\n  ]\\n}\\n\\nReturn ONLY JSON. 12 slides required.\"\n    }]\n  }],\n  \"generationConfig\": {\n    \"temperature\": 0.8,\n    \"maxOutputTokens\": 4000\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1000, -100],
+      "id": "gemini-slides",
+      "name": "5a. Generate Slides (Gemini)"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Parse Gemini response\nlet rawResponse = '';\n\nif ($json.candidates && $json.candidates[0]) {\n  rawResponse = $json.candidates[0].content.parts[0].text;\n} else {\n  return [{ json: { error: 'No Gemini response' } }];\n}\n\n// Clean response\nrawResponse = rawResponse.replace(/```json\\n?/g, '').replace(/```\\n?/g, '').trim();\n\nlet slideData;\ntry {\n  slideData = JSON.parse(rawResponse);\n} catch (error) {\n  return [{ json: { error: 'Gemini parse failed', raw: rawResponse.substring(0, 500) } }];\n}\n\n// Validate 12 slides\nif (!slideData.slides || slideData.slides.length !== 12) {\n  console.log(`WARNING: Expected 12 slides, got ${slideData.slides?.length || 0}`);\n}\n\n// Get module data\nconst moduleData = $('4a. Clean Perplexity Response').item.json;\n\nreturn [{\n  json: {\n    ...moduleData,\n    slides: slideData.slides || []\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1200, -100],
+      "id": "parse-gemini-slides",
+      "name": "6a. Parse Gemini Slides"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "claude-sonnet-4-20250514",
+          "mode": "list",
+          "cachedResultName": "claude-sonnet-4-20250514"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an Australian healthcare assessment designer.\n\nMODULE: {{ $('2. Extract Individual Modules').item.json.module_title }}\nOBJECTIVES: {{ JSON.stringify($('2. Extract Individual Modules').item.json.learning_objectives) }}\nCONCEPTS: {{ JSON.stringify($('2. Extract Individual Modules').item.json.key_concepts) }}\n\nCRITICAL: Return ONLY valid JSON. NO <think> tags. NO markdown.\n\nCreate Miller's Pyramid assessments:\n\n{\n  \"level1_knows\": [\n    {\n      \"questionNumber\": 1,\n      \"questionText\": \"Multiple choice question\",\n      \"options\": [\"A) Option\", \"B) Correct\", \"C) Option\", \"D) Option\"],\n      \"correctAnswer\": \"B\",\n      \"feedback\": \"Explanation\",\n      \"difficulty\": \"Medium\"\n    }\n    // 4 questions for Level 1\n  ],\n  \"level2_knows_how\": [\n    // 3-4 scenario questions\n  ],\n  \"level3_shows_how\": [\n    // 3-4 performance questions\n  ],\n  \"level4_does\": [\n    // 2-3 action questions\n  ],\n  \"rolePlayScenarios\": [\n    {\n      \"scenarioNumber\": 1,\n      \"title\": \"Scenario title\",\n      \"setting\": \"Australian healthcare context\",\n      \"dialogue\": [],\n      \"culturalSafety\": []\n    }\n    // 3 scenarios total\n  ]\n}\n\nReturn ONLY JSON."
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 4000,
+          "temperature": 0.7
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.anthropic",
+      "typeVersion": 1,
+      "position": [1000, 100],
+      "id": "assessments-anthropic",
+      "name": "5b. Assessments & Role Plays",
+      "credentials": {
+        "anthropicApi": {
+          "id": "YOUR_ANTHROPIC_CREDENTIAL_ID",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Clean Anthropic assessment response\nlet rawResponse = $json.content[0].text;\n\n// Strip <think> tags\nrawResponse = rawResponse.replace(/<think>[\\s\\S]*?<\\/think>/gi, '');\nrawResponse = rawResponse.replace(/```json\\n?/g, '').replace(/```\\n?/g, '');\nrawResponse = rawResponse.trim();\n\nlet assessmentData;\ntry {\n  assessmentData = JSON.parse(rawResponse);\n} catch (error) {\n  return [{ json: { error: 'Assessment parse failed', raw: rawResponse.substring(0, 500) } }];\n}\n\nreturn [{ json: assessmentData }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1200, 100],
+      "id": "parse-assessments",
+      "name": "6b. Parse Assessments"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Merge Slides + Assessments by module number\nconst slidesItems = $input.all().filter(item => item.json.slides);\nconst assessmentItems = $input.all().filter(item => item.json.level1_knows);\n\nconst merged = [];\n\nfor (let i = 0; i < slidesItems.length; i++) {\n  const slideData = slidesItems[i].json;\n  const assessmentData = assessmentItems[i]?.json || {};\n\n  merged.push({\n    json: {\n      module_number: slideData.moduleNumber,\n      module_title: slideData.moduleTitle,\n      module_summary: slideData.enhancedSummary,\n      learning_objectives: slideData.learningObjectives,\n      key_concepts: slideData.keyConcepts,\n      slides: slideData.slides,\n      assessments: {\n        level1: assessmentData.level1_knows || [],\n        level2: assessmentData.level2_knows_how || [],\n        level3: assessmentData.level3_shows_how || [],\n        level4: assessmentData.level4_does || []\n      },\n      role_plays: assessmentData.rolePlayScenarios || [],\n      course_title: slideData.course_title,\n      audience_type: slideData.audience_type\n    },\n    pairedItem: 0\n  });\n}\n\nreturn merged;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1400, 0],
+      "id": "merge-streams",
+      "name": "7. Merge Slides + Assessments"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Parse 12 slides for Audio tab\nconst slides = $json.slides || [];\nconst moduleNum = $json.module_number;\n\nif (slides.length !== 12) {\n  console.log(`WARNING: Module ${moduleNum} has ${slides.length} slides, expected 12`);\n}\n\nconst audioRows = [];\n\nfor (let i = 0; i < 12; i++) {\n  const slide = slides[i] || {};\n  audioRows.push({\n    json: {\n      module_number: moduleNum,\n      slide_number: slide.slideNumber || (i + 1),\n      slide_id: `Module ${moduleNum}_Slide ${slide.slideNumber || (i + 1)}`,\n      parsed_slide_content: slide.slideTitle ? `${slide.slideTitle}\\n\\n${(slide.contentPoints || []).join('\\n')}\\n\\nNotes: ${slide.presenterNotes}` : '[Empty slide]',\n      voiceover_script: slide.voiceoverScript || '',\n      audio_file_url: ''\n    },\n    pairedItem: 0\n  });\n}\n\nreturn audioRows;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1600, -100],
+      "id": "parse-slides-audio",
+      "name": "8. Parse Slides for Audio"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1827304897,
+          "mode": "list",
+          "cachedResultName": "Text Outputs"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Content For": "=Module {{ $('7. Merge Slides + Assessments').item.json.module_number }}",
+            "Module Overview": "={{ $('7. Merge Slides + Assessments').item.json.module_summary }}",
+            "Learning Objectives": "={{ JSON.stringify($('7. Merge Slides + Assessments').item.json.learning_objectives) }}",
+            "Key Concepts": "={{ JSON.stringify($('7. Merge Slides + Assessments').item.json.key_concepts) }}",
+            "Assessments": "={{ JSON.stringify($('7. Merge Slides + Assessments').item.json.assessments) }}",
+            "Role Plays": "={{ JSON.stringify($('7. Merge Slides + Assessments').item.json.role_plays) }}"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [1800, 0],
+      "id": "write-text-outputs",
+      "name": "9a. Write to Text Outputs",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "YOUR_GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "AUDIO_SHEET_ID_HERE",
+          "mode": "list",
+          "cachedResultName": "Audio"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Slide #": "={{ $json.slide_id }}",
+            "Parsed Slides": "={{ $json.parsed_slide_content }}",
+            "Voiceover Scripts": "={{ $json.voiceover_script }}",
+            "Audio File": ""
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [1800, -100],
+      "id": "write-audio-tab",
+      "name": "9b. Write to Audio Tab",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "YOUR_GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:5002/knowledge/add",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "=Module {{ $('7. Merge Slides + Assessments').item.json.module_number }}: {{ $('7. Merge Slides + Assessments').item.json.module_title }} COMPLETE"
+            },
+            {
+              "name": "user_id",
+              "value": "carla_knowledge_lake"
+            },
+            {
+              "name": "metadata",
+              "value": "={\"type\": \"complete_module\", \"module\": {{ $('7. Merge Slides + Assessments').item.json.module_number }}, \"slides\": {{ $('7. Merge Slides + Assessments').item.json.slides.length }}}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [2000, 0],
+      "id": "log-knowledge-lake",
+      "name": "10. Log to Knowledge Lake"
+    }
+  ],
+  "connections": {
+    "Trigger: Text Outputs Row Added": {
+      "main": [[{ "node": "1. Parse Course Recommendation", "type": "main", "index": 0 }]]
+    },
+    "1. Parse Course Recommendation": {
+      "main": [[{ "node": "2. Extract Individual Modules", "type": "main", "index": 0 }]]
+    },
+    "2. Extract Individual Modules": {
+      "main": [[
+        { "node": "3a. Enhanced Research (Perplexity)", "type": "main", "index": 0 },
+        { "node": "5b. Assessments & Role Plays", "type": "main", "index": 0 }
+      ]]
+    },
+    "3a. Enhanced Research (Perplexity)": {
+      "main": [[{ "node": "4a. Clean Perplexity Response", "type": "main", "index": 0 }]]
+    },
+    "4a. Clean Perplexity Response": {
+      "main": [[{ "node": "5a. Generate Slides (Gemini)", "type": "main", "index": 0 }]]
+    },
+    "5a. Generate Slides (Gemini)": {
+      "main": [[{ "node": "6a. Parse Gemini Slides", "type": "main", "index": 0 }]]
+    },
+    "6a. Parse Gemini Slides": {
+      "main": [[{ "node": "7. Merge Slides + Assessments", "type": "main", "index": 0 }]]
+    },
+    "5b. Assessments & Role Plays": {
+      "main": [[{ "node": "6b. Parse Assessments", "type": "main", "index": 0 }]]
+    },
+    "6b. Parse Assessments": {
+      "main": [[{ "node": "7. Merge Slides + Assessments", "type": "main", "index": 0 }]]
+    },
+    "7. Merge Slides + Assessments": {
+      "main": [[
+        { "node": "8. Parse Slides for Audio", "type": "main", "index": 0 },
+        { "node": "9a. Write to Text Outputs", "type": "main", "index": 0 }
+      ]]
+    },
+    "8. Parse Slides for Audio": {
+      "main": [[{ "node": "9b. Write to Audio Tab", "type": "main", "index": 0 }]]
+    },
+    "9a. Write to Text Outputs": {
+      "main": [[{ "node": "10. Log to Knowledge Lake", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-02T00:00:00.000Z",
+  "versionId": "1"
+}

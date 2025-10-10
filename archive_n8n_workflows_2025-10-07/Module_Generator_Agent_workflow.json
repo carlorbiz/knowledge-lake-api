@@ -1,0 +1,472 @@
+{
+  "name": "Module Generator Agent (Fixed)",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "\nconst prompt = `You are an expert Australian instructional designer creating comprehensive module content for professional education.\n\nCONTEXT:\nCourse Title: ${$json.course_title}\nModule: ${$json.module_title}\nTarget Audience: ${$json.target_audience}\nResearch Foundation: ${$json.research_foundation}\nUser: ${$json.user_name} (${$json.user_email})\n\nCreate complete module content including:\n- MODULE OVERVIEW with title, duration (45-60 minutes), prerequisites, description\n- LEARNING OBJECTIVES (4 specific, measurable objectives)\n- KEY CONCEPTS (5 evidence-based concepts with citations)\n- SLIDE SPECIFICATIONS (10-12 slides with detailed structure)\n- VOICEOVER SCRIPT SPECIFICATIONS for each slide\n- ASSESSMENT STRATEGY (5 dynamic assessments)\n- ROLE PLAY SCENARIOS (3 interactive scenarios)\n- MODULE WORKBOOK CONTENT (comprehensive resources)\n- LMS UPLOAD TEXT FILE formatted for Absorb LMS AI parsing\n\nUse Australian spelling, professional calibre content, evidence-based references with Vancouver citations, and adult learning principles throughout.`;\n\nreturn {\n    prompt: prompt,\n    course_title: $json.course_title,\n    module_title: $json.module_title,\n    target_audience: $json.target_audience,\n    research_foundation: $json.research_foundation,\n    user_name: $json.user_name,\n    user_email: $json.user_email,\n    voice_selection: $json.voice_selection\n};\n"
+      },
+      "id": "prepare-module-prompt",
+      "name": "Prepare Module Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2560,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": " Replace the JavaScript with this safer version:\n\n  // Safe handling of Anthropic output\n  let content = '';\n\n  console.log('Received from Anthropic:', JSON.stringify($json, null, 2));\n\n  // Handle different Anthropic output formats safely\n  if ($json.text) {\n      content = $json.text;\n  } else if ($json.response) {\n      content = $json.response;\n  } else if ($json.output) {\n      content = $json.output;\n  } else {\n      console.log('No recognizable content found, using fallback');\n      content = 'No content generated';\n  }\n\n  console.log('Content to process:', content.substring(0, 200));\n\n  // Rest of the slide extraction logic...\n  const slidePattern = /Slide \\d+:.*?(?=Slide \\d+:|$)/gs;\n  const slides = content.match(slidePattern) || [];\n\n  if (slides.length === 0) {\n      return [{\n          slide_number: 1,\n          slide_title: \"Generated Content\",\n          slide_content: content,\n          module_title: \"Test Module\",\n          course_title: \"Test Course\",\n          voice_selection: \"professional\"\n      }];\n  }\n\n  return slides.map((slide, index) => ({\n      slide_number: index + 1,\n      slide_title: `Slide ${index + 1}`,\n      slide_content: slide.trim(),\n      module_title: \"Test Module\",\n      course_title: \"Test Course\",\n      voice_selection: \"professional\"\n  }));"
+      },
+      "id": "extract-slides",
+      "name": "Extract Slides for Audio",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3072,
+        -32
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:5000/knowledge/add",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "COMPLETE MODULE GENERATED: {{ $json.module_title }} for {{ $json.course_title }}. Target: {{ $json.target_audience }}. Generated for: {{ $json.user_name }}. Full Content: {{ $json.content[0].text }}"
+            },
+            {
+              "name": "user_id",
+              "value": "carla_knowledge_lake"
+            },
+            {
+              "name": "metadata",
+              "value": "{\"type\": \"complete_module\", \"module_title\": \"{{ $json.module_title }}\", \"course_title\": \"{{ $json.course_title }}\", \"user_email\": \"{{ $json.user_email }}\", \"generation_date\": \"{{ $now }}\"}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "store-module-knowledge",
+      "name": "Store Module in Knowledge Lake",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        3200,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:5678/webhook/audio-generator",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "=  {\n    \"slide_number\": 1,\n    \"slide_title\": \"{{ $json.slide_title }}\",\n    \"slide_content\": \"{{ $json.slide_content }}\",\n    \"module_title\": \"{{ $json.module_title }}\",\n    \"course_title\": \"{{ $json.course_title }}\",\n    \"voice_selection\": \"{{ $json.voice_selection || 'professional' }}\",\n    \"target_audience\": \"{{ $json.target_audience }}\"\n  }",
+        "options": {}
+      },
+      "id": "call-audio-agent",
+      "name": "Call Audio Generation Agent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        3264,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "claude-opus-4-20250514",
+          "mode": "list",
+          "cachedResultName": "claude-opus-4-20250514"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "={{ $json.prompt }}",
+              "role": "assistant"
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 4000,
+          "temperature": 0.1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.anthropic",
+      "typeVersion": 1,
+      "position": [
+        2752,
+        64
+      ],
+      "id": "b32819c9-edd3-4fc4-a476-508b433ecefc",
+      "name": "Generate Module Content",
+      "credentials": {
+        "anthropicApi": {
+          "id": "477mISjMXvA7pkGr",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract modules from Anthropic JSON response\n  const anthropicResponse = $input.first().json.content[0].text;\n\n  // Parse the JSON from the text content\n  let courseData;\n  try {\n    // Extract JSON from the markdown code block\n    const jsonMatch = anthropicResponse.match(/```json\\n([\\s\\S]*?)\\n```/);\n    if (jsonMatch) {\n      courseData = JSON.parse(jsonMatch[1]);\n    } else {\n      courseData = JSON.parse(anthropicResponse);\n    }\n  } catch (error) {\n    return [{ json: { error: 'Failed to parse JSON response', raw_response: anthropicResponse } }];\n  }\n\n  // Extract modules from the structured data and create proper n8n outputs\n  const outputs = [];\n  let moduleNumber = 1;\n\n  while (courseData[`module_${moduleNumber}`] || courseData[`module_${moduleNumber}_name`]) {\n    // Create properly structured output for n8n\n    outputs.push({\n      json: {\n        module_number: moduleNumber,\n        module_title: courseData[`module_${moduleNumber}_name`] || courseData[`module_${moduleNumber}`] || `Module\n  ${moduleNumber}`,\n        module_summary: courseData[`module_${moduleNumber}_summary`] || '',\n        learning_objectives: courseData[`module_${moduleNumber}_learning_objectives`] || [],\n        key_concepts: courseData[`module_${moduleNumber}_key_concepts`] || [],\n        course_title: courseData.course_title || 'Course Title Not Found'\n      },\n      pairedItem: 0  // Important: this links back to the input item\n    });\n\n    moduleNumber++;\n  }\n\n  // Important: Return the outputs array directly\n  return outputs;"
+      },
+      "id": "parse-module-data",
+      "name": "Extract Individual Modules",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA",
+          "mode": "list",
+          "cachedResultName": "Concept to Course Requests",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1827304897,
+          "mode": "list",
+          "cachedResultName": "Text Outputs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA/edit#gid=1827304897"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "6ef22fc6-be07-4ad0-b1f7-61bdd17874f3",
+      "name": "Kickoff Module Creation",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "MpPi6ajn0LPqhIj5",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "claude-opus-4-1-20250805",
+          "mode": "list",
+          "cachedResultName": "claude-opus-4-1-20250805"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an expert language model designed to parse and extract educational content for automation workflows. You are provided with a comprehensive course recommendation document. Your task is to extract and structure the following fields from the content for use in an automated workflow or database:\n\n**Extract and output the following as structured JSON from the Course Recommendation for use downstream:**\n\n1. **Course Title** (\"course_title\"): The main title or name of the course.\n2. **Modules**: For each module, extract:\n   - **Module Number** (e.g., 1, 2, 3... \"module_1\", \"module_2\", etc)\n   - **Module Name** (\"module_1_name\", \"module_2_name\", etc)\n   - **Module Summary** (\"module_1_summary\", \"module_2_summary\", etc: 2-4 sentences or up to 200 words for each module, describing the focus and content)\n   - **Learning Objectives** (\"module_1_learning_objectives\", \"module_1_learning_objectives\", etc: generated as a list; each objective as a single sentence)\n   - **Key Concepts** (\"module_1_key_concepts\", \"module_2_key_concepts\", etc: generated as a list; concise phrases or keywords)\n   - **Research Foundation** \"const courseRecData = JSON.parse($input.first().json['Course Recommendation']);\n  const courseRecommendation = courseRecData.course_recommendation;\" \n\n**Instructions:**\n- Accurately identify the main course title and module sections, even if formatting varies.\n- Return the extracted data in a valid JSON structure (an object with a courseTitle property and a modules array).\n- Each module in the modules array should be an object containing: moduleNumber, moduleName, moduleSummary, learningObjectives, keyConcepts.\n- Do not omit any module or learning objective if present.\n- Do not invent or infer content; only use what is explicitly in the document.\n- Exclude any sections not directly related to title, modules, module summaries, objectives, or key concepts.\n- Output only the JSON object—no additional explanation, commentary, or formatting.\n\n**INPUT:**  \n{{ $json['Course Recommendation'] }}\n\n***\n\n**Expected Output Example:**\n```json\n{\n  \"courseTitle\": \"Integrated Clinical-Administrative Leadership in Healthcare\",\n  \"modules\": [\n    {\n      \"moduleNumber\": 1,\n      \"moduleName\": \"Foundations of Integrated Healthcare Leadership\",\n      \"moduleSummary\": \"This module introduces the core concepts of clinical-administrative integration, addressing the unique challenges faced by leaders responsible for both patient care and organisational management. It covers mapping dual responsibilities, interpreting regulations, and employing evidence-based leadership models to optimise healthcare team performance.\",\n      \"learningObjectives\": [\n        \"Recognise integrated responsibilities for dual-role leaders.\",\n        \"Apply regulatory frameworks and leadership models to combined roles.\",\n        \"Diagnose organisational needs and individual developmental gaps.\",\n        \"Articulate system thinking in leadership contexts.\"\n      ],\n      \"keyConcepts\": [\n        \"Expert Novice Model\",\n        \"regulatory navigation\",\n        \"system mapping\"\n      ]\n    },\n    ...\n  ]\n}\n```"
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 8000,
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.anthropic",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "763d5056-7c4e-460a-b6a7-89720de286bd",
+      "name": "Parse Course Recommendation",
+      "credentials": {
+        "anthropicApi": {
+          "id": "477mISjMXvA7pkGr",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "claude-3-5-haiku-20241022",
+          "mode": "list",
+          "cachedResultName": "claude-3-5-haiku-20241022"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "= You are an expert instructional designer specializing in Australian healthcare professional development. Create comprehensive 45-60 minute module content suitable for microcredential certification.\n\n  **Module Foundation:**\n  - Module: {{ $('Extract Individual Modules').item.json.module_title }}\n  - Summary: {{ $('Extract Individual Modules').item.json.module_summary }}\n  - Learning Objectives: {{ $('Extract Individual Modules').item.json.learning_objectives.join('; ') }}\n  - Key Concepts: {{ $('Extract Individual Modules').item.json.key_concepts.join('; ') }}\n  - Course: {{ $('Extract Individual Modules').item.json.course_title }}\n  - Audience: {{ $('Kickoff Module Creation').item.json['Audience Type '] }}\n\n  **Enhanced Research Content:**\n  {{ $json.choices[0].message.content }}\n\n  **CREATE COMPREHENSIVE MODULE INCLUDING:**\n\n  1. **Module Overview** (400-500 words)\n  2. **Detailed Learning Content** (2000-2500 words)\n  3. **10-12 Professional Slides Content** (structured with clear slide titles and content)\n  4. **Assessment Strategy** (Miller's Pyramid - 8-10 questions)\n  5. **Audio Script** (45-60 minutes when spoken, conversational tone)\n  6. **Professional Resources** (tools, templates, references)\n\n  **REQUIREMENTS:**\n  - Align with AHPRA, NMBA, NSQHS standards\n  - Include cultural safety considerations\n  - Ensure 45-60 minutes of substantive learning\n  - Professional microcredential quality\n  - Evidence-based throughout\n\n  **Output in structured markdown format with clear sections.**"
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 8000
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.anthropic",
+      "typeVersion": 1,
+      "position": [
+        1744,
+        0
+      ],
+      "id": "0ddacb6b-6bcd-442f-b056-6f31d8ff99e6",
+      "name": "Individual Module Creation",
+      "credentials": {
+        "anthropicApi": {
+          "id": "477mISjMXvA7pkGr",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "sonar-reasoning-pro",
+        "messages": {
+          "message": [
+            {
+              "content": "=You are an expert in Australian executive and healthcare professional development, tasked with enhancing and structuring online module content for easy identification and downstream automation.\n\n- Module Number: {{ $json.module_number }}\n- Module Title: {{ $json.module_title }}\n- Module Initial Summary: {{ $json.module_summary }}\n- Learning Objectives: {{ $json.learning_objectives }}\n- Key Concepts: {{ $json.key_concepts }}\n- Course Title: {{ $json.course_title }}\n- Audience: {{ $('Kickoff Module Creation').item.json['Audience Type '] }}\n- Research Foundation: {{ $('Kickoff Module Creation').item.json['Research Foundation'] }}\n\nFor each module, follow these instructions carefully:\nExtract or Generate and Output the following in strict, unambiguous structure for each module 1 to N (N = 10, 11, or 12; never less than 10, never more than 12):\n\n\"moduleNumber\" (Integer, e.g. 1, 2, ..., N)\n\n\"moduleTitle\" (String – Exact unique module name)\n\n\"enhancedSummary\" (String – 150–200 words, rich, evidence-based, Australian-centric, suitable as an authoritative course or web summary)\n\n\"learningObjectives\" (Array of 4–5 concise, actionable statements, each as its own string)\n\n\"keyConcepts\" (Array of 5–8 phrases/keywords)\n\n\"enhancedContentAreas\" (Array, each deep-dive topic/headline as a string)\n\n\"visualContentOpportunities\" (Array, each as a string: e.g., data, tables, process maps, flowcharts, frameworks)\n\n\"assessmentStrategies\" (Array, each as a string: formative, summative, scenario-based, Miller's pyramid, etc.)\n\n\"professionalResourcesAndCaseMaterials\" (Array, each as a string: e.g., Australian guidelines/tools/templates, key case studies)\n\nImportant Output and Numbering Instructions\nAlways number modules sequentially as \"moduleNumber\": 1, \"moduleNumber\": 2, etc., through to N (10–12).\n\nIf there are missing modules, supply sensible placeholders (with a note in the summary: “Placeholder for future expansion”).\n\nModules must appear in the output in numeric order.\n\nEvery field above must be present for every module.\n\nReturn the modules in a top-level JSON array, where each module is a unique JSON object.\n\nOutput Format Example\njson\n[\n  {\n    \"moduleNumber\": 1,\n    \"moduleTitle\": \"Leadership Foundations for Healthcare Executives\",\n    \"enhancedSummary\": \"This module examines foundational leadership principles for healthcare professionals ... [continues 150–200 words]\",\n    \"learningObjectives\": [\n      \"Evaluate key leadership theories relevant to healthcare.\",\n      \"Apply regulatory requirements to team oversight.\",\n      ...\n    ],\n    \"keyConcepts\": [\n      \"Transformational leadership\",\n      \"AHPRA standards\",\n      ...\n    ],\n    \"enhancedContentAreas\": [\n      \"Australian leadership frameworks\",\n      ...\n    ],\n    \"visualContentOpportunities\": [\n      \"Leadership framework diagrams\",\n      ...\n    ],\n    \"assessmentStrategies\": [\n      \"Reflective journal\",\n      ...\n    ],\n    \"professionalResourcesAndCaseMaterials\": [\n      \"AHPRA code of conduct\",\n      ...\n    ]\n  },\n  ...\n]\nGeneral Requirements\nContent for each module must be advanced, evidence-based (reference Australian standards/research where possible), and ready for microcredential use.\n\nDo not return extra commentary, explanations, or non-JSON text.\n\nEnsure the module number and module title are highly visible and always first in each module’s JSON.\n\nUse an array (NOT an object) so downstream logic can iterate by module index.\n\nReview your output for syntactic correctness and clear numeric ordering before finalising."
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 4000,
+          "temperature": 0.3
+        },
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.perplexity",
+      "typeVersion": 1,
+      "position": [
+        768,
+        0
+      ],
+      "id": "c00fc3b4-4762-44f7-b13e-bd3b817643ca",
+      "name": "Enhanced Research",
+      "credentials": {
+        "perplexityApi": {
+          "id": "zr5cfHlUVYNZSuvF",
+          "name": "Perplexity account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-preview-05-20",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-preview-05-20"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "= You are an expert instructional designer specializing in Australian healthcare professional development. Create comprehensive 45-60 minute module content suitable for microcredential certification.\n\n  **Module Foundation:**\n  - Module Number: {{ $('Extract Individual Modules').item.json.module_number }}\n  - Module: {{ $('Extract Individual Modules').item.json.module_title }}\n  - Summary: {{ $('Extract Individual Modules').item.json.module_summary }}\n  - Learning Objectives: {{ $('Extract Individual Modules').item.json.learning_objectives }}\n  - Key Concepts: {{ $('Extract Individual Modules').item.json.key_concepts }}\n\n  **Enhanced Research Content:**\n  \n\n  **CREATE COMPREHENSIVE MODULE INCLUDING:**\n\n  1. **Module Overview** (400-500 words)\n     - Advanced theoretical foundations\n     - Australian healthcare context integration\n     - Professional development significance\n\n  2. **Detailed Learning Content** (2000-2500 words)\n     - Evidence-based frameworks and models\n     - Complex case scenarios and decision trees\n     - Regulatory compliance requirements\n     - Quality improvement methodologies\n\n  3. **12 Professional Slides Content**\n     - Slide 1: Module objectives and overview\n     - Slides 2-3: Theoretical frameworks/models\n     - Slides 4-6: Evidence-based practices and guidelines\n     - Slides 7-8: Case studies and scenarios\n     - Slides 9-10: Assessment and evaluation tools\n     - Slides 11-12: Implementation and reflection\n\n  4. **Assessment Strategy** (Miller's Pyramid)\n     - Knowledge level: Multiple choice questions\n     - Competence level: Case analysis\n     - Performance level: Simulation scenarios\n     - Action level: Workplace application tasks\n\n  5. **Audio Script** (45-60 minutes when spoken)\n     - Conversational, engaging tone\n     - Clear section transitions\n     - Interactive elements and reflection prompts\n\n  6. **Professional Resources**\n     - Assessment tools and checklists\n     - Reference materials and guidelines\n     - Templates and frameworks\n     - Further learning pathways\n\n  **REQUIREMENTS:**\n  - Align with AHPRA, NMBA, NSQHS standards\n  - Include cultural safety considerations\n  - Ensure 45-60 minutes of substantive learning\n  - Professional microcredential quality\n  - Evidence-based throughout\n\n  **Output in structured markdown format with clear sections.**"
+            }
+          ]
+        },
+        "options": {
+          "maxOutputTokens": 8192,
+          "temperature": 0.3,
+          "topP": 1,
+          "topK": 40
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1392,
+        0
+      ],
+      "id": "13555b11-61d7-4ba0-b227-ac90ff2f3571",
+      "name": "Module Text Generation",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "gBjg5KQe8QQzNDoc",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": " return [\n    {\n      json: {\n        ...($('Extract Individual Modules').item.json),\n        enhanced_research: $json.choices[0].message.content,\n        processing_type: \"content_and_slides\"\n      },\n      pairedItem: 0\n    },\n    {\n      json: {\n        ...($('Extract Individual Modules').item.json),\n        enhanced_research: $json.choices[0].message.content,\n        processing_type: \"assessments_and_roleplay\"\n      },\n      pairedItem: 0\n    }\n  ];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1184,
+        0
+      ],
+      "id": "7be67ec3-95fd-4fd1-9555-8d2676ae8f1c",
+      "name": "Split Module Production"
+    },
+    {
+      "parameters": {
+        "jsCode": " const perplexityResponse = $input.first().json;\n\n  // Debug: Log the full response structure\n  console.log('Full Perplexity Response Keys:', Object.keys(perplexityResponse));\n  console.log('Has choices?', !!perplexityResponse.choices);\n\n  let researchContent = '';\n  let citations = [];\n  let searchResults = [];\n\n  // Extract the actual research content\n  if (perplexityResponse.choices && perplexityResponse.choices.length > 0) {\n    // Standard Perplexity response structure\n    researchContent = perplexityResponse.choices[0].message.content;\n    console.log('Extracted research content length:', researchContent.length);\n  } else if (perplexityResponse.content) {\n    // Alternative structure\n    researchContent = perplexityResponse.content;\n  } else if (perplexityResponse.message) {\n    // Another alternative\n    researchContent = perplexityResponse.message.content || perplexityResponse.message;\n  } else {\n    // Fallback - return error with full response for debugging\n    return [{\n      json: {\n        error: 'Could not find content in Perplexity response',\n        response_keys: Object.keys(perplexityResponse),\n        full_response: JSON.stringify(perplexityResponse, null, 2)\n      },\n      pairedItem: 0\n    }];\n  }\n\n  // Extract citations if available\n  if (perplexityResponse.citations) {\n    citations = perplexityResponse.citations;\n  }\n\n  // Extract search results if available\n  if (perplexityResponse.search_results) {\n    searchResults = perplexityResponse.search_results;\n  }\n\n  // Get the original module context from the previous node\n  const moduleContext = $('Set Initial Context').item.json;\n\n  // Return single output with research content merged with module context\n  return [{\n    json: {\n      ...moduleContext, // Spread all the module data (module_title, learning_objectives, etc.)\n      enhanced_research: researchContent, // Add the actual research text\n      citations: citations,\n      search_results: searchResults,\n      research_metadata: {\n        prompt_tokens: perplexityResponse.usage?.prompt_tokens || 0,\n        completion_tokens: perplexityResponse.usage?.completion_tokens || 0,\n        total_cost: perplexityResponse.usage?.total_cost || 0\n      }\n    },\n    pairedItem: 0\n  }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        976,
+        0
+      ],
+      "id": "719e9f03-77c9-456d-9f17-25c8a4ee6e78",
+      "name": "2nd Extraction"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Prepare Module Prompt": {
+      "main": [
+        [
+          {
+            "node": "Generate Module Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Slides for Audio": {
+      "main": [
+        [
+          {
+            "node": "Call Audio Generation Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Module Content": {
+      "main": [
+        [
+          {
+            "node": "Extract Slides for Audio",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Store Module in Knowledge Lake",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Individual Modules": {
+      "main": [
+        [
+          {
+            "node": "Enhanced Research",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Kickoff Module Creation": {
+      "main": [
+        [
+          {
+            "node": "Parse Course Recommendation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Course Recommendation": {
+      "main": [
+        [
+          {
+            "node": "Extract Individual Modules",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Individual Module Creation": {
+      "main": [
+        [
+          {
+            "node": "Prepare Module Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enhanced Research": {
+      "main": [
+        [
+          {
+            "node": "2nd Extraction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Module Text Generation": {
+      "main": [
+        [
+          {
+            "node": "Individual Module Creation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Module Production": {
+      "main": [
+        [
+          {
+            "node": "Module Text Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2nd Extraction": {
+      "main": [
+        [
+          {
+            "node": "Split Module Production",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "versionId": "99b9a2e7-3c48-4e5f-a83e-a365d3caf9e6",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fef6caac326c0a4720dfab3ee1ef35ca62d3251d9fffea7995d4c705314b21ec"
+  },
+  "id": "YVMlnUoo9syN1T9a",
+  "tags": []
+}

@@ -1,0 +1,740 @@
+{
+  "name": "Module Generator Agent (Fixed)",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:5002/knowledge/add",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "COMPLETE MODULE GENERATED: {{ $json.module_title }} for {{ $json.course_title }}. Target: {{ $json.target_audience }}. Generated for: {{ $json.user_name }}. Full Content: {{ $json.content[0].text }}"
+            },
+            {
+              "name": "user_id",
+              "value": "carla_knowledge_lake"
+            },
+            {
+              "name": "metadata",
+              "value": "{\"type\": \"complete_module\", \"module_title\": \"{{ $json.module_title }}\", \"course_title\": \"{{ $json.course_title }}\", \"user_email\": \"{{ $json.user_email }}\", \"generation_date\": \"{{ $now }}\"}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "store-module-knowledge",
+      "name": "Store Module in Knowledge Lake",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1152,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract modules from Anthropic JSON response\n  const anthropicResponse = $input.first().json.content[0].text;\n\n  // Parse the JSON from the text content\n  let courseData;\n  try {\n    // Extract JSON from the markdown code block\n    const jsonMatch = anthropicResponse.match(/```json\\n([\\s\\S]*?)\\n```/);\n    if (jsonMatch) {\n      courseData = JSON.parse(jsonMatch[1]);\n    } else {\n      courseData = JSON.parse(anthropicResponse);\n    }\n  } catch (error) {\n    return [{ json: { error: 'Failed to parse JSON response', raw_response: anthropicResponse } }];\n  }\n\n  // Extract modules from the structured data and create proper n8n outputs\n  const outputs = [];\n  let moduleNumber = 1;\n\n  while (courseData[`module_${moduleNumber}`] || courseData[`module_${moduleNumber}_name`]) {\n    // Create properly structured output for n8n\n    outputs.push({\n      json: {\n        module_number: moduleNumber,\n        module_title: courseData[`module_${moduleNumber}_name`] || courseData[`module_${moduleNumber}`] || `Module\n  ${moduleNumber}`,\n        module_summary: courseData[`module_${moduleNumber}_summary`] || '',\n        learning_objectives: courseData[`module_${moduleNumber}_learning_objectives`] || [],\n        key_concepts: courseData[`module_${moduleNumber}_key_concepts`] || [],\n        course_title: courseData.course_title || 'Course Title Not Found'\n      },\n      pairedItem: 0  // Important: this links back to the input item\n    });\n\n    moduleNumber++;\n  }\n\n  // Important: Return the outputs array directly\n  return outputs;"
+      },
+      "id": "parse-module-data",
+      "name": "Extract Individual Modules",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA",
+          "mode": "list",
+          "cachedResultName": "Concept to Course Requests",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1827304897,
+          "mode": "list",
+          "cachedResultName": "Text Outputs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA/edit#gid=1827304897"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "6ef22fc6-be07-4ad0-b1f7-61bdd17874f3",
+      "name": "Kickoff Module Creation",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "MpPi6ajn0LPqhIj5",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "claude-opus-4-1-20250805",
+          "mode": "list",
+          "cachedResultName": "claude-opus-4-1-20250805"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an expert language model designed to parse and extract educational content for automation workflows. You are provided with a comprehensive course recommendation document. Your task is to extract and structure the following fields from the content for use in an automated workflow or database:\n\n**Extract and output the following as structured JSON from the Course Recommendation for use downstream:**\n\n1. **Course Title** (\"course_title\"): The main title or name of the course.\n2. **Modules**: For each module, extract:\n   - **Module Number** (e.g., 1, 2, 3... \"module_1\", \"module_2\", etc)\n   - **Module Name** (\"module_1_name\", \"module_2_name\", etc)\n   - **Module Summary** (\"module_1_summary\", \"module_2_summary\", etc: 2-4 sentences or up to 200 words for each module, describing the focus and content)\n   - **Learning Objectives** (\"module_1_learning_objectives\", \"module_1_learning_objectives\", etc: generated as a list; each objective as a single sentence)\n   - **Key Concepts** (\"module_1_key_concepts\", \"module_2_key_concepts\", etc: generated as a list; concise phrases or keywords)\n   - **Research Foundation** \"const courseRecData = JSON.parse($input.first().json['Course Recommendation']);\n  const courseRecommendation = courseRecData.course_recommendation;\" \n\n**Instructions:**\n- Accurately identify the main course title and module sections, even if formatting varies.\n- Return the extracted data in a valid JSON structure (an object with a courseTitle property and a modules array).\n- Each module in the modules array should be an object containing: moduleNumber, moduleName, moduleSummary, learningObjectives, keyConcepts.\n- Do not omit any module or learning objective if present.\n- Do not invent or infer content; only use what is explicitly in the document.\n- Exclude any sections not directly related to title, modules, module summaries, objectives, or key concepts.\n- Output only the JSON object—no additional explanation, commentary, or formatting.\n\n**INPUT:**  \n{{ $json['Course Recommendation'] }}\n\n***\n\n**Expected Output Example:**\n```json\n{\n  \"courseTitle\": \"Integrated Clinical-Administrative Leadership in Healthcare\",\n  \"modules\": [\n    {\n      \"moduleNumber\": 1,\n      \"moduleName\": \"Foundations of Integrated Healthcare Leadership\",\n      \"moduleSummary\": \"This module introduces the core concepts of clinical-administrative integration, addressing the unique challenges faced by leaders responsible for both patient care and organisational management. It covers mapping dual responsibilities, interpreting regulations, and employing evidence-based leadership models to optimise healthcare team performance.\",\n      \"learningObjectives\": [\n        \"Recognise integrated responsibilities for dual-role leaders.\",\n        \"Apply regulatory frameworks and leadership models to combined roles.\",\n        \"Diagnose organisational needs and individual developmental gaps.\",\n        \"Articulate system thinking in leadership contexts.\"\n      ],\n      \"keyConcepts\": [\n        \"Expert Novice Model\",\n        \"regulatory navigation\",\n        \"system mapping\"\n      ]\n    },\n    ...\n  ]\n}\n```"
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 8000,
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.anthropic",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "763d5056-7c4e-460a-b6a7-89720de286bd",
+      "name": "Parse Course Recommendation",
+      "credentials": {
+        "anthropicApi": {
+          "id": "477mISjMXvA7pkGr",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "messages": {
+          "message": [
+            {
+              "content": "=You are an expert in Australian healthcare professional development with deep knowledge of AHPRA\n  standards, NMBA guidelines, NSQHS frameworks, and evidence-based clinical practice.\n\n  **MODULE TO ENHANCE:**\n  - Module Number: {{ $json.module_number }}\n  - Module Title: {{ $json.module_title }}\n  - Initial Summary: {{ $json.module_summary }}\n  - Current Learning Objectives: {{ JSON.stringify($json.learning_objectives) }}\n  - Current Key Concepts: {{ JSON.stringify($json.key_concepts) }}\n  - Course Title: {{ $json.course_title }}\n  - Target Audience: {{ $('Kickoff Module Creation').item.json['Audience Type '] }}\n  - Research Foundation: {{ $('Kickoff Module Creation').item.json['Research Foundation'] }}\n\n  **YOUR TASK:**\n  Enhance this single module with sophisticated, evidence-based content suitable for microcredential certification. Draw upon current Australian healthcare research, regulatory frameworks, clinical\n  guidelines, and professional development best practices.\n\n  **OUTPUT AS A SINGLE JSON OBJECT:**\n\n  {\n    \"moduleNumber\": {{ $json.module_number }},\n    \"moduleTitle\": \"{{ $json.module_title }}\",\n    \"enhancedSummary\": \"Write a comprehensive 350-400 word summary that: (1) establishes theoretical\n  foundations with current research citations, (2) integrates Australian healthcare regulatory context\n  (AHPRA/NMBA/NSQHS), (3) addresses target audience professional development needs, (4) demonstrates\n  evidence-based practice standards, (5) includes cultural safety and diversity considerations where\n  relevant. Use Australian spelling throughout.\",\n    \"learningObjectives\": [\n      \"Advanced objective 1: [Verb] [specific skill/knowledge] using [framework/standard] to [measurable\n  outcome]\",\n      \"Advanced objective 2: [Evaluate/Analyse/Apply/Create] [complex concept] in [professional context]\",\n      \"Advanced objective 3: [Integration with regulatory/clinical standards]\",\n      \"Advanced objective 4: [Workplace application with professional accountability]\",\n      \"Advanced objective 5: [Critical thinking/reflection component]\"\n    ],\n    \"keyConcepts\": [\n      \"Sophisticated concept 1 with theoretical grounding\",\n      \"Australian regulatory/clinical framework 2\",\n      \"Evidence-based practice principle 3\",\n      \"Professional competency standard 4\",\n      \"Contemporary healthcare issue 5\",\n      \"Cultural safety/diversity consideration 6\",\n      \"Quality improvement methodology 7\",\n      \"Risk management principle 8\"\n    ],\n    \"enhancedContentAreas\": [\n      \"Theoretical foundations: [Advanced frameworks, models, research evidence]\",\n      \"Australian regulatory context: [AHPRA/NMBA/NSQHS specific requirements]\",\n      \"Clinical applications: [Complex scenarios, decision-making frameworks]\",\n      \"Professional accountability: [Documentation, governance, standards]\",\n      \"Contemporary issues: [Current challenges, emerging practices]\",\n      \"Cultural competence: [Aboriginal and Torres Strait Islander health, CALD considerations]\",\n      \"Quality and safety: [Risk assessment, incident management, continuous improvement]\"\n    ],\n    \"visualContentOpportunities\": [\n      \"Conceptual framework diagram: [Specific model/theory visualization]\",\n      \"Clinical decision tree: [Evidence-based pathway with decision points]\",\n      \"Regulatory compliance flowchart: [AHPRA/NSQHS process mapping]\",\n      \"Data dashboard: [Quality metrics, benchmarks, KPIs]\",\n      \"Case comparison matrix: [Scenario analysis with complexity factors]\",\n      \"Risk assessment heat map: [Clinical/professional risk stratification]\"\n    ],\n    \"assessmentStrategies\": [\n      \"Miller's Pyramid - KNOWS (Knowledge): Multiple-choice questions testing theoretical understanding of\n   [frameworks/standards]\",\n      \"Miller's Pyramid - KNOWS HOW (Competence): Case analysis requiring application of [concepts] to\n  complex scenarios\",\n      \"Miller's Pyramid - SHOWS HOW (Performance): Simulation exercises demonstrating [skills] in\n  controlled settings\",\n      \"Miller's Pyramid - DOES (Action): Workplace application tasks with evidence submission and\n  reflective analysis\",\n      \"Formative assessment: Self-assessment tools, peer review activities, reflective journals\",\n      \"Summative assessment: Comprehensive case study analysis, professional portfolio evidence, competency\n   demonstration\"\n    ],\n    \"professionalResourcesAndCaseMaterials\": [\n      \"AHPRA: [Specific code/guideline/standard relevant to module]\",\n      \"NMBA/relevant professional board: [Practice standards, decision-making frameworks]\",\n      \"NSQHS Standards: [Specific standard actions relevant to module content]\",\n      \"Australian clinical guidelines: [Current evidence-based practice guidelines]\",\n      \"Professional development tools: [Assessment templates, checklists, audit tools]\",\n      \"Case study 1: [Complex authentic Australian healthcare scenario with ethical/regulatory\n  dimensions]\",\n      \"Case study 2: [Cultural safety scenario with Aboriginal and Torres Strait Islander health\n  considerations]\",\n      \"Case study 3: [Contemporary issue requiring critical analysis and evidence-based decision-making]\"\n    ]\n  }\n\n  **CRITICAL QUALITY REQUIREMENTS:**\n  - Enhanced summary MUST be 350-400 words minimum with sophisticated academic and professional language\n  - All content must reflect current Australian healthcare standards and research (2023-2025)\n  - Learning objectives must be advanced, measurable, and aligned with professional competency frameworks\n  - Include specific AHPRA, NMBA, NSQHS references where applicable\n  - Maintain microcredential-level rigor suitable for experienced healthcare professionals\n  - Use Australian spelling and terminology throughout\n  - All strings must be properly escaped and terminated\n  - Return ONLY the JSON object (no markdown blocks, no explanations)"
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 8000,
+          "temperature": 0.3
+        },
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.perplexity",
+      "typeVersion": 1,
+      "position": [
+        704,
+        -64
+      ],
+      "id": "c00fc3b4-4762-44f7-b13e-bd3b817643ca",
+      "name": "Enhanced Research",
+      "credentials": {
+        "perplexityApi": {
+          "id": "zr5cfHlUVYNZSuvF",
+          "name": "Perplexity account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Extract enhanced module data from Perplexity response\n  // Note: In \"Run Once for Each Item\" mode, use $json directly\n\n  let rawContent = '';\n\n  // Step 1: Extract content from Perplexity structure\n  if ($json.choices && $json.choices.length > 0) {\n    rawContent = $json.choices[0].message.content;\n    console.log('Raw content length:', rawContent.length);\n  } else {\n    return {\n      json: {\n        error: 'No content in Perplexity response',\n        response_keys: Object.keys($json)\n      }\n    };\n  }\n\n  // Step 2: Clean content - remove markdown code blocks\n  rawContent = rawContent\n    .replace(/```json\\s*/g, '')\n    .replace(/```\\s*/g, '')\n    .trim();\n\n  console.log('Cleaned content preview:', rawContent.substring(0, 300));\n\n  // Step 3: Find JSON object (single object)\n  const startMatch = rawContent.indexOf('{');\n  const endMatch = rawContent.lastIndexOf('}');\n\n  if (startMatch === -1 || endMatch === -1) {\n    return {\n      json: {\n        error: 'No JSON object found',\n        content_preview: rawContent.substring(0, 2000)\n      }\n    };\n  }\n\n  const jsonText = rawContent.substring(startMatch, endMatch + 1);\n\n  // Step 4: Parse the JSON object\n  let enhancedModuleData;\n  try {\n    enhancedModuleData = JSON.parse(jsonText);\n    console.log('Successfully parsed module:', enhancedModuleData.moduleNumber,\n  enhancedModuleData.moduleTitle);\n  } catch (parseError) {\n    console.error('JSON Parse Error:', parseError.message);\n\n    return {\n      json: {\n        error: 'Failed to parse JSON from Perplexity',\n        parse_error: parseError.message,\n        json_preview: jsonText.substring(0, 2000)\n      }\n    };\n  }\n\n  // Step 5: Get context from previous nodes\n  const originalModuleData = $('Extract Individual Modules').item.json;\n  const kickoffData = $('Kickoff Module Creation').item.json;\n\n  // Step 6: Return enhanced data\n  return {\n    json: {\n      // Core module data from Perplexity\n      module_number: enhancedModuleData.moduleNumber,\n      module_title: enhancedModuleData.moduleTitle,\n      module_summary: enhancedModuleData.enhancedSummary,\n      learning_objectives: enhancedModuleData.learningObjectives,\n      key_concepts: enhancedModuleData.keyConcepts,\n\n      // Course context\n      course_title: originalModuleData.course_title,\n      audience_type: kickoffData['Audience Type '] || kickoffData['Audience Type'],\n      research_foundation: kickoffData['Research Foundation'],\n\n      // Enhanced fields from Perplexity\n      enhanced_content_areas: enhancedModuleData.enhancedContentAreas,\n      visual_content_opportunities: enhancedModuleData.visualContentOpportunities,\n      assessment_strategies: enhancedModuleData.assessmentStrategies,\n      professional_resources: enhancedModuleData.professionalResourcesAndCaseMaterials,\n\n      // Formatted text for downstream AI\n      enhanced_research: `\n  MODULE ${enhancedModuleData.moduleNumber}: ${enhancedModuleData.moduleTitle}\n\n  ENHANCED SUMMARY:\n  ${enhancedModuleData.enhancedSummary}\n\n  LEARNING OBJECTIVES:\n  ${enhancedModuleData.learningObjectives.map((obj, i) => `${i+1}. ${obj}`).join('\\n')}\n\n  KEY CONCEPTS:\n  ${enhancedModuleData.keyConcepts.map((concept, i) => `${i+1}. ${concept}`).join('\\n')}\n\n  ENHANCED CONTENT AREAS:\n  ${enhancedModuleData.enhancedContentAreas.map((area, i) => `${i+1}. ${area}`).join('\\n')}\n\n  VISUAL OPPORTUNITIES:\n  ${enhancedModuleData.visualContentOpportunities.map((vis, i) => `${i+1}. ${vis}`).join('\\n')}\n\n  ASSESSMENT STRATEGIES:\n  ${enhancedModuleData.assessmentStrategies.map((strat, i) => `${i+1}. ${strat}`).join('\\n')}\n\n  PROFESSIONAL RESOURCES:\n  ${enhancedModuleData.professionalResourcesAndCaseMaterials.map((res, i) => `${i+1}. ${res}`).join('\\n')}\n      `,\n\n      full_enhanced_data: enhancedModuleData,\n\n      perplexity_metadata: {\n        prompt_tokens: $json.usage?.prompt_tokens || 0,\n        completion_tokens: $json.usage?.completion_tokens || 0,\n        total_cost: $json.usage?.total_cost || 0\n      }\n    }\n  };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        944,
+        -192
+      ],
+      "id": "719e9f03-77c9-456d-9f17-25c8a4ee6e78",
+      "name": "2nd Extraction"
+    },
+    {
+      "parameters": {
+        "jsCode": " // Combine Perplexity slides with Anthropic assessments\n  const allItems = $input.all();\n\n  // Get items from both nodes\n  const perplexityData = $('Slides and Voiceovers').all();\n  const anthropicData = $('Assessments & Role Plays').all();\n\n  const mergedModules = [];\n\n  perplexityData.forEach((pItem, index) => {\n    const aItem = anthropicData[index]; // Same order, same index\n\n    // Get original 2nd Extraction data\n    const originalData = $('2nd Extraction').all()[index].json;\n\n    mergedModules.push({\n      json: {\n        // From 2nd Extraction (preserved)\n        module_number: originalData.module_number,\n        module_title: originalData.module_title,\n        learning_objectives: originalData.learning_objectives,\n        key_concepts: originalData.key_concepts,\n        module_summary: originalData.module_summary,\n        enhanced_research: originalData.enhanced_research,\n        professional_resources: originalData.professional_resources,\n        course_title: originalData.course_title,\n        audience_type: originalData.audience_type,\n\n        // From Perplexity\n        slides: pItem.json.slides,\n\n        // From Anthropic\n        assessments: aItem.json.assessments,\n        role_play_scenarios: aItem.json.rolePlayScenarios,\n\n        // Metadata\n        generation_complete: true,\n        timestamp: new Date().toISOString()\n      }\n    });\n  });\n\n  return mergedModules;"
+      },
+      "id": "prepare-module-prompt",
+      "name": "Merge Module Outputs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1376,
+        -112
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse 12 slides into separate rows for Audio tab\n  // Each module should have EXACTLY 12 slides\n\n  const moduleData = $json;\n  const moduleNum = parseInt(moduleData.module_number);\n  const slides = moduleData.slides || [];\n\n  if (slides.length !== 12) {\n    console.log(`WARNING: Module ${moduleNum} has ${slides.length} slides, expected 12`);\n  }\n\n  // Create array of 12 slide rows for Audio tab\n  const slideRows = slides.slice(0, 12).map((slide, idx) => {\n    return {\n      json: {\n        module_number: moduleNum,\n        slide_number: slide.slideNumber || (idx + 1),\n        slide_title: slide.slideTitle || '',\n\n        // Column 1: Parsed Slides (combined content for reference)\n        parsed_slide_content: `SLIDE ${slide.slideNumber || (idx + 1)}: ${slide.slideTitle || 'Untitled'}\n\n  CONTENT POINTS:\n  ${(slide.contentPoints || []).map((point, i) => `${i + 1}. ${point}`).join('\\n')}\n\n  PRESENTER NOTES:\n  ${slide.presenterNotes || 'No notes provided'}\n\n  IMAGE PROMPT:\n  ${slide.imagePrompt || 'No image prompt'}`,\n\n        // Column 2: Voiceover Script (ready for Apps Script audio generation)\n        voiceover_script: slide.voiceoverScript || '',\n\n        // Column 3: Audio File URL (empty - will be populated by Apps Script)\n        audio_file_url: '',\n\n        // Additional metadata\n        content_points: slide.contentPoints || [],\n        presenter_notes: slide.presenterNotes || '',\n        image_prompt: slide.imagePrompt || ''\n      }\n    };\n  });\n\n  // If less than 12 slides, pad with empty slides\n  while (slideRows.length < 12) {\n    const slideNum = slideRows.length + 1;\n    slideRows.push({\n      json: {\n        module_number: moduleNum,\n        slide_number: slideNum,\n        slide_title: `[Missing Slide ${slideNum}]`,\n        parsed_slide_content: '',\n        voiceover_script: '',\n        audio_file_url: '',\n        content_points: [],\n        presenter_notes: '',\n        image_prompt: ''\n      }\n    });\n  }\n\n  return slideRows;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        928,
+        0
+      ],
+      "id": "e21ce637-f201-4e56-aacd-bc539f9e6d10",
+      "name": "Parse Slides for Audio Tab"
+    },
+    {
+      "parameters": {
+        "jsCode": " // Parse slides for Audio Tab - 12 slides per module\n  const allModules = $input.all();\n  console.log('Total modules received:', allModules.length);\n\n  const audioRows = [];\n\n  allModules.forEach(item => {\n    const module = item.json;\n    console.log('Module:', module.module_number, 'Slides:', module.slides?.length);\n\n    const moduleNum = parseInt(module.module_number);\n\n    // Check if slides exist\n    if (module.slides && Array.isArray(module.slides)) {\n      console.log(`Processing ${module.slides.length} slides for module ${moduleNum}`);\n\n      module.slides.forEach((slide, index) => {\n        const rowNumber = ((moduleNum - 1) * 12) + index + 2;\n\n        audioRows.push({\n          json: {\n            slide_id: `Module ${moduleNum}_Slide ${slide.slideNumber}`,\n            parsed_slides: `${slide.slideTitle}\\n\\nContent:\\n${slide.contentPoints?.join('\\n-')}\\n\\nPresenter Notes:\\n${slide.presenterNotes}`,\n            voiceover_script: slide.voiceoverScript,\n            audio_file: '',\n            image_prompt: slide.imagePrompt,\n            image_file: '',\n            row_number: rowNumber,\n            module_number: moduleNum\n          }\n        });\n      });\n    } else {\n      console.log(`No slides found for module ${moduleNum}`);\n    }\n  });\n\n  console.log('Total audio rows created:', audioRows.length);\n\n  // Return at least one item to prevent \"no output\" error\n  if (audioRows.length === 0) {\n    return [{\n      json: {\n        error: 'No slides found in input data',\n        debug: 'Check if slides field exists in merged data'\n      }\n    }];\n  }\n\n  return audioRows;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1104,
+        96
+      ],
+      "id": "1eab401e-6f40-431d-b0a8-0c5851455e2f",
+      "name": "Preprare Audio Tab Updates"
+    },
+    {
+      "parameters": {
+        "jsCode": " // Prepare Text Outputs tab - one row per module\n  const module = $json;\n  const moduleNum = parseInt(module.module_number);\n\n  // Row calculation: Row 1 = headers, Row 2 = Course, Rows 3-14 = Modules 1-12\n  const rowNumber = moduleNum + 2;\n\n  // Format slides as specification text\n  const slideSpecs = module.slides?.map(slide =>\n    `Slide ${slide.slideNumber}: ${slide.slideTitle}\\n${slide.contentPoints?.join('\\n- ')}`\n  ).join('\\n\\n') || '';\n\n  return {\n    json: {\n      sheet_name: 'Text Outputs',\n      row_number: rowNumber,\n\n      // Column A: Content For\n      content_for: `Module ${moduleNum}`,\n\n      // Column B: Learning Objectives (from 2nd Extraction)\n      learning_objectives: module.learning_objectives,\n\n      // Column C: Key Concepts (from 2nd Extraction)\n      key_concepts: module.key_concepts,\n\n      // Column D: Module Summary (from 2nd Extraction)\n      module_summary: module.module_summary,\n\n      // Column E: Slide Specifications (from Perplexity)\n      slide_specifications: slideSpecs,\n\n      // Column F: Workbook & Extra Materials (from LMS transformation)\n      workbook_materials: module.workbook_materials,\n\n      // Column G: LMS Upload (from LMS transformation)\n      lms_upload: module.lms_upload_text,\n\n      // Column H: Assessments (from Anthropic as JSON)\n      assessments_json: JSON.stringify(module.assessments, null, 2),\n\n      // Column I: Scenarios (from Anthropic as JSON)\n      scenarios_json: JSON.stringify(module.role_play_scenarios, null, 2),\n\n      // Metadata\n      audience_type: module.audience_type,\n      course_title: module.course_title\n    }\n  };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        592,
+        320
+      ],
+      "id": "51e3c449-f972-4383-89fa-70804bee85f6",
+      "name": "Prepare Text Outpus tab"
+    },
+    {
+      "parameters": {
+        "model": "sonar-reasoning",
+        "messages": {
+          "message": [
+            {
+              "content": "=You are a slide generation API. You must return ONLY valid JSON, no conversational text.",
+              "role": "system"
+            },
+            {
+              "content": "=Please refer to the Context outlined below. Your task is to create professional presentation slides for an online learning module targeting corporate executives and Australian healthcare professionals. Do not return commentary or conversation, only valid JSON.\nCreate EXACTLY 12 professional slides with corresponding voiceover scripts and image prompts for the specified module:\n\n   "
+            },
+            {
+              "content": "=CONTEXT:\n  - Module Number: {{ $json.module_number }}\n  - Module Title: {{ $json.module_title }}\n  - Learning Objectives: {{ $json.learning_objectives }}\n  - Key Concepts: {{ $json.key_concepts }}\n  - Enhanced Research: {{ $json.enhanced_research }}\n  - Audience: {{ $json.audience_type }}",
+              "role": "assistant"
+            },
+            {
+              "content": "= CRITICAL REQUIREMENTS:\n  1. EXACTLY 12 slides - no more, no less\n  2. Each slide must have:\n     - Slide number (1-12)\n     - Slide title\n     - 3-5 content bullet points\n     - Presenter notes (50-80 words)\n     - Voiceover script (150-200 words, conversational narrative that EXPANDS on bullets)\n     - Image prompt (professional healthcare illustration, NO TEXT IN IMAGE)\n\n  3. Australian context:\n     - Depending on the Audience, for standards please reference AHPRA, NMBA, NSQHS and RACGP (Healthcare audience), or ASX, ASIC and AICD (Executive audience)\n     - Use Australian terminology and spelling\n     - Include cultural safety considerations\n\n  4. Voiceover scripts must:\n     - Be conversational and engaging\n     - EXPLAIN concepts, don't just read bullets\n     - Include examples and practical applications\n     - Flow naturally when spoken aloud\n     - Be 45-60 seconds when spoken at normal pace\n\n  5. Image prompts must:\n     - Describe professional healthcare scenes\n     - NO TEXT, NO WORDS, NO LABELS in the image\n     - Diverse representation of healthcare workers and patients\n     - Australian healthcare settings\n\n"
+            },
+            {
+              "content": "=Draw on {{ $json.enhanced_content_areas }} and {{ $json.learning_objectives }} to create slides that build knowledge progressively.\nReturn ONLY valid JSON, no other text.",
+              "role": "assistant"
+            },
+            {
+              "content": "=OUTPUT FORMAT (JSON only):\n  {\n    \"moduleNumber\": {{ $json.module_number }},\n    \"moduleTitle\": \"{{ $json.module_title }}\",\n    \"slides\": [\n      {\n        \"slideNumber\": 1,\n        \"slideTitle\": \"...\",\n        \"contentPoints\": [\"point 1\", \"point 2\", \"point 3\"],\n        \"presenterNotes\": \"150-200 word notes...\",\n        \"voiceoverScript\": \"250-350 word conversational narrative...\",\n        \"imagePrompt\": \"Professional healthcare illustration showing... NO TEXT.\"\n      }\n    ]\n  }"
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 4000
+        },
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.perplexity",
+      "typeVersion": 1,
+      "position": [
+        1168,
+        -288
+      ],
+      "id": "41308595-2494-4236-96de-cfe67c0d30a8",
+      "name": "Slides and Voiceovers",
+      "executeOnce": false,
+      "alwaysOutputData": false,
+      "credentials": {
+        "perplexityApi": {
+          "id": "zr5cfHlUVYNZSuvF",
+          "name": "Perplexity account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "claude-sonnet-4-20250514",
+          "mode": "list",
+          "cachedResultName": "claude-sonnet-4-20250514"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an expert assessment designer for Australian healthcare professional development. Create Miller's Pyramid assessments and interactive role play scenarios with structured dialogue for future audio generation.\n  Module Context:\n  - Module {{ $json.module_number }}: {{ $json.module_title }}\n  - Audience: {{ $json.audience_type }}\n  - Summary: {{ $json.module_summary }}\n\n  Learning Objectives:\n  {{ $json.learning_objectives.join('\\n') }}\n\n  Key Concepts:\n  {{ $json.key_concepts.join('\\n') }}\n\n  Assessment Strategies from Research:\n  {{ $json.assessment_strategies.join('\\n') }}\n\n  Enhanced Content:\n  {{ $json.enhanced_research }}\n\n  ---\n  PART 1: MILLER'S PYRAMID ASSESSMENTS (12-15 questions total)\n\n  Create assessments distributed across all four levels of Miller's Pyramid:\n\n  LEVEL 1 - KNOWS (Knowledge): 4 questions\n  - Multiple choice testing factual knowledge\n  - Australian healthcare standards, regulations, evidence-based guidelines\n  - Professional terminology and concepts from this module\n\n  LEVEL 2 - KNOWS HOW (Competence): 3-4 questions\n  - Case-based questions requiring application of knowledge\n  - Clinical decision-making scenarios\n  - Interpretation of guidelines in context\n\n  LEVEL 3 - SHOWS HOW (Performance): 3-4 questions\n  - Scenario-based questions demonstrating skills\n  - Simulation exercises in controlled environment\n  - Clinical reasoning demonstration\n\n  LEVEL 4 - DOES (Action): 2-3 questions\n  - Workplace application tasks\n  - Quality improvement initiatives\n  - Reflective practice and professional development planning\n\n  Requirements:\n  - All questions specific to Australian healthcare context\n  - Reference AHPRA, NMBA, NSQHS standards where relevant\n  - Culturally safe language and scenarios\n  - Suitable for iSpring Quiz Maker import\n  - Include correct answers, distractors, and detailed evidence-based feedback\n\n  ---\n  PART 2: ROLE PLAY SCENARIOS (3 scenarios with structured dialogue)\n\n  Create 3 interactive branching scenarios for iSpring TalkMaster with structured dialogue for future audio\n   generation using OpenAI TTS.\n\n  Each scenario must include:\n  - Context: Australian healthcare setting, patient/colleague background\n  - Learning objective: Specific skill or competency from this module\n  - Character descriptions (with gender for voice assignment)\n  - 3-4 decision points with branching consequences\n  - Structured dialogue with audio generation IDs\n  - Cultural safety elements\n  - Debrief prompts and learning points\n\n  Scenario Complexity Progression:\n  - Scenario 1: Moderate complexity (2-3 branches)\n  - Scenario 2: High complexity (4-5 branches)\n  - Scenario 3: Very high complexity (5-6 branches with nested outcomes)\n\n  CRITICAL: Structure ALL dialogues for future audio generation\n\n  Each dialogue exchange must include:\n  - dialogueId: Format as \"M{{ $json.module_number }}_RP{scenario#}_D{dialogue#}\"\n  - character: Character name/role\n  - characterGender: \"male\" / \"female\" / \"neutral\"\n  - voiceModel: \"verse\" (male) / \"fable\" (female) / null (learner/GP)\n  - text: The dialogue text to be spoken\n  - duration: Estimated seconds (5-30)\n  - audioFile: \"\" (empty string - for future population)\n\n  ---\n  OUTPUT FORMAT (JSON):\n\n  Return ONLY valid JSON with this EXACT structure:\n\n  {\n    \"moduleNumber\": {{ $json.module_number }},\n    \"moduleTitle\": \"{{ $json.module_title }}\",\n    \"assessments\": {\n      \"level1_knows\": [\n        {\n          \"questionNumber\": 1,\n          \"questionText\": \"According to AHPRA registration standards, which of the following is a\n  requirement for IMGs?\",\n          \"options\": [\n            \"Option A - incorrect distractor\",\n            \"Option B - correct answer\",\n            \"Option C - plausible distractor\",\n            \"Option D - plausible distractor\"\n          ],\n          \"correctAnswer\": \"B\",\n          \"feedback\": \"Detailed explanation with evidence-based rationale referencing specific AHPRA\n  standards and why this answer is correct while others are not...\",\n          \"millersLevel\": \"Knowledge\",\n          \"difficulty\": \"Medium\",\n          \"australianContext\": \"AHPRA Registration Standard\"\n        }\n        // 4 questions total for Level 1\n      ],\n      \"level2_knows_how\": [\n        {\n          \"questionNumber\": 5,\n          \"scenario\": \"Brief case scenario presenting a clinical situation...\",\n          \"questionText\": \"What is the most appropriate action in this situation?\",\n          \"options\": [\"A\", \"B\", \"C\", \"D\"],\n          \"correctAnswer\": \"C\",\n          \"feedback\": \"Detailed explanation linking to clinical guidelines and professional standards...\",\n          \"millersLevel\": \"Competence\",\n          \"difficulty\": \"Medium-High\"\n        }\n        // 3-4 questions for Level 2\n      ],\n      \"level3_shows_how\": [\n        {\n          \"questionNumber\": 9,\n          \"scenario\": \"Complex clinical scenario requiring demonstration of skills...\",\n          \"task\": \"Demonstrate your clinical reasoning by...\",\n          \"assessmentCriteria\": [\n            \"Criterion 1: Accurate assessment\",\n            \"Criterion 2: Evidence-based approach\"\n          ],\n          \"sampleResponse\": \"Example of excellent performance...\",\n          \"millersLevel\": \"Performance\",\n          \"difficulty\": \"High\"\n        }\n        // 3-4 questions for Level 3\n      ],\n      \"level4_does\": [\n        {\n          \"questionNumber\": 13,\n          \"workplaceTask\": \"Design a quality improvement initiative for your practice addressing...\",\n          \"deliverables\": [\n            \"Written plan with objectives\",\n            \"Implementation timeline\",\n            \"Evaluation metrics\"\n          ],\n          \"assessmentRubric\": \"Rubric criteria for evaluating submission...\",\n          \"millersLevel\": \"Action\",\n          \"difficulty\": \"High\"\n        }\n        // 2-3 questions for Level 4\n      ]\n    },\n    \"rolePlayScenarios\": [\n      {\n        \"scenarioNumber\": 1,\n        \"scenarioId\": \"M{{ $json.module_number }}_RP1\",\n        \"title\": \"Cultural Safety Communication Challenge\",\n        \"context\": \"You are supervising an IMG in a rural Australian practice. A patient from the same\n  cultural background as the IMG has expressed concerns about communication...\",\n        \"learningObjective\": \"Apply the expert novice construct to support IMG communication development\",\n        \"characters\": [\n          {\n            \"characterId\": \"GP_SUPERVISOR\",\n            \"name\": \"GP Supervisor (learner)\",\n            \"role\": \"Clinical Supervisor\",\n            \"gender\": \"neutral\",\n            \"voiceModel\": null,\n            \"description\": \"Experienced GP providing supervision\"\n          },\n          {\n            \"characterId\": \"IMG_DR\",\n            \"name\": \"Dr Patel\",\n            \"role\": \"International Medical Graduate\",\n            \"gender\": \"male\",\n            \"voiceModel\": \"verse\",\n            \"description\": \"Experienced IMG, 6 months in Australia, excellent biomedical knowledge\"\n          },\n          {\n            \"characterId\": \"PATIENT\",\n            \"name\": \"Mrs Wong\",\n            \"role\": \"Patient\",\n            \"gender\": \"female\",\n            \"voiceModel\": \"fable\",\n            \"description\": \"Elderly patient, similar cultural background to IMG, confused about treatment\n  plan\"\n          }\n        ],\n        \"decisionPoints\": [\n          {\n            \"pointNumber\": 1,\n            \"situation\": \"Dr Patel approaches you after a consultation looking concerned...\",\n            \"dialogues\": [\n              {\n                \"dialogueId\": \"M{{ $json.module_number }}_RP1_D1\",\n                \"character\": \"IMG_DR\",\n                \"characterGender\": \"male\",\n                \"voiceModel\": \"verse\",\n                \"text\": \"I'm not sure what went wrong. Mrs Wong seemed confused when I explained the\n  treatment plan, even though we share the same cultural background.\",\n                \"duration\": 8,\n                \"audioFile\": \"\"\n              },\n              {\n                \"dialogueId\": \"M{{ $json.module_number }}_RP1_D2\",\n                \"character\": \"GP_SUPERVISOR\",\n                \"characterGender\": \"neutral\",\n                \"voiceModel\": null,\n                \"text\": \"[Learner chooses response based on decision point]\",\n                \"duration\": 0,\n                \"audioFile\": \"\"\n              }\n            ],\n            \"options\": [\n              {\n                \"choice\": \"Apply expert novice framework - explore communication approach\",\n                \"consequence\": \"Opens constructive conversation about Quality of Discourse...\",\n                \"nextDialogues\": [\n                  {\n                    \"dialogueId\": \"M{{ $json.module_number }}_RP1_D3\",\n                    \"character\": \"IMG_DR\",\n                    \"characterGender\": \"male\",\n                    \"voiceModel\": \"verse\",\n                    \"text\": \"I used the same medical terms I would use back home. Are you saying Australian\n   patients expect different communication?\",\n                    \"duration\": 7,\n                    \"audioFile\": \"\"\n                  }\n                ]\n              },\n              {\n                \"choice\": \"Reassure without addressing core issue\",\n                \"consequence\": \"Misses learning opportunity, pattern likely to continue...\",\n                \"nextDialogues\": [...]\n              },\n              {\n                \"choice\": \"Focus on cultural background as solution\",\n                \"consequence\": \"Misidentifies the issue as cultural rather than communication...\",\n                \"nextDialogues\": [...]\n              }\n            ]\n          }\n          // 2-3 more decision points\n        ],\n        \"culturalSafetyElements\": [\n          \"Avoids assumptions about shared cultural background ensuring understanding\",\n          \"Recognizes expert novice construct applies regardless of culture\",\n          \"Focuses on communication skills development, not cultural stereotyping\"\n        ],\n        \"debriefPrompts\": [\n          \"How did applying the expert novice framework change your approach?\",\n          \"What communication skills does Dr Patel need to develop for Australian practice?\",\n          \"How can you support this development while respecting Dr Patel's expertise?\"\n        ],\n        \"ispringImportNotes\": \"Use TalkMaster branching scenario. Characters require visual avatars.\n  Dialogue audio files will be populated via separate workflow using OpenAI TTS.\"\n      }\n      // 2 more scenarios with increasing complexity\n    ],\n    \"australianContext\": {\n      \"regulatoryStandards\": [\n        \"AHPRA: Standards for supervision and professional development\",\n        \"NMBA: Practice standards for culturally safe care\"\n      ],\n      \"clinicalGuidelines\": [\n        \"Quality of Discourse framework for communication assessment\",\n        \"RACGP guidelines for IMG supervision\"\n      ],\n      \"culturalConsiderations\": [\n        \"Recognition of expert novice construct\",\n        \"Cultural safety distinct from cultural background\",\n        \"Communication adaptation for Australian healthcare context\"\n      ]\n    }\n  }\n\n  ---\n  QUALITY STANDARDS:\n  - Authentic Australian healthcare scenarios\n  - Evidence-based assessment design\n  - Progressive difficulty across Miller's Pyramid\n  - Cultural safety throughout\n  - Suitable for iSpring import (Quiz Maker and TalkMaster)\n  - Professional language for experienced clinicians\n  - All role play dialogues structured for future OpenAI TTS audio generation\n\n  ---"
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 8000,
+          "temperature": 0.3
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.anthropic",
+      "typeVersion": 1,
+      "position": [
+        1328,
+        -288
+      ],
+      "id": "0137cad6-9869-4a86-adf0-73af423ec57a",
+      "name": "Assessments & Role Plays",
+      "credentials": {
+        "anthropicApi": {
+          "id": "477mISjMXvA7pkGr",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Transform merged module data into LMS Upload text\n  const module = $json;\n\n  // Build LMS Upload text from existing content\n  const lmsUploadText = `\n  MODULE ${module.module_number}: ${module.module_title}\n\n  === MODULE OVERVIEW ===\n  ${module.module_summary}\n\n  === LEARNING OBJECTIVES ===\n  ${module.learning_objectives}\n\n  === KEY CONCEPTS ===\n  ${module.key_concepts}\n\n  === DETAILED CONTENT ===\n  ${module.enhanced_research}\n\n  === SLIDE CONTENT ===\n  ${module.slides?.map((slide, idx) => `\n  Slide ${idx + 1}: ${slide.slideTitle}\n  ${slide.contentPoints?.join('\\n- ')}\n\n  Presenter Notes: ${slide.presenterNotes}\n  `).join('\\n') || ''}\n\n  === ASSESSMENT OVERVIEW ===\n  This module includes ${module.assessments?.length || 0} assessments aligned with Miller's Pyramid\n  framework.\n\n  === PROFESSIONAL RESOURCES ===\n  ${module.professional_resources}\n\n  === PRACTICAL APPLICATION ===\n  Apply these concepts through ${module.role_play_scenarios?.length || 0} interactive role-play scenarios\n  focusing on real-world healthcare situations.\n  `.trim();\n\n  // Build workbook materials from existing content\n  const workbookMaterials = `\n  QUICK REFERENCE CARD:\n  ${module.key_concepts}\n\n  CLINICAL CHECKLIST:\n  ${module.learning_objectives}\n\n  ADDITIONAL RESOURCES:\n  ${module.professional_resources}\n  `.trim();\n\n  // Return merged data WITH new LMS fields\n  return {\n    json: {\n      ...module,\n      lms_upload_text: lmsUploadText,\n      workbook_materials: workbookMaterials\n    }\n  };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1328,
+        144
+      ],
+      "id": "17e1cc5f-23d7-443a-b2e9-22bd658e5a7b",
+      "name": "Create LMS Upload"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA",
+          "mode": "list",
+          "cachedResultName": "Concept to Course Requests",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1827304897,
+          "mode": "list",
+          "cachedResultName": "Text Outputs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA/edit#gid=1827304897"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Research Foundation",
+              "displayName": "Research Foundation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Course Recommendation",
+              "displayName": "Course Recommendation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Learning Objectives",
+              "displayName": "Learning Objectives",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Key Concepts",
+              "displayName": "Key Concepts",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Module Summary",
+              "displayName": "Module Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Slide Specifications",
+              "displayName": "Slide Specifications",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Workbook & Extra Materials",
+              "displayName": "Workbook & Extra Materials",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "LMS Upload",
+              "displayName": "LMS Upload",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Assessments",
+              "displayName": "Assessments",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Scenarios",
+              "displayName": "Scenarios",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Audience Type ",
+              "displayName": "Audience Type ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Course Concept",
+              "displayName": "Course Concept",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        880,
+        512
+      ],
+      "id": "f089960a-ea74-4e9e-a314-73c5734cb56e",
+      "name": "Update Audio Tab",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "nTXx9vMT2lecjHcb",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA",
+          "mode": "list",
+          "cachedResultName": "Concept to Course Requests",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2017132903,
+          "mode": "list",
+          "cachedResultName": "Audio ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA/edit#gid=2017132903"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Slide #",
+              "displayName": "Slide #",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Parsed Slides",
+              "displayName": "Parsed Slides",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Voiceover Scripts",
+              "displayName": "Voiceover Scripts",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Audio File",
+              "displayName": "Audio File",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image Prompt",
+              "displayName": "Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image File",
+              "displayName": "Image File",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        832,
+        352
+      ],
+      "id": "c94f863a-9633-48b8-8523-eac3dfe4e4be",
+      "name": "Update Text Outputs Tab",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "nTXx9vMT2lecjHcb",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Extract Individual Modules": {
+      "main": [
+        [
+          {
+            "node": "Enhanced Research",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Kickoff Module Creation": {
+      "main": [
+        [
+          {
+            "node": "Parse Course Recommendation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Course Recommendation": {
+      "main": [
+        [
+          {
+            "node": "Extract Individual Modules",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enhanced Research": {
+      "main": [
+        [
+          {
+            "node": "2nd Extraction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2nd Extraction": {
+      "main": [
+        [
+          {
+            "node": "Slides and Voiceovers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Module Outputs": {
+      "main": [
+        [
+          {
+            "node": "Create LMS Upload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Slides for Audio Tab": {
+      "main": [
+        [
+          {
+            "node": "Preprare Audio Tab Updates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preprare Audio Tab Updates": {
+      "main": [
+        [
+          {
+            "node": "Prepare Text Outpus tab",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Text Outpus tab": {
+      "main": [
+        [
+          {
+            "node": "Update Audio Tab",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Update Text Outputs Tab",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slides and Voiceovers": {
+      "main": [
+        [
+          {
+            "node": "Assessments & Role Plays",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assessments & Role Plays": {
+      "main": [
+        [
+          {
+            "node": "Merge Module Outputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create LMS Upload": {
+      "main": [
+        [
+          {
+            "node": "Parse Slides for Audio Tab",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Audio Tab": {
+      "main": [
+        [
+          {
+            "node": "Store Module in Knowledge Lake",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Text Outputs Tab": {
+      "main": [
+        [
+          {
+            "node": "Store Module in Knowledge Lake",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "versionId": "0ec7959c-d005-4fc9-a59d-5fdb7083df10",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fef6caac326c0a4720dfab3ee1ef35ca62d3251d9fffea7995d4c705314b21ec"
+  },
+  "id": "YVMlnUoo9syN1T9a",
+  "tags": []
+}

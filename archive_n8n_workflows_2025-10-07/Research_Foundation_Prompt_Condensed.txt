@@ -1,0 +1,95 @@
+RESEARCH FOUNDATION GENERATION - PART 1
+You are an expert in Australian healthcare professional development creating evidence-based content for healthcare professionals supervising International Medical Graduates (IMGs) and other learners.
+QUALITY STANDARDS:
+•Evidence-based content from provided sources
+•Australian healthcare context (AHPRA, NMBA, RACGP, ACRRM)
+•Professional development focus for experienced clinicians
+•Cultural safety and diversity considerations
+EVIDENCE REQUIREMENTS:
+•Analyze provided source materials thoroughly
+•Vancouver citation style for all sources
+•All claims traceable to evidence
+LANGUAGE: Australian English, professional tone, inclusive language.
+PART 1: FOUNDATIONAL ANALYSIS AND FRAMEWORKS
+TASK: Create the foundational research analysis establishing credibility and evidence base.
+1. SOURCE ANALYSIS SUMMARY (500-750 words)
+•Analyze provided source URLs thoroughly
+•Extract key evidence and frameworks relevant to course concept
+•Focus on Australian healthcare context and applications
+•Identify practical implications for clinical supervision/professional development
+•Highlight cultural safety and diversity considerations
+2. KEY FRAMEWORKS AND METHODOLOGIES
+•Evidence-based frameworks from provided sources
+•Australian healthcare standards and guidelines
+•Professional development methodologies
+•Quality improvement approaches
+•Cultural safety frameworks
+•Contemporary best practice models
+3. KEY CONCEPTS AND EVIDENCE-BASED INSIGHTS
+•Critical success factors for Australian healthcare professionals
+•Latest research findings and emerging evidence
+•Evidence gaps and opportunities in recent literature
+•Implementation insights for professional development
+•Quality assurance and evaluation methods
+•Safety considerations and risk management insights
+CRITICAL REQUIREMENTS:
+•Analyze provided source URLs thoroughly
+•Use only factual claims from provided sources
+•Reference sources by actual names and URLs with full citations
+•Do not fabricate citations or suggest content not found in sources
+•Maintain Australian healthcare regulatory context throughout
+•Address cultural safety and diversity considerations
+OUTPUT SPECIFICATIONS:
+•Length: 1500-2000 words for Part 1
+•Tone: Academic, evidence-anchored, Australian healthcare context
+•Structure: Source analysis, literature search, frameworks, key concepts
+•Quality markers: Traceable to sources, comprehensive literature base, Australian context
+Generate Part 1 of the research foundation following this exact structure. This will be followed by Part 2 covering regulatory considerations, source summaries, and synthesis.
+RESEARCH FOUNDATION GENERATION - PART 2
+You are an expert in Australian healthcare professional development creating evidence-based content for healthcare professionals supervising International Medical Graduates (IMGs) and other learners.
+QUALITY STANDARDS:
+•Evidence-based content from provided sources
+•Australian healthcare context (AHPRA, NMBA, RACGP, ACRRM)
+•Professional development focus for experienced clinicians
+•Cultural safety and diversity considerations
+EVIDENCE REQUIREMENTS:
+•Build upon Part 1 analysis
+•Vancouver citation style for all sources
+•All claims traceable to evidence from Part 1 and additional sources
+LANGUAGE: Australian English, professional tone, inclusive language.
+PART 2: REGULATORY FRAMEWORK AND SYNTHESIS
+TASK: Complete the research foundation with regulatory considerations and comprehensive synthesis.
+5. REGULATORY AND COMPLIANCE CONSIDERATIONS
+•AHPRA standards and requirements
+•NMBA/RACGP/ACRRM guidelines where relevant
+•NSQHS Standards alignment
+•Cultural safety requirements
+•Professional development obligations
+•Recent policy updates and regulatory changes
+6. CONTENT SUMMARIES BY SOURCE (Vancouver citations)
+•Individual analysis of each provided source
+•Individual analysis of each researched peer-reviewed source
+•Key evidence points from each source
+•Relevance to course concept
+•Limitations and considerations
+•Currency and validity of findings
+7. RESEARCH SYNTHESIS FOR COURSE DEVELOPMENT
+•How research foundation informs course architecture
+•Evidence-based module recommendations
+•Assessment strategy implications based on current best practice
+•Implementation guidance incorporating latest research
+•Knowledge gaps requiring ongoing professional development
+CRITICAL REQUIREMENTS:
+•Reference all sources from Part 1 analysis
+•Use only factual claims from provided sources
+•Reference sources by actual names and URLs with full citations
+•Do not fabricate citations or suggest content not found in sources
+•Maintain Australian healthcare regulatory context throughout
+•Address cultural safety and diversity considerations
+OUTPUT SPECIFICATIONS:
+•Length: 1000-1500 words for Part 2
+•Tone: Academic, evidence-anchored, Australian healthcare context
+•Structure: Regulatory considerations, detailed source summaries, synthesis
+•Quality markers: Traceable to sources, comprehensive regulatory coverage, practical synthesis
+Generate Part 2 of the research foundation following this exact structure, building upon the analysis completed in Part 1.
+

@@ -1,0 +1,430 @@
+{
+  "name": "4. Audio Generation (Execute Workflow Version)",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "audio-generation",
+        "options": {
+          "responseMode": "lastNode",
+          "responseData": "allEntries",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "course_id": {
+                "type": "string",
+                "description": "Course ID"
+              },
+              "module_number": {
+                "type": "number",
+                "description": "Module number"
+              },
+              "slide_number": {
+                "type": "number",
+                "description": "Slide number"
+              },
+              "module_title": {
+                "type": "string",
+                "description": "Module title"
+              },
+              "course_title": {
+                "type": "string",
+                "description": "Course title"
+              },
+              "slide_title": {
+                "type": "string",
+                "description": "Slide title"
+              },
+              "voiceover_script": {
+                "type": "string",
+                "description": "Voiceover script from Gemini"
+              },
+              "image_prompt": {
+                "type": "string",
+                "description": "Image generation prompt"
+              },
+              "content_points": {
+                "type": "string",
+                "description": "Content points (JSON string)"
+              },
+              "target_audience": {
+                "type": "string",
+                "description": "Target audience type"
+              },
+              "timestamp": {
+                "type": "string",
+                "description": "Timestamp"
+              }
+            },
+            "required": ["module_number", "slide_number", "voiceover_script"]
+          }
+        }
+      },
+      "id": "trigger-execute-workflow",
+      "name": "When Called by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [240, 400]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Get slide data from calling workflow\nconst slideData = $json;\n\n// Extract all fields\nreturn [{\n  json: {\n    course_id: slideData.course_id,\n    module_number: slideData.module_number,\n    slide_number: slideData.slide_number,\n    module_title: slideData.module_title || 'Module',\n    course_title: slideData.course_title || 'Course',\n    slide_title: slideData.slide_title || 'Slide',\n    voiceover_script: slideData.voiceover_script || '',\n    image_prompt: slideData.image_prompt || '',\n    content_points: slideData.content_points || '',\n    target_audience: slideData.target_audience || 'Healthcare Professionals',\n    timestamp: slideData.timestamp || new Date().toISOString()\n  }\n}];\n"
+      },
+      "id": "parse-incoming-data",
+      "name": "1. Parse Incoming Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 400]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Decide whether to enhance script or use Gemini's script as-is\nconst geminiScript = $json.voiceover_script || '';\n\n// If Gemini already provided a good script (300+ words), use it\n// Otherwise, we'll enhance it with OpenAI\nconst useGeminiScript = geminiScript.length > 300;\n\nreturn [{\n  json: {\n    ...$json,\n    use_gemini_script: useGeminiScript,\n    needs_enhancement: !useGeminiScript\n  }\n}];\n"
+      },
+      "id": "check-script-quality",
+      "name": "2. Check Script Quality",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.needs_enhancement }}",
+              "value2": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "if-needs-enhancement",
+      "name": "If Needs Enhancement",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [900, 400]
+    },
+    {
+      "parameters": {
+        "model": "chatgpt-4o-latest",
+        "options": {
+          "temperature": 0.3,
+          "maxTokens": 500
+        },
+        "text": "=Transform the following slide content into flowing, engaging paragraphs for professional Australian healthcare practitioners:\n\nRequirements:\n1. Transform the outline into flowing, engaging paragraphs (NO bullet points)\n2. Use sophisticated, professional language suitable for {{ $json.target_audience }}\n3. Include practical applications and real-world examples\n4. Reference Australian healthcare context naturally (AHPRA, NMBA, PBS, MBS where relevant)\n5. Aim for 300-450 words for optimal voiceover timing (2-3 minutes)\n6. Create content that demonstrates authority and expertise\n7. Use evidence-based language and cite relevant Australian guidelines\n8. Include transition phrases for smooth audio flow\n\nSlide Title: {{ $json.slide_title }}\nSlide Content: {{ $json.voiceover_script }}\nModule: {{ $json.module_title }}\nCourse: {{ $json.course_title }}\nAudience: {{ $json.target_audience }}\n\nGenerate professional voiceover script as flowing paragraphs:"
+      },
+      "id": "enhance-script-openai",
+      "name": "3a. Enhance Script (OpenAI)",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [1120, 300],
+      "credentials": {
+        "openAiApi": {
+          "id": "OPENAI_CREDENTIAL_ID",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Extract enhanced script from OpenAI response\nlet enhancedScript = '';\n\nif ($json.message && $json.message.content) {\n  enhancedScript = $json.message.content;\n} else if ($json.text) {\n  enhancedScript = $json.text;\n} else if (typeof $json === 'string') {\n  enhancedScript = $json;\n} else {\n  // Fallback to original script\n  const originalData = $('2. Check Script Quality').item.json;\n  enhancedScript = originalData.voiceover_script;\n}\n\n// Clean the script for TTS\nconst cleanScript = enhancedScript\n  .replace(/\\*\\*.*?\\*\\*/g, '')  // Remove bold markdown\n  .replace(/\\[.*?\\]/g, ' ')     // Remove square brackets\n  .replace(/\\n\\n+/g, ' ')        // Replace multiple newlines with space\n  .replace(/\\s+/g, ' ')         // Replace multiple spaces with single space\n  .trim();\n\n// Get original data\nconst originalData = $('2. Check Script Quality').item.json;\n\nreturn [{\n  json: {\n    course_id: originalData.course_id,\n    module_number: originalData.module_number,\n    slide_number: originalData.slide_number,\n    slide_title: originalData.slide_title,\n    voiceScript: cleanScript,\n    slideName: `slide_${originalData.module_number}_${originalData.slide_number}`,\n    module_title: originalData.module_title,\n    course_title: originalData.course_title,\n    target_audience: originalData.target_audience,\n    timestamp: originalData.timestamp\n  }\n}];\n"
+      },
+      "id": "extract-enhanced-script",
+      "name": "4a. Extract Enhanced Script",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1340, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Use Gemini script as-is (already good quality)\nconst originalData = $json;\n\n// Clean the script for TTS\nconst cleanScript = originalData.voiceover_script\n  .replace(/\\*\\*.*?\\*\\*/g, '')  // Remove bold markdown\n  .replace(/\\[.*?\\]/g, ' ')     // Remove square brackets\n  .replace(/\\n\\n+/g, ' ')        // Replace multiple newlines with space\n  .replace(/\\s+/g, ' ')         // Replace multiple spaces with single space\n  .trim();\n\nreturn [{\n  json: {\n    course_id: originalData.course_id,\n    module_number: originalData.module_number,\n    slide_number: originalData.slide_number,\n    slide_title: originalData.slide_title,\n    voiceScript: cleanScript,\n    slideName: `slide_${originalData.module_number}_${originalData.slide_number}`,\n    module_title: originalData.module_title,\n    course_title: originalData.course_title,\n    target_audience: originalData.target_audience,\n    timestamp: originalData.timestamp\n  }\n}];\n"
+      },
+      "id": "use-gemini-script",
+      "name": "3b. Use Gemini Script As-Is",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1120, 500]
+    },
+    {
+      "parameters": {
+        "mode": "mergeByPosition",
+        "options": {}
+      },
+      "id": "merge-script-paths",
+      "name": "5. Merge Script Paths",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [1560, 400]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://script.google.com/macros/s/AKfycbzvEl0RK05sdKsjwqVWraThbWwQ8NL-ZnoNUjQ9qhjQh3Oe-rVvRdU2__pPnwCWy1mq-Q/exec",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "voiceScript",
+              "value": "={{ $json.voiceScript }}"
+            },
+            {
+              "name": "voiceType",
+              "value": "Charon"
+            },
+            {
+              "name": "slideName",
+              "value": "={{ $json.slideName }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "generate-audio-tts",
+      "name": "6. Generate Audio (Australian Healthcare TTS)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1780, 400]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Parse TTS response\nlet audioUrl = '';\nlet success = false;\n\nif ($json.audioUrl) {\n  audioUrl = $json.audioUrl;\n  success = true;\n} else if ($json.url) {\n  audioUrl = $json.url;\n  success = true;\n} else if ($json.success === false) {\n  success = false;\n  audioUrl = 'Generation failed';\n} else {\n  // Try to extract from response\n  try {\n    const response = typeof $json === 'string' ? JSON.parse($json) : $json;\n    audioUrl = response.audioUrl || response.url || 'Unknown';\n    success = !!audioUrl && audioUrl !== 'Unknown';\n  } catch (e) {\n    audioUrl = 'Parse error';\n    success = false;\n  }\n}\n\nconst scriptData = $('5. Merge Script Paths').item.json;\n\nreturn [{\n  json: {\n    course_id: scriptData.course_id,\n    module_number: scriptData.module_number,\n    slide_number: scriptData.slide_number,\n    slide_title: scriptData.slide_title,\n    module_title: scriptData.module_title,\n    course_title: scriptData.course_title,\n    voiceScript: scriptData.voiceScript,\n    audioUrl: audioUrl,\n    success: success,\n    slideName: scriptData.slideName,\n    target_audience: scriptData.target_audience,\n    timestamp: scriptData.timestamp\n  }\n}];\n"
+      },
+      "id": "parse-audio-response",
+      "name": "7. Parse Audio Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2000, 400]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Audio",
+          "mode": "list"
+        },
+        "columnToMatchOn": "Module Number",
+        "valueToMatchOn": "={{ $json.module_number }}",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Audio File": "={{ $json.audioUrl }}",
+            "Status": "Done"
+          }
+        },
+        "options": {
+          "matchingColumns": [
+            {
+              "name": "Slide Number",
+              "value": "={{ $json.slide_number }}"
+            }
+          ]
+        }
+      },
+      "id": "update-audio-tab",
+      "name": "8. Update Audio Tab",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [2220, 400],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:5002/knowledge/add",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "=Audio generated for {{ $json.module_title }} - Slide {{ $json.slide_number }}"
+            },
+            {
+              "name": "metadata",
+              "value": "={{ { \"type\": \"audio_generation\", \"slide_number\": $json.slide_number, \"slide_title\": $json.slide_title, \"module_title\": $json.module_title, \"course_title\": $json.course_title, \"audio_url\": $json.audioUrl, \"audio_success\": $json.success, \"slide_name\": $json.slideName, \"target_audience\": $json.target_audience, \"generation_timestamp\": $json.timestamp } }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "log-knowledge-lake",
+      "name": "9. Log to Knowledge Lake",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2440, 400]
+    }
+  ],
+  "connections": {
+    "When Called by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "1. Parse Incoming Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1. Parse Incoming Data": {
+      "main": [
+        [
+          {
+            "node": "2. Check Script Quality",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. Check Script Quality": {
+      "main": [
+        [
+          {
+            "node": "If Needs Enhancement",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Needs Enhancement": {
+      "main": [
+        [
+          {
+            "node": "3a. Enhance Script (OpenAI)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "3b. Use Gemini Script As-Is",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3a. Enhance Script (OpenAI)": {
+      "main": [
+        [
+          {
+            "node": "4a. Extract Enhanced Script",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4a. Extract Enhanced Script": {
+      "main": [
+        [
+          {
+            "node": "5. Merge Script Paths",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3b. Use Gemini Script As-Is": {
+      "main": [
+        [
+          {
+            "node": "5. Merge Script Paths",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "5. Merge Script Paths": {
+      "main": [
+        [
+          {
+            "node": "6. Generate Audio (Australian Healthcare TTS)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "6. Generate Audio (Australian Healthcare TTS)": {
+      "main": [
+        [
+          {
+            "node": "7. Parse Audio Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "7. Parse Audio Response": {
+      "main": [
+        [
+          {
+            "node": "8. Update Audio Tab",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "8. Update Audio Tab": {
+      "main": [
+        [
+          {
+            "node": "9. Log to Knowledge Lake",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-06T00:00:00.000Z",
+  "versionId": "1"
+}

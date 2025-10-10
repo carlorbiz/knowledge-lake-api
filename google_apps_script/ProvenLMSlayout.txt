@@ -1,0 +1,122 @@
+Module 1: Introduction to AI Scribes in Australian Healthcare
+=============================================================
+
+Slide 1: Welcome and Orientation
+- Course aims and format
+- Target audience and outcomes
+- AI scribes: a disruptive innovation
+
+Voiceover:
+"Welcome to Module 1. This course is designed for GP supervisors, registrars, and educators exploring how AI scribes can reshape daily clinical documentation. Let’s demystify this powerful but misunderstood tool."
+
+---
+
+Slide 2: What Is an AI Scribe?
+- Definition and core function
+- Difference from voice recognition
+- Key technologies involved
+
+Voiceover:
+"AI scribes use a combination of speech recognition and natural language processing to produce draft clinical notes. They differ from simple dictation tools by understanding clinical intent and structure."
+
+---
+
+Slide 3: Scribes vs Traditional Documentation
+- Manual entry fatigue
+- Limitations of dictation tools
+- What AI scribes add
+
+Voiceover:
+"Whereas older tools record word-for-word or rely on templates, AI scribes analyse the conversation contextually. This enables them to structure notes as if written by a human—sometimes too well."
+
+---
+
+Slide 4: Current Platforms in Australia
+- Heidi Health
+- Lyrebird Health
+- Key functionality and integration levels
+
+Voiceover:
+"Two major platforms—Heidi Health and Lyrebird—are leading in Australia. Understanding how they work and how they integrate into PMS and EHRs is essential before trialling them."
+
+---
+
+Slide 5: Technology Under the Hood
+- Machine learning models
+- Prompt engineering
+- Data training sets
+
+Voiceover:
+"Many scribes are built on large language models—similar to the tech behind ChatGPT. That means strengths in summarisation but weaknesses in clinical reasoning."
+
+---
+
+Slide 6: Clinical Workflow Integration
+- Live scribing vs batch review
+- Where the scribe 'listens'
+- Who checks the output?
+
+Voiceover:
+"Scribes can function in real time or in the background. Some tools record while you speak, others process uploaded audio. But none remove your responsibility to verify the final note."
+
+---
+
+Slide 7: Adoption in Australia
+- From 3% to 8.24% GP usage
+- Trends across metro/rural settings
+- Drivers of adoption
+
+Voiceover:
+"Despite early hesitancy, uptake has nearly tripled. Rural practices cite note fatigue; urban ones are motivated by registrar support and audit readiness."
+
+---
+
+Slide 8: Benefits Observed
+- Time savings (20–40%)
+- Improved note structure
+- Fewer end-of-day write-ups
+
+Voiceover:
+"Clinicians report better work-life balance, clearer documentation, and faster progress note generation when used correctly."
+
+---
+
+Slide 9: Risks and Red Flags
+- Over-trust in AI
+- Hallucinations and inaccuracies
+- Blurred consent
+
+Voiceover:
+"AI scribes may sound confident—but that doesn’t mean they’re right. Factual hallucinations are common, and human oversight remains essential."
+
+---
+
+Slide 10: Regulatory Environment
+- TGA: not regulated as medical devices
+- AHPRA accountability
+- RACGP and GPSA statements
+
+Voiceover:
+"Even if tools aren’t formally regulated, you are. Professional accountability lies with the treating GP, not the platform."
+
+---
+
+Slide 11: Comparing Tools (Activity)
+- Compare Heidi vs Lyrebird
+- Identify strengths, limits, and consent pathways
+- Consider how this impacts registrar supervision
+
+Voiceover:
+"This case-based comparison will help you assess which tools align best with your practice needs—and what policies must be in place to supervise their use safely."
+
+---
+
+Slide 12: Module 1 Reflection
+- What excited you?
+- What made you pause?
+- How ready is your practice?
+
+Voiceover:
+"As we conclude Module 1, reflect on where your practice stands in terms of readiness. Is the motivation time-saving? Safety? Teaching support? It’s worth naming your 'why'."
+
+---

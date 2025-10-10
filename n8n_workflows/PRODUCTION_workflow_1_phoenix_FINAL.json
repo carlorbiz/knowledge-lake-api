@@ -1,0 +1,200 @@
+{
+  "name": "1. Phoenix Course Architecture (PRODUCTION)",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {"item": [{"mode": "everyMinute"}]},
+        "triggerOn": "specificSheet",
+        "sheetName": {"__rl": true, "value": "Form responses 2", "mode": "list"},
+        "event": "rowAdded"
+      },
+      "id": "trigger",
+      "name": "Trigger: Form Submission",
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const courseConcept = $json['Course Concept'] || '';\nconst audienceType = $json['Audience Type'] || 'Professional Development';\nconst courseId = `${Date.now()}_${courseConcept.substring(0,20).replace(/[^a-z0-9]/gi, '_')}`;\n\nreturn {\n  course_id: courseId,\n  timestamp: $json['Timestamp'] || new Date().toISOString(),\n  email_address: $json['Email address'] || '',\n  course_concept: courseConcept,\n  research_part_1: $json['Research Foundation Part 1'] || '',\n  research_part_2: $json['Research Foundation Part 2'] || '',\n  audience_type: audienceType,\n  voice_selection: $json['Voice Selection'] || 'Charon',\n  user_email: $json['User Email'] || '',\n  user_name: $json['User Name'] || 'User'\n};"
+      },
+      "id": "capture-data",
+      "name": "1. Capture Form Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {"__rl": true, "value": "GOOGLE_SHEET_ID", "mode": "list"},
+        "sheetName": {"__rl": true, "value": "Archived", "mode": "list"},
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Course ID": "={{ $json.course_id }}",
+            "Timestamp": "={{ $json.timestamp }}",
+            "Email address": "={{ $json.email_address }}",
+            "Course Concept": "={{ $json.course_concept }}",
+            "Research Foundation Part 1": "={{ $json.research_part_1 }}",
+            "Research Foundation Part 2": "={{ $json.research_part_2 }}",
+            "Audience Type": "={{ $json.audience_type }}",
+            "Voice Selection": "={{ $json.voice_selection }}",
+            "User Email": "={{ $json.user_email }}",
+            "User Name": "={{ $json.user_name }}"
+          }
+        }
+      },
+      "id": "write-archived",
+      "name": "2. Write to Archived",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const courseConcept = $json.course_concept;\nconst audienceType = $json.audience_type;\nconst researchPart1 = $json.research_part_1 || '';\nconst researchPart2 = $json.research_part_2 || '';\nlet providedResearch = (researchPart1 + '\\n\\n' + researchPart2).trim();\n\nconst prompt = `RESEARCH FOUNDATION ENHANCEMENT\n\nCourse Concept: ${courseConcept}\nTarget Audience: ${audienceType}\n\n${providedResearch ? `USER-PROVIDED RESEARCH:\\n${providedResearch.substring(0, 5000)}\\n\\n` : ''}\n\nTASK: Create comprehensive research foundation for this course.\n\nREQUIREMENTS:\n• Search for 5-10 peer-reviewed sources (last 5 years)\n• ${providedResearch ? 'ENHANCE and VALIDATE the provided research with additional current sources' : 'Create complete research foundation from current sources'}\n• Focus on Australian healthcare context (AHPRA, NMBA, RACGP, NSQHS) if applicable\n• Prioritize systematic reviews and high-impact publications\n• Full Vancouver citations\n\nSTRUCTURE:\n1. SOURCE ANALYSIS (500-750 words)\n2. KEY FRAMEWORKS AND METHODOLOGIES\n3. EVIDENCE-BASED INSIGHTS\n4. REGULATORY CONSIDERATIONS (Australian healthcare if applicable)\n5. SYNTHESIS FOR COURSE DEVELOPMENT\n\nOUTPUT: Comprehensive research foundation (2000-3000 words) with citations.`;\n\nreturn {\n  prompt: prompt,\n  course_id: $json.course_id,\n  course_concept: courseConcept,\n  audience_type: audienceType,\n  user_name: $json.user_name,\n  timestamp: $json.timestamp\n};"
+      },
+      "id": "build-research-prompt",
+      "name": "3. Build Research Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "model": "sonar-reasoning",
+        "options": {"temperature": 0.3, "maxTokens": 4000},
+        "text": "={{ $json.prompt }}"
+      },
+      "id": "research-perplexity",
+      "name": "4. Generate Research (Perplexity)",
+      "type": "n8n-nodes-base.perplexity",
+      "typeVersion": 1,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "let research = '';\nif ($json.choices && $json.choices[0]) {\n  research = $json.choices[0].message.content;\n} else if ($json.content) {\n  research = $json.content;\n} else if ($json.text) {\n  research = $json.text;\n}\n\n// Clean the research - remove <think> tags\nresearch = research.replace(/<think>[\\s\\S]*?<\\/think>/gi, '').trim();\n\nconst data = $('3. Build Research Prompt').item.json;\n\nconst coursePrompt = `CREATE COMPREHENSIVE COURSE ARCHITECTURE\n\nCONTEXT:\n- Course Concept: ${data.course_concept}\n- Target Audience: ${data.audience_type}\n\nRESEARCH FOUNDATION:\n${research}\n\nTASK:\n1. Design 8-12 STANDALONE micro-certification modules for ${data.audience_type}\n2. Each module must be COMPLETELY SELF-CONTAINED and independently valuable\n3. Modules can be completed in ANY ORDER (no strict prerequisites)\n4. Each module should be sophisticated enough to stand alone as a micro-credential\n5. Use research foundation to inform each module's evidence-based content\n6. Self-paced online delivery (NO week numbers or fixed schedules)\n\nMODULE DESIGN PRINCIPLES:\n- Each module = Standalone micro-certification unit\n- Can be mixed and matched into various full courses\n- Comprehensive enough to deliver value independently\n- Evidence-based with clear learning outcomes\n- 30-45 minutes estimated completion time\n- Professional development credit-worthy\n\nCRITICAL RULES:\n- Return ONLY valid JSON\n- NO markdown blocks\n- NO week numbers or scheduling\n- NO prerequisites between modules\n- Each module must be self-sufficient\n\nJSON STRUCTURE:\n{\n  \"courseTitle\": \"Professional title emphasizing modular micro-credentials\",\n  \"courseDescription\": \"2-3 sentences highlighting flexible, self-paced, standalone modules\",\n  \"targetAudience\": \"${data.audience_type}\",\n  \"learningOutcomes\": [\"Measurable outcome 1\", \"Measurable outcome 2\", \"Measurable outcome 3\"],\n  \"researchFoundation\": \"Brief synthesis of evidence base\",\n  \"modules\": [\n    {\n      \"moduleNumber\": 1,\n      \"moduleName\": \"Standalone module title\",\n      \"moduleSummary\": \"Complete description of what this independent micro-credential covers\",\n      \"estimatedDuration\": \"30-45 minutes\"\n    }\n  ]\n}\n\nCREATE 8-12 STANDALONE MODULES. Each must work independently as a micro-certification. RETURN ONLY JSON.`;\n\nreturn {\n  prompt: coursePrompt,\n  course_id: data.course_id,\n  course_concept: data.course_concept,\n  audience_type: data.audience_type,\n  research_foundation: research,\n  timestamp: data.timestamp\n};"
+      },
+      "id": "build-course-prompt",
+      "name": "5. Build Course Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1340, 300]
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "anthropicApi",
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {"name": "anthropic-version", "value": "2023-06-01"},
+            {"name": "content-type", "value": "application/json"}
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {"name": "model", "value": "claude-sonnet-4-0"},
+            {"name": "max_tokens", "value": "4096"},
+            {"name": "temperature", "value": "0.3"},
+            {"name": "messages", "value": "={{ [{\"role\": \"user\", \"content\": $json.prompt}] }}"}
+          ]
+        }
+      },
+      "id": "generate-course",
+      "name": "6. Generate Course (Anthropic)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1560, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "let rawResponse = '';\nif ($json.content && Array.isArray($json.content)) {\n  rawResponse = $json.content[0].text;\n} else if ($json.text) {\n  rawResponse = $json.text;\n}\n\nrawResponse = rawResponse.replace(/<think>[\\\\s\\\\S]*?<\\\\/think>/gi, '').replace(/```json\\\\n?/g, '').replace(/```\\\\n?/g, '').trim();\nconst courseData = JSON.parse(rawResponse);\nconst originalData = $('5. Build Course Prompt').item.json;\n\nreturn {\n  course_id: originalData.course_id,\n  course_title: courseData.courseTitle,\n  course_description: courseData.courseDescription,\n  target_audience: courseData.targetAudience,\n  learning_outcomes: JSON.stringify(courseData.learningOutcomes),\n  research_foundation: originalData.research_foundation,\n  modules: JSON.stringify(courseData.modules),\n  module_count: courseData.modules.length,\n  timestamp: originalData.timestamp\n};"
+      },
+      "id": "parse-course",
+      "name": "7. Parse Course",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1780, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {"__rl": true, "value": "GOOGLE_SHEET_ID", "mode": "list"},
+        "sheetName": {"__rl": true, "value": "Course Architecture", "mode": "list"},
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Course ID": "={{ $json.course_id }}",
+            "Timestamp": "={{ $json.timestamp }}",
+            "Course Title": "={{ $json.course_title }}",
+            "Target Audience": "={{ $json.target_audience }}",
+            "Research Foundation": "={{ $json.research_foundation }}",
+            "Modules": "={{ $json.modules }}"
+          }
+        }
+      },
+      "id": "write-course",
+      "name": "8. Write Course Architecture",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [2000, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const modules = JSON.parse($json.modules);\nconst outputs = [];\nfor (const m of modules) {\n  outputs.push({json: {course_id: $json.course_id, module_number: m.moduleNumber, module_title: m.moduleName, module_summary: m.moduleSummary, course_title: $json.course_title, target_audience: $json.target_audience, timestamp: $json.timestamp}});\n}\nreturn outputs;"
+      },
+      "id": "extract-modules",
+      "name": "9. Extract Modules",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2220, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {"__rl": true, "value": "GOOGLE_SHEET_ID", "mode": "list"},
+        "sheetName": {"__rl": true, "value": "Module Queue", "mode": "list"},
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Course ID": "={{ $json.course_id }}",
+            "Module Number": "={{ $json.module_number }}",
+            "Module Title": "={{ $json.module_title }}",
+            "Course Title": "={{ $json.course_title }}",
+            "Target Audience": "={{ $json.target_audience }}",
+            "Status": "Queued"
+          }
+        }
+      },
+      "id": "write-queue",
+      "name": "10. Write Module Queue",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [2440, 300]
+    }
+  ],
+  "connections": {
+    "Trigger: Form Submission": {"main": [[{"node": "1. Capture Form Data"}]]},
+    "1. Capture Form Data": {"main": [[{"node": "2. Write to Archived"}]]},
+    "2. Write to Archived": {"main": [[{"node": "3. Build Research Prompt"}]]},
+    "3. Build Research Prompt": {"main": [[{"node": "4. Generate Research (Perplexity)"}]]},
+    "4. Generate Research (Perplexity)": {"main": [[{"node": "5. Build Course Prompt"}]]},
+    "5. Build Course Prompt": {"main": [[{"node": "6. Generate Course (Anthropic)"}]]},
+    "6. Generate Course (Anthropic)": {"main": [[{"node": "7. Parse Course"}]]},
+    "7. Parse Course": {"main": [[{"node": "8. Write Course Architecture"}]]},
+    "8. Write Course Architecture": {"main": [[{"node": "9. Extract Modules"}]]},
+    "9. Extract Modules": {"main": [[{"node": "10. Write Module Queue"}]]}
+  },
+  "settings": {"executionOrder": "v1"}
+}

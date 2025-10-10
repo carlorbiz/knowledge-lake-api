@@ -1,0 +1,239 @@
+{
+  "name": "Gamma Slide Deck Generator - Fixed URLs",
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": "27494405-56f7-8047-a148-db17477e12f3",
+        "options": {
+          "filter": {
+            "singleCondition": {
+              "key": "Status",
+              "value": "Ready for Deck"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "id": "1",
+      "name": "Notion Trigger"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.properties.Status.select.name }}",
+              "operation": "equal",
+              "value2": "Ready for Deck"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [460, 300],
+      "id": "2",
+      "name": "Filter for Status"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": "={{ $json.id }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Status",
+              "selectValue": "Generating"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [680, 300],
+      "id": "3",
+      "name": "Update Status to Generating"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepare content for Gamma API with YAML structure\nconst title = $input.item.json.properties.Title.title[0].plain_text;\nconst outline = $input.item.json.properties.Outline.rich_text[0].plain_text;\n\n// Create AI prompt for slide structure\nconst aiPrompt = `You are preparing content for automated slide deck generation.\n\nINPUTS:\n- Title: ${title}\n- Outline: ${outline}\n\nOUTPUT:\nAlways produce YAML only. Do not wrap in Markdown code fences, do not add explanations, commentary, or prose.\n\nEach slide must be a YAML list item with:\n- \\`title\\`: the slide headline\n- \\`bullets\\`: a list of 1–3 short bullet points or sentences\n\nUse en-GB spelling (AU/UK English).\nTone: professional, warm, concise.\nNo closing sections or meta text.\n\nEXAMPLE:\n\nslides:\n  - title: \"Why Great Strategies Need Great Rhythms\"\n    bullets:\n      - \"Strategic brilliance fails without aligned rhythms\"\n      - \"Execution requires sustainable cadence\"\n  - title: \"The Nokia vs Apple Reality Check\"\n    bullets:\n      - \"Nokia had brilliant concepts before iPhone\"\n      - \"Apple's rhythm of execution made the difference\"\n  - title: \"RWAV's Transformation Challenge\"\n    bullets:\n      - \"From workforce agency → community catalyst\"\n      - \"Align brilliance with team execution rhythms\"`;\n\n// Format for Gamma API (using --- breaks)\nconst gammaInput = outline.split('---').map((section, index) => {\n  return `Slide ${index + 1}: ${section.trim()}`;\n}).join('\\n---\\n');\n\nreturn {\n  json: {\n    title: title,\n    inputText: `${title}\\n\\n${gammaInput}`,\n    cardSplit: \"inputTextBreaks\",\n    theme: \"professional\",\n    pageId: $input.item.json.id\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 300],
+      "id": "4",
+      "name": "Prepare Gamma Payload"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://public-api.gamma.app/v0.2/generations",
+        "authentication": "headerAuth",
+        "headerAuth": {
+          "name": "Authorization",
+          "value": "Bearer sk-gamma-6pXuKF0OZNpo7SRqoZ1wIk0rirUAZud5mqDDuqVAPI"
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "jsonBody": "={{ JSON.stringify({\\n  \\\"inputText\\\": $json.inputText,\\n  \\\"cardSplit\\\": $json.cardSplit,\\n  \\\"theme\\\": $json.theme\\n}) }}"
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1120, 300],
+      "id": "5",
+      "name": "Call Gamma API"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process Gamma API response and construct URLs\nconst response = $input.item.json;\nconst pageId = $node[\"Prepare Gamma Payload\"].json.pageId;\n\nlet presentationUrl = \"\";\nlet exportUrl = \"\";\nlet status = \"Failed\";\n\nif (response.id) {\n  // Construct actual Gamma URLs from the deck ID\n  const deckId = response.id;\n  presentationUrl = `https://gamma.app/docs/${deckId}`;\n  exportUrl = `https://gamma.app/docs/${deckId}/export`;\n  status = \"Done\";\n}\n\nreturn {\n  json: {\n    pageId: pageId,\n    presentationUrl: presentationUrl,\n    exportUrl: exportUrl,\n    status: status,\n    deckId: response.id || \"No ID received\",\n    instructions: presentationUrl ? \"Open Gamma URL to view and share your deck. Use Export Link for download options.\" : \"Generation failed - check API response\"\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1340, 300],
+      "id": "6",
+      "name": "Process Response & Create URLs"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": "={{ $json.pageId }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Status",
+              "selectValue": "={{ $json.status }}"
+            },
+            {
+              "key": "Gamma URL",
+              "urlValue": "={{ $json.presentationUrl }}"
+            },
+            {
+              "key": "Export Link",
+              "urlValue": "={{ $json.exportUrl }}"
+            },
+            {
+              "key": "Instructions",
+              "textContent": "={{ $json.instructions }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [1560, 300],
+      "id": "7",
+      "name": "Update Notion with Results"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": "={{ $node[\"Prepare Gamma Payload\"].json.pageId }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Status",
+              "selectValue": "Failed"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [1340, 480],
+      "id": "8",
+      "name": "Error Handler"
+    }
+  ],
+  "connections": {
+    "Notion Trigger": {
+      "main": [
+        [
+          {
+            "node": "Filter for Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter for Status": {
+      "main": [
+        [
+          {
+            "node": "Update Status to Generating",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Status to Generating": {
+      "main": [
+        [
+          {
+            "node": "Prepare Gamma Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Gamma Payload": {
+      "main": [
+        [
+          {
+            "node": "Call Gamma API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call Gamma API": {
+      "main": [
+        [
+          {
+            "node": "Process Response & Create URLs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Response & Create URLs": {
+      "main": [
+        [
+          {
+            "node": "Update Notion with Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-01-29T12:00:00.000Z",
+  "versionId": "1"
+}

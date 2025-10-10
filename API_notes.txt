@@ -1,0 +1,181 @@
+DocsAutomator API for pdf generation and email at end of workflow:
+Course Package Template 
+Google Doc page ID 1Ry0c0M7TmKBc73HuRjFRDSbW-ISfcagD_zVyrMlwcCI
+68d7b000c2fc16ccc70abdac
+
+$headers = @{
+    "Authorization" = "Bearer 3e634bb0-452f-46b8-9ed2-d19ba4e0c1dc "
+    "Content-Type" = "application/json"
+}
+
+$body = @{
+    docId = "68d7b000c2fc16ccc70abdac"
+    documentName = "Test Course Package"
+    data = @{
+        course_title = "Executive Leadership Excellence"
+        client_name = "Test Client"
+        target_audience = "Executive"
+        creation_date = "2025-09-27"
+    }
+} | ConvertTo-Json -Depth 3
+
+Invoke-RestMethod -Uri "https://api.docsautomator.co/createDocument" -Method POST -Headers $headers -Body $body
+
+$headers = @{
+    "Authorization" = "Bearer 3e634bb0-452f-46b8-9ed2-d19ba4e0c1dc"
+}
+$headers = @{ "Authorization" = "Bearer 3e634bb0-452f-46b8-9ed2-d19ba4e0c1dc " }
+$response = Invoke-RestMethod -Uri "https://api.docsautomator.co/automations" -Method GET -Headers $headers
+Write-Host "Document ID: " $response.automations[0]._id
+Write-Host "Title: " $response.automations[0].title
+Write-Host "Is Active: " $response.automations[0].isActive
+
+Gamma API creds for Deck Requests workflow to create slides as part of or external to automation
+API Key: sk-gamma-6pXuKF0OZNpo7SRqoZ1wIk0rirUAZud5mqDDuqVAPI 
+Base URL: https://public-api.gamma.app/v0.2/generations
+Headers: 
+  - Authorization: Bearer [API_KEY]
+  - Content-Type: application/json
+
+Gamma n8n
+You are preparing content for automated slide deck generation.
+
+INPUTS:
+- Title: {{property_title}}
+- Outline: {{property_outline}}
+
+OUTPUT:
+Always produce YAML only. Do not wrap in Markdown code fences, do not add explanations, commentary, or prose.  
+
+Each slide must be a YAML list item with:
+- `title`: the slide headline  
+- `bullets`: a list of 1–3 short bullet points or sentences  
+
+Use en-GB spelling (AU/UK English).  
+Tone: professional, warm, concise.  
+No closing sections or meta text.
+
+EXAMPLE:
+
+slides:
+  - title: "Why Great Strategies Need Great Rhythms"
+    bullets:
+      - "Strategic brilliance fails without aligned rhythms"
+      - "Execution requires sustainable cadence"
+  - title: "The Nokia vs Apple Reality Check"
+    bullets:
+      - "Nokia had brilliant concepts before iPhone"
+      - "Apple’s rhythm of execution made the difference"
+  - title: "RWAV's Transformation Challenge"
+    bullets:
+      - "From workforce agency → community catalyst"
+      - "Align brilliance with team execution rhythms"
+
+🎯 Notion to Gamma Deck Automation Workflow
+Architecture Overview
+Notion Database (Status: "Ready for Deck") 
+  → n8n Webhook Trigger 
+  → Update Status to "Generating" 
+  → Call Gamma API 
+  → Receive Deck URL 
+  → Update Notion with Results
+Prerequisites Checklist
+
+ Gamma API key (Beta access)
+ Notion integration token with database access
+ n8n running in Docker
+ Notion Database ID: 27494405-56f7-8047-a148-db17477e12f3
+
+Workflow Components
+Node 1: Webhook Trigger
+
+Type: Webhook
+Path: /webhook/deck-generation
+Method: POST
+Response Mode: Immediately
+
+Node 2: Filter for Status
+
+Type: IF
+Condition: {{ $json.event }} equals "page.property_changed"
+AND: {{ $json.page.properties.Status.select.name }} equals "Ready for Deck"
+
+Node 3: Update Status to Generating
+
+Type: Notion
+Operation: Page: Update
+Database ID: 27494405-56f7-8047-a148-db17477e12f3
+Page ID: {{ $json.page.id }}
+Update Property: Status = "Generating"
+
+Node 4: Prepare Gamma Payload
+
+Type: Code
+Extract and format outline with --- slide breaks
+
+javascriptconst outline = $input.item.json.page.properties.Outline.rich_text[0].plain_text;
+return {
+  json: {
+    inputText: outline,
+    cardSplit: "inputTextBreaks"
+  }
+};
+Node 5: Call Gamma API
+
+Type: HTTP Request
+Method: POST
+URL: https://public-api.gamma.app/v0.2/generations
+Authentication: Header Auth
+
+Name: Authorization
+Value: Bearer {{ $credentials.gammaApiKey }}
+
+
+Headers: Content-Type: application/json
+Body: JSON from previous node
+
+Node 6: Update Notion with Results
+
+Type: Notion
+Operation: Page: Update
+Page ID: {{ $node["Webhook Trigger"].json.page.id }}
+Update Properties:
+
+Status = "Done"
+Gamma URL = {{ $json.presentation_url }}
+Export Link = {{ $json.export_url }}
+
+
+
+Node 7: Error Handler (connected to all nodes)
+
+Type: Notion
+Operation: Page: Update
+Update Property: Status = "Failed"
+
+Notion Database Schema Required
+
+Title (Title property)
+Outline (Rich text - with --- separators)
+Status (Select: Ready for Deck, Generating, Done, Failed)
+Gamma URL (URL property)
+Export Link (URL property)
+Theme (Select - optional)
+
+Environment Variables Needed
+bashGAMMA_API_KEY=your_gamma_beta_key
+NOTION_TOKEN=your_notion_integration_token
+Testing Strategy
+
+Create test page in Notion with Status "Ready for Deck"
+Verify webhook receives event
+Check status updates to "Generating"
+Confirm Gamma API call succeeds
+Validate final Notion update with deck URL
+
+Integration with AAE Ecosystem
+This workflow connects to:
+
+mem0 Knowledge Lake (port 3000) - stores deck generation history
+Course Orchestrator workflow - feeds into module content pipeline
+Research Foundation Generator - uses research output for deck content

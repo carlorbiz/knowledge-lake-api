@@ -1,0 +1,473 @@
+{
+  "name": "Course Orchestrator (Phoenix Fixed)",
+  "nodes": [
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "timestamp",
+              "stringValue": "={{ $json.Timestamp }}"
+            },
+            {
+              "name": "course_title",
+              "stringValue": "={{ $json[\"Course Concept\"] }}"
+            },
+            {
+              "name": "research_foundation_part_1",
+              "stringValue": "={{ $json[\"Research Foundation Part 1\"] }}"
+            },
+            {
+              "name": "research_foundation_part_2",
+              "stringValue": "={{ $json[\"Research Foundation Part 2\"] }}"
+            },
+            {
+              "name": "target_audience",
+              "stringValue": "={{ $json[\"Audience Type\"] }}"
+            },
+            {
+              "name": "voice_selection",
+              "stringValue": "={{ $json[\"Voice Selection\"] }}"
+            },
+            {
+              "name": "user_name",
+              "stringValue": "={{ $json[\"User Name\"] }}"
+            },
+            {
+              "name": "user_email",
+              "stringValue": "={{ $json[\"User Email\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-initial-context",
+      "name": "Set Initial Context",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [
+        736,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:5002/knowledge/add",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "Course '{{ $json.course_title }}' architecture complete. Ready for module generation loop. Architecture: {{ $json.architecture }}"
+            },
+            {
+              "name": "user_id",
+              "value": "carla_knowledge_lake"
+            },
+            {
+              "name": "metadata",
+              "value": "{\"type\": \"architecture_complete\", \"course_title\": \"{{ $json.course_title }}\", \"audience\": \"{{ $json.target_audience }}\"}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "log-to-lake",
+      "name": "Log to Knowledge Lake",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        1520,
+        128
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": " const allItems = $input.all();\n\n  const newest = allItems.reduce((latest, current) => {\n    // Parse DD/MM/YYYY format properly\n    const parseDate = (dateStr) => {\n      const [datePart, timePart] = dateStr.split(' ');\n      const [day, month, year] = datePart.split('/');\n      return new Date(`${year}-${month}-${day} ${timePart}`);\n    };\n\n    const latestTime = parseDate(latest.json.Timestamp);\n    const currentTime = parseDate(current.json.Timestamp);\n\n    console.log('Comparing dates:', {\n      latest: latestTime,\n      current: currentTime,\n      currentIsNewer: currentTime > latestTime\n    });\n\n    return currentTime > latestTime ? current : latest;\n  });\n\n  console.log('Selected newest:', newest.json.Timestamp);\n  return [newest];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        304
+      ],
+      "id": "a920ae64-0ad2-4773-b004-fa063b3a2790",
+      "name": "Sort Newest"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA",
+          "mode": "list",
+          "cachedResultName": "Concept to Course Requests",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2106544301,
+          "mode": "list",
+          "cachedResultName": "Form responses 2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA/edit#gid=2106544301"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        528,
+        80
+      ],
+      "id": "feb41512-7c3e-4eab-8017-44eded743fe7",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "MpPi6ajn0LPqhIj5",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "sonar-reasoning-pro",
+        "messages": {
+          "message": [
+            {
+              "content": "=You are an expert Australian education designer creating sophisticated professional development courses. Analyse the {{ $json.research_foundation_part_1 }} and {{ $json.research_foundation_part_2 }} documents and {{ $json.course_title }} to create a comprehensive Course Recommendation for professionals categorised as {{ $json.target_audience }}.\n\nINPUT DATA:\n- Course Concept: {{ $json.course_title }}\n- Research Foundation: Comprehensive 2-part evidence-based Research Foundation to be analysed as a unified single source {{ $json.research_foundation_part_1 }} and {{ $json.research_foundation_part_2 }}\n- Target Audience: {{ $json.target_audience }}\n\nRESEARCH FOUNDATION INTEGRATION:\n- A comprehensive Research Foundation document has been provided that contains:\n  - Evidence synthesis from 10-25 peer-reviewed sources\n  - Australian regulatory analysis \n  - Professional development frameworks \n  - Leadership effectiveness and system optimisation evidence\n  - Integration strategies for professional excellence\n\n- BASE YOUR ENTIRE COURSE RECOMMENDATION on this Research Foundation \n- Reference specific research findings \n- Focus on integration challenges and synergies\n- Address dual accountability and professional obligations\n\nREQUIREMENTS:\n  1. **EXACTLY 10-12 MODULES** (MINIMUM 10 MODULES REQUIRED)\n     - Each module 45-60 minutes duration\n     - Structured learning objectives using Bloom's taxonomy\n     - Evidence-based content aligned with Australian healthcare standards\n  2. **AUSTRALIAN HEALTHCARE COMPLIANCE**\n     - AHPRA professional standards alignment\n     - NMBA/RACGP guidelines integration where applicable\n     - NSQHS standards incorporation\n     - Cultural safety for Aboriginal and Torres Strait Islander peoples\n  3. **PROFESSIONAL DEVELOPMENT FOCUS**\n     - Target experienced healthcare professionals\n     - Competency-based learning outcomes\n     - Practical application emphasis\n     - CPD credit alignment\n  4. **EVIDENCE-BASED DESIGN**\n     - Integrate findings from the research foundation\n     - Reference Australian clinical guidelines\n     - Include quality improvement frameworks\n     - Address regulatory compliance requirements\n  5. **ASSESSMENT STRATEGY**\n     - Miller's Pyramid of Clinical Competence\n     - Formative and summative assessments\n     - Portfolio-based evaluation\n     - Peer collaboration components\n\nOUTPUT STRUCTURE:\n  - Strategic Overview (audience analysis, duration, approach)\n  - Evidence Base Analysis (research foundation integration)\n  - Key Concepts (drawn from research)\n  - 10-12 Detailed Modules (title, duration, objectives, content, assessment)\n  - Implementation Guidance (self-directed pathway, mentorship)\n  - Assessment Strategy (competency-based evaluation)\n  - Resource Requirements (evidence sources, materials, tools)\n\n**CRITICAL: You MUST provide all 10-12 modules in your response. Do not summarize or provide only examples. List every single module with full details.**\n\nGenerate a comprehensive course architecture that transforms the Research Foundation into actionable professional development for professionals in the {{ $json.target_audience }} target audience.\n\n\nUse Australian spelling throughout (organise, colour, centre, behaviour, optimise, etc)."
+            }
+          ]
+        },
+        "options": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.perplexity",
+      "typeVersion": 1,
+      "position": [
+        992,
+        304
+      ],
+      "id": "3c252da6-211a-4faf-a538-f6bb2a59bb91",
+      "name": "Course Recommendation",
+      "credentials": {
+        "perplexityApi": {
+          "id": "zr5cfHlUVYNZSuvF",
+          "name": "Perplexity account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9c6061da-69c6-4dbe-8e37-4c3d60d48392",
+              "name": "course_recommendation",
+              "value": "={{ $json.choices[0].message.content }}",
+              "type": "string"
+            },
+            {
+              "id": "a1b2ad43-2330-4d50-95ca-27e129f4c62f",
+              "name": "course_title",
+              "value": "={{ $('Sort Newest').item.json.course_title }}",
+              "type": "string"
+            },
+            {
+              "id": "3ceda4bd-3c6d-40df-aba9-8b2171eaa63a",
+              "name": "research_foundation_part_1",
+              "value": "={{ $('Sort Newest').item.json.research_foundation_part_1 }}",
+              "type": "string"
+            },
+            {
+              "id": "6e661f02-7704-474b-ba43-24ead7ead5b6",
+              "name": "research_foundation_part_2",
+              "value": "={{ $('Sort Newest').item.json.research_foundation_part_2 }}",
+              "type": "string"
+            },
+            {
+              "id": "57cf9d90-5fd0-4df6-9e17-62498eff4a76",
+              "name": "citations",
+              "value": "={{ $json.citations }}",
+              "type": "string"
+            },
+            {
+              "id": "cfd7d3f0-4c62-458c-be7f-5cef6c3d4c61",
+              "name": "search_results",
+              "value": "={{ $json.search_results }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1200,
+        304
+      ],
+      "id": "15225673-66ac-4507-a96e-8b96e35032e4",
+      "name": "Parse Course Recommendation"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA",
+          "mode": "list",
+          "cachedResultName": "Concept to Course Requests",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1827304897,
+          "mode": "list",
+          "cachedResultName": "Text Outputs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fK-4Bgq9ju1jV2ouk_yVpTYS3AZZhCuo7DhOOgnj8kA/edit#gid=1827304897"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Course Recommendation": "={\n    \"course_recommendation\": \"{{ $json.course_recommendation }}\"\n  }",
+            "Research Foundation": "={{ $('Sort Newest').item.json[\"Research Foundation Part 1\"] }}+' '+{{ $('Sort Newest').item.json[\"Research Foundation Part 2\"] }}",
+            "Audience Type ": "={{ $('Set Initial Context').item.json.target_audience }}",
+            "Course Concept": "={{ $('Set Initial Context').item.json.course_title }}"
+          },
+          "matchingColumns": [
+            "Research Foundation"
+          ],
+          "schema": [
+            {
+              "id": "Research Foundation",
+              "displayName": "Research Foundation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Course Recommendation",
+              "displayName": "Course Recommendation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Learning Objectives",
+              "displayName": "Learning Objectives",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Key Concepts",
+              "displayName": "Key Concepts",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Module Summary",
+              "displayName": "Module Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Slide Specifications",
+              "displayName": "Slide Specifications",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Workbook & Extra Materials",
+              "displayName": "Workbook & Extra Materials",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "LMS Upload",
+              "displayName": "LMS Upload",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Assessments",
+              "displayName": "Assessments",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Scenarios",
+              "displayName": "Scenarios",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Audience Type ",
+              "displayName": "Audience Type ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Course Concept",
+              "displayName": "Course Concept",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1408,
+        304
+      ],
+      "id": "6a87c195-30b4-4f4f-a30f-2a13a55c342f",
+      "name": "Trigger Module Creation",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "nTXx9vMT2lecjHcb",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Set Initial Context": {
+      "main": [
+        [
+          {
+            "node": "Sort Newest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort Newest": {
+      "main": [
+        [
+          {
+            "node": "Course Recommendation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log to Knowledge Lake": {
+      "main": [
+        []
+      ]
+    },
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set Initial Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Course Recommendation": {
+      "main": [
+        [
+          {
+            "node": "Parse Course Recommendation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Course Recommendation": {
+      "main": [
+        [
+          {
+            "node": "Trigger Module Creation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trigger Module Creation": {
+      "main": [
+        [
+          {
+            "node": "Log to Knowledge Lake",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "versionId": "4f6daaf1-1598-454d-b6c6-7782169a208e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fef6caac326c0a4720dfab3ee1ef35ca62d3251d9fffea7995d4c705314b21ec"
+  },
+  "id": "UvJTbMRoqFSzvql7",
+  "tags": []
+}

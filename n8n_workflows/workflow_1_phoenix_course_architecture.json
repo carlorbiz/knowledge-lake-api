@@ -1,0 +1,233 @@
+{
+  "name": "1. Phoenix Course Architecture Generator",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificSheet",
+        "sheetName": {
+          "__rl": true,
+          "value": "Form responses 2",
+          "mode": "list",
+          "cachedResultName": "Form responses 2"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "id": "trigger-form-responses",
+      "name": "Trigger: New Course Request",
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "claude-sonnet-4-0",
+        "options": {
+          "temperature": 0.3,
+          "maxTokens": 4096
+        },
+        "systemMessage": "You are an expert instructional designer creating professional learning and development courses for diverse audiences across multiple industries.",
+        "text": "=CREATE COMPREHENSIVE COURSE ARCHITECTURE\n\nCONTEXT:\n- User Request: {{ $json['Please describe the course you would like to see created'] }}\n- Target Audience: {{ $json['Audience Type '] }}\n- Industry Context: {{ $json['Audience Type '].includes('Healthcare') ? 'Australian Healthcare' : $json['Audience Type '].includes('Executive') ? 'Corporate/Executive' : 'Professional Development' }}\n\nAUDIENCE-SPECIFIC APPROACH:\n{{ $json['Audience Type '] === 'Healthcare Clinical' ? '- Focus on AHPRA, NMBA, NSQHS standards\\n- Clinical practice applications\\n- Evidence-based healthcare frameworks\\n- Patient safety and quality care' : '' }}\n{{ $json['Audience Type '] === 'Healthcare Operational' ? '- Focus on operational efficiency\\n- Process improvement methodologies\\n- Healthcare administration standards\\n- Workflow optimization' : '' }}\n{{ $json['Audience Type '] === 'Healthcare Management' ? '- Focus on management competencies\\n- Team leadership frameworks\\n- Performance management\\n- Resource allocation' : '' }}\n{{ $json['Audience Type '].includes('Leadership') ? '- Focus on strategic leadership\\n- Governance and decision-making\\n- Organizational transformation\\n- Executive frameworks' : '' }}\n{{ !$json['Audience Type '].includes('Healthcare') && !$json['Audience Type '].includes('Leadership') ? '- Focus on professional development\\n- Industry best practices\\n- Workplace application\\n- Career advancement' : '' }}\n\nTASK:\n1. Analyze user's request for learning needs\n2. Design 8-12 module course structure\n3. Define clear learning progression\n4. Identify research foundations needed\n5. Create audience-appropriate content strategy\n\nCRITICAL OUTPUT RULES:\n- Return ONLY valid JSON\n- NO markdown code blocks\n- NO explanatory text\n\nEXACT JSON STRUCTURE:\n{\n  \"courseTitle\": \"Professional course title for {{ $json['Audience Type '] }}\",\n  \"courseDescription\": \"2-3 sentence overview explaining value for {{ $json['Audience Type '] }}\",\n  \"targetAudience\": \"{{ $json['Audience Type '] }}\",\n  \"learningOutcomes\": [\n    \"Outcome 1 using Bloom's taxonomy for {{ $json['Audience Type '] }}\",\n    \"Outcome 2 with measurable competency for this audience\",\n    \"Outcome 3 aligned with professional standards for {{ $json['Audience Type '] }}\"\n  ],\n  \"researchFoundation\": \"Describe evidence base and theoretical frameworks relevant to {{ $json['Audience Type '] }}. Include industry standards, regulatory frameworks, and best practices.\",\n  \"modules\": [\n    {\n      \"moduleNumber\": 1,\n      \"moduleName\": \"Module title appropriate for {{ $json['Audience Type '] }}\",\n      \"moduleSummary\": \"Brief description of what this module covers for this audience\",\n      \"estimatedDuration\": \"30-45 minutes\"\n    }\n  ]\n}\n\nCREATE COURSE ARCHITECTURE AND RETURN ONLY THE JSON."
+      },
+      "id": "parse-course-recommendation",
+      "name": "1. Generate Course Architecture",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1,
+      "position": [460, 300],
+      "credentials": {
+        "anthropicApi": {
+          "id": "ANTHROPIC_CREDENTIAL_ID",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Parse Anthropic response and extract course data\nlet rawResponse = '';\n\n// Handle different Anthropic response formats\nif ($json.choices && $json.choices[0]) {\n  rawResponse = $json.choices[0].message.content;\n} else if ($json.content && Array.isArray($json.content)) {\n  rawResponse = $json.content[0].text;\n} else if ($json.text) {\n  rawResponse = $json.text;\n} else if (typeof $json === 'string') {\n  rawResponse = $json;\n} else {\n  return [{ json: {\n    error: 'Unknown Anthropic response format',\n    structure: Object.keys($json),\n    raw: JSON.stringify($json).substring(0, 500)\n  }}];\n}\n\n// Clean response\nrawResponse = rawResponse.replace(/<think>[\\s\\S]*?<\\/think>/gi, '');\nrawResponse = rawResponse.replace(/```json\\n?/g, '').replace(/```\\n?/g, '');\nrawResponse = rawResponse.trim();\n\n// Parse JSON\nlet courseData;\ntry {\n  courseData = JSON.parse(rawResponse);\n} catch (e) {\n  return [{ json: {\n    error: 'JSON parse failed',\n    parseError: e.message,\n    rawResponse: rawResponse.substring(0, 1000)\n  }}];\n}\n\n// Get original form data\nconst originalData = $('Trigger: New Course Request').item.json;\n\n// Return parsed course architecture\nreturn [{\n  json: {\n    course_title: courseData.courseTitle,\n    course_description: courseData.courseDescription,\n    target_audience: courseData.targetAudience,\n    learning_outcomes: JSON.stringify(courseData.learningOutcomes),\n    research_foundation: courseData.researchFoundation,\n    modules: JSON.stringify(courseData.modules),\n    module_count: courseData.modules.length,\n    original_request: originalData['Please describe the course you would like to see created'],\n    audience_type: originalData['Audience Type '],\n    timestamp: new Date().toISOString()\n  }\n}];\n"
+      },
+      "id": "clean-course-response",
+      "name": "2. Parse Course Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Concept to Course Requests"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Course Architecture",
+          "mode": "list",
+          "cachedResultName": "Course Architecture"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $json.timestamp }}",
+            "Course Title": "={{ $json.course_title }}",
+            "Course Description": "={{ $json.course_description }}",
+            "Target Audience": "={{ $json.target_audience }}",
+            "Learning Outcomes": "={{ $json.learning_outcomes }}",
+            "Research Foundation": "={{ $json.research_foundation }}",
+            "Modules": "={{ $json.modules }}",
+            "Module Count": "={{ $json.module_count }}",
+            "Original Request": "={{ $json.original_request }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "write-course-architecture",
+      "name": "3. Write to Course Architecture Tab",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [900, 300],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Extract individual modules for processing\nconst courseData = $json;\nconst modules = JSON.parse(courseData.modules);\n\nconst outputs = [];\n\nfor (const module of modules) {\n  outputs.push({\n    json: {\n      module_number: module.moduleNumber,\n      module_title: module.moduleName,\n      module_summary: module.moduleSummary,\n      estimated_duration: module.estimatedDuration,\n      course_title: courseData.course_title,\n      target_audience: courseData.target_audience,\n      audience_type: courseData.audience_type,\n      research_foundation: courseData.research_foundation,\n      timestamp: courseData.timestamp\n    }\n  });\n}\n\nreturn outputs;\n"
+      },
+      "id": "extract-modules",
+      "name": "4. Extract Individual Modules",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Concept to Course Requests"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Module Queue",
+          "mode": "list",
+          "cachedResultName": "Module Queue"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $json.timestamp }}",
+            "Course Title": "={{ $json.course_title }}",
+            "Module Number": "={{ $json.module_number }}",
+            "Module Title": "={{ $json.module_title }}",
+            "Module Summary": "={{ $json.module_summary }}",
+            "Estimated Duration": "={{ $json.estimated_duration }}",
+            "Target Audience": "={{ $json.target_audience }}",
+            "Audience Type": "={{ $json.audience_type }}",
+            "Research Foundation": "={{ $json.research_foundation }}",
+            "Status": "Ready for Processing"
+          }
+        },
+        "options": {}
+      },
+      "id": "write-module-queue",
+      "name": "5. Write to Module Queue",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [1340, 300],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Trigger: New Course Request": {
+      "main": [
+        [
+          {
+            "node": "1. Generate Course Architecture",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1. Generate Course Architecture": {
+      "main": [
+        [
+          {
+            "node": "2. Parse Course Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. Parse Course Response": {
+      "main": [
+        [
+          {
+            "node": "3. Write to Course Architecture Tab",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3. Write to Course Architecture Tab": {
+      "main": [
+        [
+          {
+            "node": "4. Extract Individual Modules",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4. Extract Individual Modules": {
+      "main": [
+        [
+          {
+            "node": "5. Write to Module Queue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-03T00:00:00.000Z",
+  "versionId": "1"
+}

@@ -1,0 +1,1819 @@
+/**
+ * ========================================
+ * MODULE CONTENT GENERATOR - PURE GOOGLE
+ * ========================================
+ * 
+ * Generates educational module content using:
+ * - User research (NotebookLM + Gems)
+ * - Gemini API for content generation
+ * - Writes to Master Workbook Audio tab
+ * 
+ * ONE ROW PER MODULE - easy archiving
+ */
+
+// ========================================
+// CONFIGURATION
+// ========================================
+
+const SCRIPT_PROPS = PropertiesService.getScriptProperties();
+
+const CONFIG = {
+  // API Keys
+  GEMINI_API_KEY: SCRIPT_PROPS.getProperty('GEMINI_API_KEY'),
+  MASTER_WORKBOOK_ID: SCRIPT_PROPS.getProperty('MASTER_WORKBOOK_ID'),
+  
+  // Sheet names
+  SHEET_MODULE_QUEUE: 'Module Queue',
+  SHEET_CONTENT_COMPLETE: 'Module Content Complete',
+  SHEET_ARCHIVES: 'Archived Courses',
+  
+  // API Endpoint
+  GEMINI_ENDPOINT: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent',
+  
+  // Rate limiting (milliseconds)
+  DELAY_BETWEEN_REQUESTS: 2500,  // 2.5 seconds between API calls
+  DELAY_BETWEEN_MODULES: 5000    // 5 seconds between modules
+};
+
+// ========================================
+// AUDIENCE TYPE MAPPINGS
+// ========================================
+
+const AUDIENCE_MAPPINGS = {
+  'Healthcare Clinical': {
+    requirements: 'AHPRA registration, NMBA standards compliance, clinical competency',
+    standards: 'AHPRA, NMBA, NSQHS Standards, Clinical Practice Guidelines',
+    tone: 'Clinical precision with evidence-based practice focus',
+    setting: 'clinical practice',
+    frameworks: 'NMBA Standards for Practice, NSQHS Standards',
+    assessmentFramework: 'Miller\'s Pyramid (Clinical)',
+    levels: ['KNOWS', 'KNOWS HOW', 'SHOWS HOW', 'DOES']
+  },
+  
+  'Healthcare Administrative': {
+    requirements: 'Healthcare operations management, administrative compliance',
+    standards: 'NSQHS Standards, Healthcare operational frameworks',
+    tone: 'Operational efficiency with patient safety focus',
+    setting: 'healthcare administration',
+    frameworks: 'NSQHS Standards, Healthcare operational frameworks',
+    assessmentFramework: 'Competency Levels (Administrative)',
+    levels: ['Foundational Knowledge', 'Applied Understanding', 'Demonstrated Competence', 'Expert Application']
+  },
+  
+  'Healthcare Combined': {
+    requirements: 'Clinical and administrative competency, integrated healthcare delivery',
+    standards: 'AHPRA, NMBA, NSQHS Standards, Healthcare operational frameworks',
+    tone: 'Balanced clinical and operational focus',
+    setting: 'integrated healthcare practice',
+    frameworks: 'NMBA Standards, NSQHS Standards, Operational frameworks',
+    assessmentFramework: 'Integrated Competency Framework',
+    levels: ['Foundation', 'Application', 'Integration', 'Excellence']
+  }
+};
+
+// ========================================
+// MENU FUNCTIONS
+// ========================================
+
+function onOpen() {
+  const ui = SpreadsheetApp.getUi();
+  ui.createMenu('📚 Module Generator')
+    .addItem('▶️ Process "Next" Module', 'processNextModule')
+    .addSeparator()
+    .addItem('📊 Show Module Queue Status', 'showModuleQueueStatus')
+    .addItem('⚙️ Settings', 'showSettings')
+    .addToUi();
+}
+
+// ========================================
+// SETTINGS
+// ========================================
+
+function showSettings() {
+  const geminiDisplay = CONFIG.GEMINI_API_KEY ? CONFIG.GEMINI_API_KEY.substring(0, 10) + '...' : '❌ NOT SET';
+  const masterDisplay = CONFIG.MASTER_WORKBOOK_ID ? CONFIG.MASTER_WORKBOOK_ID.substring(0, 15) + '...' : '❌ NOT SET';
+
+  const html = HtmlService.createHtmlOutput(`
+    <style>
+      body { font-family: Arial, sans-serif; padding: 20px; }
+      h3 { color: #1a73e8; }
+      .status { padding: 10px; margin: 10px 0; border-radius: 4px; }
+      .ok { background: #e6f4ea; border-left: 4px solid #34a853; }
+      .error { background: #fce8e6; border-left: 4px solid #ea4335; }
+      code { background: #f1f3f4; padding: 2px 6px; border-radius: 3px; }
+    </style>
+    
+    <h3>⚙️ Module Generator Settings</h3>
+
+    <div class="status ${CONFIG.GEMINI_API_KEY ? 'ok' : 'error'}">
+      <strong>Gemini API Key:</strong> ${geminiDisplay}
+    </div>
+    
+    <div class="status ${CONFIG.MASTER_WORKBOOK_ID ? 'ok' : 'error'}">
+      <strong>Master Workbook ID:</strong> ${masterDisplay}
+    </div>
+
+    <h4>How to Update Script Properties</h4>
+    <ol>
+      <li>Go to <strong>Extensions → Apps Script</strong></li>
+      <li>Click <strong>Project Settings</strong> (⚙️ icon on left)</li>
+      <li>Scroll to <strong>Script Properties</strong></li>
+      <li>Add properties:
+        <ul>
+          <li><code>GEMINI_API_KEY</code> - Your Gemini API key</li>
+          <li><code>MASTER_WORKBOOK_ID</code> - ID from Master Concept-to-Course spreadsheet URL</li>
+        </ul>
+      </li>
+      <li>Save and reload sheet</li>
+    </ol>
+    
+    <h4>Current Configuration</h4>
+    <p><strong>Module Queue Sheet:</strong> ${CONFIG.SHEET_MODULE_QUEUE}</p>
+    <p><strong>Content Complete Sheet:</strong> ${CONFIG.SHEET_CONTENT_COMPLETE}</p>
+    <p><strong>Archives Sheet:</strong> ${CONFIG.SHEET_ARCHIVES}</p>
+    <p><strong>Rate Limiting:</strong> ${CONFIG.DELAY_BETWEEN_REQUESTS}ms between API calls</p>
+  `).setWidth(600).setHeight(500);
+
+  SpreadsheetApp.getUi().showModalDialog(html, '⚙️ Settings');
+}
+
+// ========================================
+// MAIN PROCESSING
+// ========================================
+
+/**
+ * Process next module with Status = "Next"
+ */
+function processNextModule() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const moduleQueue = ss.getSheetByName(CONFIG.SHEET_MODULE_QUEUE);
+
+  if (!moduleQueue) {
+    SpreadsheetApp.getUi().alert('Error', `Sheet "${CONFIG.SHEET_MODULE_QUEUE}" not found.`, SpreadsheetApp.getUi().ButtonSet.OK);
+    return;
+  }
+
+  // Find first module with Status = "Next"
+  const data = moduleQueue.getDataRange().getValues();
+  const headerRow = data[0];
+  const statusCol = headerRow.indexOf('Status');
+
+  if (statusCol === -1) {
+    SpreadsheetApp.getUi().alert('Error', 'Status column not found in Module Queue.', SpreadsheetApp.getUi().ButtonSet.OK);
+    return;
+  }
+
+  let nextModuleRow = null;
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][statusCol] === 'Next') {
+      nextModuleRow = {
+        rowIndex: i + 1,
+        data: data[i],
+        headers: headerRow
+      };
+      break;
+    }
+  }
+
+  if (!nextModuleRow) {
+    SpreadsheetApp.getUi().alert('No Module Found', 'No module with Status = "Next" found in Module Queue.', SpreadsheetApp.getUi().ButtonSet.OK);
+    return;
+  }
+
+  const moduleNumber = nextModuleRow.data[headerRow.indexOf('Module Number')];
+  const moduleTitle = nextModuleRow.data[headerRow.indexOf('Module Title')];
+
+  try {
+    // CHECK RESEARCH FIRST
+    const researchCheck = checkAndPrepareResearch(nextModuleRow);
+    
+    if (!researchCheck.hasResearch) {
+      // Research brief created, user needs to complete it
+      Logger.log('Waiting for user to complete research...');
+      return;  // Exit - user will run again after completing research
+    }
+
+    // CONTINUE WITH AUTOMATION
+    const ui = SpreadsheetApp.getUi();
+    const response = ui.alert(
+      'Process Module',
+      `Process Module ${moduleNumber}: ${moduleTitle}?\n\n✓ Research complete\n\nThis will:\n1. Generate 12 slides (Gemini)\n2. Generate LMS document (Gemini)\n3. Generate workbook (Gemini)\n4. Generate assessments (Gemini)\n5. Write to Master Workbook Audio tab\n6. Save to Module Content Complete\n\nEstimated time: ~3-4 minutes\n\n⚠️ Don't close this window during processing.`,
+      ui.ButtonSet.YES_NO
+    );
+
+    if (response !== ui.Button.YES) return;
+
+    // Show progress
+    SpreadsheetApp.getActiveSpreadsheet().toast('Starting module generation...', '⏳ Processing', 5);
+
+    // Generate content
+    const contentResult = generateModuleContent(nextModuleRow, researchCheck);
+
+    if (!contentResult.success) {
+      throw new Error('Content generation failed: ' + contentResult.error);
+    }
+
+    // Success!
+    ui.alert('Success',
+      `✅ Module ${moduleNumber} complete!\n\n` +
+      `✓ 12 slides generated (content points + image prompts)\n` +
+      `✓ LMS document created (with rationale, key concepts, citations)\n` +
+      `✓ Premium workbook materials (with glossary & templates)\n` +
+      `✓ Case studies (2-3 realistic scenarios)\n` +
+      `✓ Assessments generated (MCQs + Role-Plays + Audio Scripts)\n` +
+      `✓ Written to Master Workbook Audio tab (Status: Pending)\n` +
+      `✓ Saved to Module Content Complete\n\n` +
+      `📋 Next: Go to Master Workbook Audio tab and run enhancement + audio generation`,
+      ui.ButtonSet.OK);
+
+  } catch (error) {
+    Logger.log('Error processing module: ' + error.message);
+    SpreadsheetApp.getUi().alert('Error', 'Failed to process module:\n\n' + error.message + '\n\nCheck Apps Script logs for details.', SpreadsheetApp.getUi().ButtonSet.OK);
+  }
+}
+
+// ========================================
+// RESEARCH WORKFLOW
+// ========================================
+
+/**
+ * Check if module has research, if not create research brief
+ */
+function checkAndPrepareResearch(moduleRow) {
+  const { data, headers } = moduleRow;
+  const moduleNumber = data[headers.indexOf('Module Number')];
+  const moduleTitle = data[headers.indexOf('Module Title')];
+  const audienceType = data[headers.indexOf('Audience Type')];
+  const coreContent = data[headers.indexOf('Core Content Focus')];
+  const learningObjectives = data[headers.indexOf('Learning Objectives')];
+  const researchNotes = data[headers.indexOf('Research Notes')];
+
+  // Check for Citations column (Column M)
+  const citationsColIndex = headers.indexOf('Citations');
+  const citations = citationsColIndex !== -1 ? data[citationsColIndex] : '';
+
+  // If research exists, return it
+  if (researchNotes && researchNotes.trim().length > 100) {
+    Logger.log('Research notes found, continuing with automation');
+    return {
+      hasResearch: true,
+      summary: researchNotes,
+      citations: citations || '',
+      sources: ['User-provided research via Claude UI/Genspark/NotebookLM/Gems'],
+      method: 'manual'
+    };
+  }
+
+  // No research - create brief and pause
+  Logger.log('No research notes found, creating research brief');
+  const audienceConfig = AUDIENCE_MAPPINGS[audienceType] || AUDIENCE_MAPPINGS['Healthcare Combined'];
+  const researchBrief = createResearchBrief(moduleNumber, moduleTitle, audienceType, audienceConfig, coreContent, learningObjectives);
+  
+  const ui = SpreadsheetApp.getUi();
+  const htmlOutput = HtmlService.createHtmlOutput(`
+    <style>
+      body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; }
+      h2 { color: #1a73e8; margin-top: 0; }
+      .step { background: #f8f9fa; padding: 15px; margin: 15px 0; border-radius: 8px; border-left: 4px solid #1a73e8; }
+      .step h4 { margin-top: 0; color: #5f6368; }
+      .tools { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+      .tool-card { background: white; border: 2px solid #e8eaed; padding: 15px; border-radius: 8px; }
+      .tool-card h4 { color: #1a73e8; margin-top: 0; }
+      .tool-card ul { margin: 10px 0; padding-left: 20px; }
+      .tool-card ul li { margin: 5px 0; }
+      a { color: #1a73e8; text-decoration: none; font-weight: bold; }
+      a:hover { text-decoration: underline; }
+      button { background: #1a73e8; color: white; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; font-size: 14px; margin-top: 20px; }
+      button:hover { background: #1557b0; }
+      .tip { background: #e8f0fe; padding: 12px; border-radius: 4px; margin-top: 20px; font-size: 13px; color: #1967d2; }
+    </style>
+    
+    <h2>🔍 Research Required for Module ${moduleNumber}</h2>
+    <p><strong>${moduleTitle}</strong></p>
+    <p><em>Audience: ${audienceType}</em></p>
+    
+    <p>A research brief has been created. Complete the research using your preferred method, then paste results into the "Research Notes" column in Module Queue.</p>
+    
+    <div class="step">
+      <h4>📄 Step 1: Open Research Brief</h4>
+      <p><a href="${researchBrief.docUrl}" target="_blank">→ Open Research Brief Document</a></p>
+      <p style="font-size: 13px; color: #5f6368;">This document contains all the details you need for research.</p>
+    </div>
+    
+    <div class="tools">
+      <div class="tool-card">
+        <h4>💎 Option A: Use Gems</h4>
+        <p style="font-size: 13px; margin-bottom: 10px;">Quick web-based research with AI</p>
+        <ul style="font-size: 13px;">
+          <li>Copy research requirements from brief</li>
+          <li>Open your healthcare research Gem</li>
+          <li>Paste requirements and generate</li>
+          <li>Copy output for NotebookLM</li>
+        </ul>
+        <a href="https://gemini.google.com/gems" target="_blank" style="font-size: 13px;">→ Go to Gems</a>
+      </div>
+      
+      <div class="tool-card">
+        <h4>📚 Option B: Use NotebookLM</h4>
+        <p style="font-size: 13px; margin-bottom: 10px;">Deep analysis of your Drive sources</p>
+        <ul style="font-size: 13px;">
+          <li>Create new NotebookLM notebook</li>
+          <li>Point to relevant Drive folders/docs</li>
+          <li>Add AHPRA/NMBA/NSQHS sources</li>
+          <li>Paste Gem research if available</li>
+          <li>Generate comprehensive summary</li>
+        </ul>
+        <a href="https://notebooklm.google.com" target="_blank" style="font-size: 13px;">→ Go to NotebookLM</a>
+      </div>
+    </div>
+    
+    <div class="step">
+      <h4>✍️ Step 2: Paste Research into Module Queue</h4>
+      <ol style="font-size: 14px;">
+        <li>Copy your completed research summary (2500-3500 words)</li>
+        <li>Go to <strong>Module Queue</strong> sheet in this workbook</li>
+        <li>Find Module ${moduleNumber} row</li>
+        <li>Paste into <strong>"Research Notes"</strong> column (Column F)</li>
+        <li>Run <strong>📚 Module Generator → ▶️ Process "Next" Module</strong> again</li>
+      </ol>
+    </div>
+    
+    <div style="text-align: center;">
+      <button onclick="google.script.host.close()">I'll Complete the Research</button>
+    </div>
+    
+    <div class="tip">
+      💡 <strong>Tip:</strong> Use Gems for web research first, then add that to NotebookLM along with your internal Drive sources for a comprehensive research foundation.
+    </div>
+  `).setWidth(750).setHeight(700);
+  
+  ui.showModalDialog(htmlOutput, '🔍 Research Step Required');
+  
+  return {
+    hasResearch: false,
+    needsResearch: true,
+    researchBriefUrl: researchBrief.docUrl
+  };
+}
+
+/**
+ * Create research brief document for user
+ */
+function createResearchBrief(moduleNumber, moduleTitle, audienceType, audienceConfig, coreContent, learningObjectives) {
+  const researchDoc = DocumentApp.create(`Research Brief - Module ${moduleNumber} - ${moduleTitle}`);
+  const body = researchDoc.getBody();
+  
+  // Title
+  const titleStyle = {};
+  titleStyle[DocumentApp.Attribute.FONT_SIZE] = 18;
+  titleStyle[DocumentApp.Attribute.BOLD] = true;
+  titleStyle[DocumentApp.Attribute.FOREGROUND_COLOR] = '#1a73e8';
+  
+  body.appendParagraph(`RESEARCH BRIEF`).setAttributes(titleStyle);
+  body.appendParagraph(`Module ${moduleNumber}: ${moduleTitle}`).setHeading(DocumentApp.ParagraphHeading.HEADING2);
+  body.appendHorizontalRule();
+  
+  // Module Details
+  body.appendParagraph('MODULE DETAILS').setHeading(DocumentApp.ParagraphHeading.HEADING3);
+  body.appendParagraph(`Target Audience: ${audienceType}`);
+  body.appendParagraph(`Setting: ${audienceConfig.setting}`);
+  body.appendParagraph(`Core Content Focus: ${coreContent}`);
+  body.appendParagraph(`Learning Objectives: ${learningObjectives}`);
+  body.appendParagraph(`Standards Required: ${audienceConfig.standards}`);
+  body.appendParagraph(`Frameworks: ${audienceConfig.frameworks}`);
+  body.appendParagraph('');
+  
+  // Research Requirements
+  body.appendParagraph('RESEARCH REQUIREMENTS').setHeading(DocumentApp.ParagraphHeading.HEADING3);
+  const requirements = [
+    '1. CURRENT AUSTRALIAN HEALTHCARE BEST PRACTICE (2023-2025)',
+    '   • Evidence-based approaches',
+    '   • Latest guidelines and policy updates',
+    '   • Regulatory requirements',
+    '',
+    '2. RELEVANT AUSTRALIAN STANDARDS & FRAMEWORKS',
+    `   • ${audienceConfig.standards}`,
+    `   • ${audienceConfig.frameworks}`,
+    '   • Professional competency requirements',
+    '',
+    '3. KEY CONCEPTS & THEORETICAL FOUNDATION',
+    '   • Core principles and models',
+    '   • Evidence base and research',
+    '   • Clinical/operational frameworks',
+    '',
+    '4. PRACTICAL APPLICATIONS',
+    `   • Real-world examples from ${audienceConfig.setting}`,
+    '   • Implementation strategies',
+    '   • Common challenges and solutions',
+    '   • Australian case studies',
+    '',
+    '5. LEARNING RESOURCES & CITATIONS',
+    '   • Australian government health resources',
+    '   • Professional association guidelines',
+    '   • Peer-reviewed research (2020-2025)',
+    '   • Authoritative healthcare sources'
+  ];
+  requirements.forEach(req => body.appendParagraph(req));
+  body.appendParagraph('');
+  
+  // Output Requirements
+  body.appendParagraph('RESEARCH OUTPUT REQUIREMENTS').setHeading(DocumentApp.ParagraphHeading.HEADING3);
+  const output = [
+    '• Length: 2500-3500 words',
+    '• Australian English spelling (organised, colour, favour)',
+    '• Professional tone',
+    '• Evidence-based with citations',
+    '• Structured with clear sections',
+    '• Practical applications for ' + audienceConfig.setting,
+    '• Focus on current practice (2023-2025)'
+  ];
+  output.forEach(req => body.appendParagraph(req));
+  
+  body.appendHorizontalRule();
+  body.appendParagraph('').appendText('Generated: ' + new Date().toLocaleString()).setFontSize(10).setForegroundColor('#5f6368');
+  
+  return {
+    docUrl: researchDoc.getUrl(),
+    docId: researchDoc.getId()
+  };
+}
+
+// ========================================
+// CONTENT GENERATION
+// ========================================
+
+/**
+ * Generate all module content using Gemini
+ */
+function generateModuleContent(moduleRow, researchData) {
+  try {
+    const { data, headers, rowIndex } = moduleRow;
+    const moduleNumber = data[headers.indexOf('Module Number')];
+    const moduleTitle = data[headers.indexOf('Module Title')];
+    const audienceType = data[headers.indexOf('Audience Type')];
+    const learningObjectives = data[headers.indexOf('Learning Objectives')];
+    const coreContent = data[headers.indexOf('Core Content Focus')];
+
+    Logger.log(`Generating content for Module ${moduleNumber}: ${moduleTitle}`);
+
+    const audienceConfig = AUDIENCE_MAPPINGS[audienceType] || AUDIENCE_MAPPINGS['Healthcare Combined'];
+
+    // Step 1: Generate 12 slides
+    SpreadsheetApp.getActiveSpreadsheet().toast('Generating 12 slides...', '⏳ Step 1/4', 10);
+    Logger.log('Step 1: Generating 12 slides...');
+    const slidesData = generateTwelveSlides(moduleTitle, learningObjectives, coreContent, researchData, audienceConfig);
+    Utilities.sleep(CONFIG.DELAY_BETWEEN_REQUESTS);
+
+    // Step 2: Generate LMS document
+    SpreadsheetApp.getActiveSpreadsheet().toast('Generating LMS document...', '⏳ Step 2/4', 10);
+    Logger.log('Step 2: Generating LMS document...');
+    const lmsDocument = generateLMSDocument(moduleTitle, slidesData, audienceConfig, researchData);
+    Utilities.sleep(CONFIG.DELAY_BETWEEN_REQUESTS);
+
+    // Step 3: Generate workbook
+    SpreadsheetApp.getActiveSpreadsheet().toast('Generating workbook materials...', '⏳ Step 3/6', 10);
+    Logger.log('Step 3: Generating workbook materials...');
+    const workbookData = generateWorkbookMaterials(moduleTitle, slidesData, audienceConfig, researchData);
+    Utilities.sleep(CONFIG.DELAY_BETWEEN_REQUESTS);
+
+    // Step 4: Generate case studies
+    SpreadsheetApp.getActiveSpreadsheet().toast('Generating case studies...', '⏳ Step 4/6', 10);
+    Logger.log('Step 4: Generating case studies...');
+    const caseStudiesData = generateCaseStudies(moduleTitle, slidesData, audienceConfig, researchData);
+    Utilities.sleep(CONFIG.DELAY_BETWEEN_REQUESTS);
+
+    // Step 5: Generate assessments
+    SpreadsheetApp.getActiveSpreadsheet().toast('Generating assessments...', '⏳ Step 5/6', 10);
+    Logger.log('Step 5: Generating assessments...');
+    const assessmentData = generateAssessments(moduleTitle, slidesData, audienceConfig);
+    Utilities.sleep(CONFIG.DELAY_BETWEEN_REQUESTS);
+
+    // Step 6: Write to Master Workbook Audio tab
+    SpreadsheetApp.getActiveSpreadsheet().toast('Writing to Master Workbook...', '⏳ Step 6/6', 10);
+    Logger.log('Step 6: Writing to Master Workbook Audio tab...');
+    const audioTabLink = writeToMasterAudioTab(moduleNumber, moduleTitle, slidesData);
+
+    // Step 7: Write to Module Content Complete
+    Logger.log('Step 7: Writing to Module Content Complete...');
+    writeToContentComplete({
+      moduleNumber,
+      moduleTitle,
+      audienceType,
+      learningObjectives,
+      researchData,
+      slidesData,
+      lmsDocument,
+      workbookData,
+      caseStudiesData,
+      assessmentData,
+      audioTabLink
+    });
+
+    // Step 7: Update Module Queue status
+    const moduleQueue = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.SHEET_MODULE_QUEUE);
+    moduleQueue.getRange(rowIndex, headers.indexOf('Status') + 1).setValue('Content Generated');
+    moduleQueue.getRange(rowIndex, headers.indexOf('Last Updated') + 1).setValue(new Date());
+
+    Logger.log(`Module ${moduleNumber} content complete`);
+
+    return {
+      success: true,
+      moduleData: {
+        moduleNumber,
+        moduleTitle,
+        audienceType,
+        slidesData,
+        audioTabLink
+      }
+    };
+
+  } catch (error) {
+    Logger.log('Content generation error: ' + error.message);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Generate 12 slides using Gemini
+ */
+function generateTwelveSlides(moduleTitle, learningObjectives, coreContent, researchData, audienceConfig) {
+  if (!CONFIG.GEMINI_API_KEY) {
+    throw new Error('Gemini API key not configured');
+  }
+
+  // Trim inputs to stay within token limits while preserving key content
+  const maxResearchChars = 6000;  // ~1500 tokens
+  const maxObjectivesChars = 800;  // ~200 tokens
+
+  // Log if truncation occurs
+  if (researchData.summary.length > maxResearchChars) {
+    Logger.log(`⚠️ Research summary truncated: ${researchData.summary.length} → ${maxResearchChars} chars`);
+  }
+  if (learningObjectives.length > maxObjectivesChars) {
+    Logger.log(`⚠️ Learning objectives truncated: ${learningObjectives.length} → ${maxObjectivesChars} chars`);
+  }
+
+  const prompt = `Create a 12-slide module for Australian ${audienceConfig.setting}.
+
+Title: ${moduleTitle}
+Objectives: ${learningObjectives.substring(0, maxObjectivesChars)}
+Core: ${coreContent}
+Standards: ${audienceConfig.standards}
+
+Research Summary:
+${researchData.summary.substring(0, maxResearchChars)}${researchData.summary.length > maxResearchChars ? '\n...(research continues - key points extracted)' : ''}
+
+Generate EXACTLY 12 slides with this structure:
+
+**Slide 1: Title & Introduction**
+- Module title and key learning outcomes
+- Hook to engage learners
+
+**Slides 2-4: Foundation Concepts**
+- Core theoretical knowledge
+- Key frameworks and models
+- Evidence base
+
+**Slides 5-8: Application & Practice**
+- Practical implementation
+- Case examples from Australian ${audienceConfig.setting}
+- Real-world applications
+
+**Slides 9-10: Integration & Compliance**
+- Australian standards integration (${audienceConfig.standards})
+- Regulatory requirements
+- Best practice guidelines
+
+**Slide 11: Summary & Key Takeaways**
+- Main points recap
+- Critical success factors
+
+**Slide 12: Reflection & Next Steps**
+- Reflection questions
+- Further learning resources
+- Practice application
+
+CONTENT REQUIREMENTS:
+- 80-120 words per slide (concise but comprehensive)
+- Australian spelling (organised, colour, favour, centre)
+- Evidence-based, professionally rigorous
+- Reference ${audienceConfig.standards} standards
+- Include practical examples from ${audienceConfig.setting}
+- Professional tone for experienced practitioners
+
+JSON FORMAT (CRITICAL):
+Return ONLY a JSON array of exactly 12 objects with this structure:
+[
+  {
+    "slideNumber": 1,
+    "slideTitle": "Your Title Here",
+    "detailedContent": "Your 80-120 word content here..."
+  },
+  ...12 slides total
+]
+
+IMPORTANT JSON RULES:
+- Use double quotes for all strings
+- Escape special characters: \\" for quotes, \\n for newlines
+- Keep content on single line (no unescaped line breaks)
+- No trailing commas
+- Validate JSON structure before responding
+
+Return ONLY the JSON array. No markdown code blocks. No explanations.`;
+
+  const payload = {
+    contents: [{
+      parts: [{ text: prompt }]
+    }],
+    generationConfig: {
+      temperature: 0.3,  // Very low temperature for maximum reliability
+      maxOutputTokens: 16384,  // Maximum allowed for Gemini 2.0 Flash
+      responseMimeType: "application/json"
+    }
+  };
+
+  const options = {
+    method: 'post',
+    contentType: 'application/json',
+    headers: {
+      'x-goog-api-key': CONFIG.GEMINI_API_KEY
+    },
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true
+  };
+
+  try {
+    const response = UrlFetchApp.fetch(CONFIG.GEMINI_ENDPOINT, options);
+    const result = JSON.parse(response.getContentText());
+
+    if (result.candidates && result.candidates[0]) {
+      let text = result.candidates[0].content.parts[0].text;
+
+      // Strip markdown code blocks if Gemini added them
+      text = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+
+      let slides;
+      try {
+        slides = JSON.parse(text);
+      } catch (parseError) {
+        Logger.log('JSON parse error. Raw response (first 2000 chars):');
+        Logger.log(text.substring(0, 2000));
+        Logger.log('\nRaw response (last 500 chars):');
+        Logger.log(text.substring(Math.max(0, text.length - 500)));
+        Logger.log(`\nResponse length: ${text.length} characters`);
+
+        // Try to extract JSON array if Gemini added extra text
+        const jsonMatch = text.match(/\[\s*\{[\s\S]*\}\s*\]/);
+        if (jsonMatch) {
+          Logger.log('Attempting to extract JSON array from response...');
+          try {
+            slides = JSON.parse(jsonMatch[0]);
+            Logger.log(`✓ Successfully extracted JSON with ${slides.length} slides`);
+          } catch (extractError) {
+            throw new Error(`Failed to parse slides JSON: ${parseError.message}. Check execution log for raw response.`);
+          }
+        } else {
+          throw new Error(`Failed to parse slides JSON: ${parseError.message}. Check execution log for raw response.`);
+        }
+      }
+
+      if (slides.length === 12) {
+        Logger.log(`✓ Successfully generated 12 slides`);
+        return slides;
+      } else {
+        throw new Error(`Expected 12 slides, got ${slides.length}`);
+      }
+    } else {
+      throw new Error('Invalid Gemini response: ' + response.getContentText());
+    }
+  } catch (error) {
+    Logger.log('Gemini slides error: ' + error.message);
+    throw error;
+  }
+}
+
+/**
+ * Generate LMS document as MARKDOWN
+ */
+function generateLMSDocument(moduleTitle, slidesData, audienceConfig, researchData) {
+  if (!CONFIG.GEMINI_API_KEY) {
+    throw new Error('Gemini API key not configured');
+  }
+
+  const slidesSummary = slidesData.map(s => `Slide ${s.slideNumber}: ${s.slideTitle}\n${s.detailedContent.substring(0, 200)}...`).join('\n\n');
+
+  const prompt = `Create an LMS upload document in MARKDOWN format optimized for Absorb LMS AI "Create" tool.
+
+Module Title: ${moduleTitle}
+Audience: ${audienceConfig.setting}
+Standards: ${audienceConfig.standards}
+Frameworks: ${audienceConfig.frameworks}
+
+Research Foundation Summary:
+${researchData.summary.substring(0, 1500)}
+
+Citations (Vancouver style - use these in References section):
+${researchData.citations || 'No citations provided - extract from research summary'}
+
+Slides Overview:
+${slidesSummary}
+
+CRITICAL FOR ABSORB LMS AI:
+This document will be uploaded to Absorb LMS and processed by their AI "Create" tool to generate online course content.
+The AI must create EXACTLY 12 SCREENS/LESSONS matching the 12 slides structure below.
+Each "## Slide X:" heading represents ONE screen in the LMS course.
+The Absorb AI must preserve this slide-by-slide structure so voiceover files align perfectly.
+
+STRUCTURE (use this exact format):
+
+# ${moduleTitle}
+
+## Module Rationale
+
+**Why this module?**
+[2-3 paragraphs explaining the pedagogical justification, connection to research foundation, relevance to ${audienceConfig.setting}, and alignment with ${audienceConfig.standards}]
+
+## Learning Objectives
+- [Objective 1 - measurable, action-oriented]
+- [Objective 2]
+- [Objective 3]
+- [Objective 4]
+
+## Module Overview
+[2-3 paragraph introduction covering scope, key themes, and learning journey]
+
+## Key Concepts
+
+**[Concept/Term 1]:** Clear definition with Australian ${audienceConfig.setting} context
+**[Concept/Term 2]:** Definition and relevance
+**[Concept/Term 3]:** Definition
+[Continue for 8-12 core concepts learners must understand]
+
+---
+
+## Slide 1: [Title]
+
+**Key Points:**
+- [Point 1]
+- [Point 2]
+- [Point 3]
+
+**Learning Note:**
+[Brief explanation or context, with reference to Australian standards where relevant]
+
+---
+
+[Continue for all 12 slides with same structure]
+
+---
+
+## Module Summary
+
+**Key Takeaways:**
+- [Takeaway 1]
+- [Takeaway 2]
+- [Takeaway 3]
+- [Takeaway 4]
+
+**Reflection Questions:**
+1. [Application question for ${audienceConfig.setting} context]
+2. [Critical thinking question]
+3. [Practice planning question]
+
+---
+
+## Assessment Information
+
+This module includes:
+- **Knowledge Check:** 10 multiple choice questions across ${audienceConfig.assessmentFramework} competency levels
+- **Role-Play Scenarios:** 3 practical scenarios demonstrating higher-order competencies
+- **Workbook Activities:** Self-paced exercises and reflection prompts
+
+---
+
+## References
+
+[Extract 8-15 key sources from the research foundation and format in Vancouver style]
+
+1. [Author Surname Initials]. [Title of article]. [Journal Name]. [Year];[Volume]([Issue]):[Page range].
+2. [Organisation Name]. [Title of guideline/report]. [Location]: [Publisher]; [Year].
+3. [Continue with all relevant sources cited in the module content]
+
+[Use proper Vancouver formatting: https://www.imperial.ac.uk/media/imperial-college/administration-and-support-services/library/public/vancouver.pdf]
+
+---
+
+## Further Reading & Resources
+
+**Australian Standards & Guidelines:**
+- ${audienceConfig.standards}
+- ${audienceConfig.frameworks}
+- [Additional relevant standards]
+
+**Professional Resources:**
+- [Government health department resources]
+- [Professional association guidelines]
+- [Evidence-based practice resources]
+
+**Recommended Reading:**
+- [Recent peer-reviewed article (2023-2025)]
+- [Key textbook or authoritative resource]
+- [Practical guide or tool]
+
+---
+
+**Module developed for ${audienceConfig.setting} professionals**
+**Standards: ${audienceConfig.standards}**
+**Evidence-based content grounded in current Australian healthcare research and practice**
+
+CRITICAL REQUIREMENTS FOR ABSORB LMS AI COMPATIBILITY:
+
+**SLIDE STRUCTURE (CRITICAL):**
+- MUST have EXACTLY 12 "## Slide X:" sections (Slide 1 through Slide 12)
+- Each slide section represents ONE screen/lesson in Absorb LMS
+- Absorb AI will map each "## Slide X:" to a separate course screen
+- Slide numbers MUST be sequential 1-12 with NO gaps
+- Each slide MUST follow the exact format:
+  ## Slide X: [Title]
+  **Key Points:**
+  - [Point 1]
+  - [Point 2]
+  - [Point 3]
+  **Learning Note:**
+  [Brief context]
+  ---
+
+**CONTENT REQUIREMENTS:**
+- Use MARKDOWN formatting only (# ## ** - etc.)
+- Australian spelling throughout (organised, colour, favour, centre)
+- Professional tone for ${audienceConfig.setting}
+- CITATIONS: Extract actual sources from research foundation and format in Vancouver style
+- KEY CONCEPTS: Must be explicit glossary of core terms
+- MODULE RATIONALE: Must connect to research and pedagogical theory
+- All content evidence-based and aligned with ${audienceConfig.standards}
+
+**ABSORB LMS AI PARSING:**
+- Place front matter (rationale, objectives, overview, key concepts) BEFORE the slides
+- Place 12 slide sections in the MIDDLE (this is the core course content)
+- Place back matter (summary, assessment, references, resources) AFTER the slides
+- Use horizontal rules (---) to separate slide sections clearly
+- Ensure slide titles are descriptive and engaging (Absorb AI will use these as screen titles)
+
+**VOICEOVER ALIGNMENT:**
+The 12 slides in this document MUST exactly match the 12 voiceover audio files.
+Slide 1 in this document = Slide 1 audio file
+Slide 2 in this document = Slide 2 audio file
+...and so on through Slide 12.
+
+Provide complete markdown document ready for Absorb LMS upload.`;
+
+  const payload = {
+    contents: [{
+      parts: [{ text: prompt }]
+    }],
+    generationConfig: {
+      temperature: 0.7,
+      maxOutputTokens: 8192
+    }
+  };
+
+  const options = {
+    method: 'post',
+    contentType: 'application/json',
+    headers: {
+      'x-goog-api-key': CONFIG.GEMINI_API_KEY
+    },
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true
+  };
+
+  try {
+    const response = UrlFetchApp.fetch(CONFIG.GEMINI_ENDPOINT, options);
+    const result = JSON.parse(response.getContentText());
+
+    if (result.candidates && result.candidates[0]) {
+      const lmsDocument = result.candidates[0].content.parts[0].text;
+
+      // Validate LMS document has exactly 12 slides for Absorb AI compatibility
+      const slideMatches = lmsDocument.match(/## Slide \d+:/g);
+      const slideCount = slideMatches ? slideMatches.length : 0;
+
+      if (slideCount !== 12) {
+        Logger.log(`WARNING: LMS document has ${slideCount} slides instead of 12. Absorb AI may not align with voiceover files.`);
+        Logger.log('Slide headings found: ' + (slideMatches ? slideMatches.join(', ') : 'none'));
+      } else {
+        Logger.log(`✓ LMS document validated: exactly 12 slides for Absorb AI`);
+      }
+
+      return lmsDocument;
+    } else {
+      throw new Error('Invalid Gemini LMS response');
+    }
+  } catch (error) {
+    Logger.log('LMS document error: ' + error.message);
+    throw error;
+  }
+}
+
+/**
+ * Generate workbook materials using Gemini
+ */
+function generateWorkbookMaterials(moduleTitle, slidesData, audienceConfig, researchData) {
+  if (!CONFIG.GEMINI_API_KEY) {
+    throw new Error('Gemini API key not configured');
+  }
+
+  const slidesSummary = slidesData.map(s =>
+    `Slide ${s.slideNumber}: ${s.slideTitle}\nContent: ${s.detailedContent.substring(0, 150)}...`
+  ).join('\n\n');
+
+  const prompt = `Create comprehensive workbook materials in MARKDOWN format for this Australian healthcare education module.
+
+Module Title: ${moduleTitle}
+Audience: ${audienceConfig.setting}
+Standards: ${audienceConfig.standards}
+Tone: ${audienceConfig.tone}
+
+Research Foundation Summary:
+${researchData.summary.substring(0, 1500)}
+
+Module Content (12 Slides):
+${slidesSummary}
+
+Generate comprehensive workbook materials with this structure:
+
+# ${moduleTitle} - Learner Workbook
+
+## Pre-Module Reflection
+
+**Before beginning this module, consider:**
+
+1. [Self-assessment question about current knowledge]
+2. [Question about learning goals]
+3. [Question about workplace application opportunities]
+
+---
+
+## Section 1: Foundation Concepts (Slides 1-4)
+
+### Key Concepts Summary
+[Brief summary of main concepts]
+
+### Memory Aid
+[Mnemonic or framework diagram described in text]
+
+### Practice Activity: [Activity Title]
+**Scenario:**
+[Realistic case study from ${audienceConfig.setting}]
+
+**Your Task:**
+1. [Task 1]
+2. [Task 2]
+3. [Task 3]
+
+**Reflection:**
+[Reflection prompt]
+
+---
+
+## Section 2: Application & Practice (Slides 5-8)
+
+### Key Concepts Summary
+[Brief summary]
+
+### Practice Activity: [Activity Title]
+[Another realistic scenario and questions]
+
+---
+
+## Section 3: Integration & Compliance (Slides 9-10)
+
+### Key Concepts Summary
+[Brief summary]
+
+### Standards Checklist
+- [ ] [Standard/requirement 1 from ${audienceConfig.standards}]
+- [ ] [Standard/requirement 2]
+- [ ] [Standard/requirement 3]
+- [ ] [Standard/requirement 4]
+
+### Practice Activity: [Activity Title]
+[Compliance-focused scenario from ${audienceConfig.setting}]
+
+---
+
+## Section 4: Summary & Application (Slides 11-12)
+
+### Key Concepts Summary
+[Brief summary]
+
+### Reflection Activity
+[Final integrative reflection prompt]
+
+---
+
+## Module Summary & Action Planning
+
+### Key Takeaways
+1. [Key point 1 with connection to ${audienceConfig.standards}]
+2. [Key point 2]
+3. [Key point 3]
+4. [Key point 4]
+
+### Glossary of Key Terms
+
+**[Term 1]:** Clear definition with Australian ${audienceConfig.setting} context
+**[Term 2]:** Definition
+**[Term 3]:** Definition
+[Continue for 8-12 core concepts from the module]
+
+### Self-Assessment
+
+**Rate your confidence (1-5) with these competencies:**
+
+| Competency | Before Module | After Module |
+|------------|---------------|--------------|
+| [Competency 1 linked to learning objective] | ☐☐☐☐☐ | ☐☐☐☐☐ |
+| [Competency 2] | ☐☐☐☐☐ | ☐☐☐☐☐ |
+| [Competency 3] | ☐☐☐☐☐ | ☐☐☐☐☐ |
+| [Competency 4] | ☐☐☐☐☐ | ☐☐☐☐☐ |
+
+### Action Plan
+
+**What will I implement in practice?**
+
+**Immediate Actions (this week):**
+1. _________________________________
+2. _________________________________
+3. _________________________________
+
+**Short-term Goals (this month):**
+1. _________________________________
+2. _________________________________
+
+**Long-term Development (next 3 months):**
+1. _________________________________
+2. _________________________________
+
+**Success Indicators:**
+How will I know I'm successfully applying this learning?
+- _________________________________
+- _________________________________
+- _________________________________
+
+---
+
+## Professional Tools & Templates
+
+### Tool 1: [Quick Reference Checklist]
+[Practical checklist template learners can use immediately in ${audienceConfig.setting}]
+
+### Tool 2: [Decision Framework]
+[Template or framework for applying module concepts]
+
+### Tool 3: [Documentation Template]
+[Practical template aligned with ${audienceConfig.standards}]
+
+---
+
+## Resources for Further Learning
+
+### Australian Standards & Guidelines
+- **${audienceConfig.standards}:** [Brief description of relevance]
+- **${audienceConfig.frameworks}:** [Brief description]
+- [Additional relevant Australian healthcare standards]
+
+### Professional Resources
+
+**Government & Regulatory Bodies:**
+- [Australian Government Health Department resources relevant to topic]
+- [State-based health authority resources if applicable]
+- [Professional regulatory body resources]
+
+**Professional Associations:**
+- [Relevant professional association resources]
+- [Clinical or operational guidelines]
+- [Professional development resources]
+
+### Evidence-Based Resources
+
+**Recent Research (2023-2025):**
+- [Recent peer-reviewed article title and brief relevance description]
+- [Key Australian research or guideline publication]
+- [International best practice resource applicable to Australian context]
+
+**Practical Guides:**
+- [Practical implementation guide or toolkit]
+- [Case study collection or resource]
+
+**Online Learning:**
+- [Free webinar or online course relevant to topic]
+- [Podcast or video series if applicable]
+
+### Further Reading
+
+**Essential:**
+- [Must-read article or resource for deepening understanding]
+
+**Recommended:**
+- [Valuable additional reading]
+- [Alternative perspective or approach]
+
+**For Deep Dive:**
+- [Comprehensive textbook or authoritative reference]
+
+---
+
+## Notes & Personal Insights
+
+[Blank space for learner's own notes, observations, and connections to their practice]
+
+---
+
+**This workbook is designed for ${audienceConfig.setting} professionals**
+**Aligned with ${audienceConfig.standards}**
+**Evidence-based content supporting professional development and practice excellence**
+
+---
+
+CRITICAL REQUIREMENTS:
+- Use Australian spelling throughout (organised, colour, favour, centre)
+- All activities must be practical and immediately applicable to ${audienceConfig.setting}
+- Align with ${audienceConfig.frameworks}
+- Include specific Australian examples
+- Professional tone for experienced professionals
+- MARKDOWN format ready for LMS or PDF conversion
+- Length: 2500-3500 words
+- GLOSSARY: Must include explicit definitions of 8-12 key terms
+- TOOLS: Must include 3 practical templates/checklists usable in practice
+- RESOURCES: Must be comprehensive, current (2023-2025), and annotated with relevance
+- SELF-ASSESSMENT: Must link directly to module learning objectives
+- ACTION PLANNING: Must be structured and practical
+- All content evidence-based and aligned with ${audienceConfig.standards}
+
+Provide complete workbook as markdown document ready for learner use.`;
+
+  const payload = {
+    contents: [{
+      parts: [{ text: prompt }]
+    }],
+    generationConfig: {
+      temperature: 0.8,
+      maxOutputTokens: 8192
+    }
+  };
+
+  const options = {
+    method: 'post',
+    contentType: 'application/json',
+    headers: {
+      'x-goog-api-key': CONFIG.GEMINI_API_KEY
+    },
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true
+  };
+
+  try {
+    const response = UrlFetchApp.fetch(CONFIG.GEMINI_ENDPOINT, options);
+    const result = JSON.parse(response.getContentText());
+
+    if (result.candidates && result.candidates[0]) {
+      return result.candidates[0].content.parts[0].text;
+    } else {
+      throw new Error('Invalid Gemini workbook response');
+    }
+  } catch (error) {
+    Logger.log('Workbook generation error: ' + error.message);
+    throw error;
+  }
+}
+
+/**
+ * Generate case studies for workbook (2-3 realistic scenarios)
+ */
+function generateCaseStudies(moduleTitle, slidesData, audienceConfig, researchData) {
+  if (!CONFIG.GEMINI_API_KEY) {
+    throw new Error('Gemini API key not configured');
+  }
+
+  const slidesSummary = slidesData.map(s =>
+    `Slide ${s.slideNumber}: ${s.slideTitle}\n${s.detailedContent.substring(0, 150)}...`
+  ).join('\n\n');
+
+  const prompt = `Create 2-3 detailed case studies in MARKDOWN format for this Australian healthcare education module.
+
+Module Title: ${moduleTitle}
+Audience: ${audienceConfig.setting}
+Standards: ${audienceConfig.standards}
+Tone: ${audienceConfig.tone}
+
+Research Foundation Summary:
+${researchData.summary.substring(0, 1500)}
+
+Module Content:
+${slidesSummary}
+
+Generate 2-3 comprehensive case studies that:
+- Reflect realistic ${audienceConfig.setting} scenarios
+- Incorporate key concepts from the module
+- Challenge learners to apply knowledge
+- Include Australian healthcare context
+- Reference ${audienceConfig.standards} where relevant
+
+# Case Studies: ${moduleTitle}
+
+## Case Study 1: [Engaging Title]
+
+### Scenario Description (150-200 words)
+[Detailed workplace scenario in Australian ${audienceConfig.setting}. Include:
+- Setting and context
+- Key stakeholders involved
+- Relevant background information
+- Situational details that create complexity
+- Cultural and regulatory context (Australian healthcare system)]
+
+### Challenge/Problem Statement
+[Clear description of the central issue or dilemma the learner must address. Include:
+- Multiple factors to consider
+- No single "correct" answer
+- Alignment with module learning objectives
+- Real-world complexity from ${audienceConfig.setting}]
+
+### Discussion Questions
+
+1. **[Application Question]**
+   [Question that requires applying module concepts to the scenario]
+
+2. **[Analysis Question]**
+   [Question that requires breaking down the situation and identifying key factors]
+
+3. **[Critical Thinking Question]**
+   [Question that explores different perspectives or alternative approaches]
+
+4. **[Standards/Compliance Question]**
+   [Question relating to ${audienceConfig.standards} or regulatory requirements]
+
+5. **[Reflection Question]**
+   [Question connecting scenario to learner's own practice context]
+
+### Teaching Notes (For Facilitators)
+
+**Key Learning Points:**
+- [Main concept 1 from module this case demonstrates]
+- [Main concept 2]
+- [Main concept 3]
+
+**Common Misconceptions to Address:**
+- [Misconception 1 learners might have]
+- [Misconception 2]
+
+**Discussion Facilitation Tips:**
+- [Tip for leading discussion productively]
+- [Tip for drawing out different perspectives]
+- [Tip for connecting to standards]
+
+**Suggested Approach/Model Answer:**
+[Brief outline of a competent response demonstrating application of module concepts. Should reference ${audienceConfig.standards} where relevant and show evidence-based decision making.]
+
+**Relevant Standards:**
+- ${audienceConfig.standards}
+- [Specific standard clauses if applicable]
+
+---
+
+## Case Study 2: [Engaging Title]
+
+[Repeat same structure as Case Study 1]
+
+---
+
+## Case Study 3: [Engaging Title]
+
+[Repeat same structure as Case Study 1]
+
+---
+
+CRITICAL REQUIREMENTS:
+- Use Australian spelling throughout (organised, colour, favour, centre)
+- All scenarios must be authentic to ${audienceConfig.setting}
+- Include cultural safety considerations where appropriate
+- Reference ${audienceConfig.standards} explicitly
+- Scenarios should vary in complexity and focus area
+- Each case must clearly connect to specific module learning objectives
+- Discussion questions must promote higher-order thinking
+- Teaching notes must be practical and actionable
+- MARKDOWN format ready for workbook inclusion
+- Length: Each case study 600-800 words total
+- Ensure diversity of scenarios (different settings, populations, challenges)
+
+Provide complete case studies document ready to include in learner workbook.`;
+
+  const payload = {
+    contents: [{
+      parts: [{ text: prompt }]
+    }],
+    generationConfig: {
+      temperature: 0.8,
+      maxOutputTokens: 8192
+    }
+  };
+
+  const options = {
+    method: 'post',
+    contentType: 'application/json',
+    headers: {
+      'x-goog-api-key': CONFIG.GEMINI_API_KEY
+    },
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true
+  };
+
+  try {
+    const response = UrlFetchApp.fetch(CONFIG.GEMINI_ENDPOINT, options);
+    const result = JSON.parse(response.getContentText());
+
+    if (result.candidates && result.candidates[0]) {
+      return result.candidates[0].content.parts[0].text;
+    } else {
+      throw new Error('Invalid Gemini case studies response');
+    }
+  } catch (error) {
+    Logger.log('Case studies generation error: ' + error.message);
+    throw error;
+  }
+}
+
+/**
+ * Generate assessments (MCQs + Role-Plays) using Gemini
+ */
+function generateAssessments(moduleTitle, slidesData, audienceConfig) {
+  if (!CONFIG.GEMINI_API_KEY) {
+    throw new Error('Gemini API key not configured');
+  }
+
+  const slidesSummary = slidesData.map(s =>
+    `Slide ${s.slideNumber}: ${s.slideTitle}\n${s.detailedContent.substring(0, 150)}...`
+  ).join('\n\n');
+
+  const prompt = `Create assessments for this Australian healthcare module using ${audienceConfig.assessmentFramework}.
+
+Module Title: ${moduleTitle}
+Audience: ${audienceConfig.setting}
+Framework: ${audienceConfig.assessmentFramework}
+Competency Levels: ${audienceConfig.levels.join(' → ')}
+
+Module Content:
+${slidesSummary}
+
+Generate assessments in JSON format:
+
+## PART 1: 10 MULTIPLE CHOICE QUESTIONS
+
+Create exactly 10 MCQs distributed across competency levels:
+- ${audienceConfig.levels[0]}: 3 questions (recall/knowledge)
+- ${audienceConfig.levels[1]}: 3 questions (application/understanding)  
+- ${audienceConfig.levels[2]}: 2 questions (analysis/demonstration)
+- ${audienceConfig.levels[3]}: 2 questions (synthesis/expert practice)
+
+For each MCQ provide this exact structure:
+{
+  "questionNumber": 1,
+  "level": "exact competency level name from list above",
+  "question": "Clear scenario-based question relevant to ${audienceConfig.setting}. Use Australian context and spelling.",
+  "options": ["A) option text", "B) option text", "C) option text", "D) option text"],
+  "correctAnswer": "A",
+  "rationale": "Detailed explanation of why this answer is correct and why others are incorrect. Reference Australian standards where relevant."
+}
+
+Note: correctAnswer must be exactly one letter: A, B, C, or D
+
+## PART 2: 3 ROLE-PLAY SCENARIOS
+
+Create 3 detailed role-play scenarios for higher-level competencies.
+
+For each scenario provide this exact structure:
+{
+  "scenarioNumber": 1,
+  "level": "${audienceConfig.levels[2]} or ${audienceConfig.levels[3]}",
+  "title": "Brief descriptive scenario title",
+  "context": "Detailed background and setting in Australian ${audienceConfig.setting}. Include all relevant details participants need to understand the scenario.",
+  "roleDescription": "Clear description of participant's role, responsibilities, and objectives in this scenario",
+  "challengePoints": [
+    "Specific challenge 1 they must address",
+    "Specific challenge 2 they must address",
+    "Specific challenge 3 they must address"
+  ],
+  "successCriteria": [
+    "Criterion 1 for successful performance",
+    "Criterion 2 for successful performance",
+    "Criterion 3 for successful performance"
+  ],
+  "assessorGuidance": "Detailed guidance for assessor on what to observe, how to evaluate performance, and what constitutes competent performance. Include reference to ${audienceConfig.standards} where relevant."
+}
+
+## PART 3: iSPRING AUDIO SCRIPTS
+
+Create audio narration scripts for iSpring Suite Max integration. These will be used to generate professional voiceover for the assessment experience.
+
+For audio scripts provide this exact structure:
+{
+  "assessmentIntro": "Welcome script (60-90 seconds, 150-225 words) introducing the assessment component. Explain that learners will complete 10 multiple choice questions and 3 role-play scenarios to demonstrate their understanding and application of the module concepts. Professional, encouraging Australian voice.",
+
+  "quizFeedback": {
+    "correctGeneric": "Generic positive feedback script (20-30 seconds, 50-75 words) for correct answers. Warm, encouraging Australian professional tone. Reinforce that they've demonstrated good understanding.",
+    "incorrectGeneric": "Generic constructive feedback script (20-30 seconds, 50-75 words) for incorrect answers. Supportive Australian professional tone. Encourage review and reflection without discouragement."
+  },
+
+  "rolePlayIntros": [
+    {
+      "scenarioNumber": 1,
+      "introNarration": "Introduction script (60-90 seconds, 150-225 words) for role-play scenario 1. Explain the context, the learner's role, and what they need to demonstrate. Build anticipation and confidence. Professional Australian voice.",
+      "transitionNarration": "Brief transition script (15-20 seconds, 40-50 words) before the scenario begins. 'When you're ready...' style. Warm, supportive Australian voice.",
+      "debriefNarration": "Debrief introduction script (30-45 seconds, 75-110 words) after scenario completion. Prepare them to reflect on their performance and review feedback. Encouraging Australian professional tone."
+    },
+    {
+      "scenarioNumber": 2,
+      "introNarration": "Introduction script for role-play scenario 2 (same specifications as scenario 1)",
+      "transitionNarration": "Transition script for scenario 2",
+      "debriefNarration": "Debrief script for scenario 2"
+    },
+    {
+      "scenarioNumber": 3,
+      "introNarration": "Introduction script for role-play scenario 3 (same specifications as scenario 1)",
+      "transitionNarration": "Transition script for scenario 3",
+      "debriefNarration": "Debrief script for scenario 3"
+    }
+  ]
+}
+
+CRITICAL REQUIREMENTS:
+- Align with Australian healthcare standards: ${audienceConfig.standards}
+- Use Australian spelling throughout (organised, colour, favour, centre)
+- Make scenarios realistic for ${audienceConfig.setting}
+- Include cultural safety considerations where appropriate
+- Questions must test understanding and application, not just recall
+- Role-plays must reflect real workplace challenges
+- All 10 MCQs must have exactly 4 options (A, B, C, D)
+- All 3 role-plays must have exactly 3 challenge points and 3 success criteria
+
+REQUIRED OUTPUT FORMAT:
+{
+  "mcqs": [
+    {
+      "questionNumber": 1,
+      "level": "level name",
+      "question": "question text",
+      "options": ["A) text", "B) text", "C) text", "D) text"],
+      "correctAnswer": "A",
+      "rationale": "rationale text"
+    }
+    // ... 9 more MCQ objects (10 total)
+  ],
+  "rolePlayScenarios": [
+    {
+      "scenarioNumber": 1,
+      "level": "level name",
+      "title": "title text",
+      "context": "context text",
+      "roleDescription": "role text",
+      "challengePoints": ["point 1", "point 2", "point 3"],
+      "successCriteria": ["criterion 1", "criterion 2", "criterion 3"],
+      "assessorGuidance": "guidance text"
+    }
+    // ... 2 more scenario objects (3 total)
+  ],
+  "audioScripts": {
+    "assessmentIntro": "welcome script text 150-225 words",
+    "quizFeedback": {
+      "correctGeneric": "positive feedback script 50-75 words",
+      "incorrectGeneric": "constructive feedback script 50-75 words"
+    },
+    "rolePlayIntros": [
+      {
+        "scenarioNumber": 1,
+        "introNarration": "intro script 150-225 words",
+        "transitionNarration": "transition script 40-50 words",
+        "debriefNarration": "debrief script 75-110 words"
+      },
+      {
+        "scenarioNumber": 2,
+        "introNarration": "intro script 150-225 words",
+        "transitionNarration": "transition script 40-50 words",
+        "debriefNarration": "debrief script 75-110 words"
+      },
+      {
+        "scenarioNumber": 3,
+        "introNarration": "intro script 150-225 words",
+        "transitionNarration": "transition script 40-50 words",
+        "debriefNarration": "debrief script 75-110 words"
+      }
+    ]
+  }
+}
+
+AUDIO SCRIPT CRITICAL REQUIREMENTS:
+- All audio scripts must be conversational Australian English
+- Professional healthcare educator tone - warm, encouraging, supportive
+- Word counts MUST be followed for proper timing
+- Scripts ready for immediate TTS generation (no pronunciation guides needed here)
+- Assessment intro should welcome learners and set expectations
+- Quiz feedback should be generic but meaningful
+- Role-play narration should build confidence and clarity
+- Use flowing paragraphs, not bullet points
+- Australian spelling throughout
+
+CRITICAL: Respond ONLY with valid JSON matching the structure above. No markdown code blocks. No additional text. Pure JSON only.`;
+
+  const payload = {
+    contents: [{
+      parts: [{ text: prompt }]
+    }],
+    generationConfig: {
+      temperature: 0.7,
+      maxOutputTokens: 8192,
+      responseMimeType: "application/json"
+    }
+  };
+
+  const options = {
+    method: 'post',
+    contentType: 'application/json',
+    headers: {
+      'x-goog-api-key': CONFIG.GEMINI_API_KEY
+    },
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true
+  };
+
+  try {
+    const response = UrlFetchApp.fetch(CONFIG.GEMINI_ENDPOINT, options);
+    const result = JSON.parse(response.getContentText());
+
+    if (result.candidates && result.candidates[0]) {
+      let text = result.candidates[0].content.parts[0].text;
+      
+      // Strip markdown code blocks if Gemini added them despite instructions
+      text = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+      
+      const assessments = JSON.parse(text);
+      
+      // Validate structure
+      if (!assessments.mcqs || !Array.isArray(assessments.mcqs)) {
+        throw new Error('Invalid assessment structure - mcqs missing or not an array');
+      }
+
+      if (!assessments.rolePlayScenarios || !Array.isArray(assessments.rolePlayScenarios)) {
+        throw new Error('Invalid assessment structure - rolePlayScenarios missing or not an array');
+      }
+
+      if (!assessments.audioScripts || typeof assessments.audioScripts !== 'object') {
+        Logger.log('Warning: audioScripts missing or invalid - adding empty structure');
+        assessments.audioScripts = {
+          assessmentIntro: '',
+          quizFeedback: { correctGeneric: '', incorrectGeneric: '' },
+          rolePlayIntros: []
+        };
+      }
+
+      if (assessments.mcqs.length !== 10) {
+        Logger.log(`Warning: Expected 10 MCQs, got ${assessments.mcqs.length}`);
+      }
+
+      if (assessments.rolePlayScenarios.length !== 3) {
+        Logger.log(`Warning: Expected 3 role-play scenarios, got ${assessments.rolePlayScenarios.length}`);
+      }
+
+      if (assessments.audioScripts.rolePlayIntros && assessments.audioScripts.rolePlayIntros.length !== 3) {
+        Logger.log(`Warning: Expected 3 role-play intro scripts, got ${assessments.audioScripts.rolePlayIntros.length}`);
+      }
+
+      Logger.log(`Assessment generation successful: ${assessments.mcqs.length} MCQs, ${assessments.rolePlayScenarios.length} scenarios, audio scripts included: ${!!assessments.audioScripts.assessmentIntro}`);
+
+      return assessments;
+    } else {
+      throw new Error('Invalid Gemini assessment response: ' + response.getContentText());
+    }
+  } catch (error) {
+    Logger.log('Assessment generation error: ' + error.message);
+    Logger.log('Full error details: ' + JSON.stringify(error));
+    throw error;
+  }
+}
+
+// ========================================
+// WRITE TO SHEETS
+// ========================================
+
+/**
+ * Write slides to Master Workbook Audio tab
+ * Checks for existing module and updates or appends
+ */
+function writeToMasterAudioTab(moduleNumber, moduleTitle, slidesData) {
+  const masterWorkbookId = CONFIG.MASTER_WORKBOOK_ID;
+  const audioTabName = 'Audio';
+  
+  if (!masterWorkbookId) {
+    throw new Error('MASTER_WORKBOOK_ID not set in Script Properties. Go to Project Settings to add it.');
+  }
+  
+  try {
+    const masterWorkbook = SpreadsheetApp.openById(masterWorkbookId);
+    const audioTab = masterWorkbook.getSheetByName(audioTabName);
+    
+    if (!audioTab) {
+      throw new Error(`Audio tab not found in Master Workbook. Expected tab name: "${audioTabName}"`);
+    }
+    
+    // Search Column G (Module Number) for this module
+    const moduleNumberCol = 7; // Column G
+    const lastRow = audioTab.getLastRow();
+    
+    let startRow = null;
+    
+    if (lastRow > 1) {
+      const moduleNumbers = audioTab.getRange(2, moduleNumberCol, lastRow - 1, 1).getValues();
+      
+      // Check if module already exists
+      for (let i = 0; i < moduleNumbers.length; i++) {
+        if (moduleNumbers[i][0] === moduleNumber) {
+          startRow = i + 2; // Found existing module
+          Logger.log(`Module ${moduleNumber} found at row ${startRow}, updating...`);
+          break;
+        }
+      }
+    }
+    
+    // If not found, append after last row
+    if (startRow === null) {
+      startRow = lastRow + 1;
+      Logger.log(`Module ${moduleNumber} not found, appending at row ${startRow}`);
+    }
+    
+    // Write 12 slides - each slide becomes a separate row
+    Logger.log(`Writing ${slidesData.length} slides to Audio tab starting at row ${startRow}`);
+
+    for (let i = 0; i < slidesData.length; i++) {
+      const slide = slidesData[i];
+      const rowIndex = startRow + i;
+
+      // Validate slide data
+      if (!slide.slideNumber || !slide.slideTitle || !slide.detailedContent) {
+        Logger.log(`WARNING: Slide ${i + 1} missing required fields. Slide data: ${JSON.stringify(slide)}`);
+        throw new Error(`Slide ${i + 1} is missing required fields (slideNumber, slideTitle, or detailedContent)`);
+      }
+
+      // Create raw slide content from detailed content for Audio_Tab_Enhanced.gs to process
+      const rawSlideContent = `**${slide.slideTitle}**\n\n${slide.detailedContent}`;
+
+      try {
+        audioTab.getRange(rowIndex, 1, 1, 18).setValues([[
+          slide.slideNumber,                    // A - Slide # (overall slide number)
+          '',                                   // B - Voiceover Script (will be generated by Audio tab enhancement)
+          '',                                   // C - Audio File (empty)
+          '',                                   // D - Image Prompt (will be generated by Audio tab enhancement)
+          '',                                   // E - Image File (empty)
+          '',                                   // F - Course ID (optional)
+          moduleNumber,                         // G - Module Number
+          slide.slideNumber,                    // H - Slide Number (within module, same as A)
+          moduleTitle,                          // I - Module Title
+          '',                                   // J - Course Title (optional)
+          '',                                   // K - Target Audience (optional)
+          slide.slideTitle,                     // L - Slide Title
+          '',                                   // M - Content Points (will be generated by Audio tab enhancement)
+          '',                                   // N - Timestamp (will be set by Audio tab)
+          'Pending',                            // O - Status (Audio_Tab_Enhanced will process this)
+          'Charon',                             // P - Voice Selection
+          '',                                   // Q - Slides PPT (empty)
+          rawSlideContent                       // R - Raw Slide Content (SOURCE for enhancement)
+        ]]);
+        Logger.log(`✓ Wrote slide ${slide.slideNumber} to row ${rowIndex}`);
+      } catch (writeError) {
+        Logger.log(`ERROR writing slide ${i + 1} to row ${rowIndex}: ${writeError.message}`);
+        throw new Error(`Failed to write slide ${i + 1}: ${writeError.message}`);
+      }
+    }
+
+    Logger.log(`Successfully wrote all ${slidesData.length} slides to Audio tab`);
+    
+    // Return the range link
+    const endRow = startRow + 11; // 12 slides
+    const rangeNotation = `A${startRow}:R${endRow}`;
+    const linkUrl = `https://docs.google.com/spreadsheets/d/${masterWorkbookId}/edit#gid=${audioTab.getSheetId()}&range=${rangeNotation}`;
+    
+    Logger.log(`Slides written to Master Workbook: ${rangeNotation}`);
+    
+    return {
+      startRow: startRow,
+      endRow: endRow,
+      rangeNotation: rangeNotation,
+      linkUrl: linkUrl,
+      linkText: `Rows ${startRow}-${endRow}`
+    };
+    
+  } catch (error) {
+    Logger.log('Error writing to Master Workbook: ' + error.message);
+    throw new Error(`Failed to write to Master Workbook Audio tab: ${error.message}\n\nCheck that MASTER_WORKBOOK_ID is correct in Script Properties.`);
+  }
+}
+
+/**
+ * Write all content to Module Content Complete sheet (ONE ROW)
+ */
+function writeToContentComplete(moduleData) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let contentSheet = ss.getSheetByName(CONFIG.SHEET_CONTENT_COMPLETE);
+
+  if (!contentSheet) {
+    contentSheet = ss.insertSheet(CONFIG.SHEET_CONTENT_COMPLETE);
+    contentSheet.appendRow([
+      'Module Number',
+      'Module Title',
+      'Audience Type',
+      'Learning Objectives',
+      'Research Summary',
+      'Slides JSON',
+      'LMS Document',
+      'Workbook Materials',
+      'Case Studies',
+      'MCQs JSON',
+      'Role-Play Scenarios JSON',
+      'Audio Scripts JSON',
+      'Generated Date',
+      'Audio Tab Link',
+      'Status'
+    ]);
+  }
+
+  // Create clickable hyperlink for Audio Tab
+  const audioLinkFormula = `=HYPERLINK("${moduleData.audioTabLink.linkUrl}", "${moduleData.audioTabLink.linkText}")`;
+
+  contentSheet.appendRow([
+    moduleData.moduleNumber,
+    moduleData.moduleTitle,
+    moduleData.audienceType,
+    moduleData.learningObjectives,
+    moduleData.researchData.summary.substring(0, 500) + '...',  // First 500 chars
+    JSON.stringify(moduleData.slidesData),
+    moduleData.lmsDocument,
+    moduleData.workbookData,
+    moduleData.caseStudiesData,
+    JSON.stringify(moduleData.assessmentData.mcqs),
+    JSON.stringify(moduleData.assessmentData.rolePlayScenarios),
+    JSON.stringify(moduleData.assessmentData.audioScripts || {}),
+    new Date().toISOString(),
+    audioLinkFormula,
+    'Ready'
+  ]);
+
+  Logger.log(`Module ${moduleData.moduleNumber} written to Content Complete`);
+}
+
+// ========================================
+// UTILITY FUNCTIONS
+// ========================================
+
+/**
+ * Show module queue status
+ */
+function showModuleQueueStatus() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const moduleQueue = ss.getSheetByName(CONFIG.SHEET_MODULE_QUEUE);
+
+  if (!moduleQueue) {
+    SpreadsheetApp.getUi().alert('Error', `Sheet "${CONFIG.SHEET_MODULE_QUEUE}" not found.`, SpreadsheetApp.getUi().ButtonSet.OK);
+    return;
+  }
+
+  const data = moduleQueue.getDataRange().getValues();
+  const headerRow = data[0];
+  const statusCol = headerRow.indexOf('Status');
+
+  if (statusCol === -1) {
+    SpreadsheetApp.getUi().alert('Error', 'Status column not found.', SpreadsheetApp.getUi().ButtonSet.OK);
+    return;
+  }
+
+  const statusCounts = {};
+  for (let i = 1; i < data.length; i++) {
+    const status = data[i][statusCol] || 'No Status';
+    statusCounts[status] = (statusCounts[status] || 0) + 1;
+  }
+
+  let message = `📊 Module Queue Status\n\nTotal Modules: ${data.length - 1}\n\n`;
+  
+  const statusOrder = ['Next', 'Queued', 'Content Generated', 'Done', 'Error'];
+  statusOrder.forEach(status => {
+    if (statusCounts[status]) {
+      message += `${status}: ${statusCounts[status]}\n`;
+    }
+  });
+
+  // Add any other statuses
+  Object.keys(statusCounts).forEach(status => {
+    if (!statusOrder.includes(status)) {
+      message += `${status}: ${statusCounts[status]}\n`;
+    }
+  });
+
+  SpreadsheetApp.getUi().alert('Queue Status', message, SpreadsheetApp.getUi().ButtonSet.OK);
+}

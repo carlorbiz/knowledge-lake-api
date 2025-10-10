@@ -1,0 +1,451 @@
+{
+  "name": "2. Module Content + Resources Generator",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificSheet",
+        "sheetName": {
+          "__rl": true,
+          "value": "Module Queue",
+          "mode": "list",
+          "cachedResultName": "Module Queue"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "id": "trigger-module-queue",
+      "name": "Trigger: Module Queue Row Added",
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 2,
+      "position": [240, 400],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Build audience-specific configuration\nconst audienceType = $json['Audience Type '] || 'Professional Development';\n\n// Define audience-specific content\nconst audienceConfig = {\n  'Healthcare Clinical': {\n    requirements: `- Focus on AHPRA, NMBA, NSQHS standards\n- Clinical practice applications\n- Evidence-based healthcare frameworks\n- Patient safety and quality care\n- Regulatory compliance for registered practitioners`,\n    standards: 'AHPRA, NMBA, NSQHS Standards',\n    tone: 'clinical, evidence-based',\n    setting: 'healthcare clinical',\n    frameworks: 'AHPRA Code of Conduct, NMBA Standards, NSQHS Standards'\n  },\n  'Healthcare Operational': {\n    requirements: `- Focus on operational efficiency\n- Process improvement methodologies\n- Healthcare administration standards\n- Team coordination and workflow optimization\n- Compliance for operational roles`,\n    standards: 'Australian Healthcare Operational Standards',\n    tone: 'operational, process-focused',\n    setting: 'healthcare administrative',\n    frameworks: 'Lean Healthcare, Six Sigma, Workflow Optimization'\n  },\n  'Healthcare Management': {\n    requirements: `- Focus on middle management competencies\n- Team leadership frameworks\n- Performance management\n- Resource allocation and budgeting\n- Change management in healthcare`,\n    standards: 'Healthcare Management Frameworks',\n    tone: 'leadership, management-focused',\n    setting: 'healthcare management',\n    frameworks: 'LEADS Framework, Team Performance, Resource Management'\n  },\n  'Healthcare Leadership': {\n    requirements: `- Focus on strategic leadership\n- Governance and board-level decision-making\n- Organizational transformation\n- Executive responsibility frameworks\n- Industry trends and innovation`,\n    standards: 'Healthcare Governance Standards',\n    tone: 'strategic, executive-level',\n    setting: 'healthcare boardroom',\n    frameworks: 'Healthcare Governance, Strategic Planning, Transformational Leadership'\n  },\n  'Executive Leadership': {\n    requirements: `- Focus on strategic planning and execution\n- Corporate governance principles\n- Financial acumen and business strategy\n- Stakeholder management\n- Board-level decision-making`,\n    standards: 'Corporate Governance Principles (ASX)',\n    tone: 'strategic, C-suite',\n    setting: 'executive boardroom',\n    frameworks: 'ASX Corporate Governance, Strategic Execution, Board Effectiveness'\n  },\n  'Professional Development': {\n    requirements: `- Focus on professional development\n- Industry best practices\n- Workplace application\n- Career advancement frameworks\n- Professional standards`,\n    standards: 'Industry Best Practices',\n    tone: 'professional, practical',\n    setting: 'professional workplace',\n    frameworks: 'Professional Development, Career Progression, Best Practices'\n  }\n};\n\n// Get config for this audience (fallback to Professional Development)\nconst config = audienceConfig[audienceType] || audienceConfig['Professional Development'];\n\nreturn [{\n  json: {\n    module_number: $json['Module Number'],\n    module_title: $json['Module Title'],\n    module_summary: $json['Module Summary'],\n    estimated_duration: $json['Estimated Duration'],\n    course_title: $json['Course Title'],\n    target_audience: $json['Target Audience'],\n    audience_type: audienceType,\n    research_foundation: $json['Research Foundation'],\n    audience_requirements: config.requirements,\n    audience_standards: config.standards,\n    audience_tone: config.tone,\n    audience_setting: config.setting,\n    audience_frameworks: config.frameworks,\n    timestamp: $json['Timestamp']\n  }\n}];\n"
+      },
+      "id": "build-audience-context",
+      "name": "1. Build Audience Context",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 400]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Split into TWO concurrent streams\nconst data = $json;\n\n// Return TWO items to create concurrent execution\nreturn [\n  {\n    json: {\n      ...data,\n      stream: 'content',\n      stream_description: 'Content Generation Stream (Perplexity → Gemini → LMS Upload)'\n    }\n  },\n  {\n    json: {\n      ...data,\n      stream: 'resources',\n      stream_description: 'Resources Generation Stream (Workbook Materials)'\n    }\n  }\n];\n"
+      },
+      "id": "split-concurrent-streams",
+      "name": "2. Split to Concurrent Streams",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.stream }}",
+              "operation": "equals",
+              "value2": "content"
+            }
+          ]
+        }
+      },
+      "id": "if-content-stream",
+      "name": "If Content Stream",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.stream }}",
+              "operation": "equals",
+              "value2": "resources"
+            }
+          ]
+        }
+      },
+      "id": "if-resources-stream",
+      "name": "If Resources Stream",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [900, 600]
+    },
+    {
+      "parameters": {
+        "model": "sonar-reasoning",
+        "options": {
+          "temperature": 0.3,
+          "maxTokens": 4000
+        },
+        "systemMessage": "You are an expert education researcher creating evidence-based content for professional development.",
+        "text": "=RESEARCH TASK: Deep analysis of \"{{ $json.module_title }}\" for {{ $json.audience_type }}\n\nCONTEXT:\n- Course: {{ $json.course_title }}\n- Module: {{ $json.module_title }}\n- Target Audience: {{ $json.audience_type }}\n- Research Foundation: {{ $json.research_foundation }}\n\nAUDIENCE-SPECIFIC REQUIREMENTS:\n{{ $json.audience_requirements }}\n\nREQUIREMENTS:\n1. Conduct comprehensive research on this specific module topic\n2. Focus on {{ $json.audience_type }} context and applications\n3. Prioritize peer-reviewed sources and professional guidelines from last 5 years\n4. Extract evidence-based frameworks and methodologies\n5. Identify practical applications for {{ $json.audience_type }}\n\nCRITICAL OUTPUT RULES:\n- Return ONLY valid JSON\n- NO <think> tags\n- NO markdown code blocks\n- NO explanatory text before or after JSON\n\nEXACT JSON STRUCTURE:\n{\n  \"moduleNumber\": {{ $json.module_number }},\n  \"moduleTitle\": \"{{ $json.module_title }}\",\n  \"enhancedSummary\": \"Write 350-400 words of evidence-based content for {{ $json.audience_type }}. Include frameworks, {{ $json.audience_standards }}, and practical applications relevant to this audience.\",\n  \"learningObjectives\": [\n    \"Measurable objective 1 using Bloom's taxonomy for {{ $json.audience_type }}\",\n    \"Measurable objective 2 with clear competency outcome for this audience\",\n    \"Measurable objective 3 aligned with {{ $json.audience_type }} professional standards\",\n    \"Measurable objective 4 focused on practical application in {{ $json.audience_type }} context\"\n  ],\n  \"keyConcepts\": [\n    \"Evidence-based concept 1 relevant to {{ $json.audience_type }}\",\n    \"Professional framework concept 2 for this audience\",\n    \"{{ $json.audience_standards }} concept 3\",\n    \"Practical application concept 4\"\n  ],\n  \"enhancedContentAreas\": [\n    \"Theoretical foundations relevant to {{ $json.audience_type }}\",\n    \"{{ $json.audience_standards }} requirements and applications\",\n    \"Practical implementation strategies for {{ $json.audience_type }}\"\n  ],\n  \"visualOpportunities\": [\n    \"Framework or model visualization for {{ $json.audience_type }}\",\n    \"Process or decision flow relevant to this audience\"\n  ],\n  \"professionalResources\": [\n    \"{{ $json.audience_standards }} reference or guideline\",\n    \"Professional association resource for {{ $json.audience_type }}\"\n  ],\n  \"citations\": [\n    \"Author(s). Title. Journal/Source. Year;Volume(Issue):Pages. DOI/URL\",\n    \"Author(s). Title. Journal/Source. Year;Volume(Issue):Pages. DOI/URL\"\n  ]\n}\n\nBEGIN RESEARCH AND RETURN ONLY THE JSON OBJECT ABOVE."
+      },
+      "id": "enhanced-research-perplexity",
+      "name": "3a. Enhanced Research (Perplexity)",
+      "type": "n8n-nodes-base.perplexity",
+      "typeVersion": 1,
+      "position": [1120, 200],
+      "credentials": {
+        "perplexityApi": {
+          "id": "PERPLEXITY_CREDENTIAL_ID",
+          "name": "Perplexity account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Clean and parse Perplexity response\nlet rawResponse = '';\n\n// Handle different Perplexity response formats\nif ($json.choices && $json.choices[0]) {\n  rawResponse = $json.choices[0].message.content;\n} else if ($json.content) {\n  rawResponse = $json.content;\n} else if ($json.text) {\n  rawResponse = $json.text;\n} else if (typeof $json === 'string') {\n  rawResponse = $json;\n} else {\n  return [{ json: {\n    error: 'Unknown Perplexity format',\n    structure: Object.keys($json),\n    raw: JSON.stringify($json).substring(0, 500)\n  }}];\n}\n\n// Strip <think> tags (case-insensitive, multiline)\nrawResponse = rawResponse.replace(/<think>[\\s\\S]*?<\\/think>/gi, '');\n\n// Remove markdown code blocks\nrawResponse = rawResponse.replace(/```json\\n?/g, '').replace(/```\\n?/g, '');\n\n// Trim whitespace\nrawResponse = rawResponse.trim();\n\n// Parse JSON\nlet enhanced;\ntry {\n  enhanced = JSON.parse(rawResponse);\n} catch (e) {\n  return [{ json: {\n    error: 'JSON parse failed',\n    parseError: e.message,\n    rawResponse: rawResponse.substring(0, 1000)\n  }}];\n}\n\n// Get original data\nconst originalData = $('1. Build Audience Context').item.json;\n\nreturn [{\n  json: {\n    ...enhanced,\n    course_title: originalData.course_title,\n    audience_type: originalData.audience_type,\n    audience_requirements: originalData.audience_requirements,\n    audience_standards: originalData.audience_standards,\n    audience_tone: originalData.audience_tone,\n    audience_setting: originalData.audience_setting,\n    audience_frameworks: originalData.audience_frameworks,\n    research_foundation: originalData.research_foundation,\n    timestamp: originalData.timestamp\n  }\n}];\n"
+      },
+      "id": "clean-perplexity-response",
+      "name": "4a. Clean Perplexity Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1340, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=YOUR_GEMINI_API_KEY_HERE",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "contents",
+              "value": "={{ [{\"parts\": [{\"text\": \"CREATE PROFESSIONAL SLIDES for \\\"\" + $json.moduleTitle + \"\\\" targeting \" + $json.audience_type + \"\\n\\nCONTEXT:\\n- Module: \" + $json.moduleTitle + \"\\n- Target Audience: \" + $json.audience_type + \"\\n- Enhanced Summary: \" + $json.enhancedSummary + \"\\n- Learning Objectives: \" + JSON.stringify($json.learningObjectives) + \"\\n- Key Concepts: \" + JSON.stringify($json.keyConcepts) + \"\\n\\nAUDIENCE-SPECIFIC TONE:\\nUse \" + $json.audience_tone + \" language appropriate for \" + $json.audience_type + \".\\n\\nSLIDE CREATION RULES:\\n1. Create EXACTLY 12 slides (no more, no less)\\n2. Slide 1: Module introduction and objectives for \" + $json.audience_type + \"\\n3. Slides 2-10: Core content for this specific audience\\n4. Slide 11: Practical application and examples for \" + $json.audience_type + \"\\n5. Slide 12: Summary and transition\\n\\nCONTENT REQUIREMENTS:\\n- 3-5 clear bullet points per slide\\n- Language appropriate for \" + $json.audience_type + \"\\n- Professional tone matching audience seniority\\n\\nVOICEOVER SCRIPT REQUIREMENTS:\\n- 2-3 minutes spoken length (300-450 words)\\n- Conversational style appropriate for \" + $json.audience_type + \"\\n- Explain concepts clearly for this audience level\\n- Use terminology familiar to \" + $json.audience_type + \"\\n\\nIMAGE PROMPT REQUIREMENTS:\\n- Professional imagery suitable for \" + $json.audience_type + \"\\n- CRITICAL: NO TEXT visible in image description\\n- Professional \" + $json.audience_setting + \" settings\\n- Culturally appropriate and diverse\\n\\nCRITICAL OUTPUT RULES:\\n- Return ONLY valid JSON\\n- NO <think> tags\\n- NO markdown code blocks\\n- EXACTLY 12 slides\\n\\nEXACT JSON STRUCTURE:\\n{\\n  \\\"slides\\\": [\\n    {\\n      \\\"slideNumber\\\": 1,\\n      \\\"slideTitle\\\": \\\"Introduction to \" + $json.moduleTitle + \"\\\",\\n      \\\"contentPoints\\\": [\\n        \\\"Opening point relevant to \" + $json.audience_type + \"\\\",\\n        \\\"Context-setting for this audience\\\",\\n        \\\"Preview of what \" + $json.audience_type + \" will learn\\\"\\n      ],\\n      \\\"presenterNotes\\\": \\\"2-3 sentences about presenting to \" + $json.audience_type + \"\\\",\\n      \\\"voiceoverScript\\\": \\\"Write 300-450 words as natural spoken script for \" + $json.audience_type + \". Start: 'Welcome to [module]. As [audience type], you'll discover...' Use language and examples appropriate for \" + $json.audience_type + \".\\\",\\n      \\\"imagePrompt\\\": \\\"Professional \" + $json.audience_setting + \" image. Diverse professionals. NO text visible.\\\"\\n    }\\n  ]\\n}\\n\\nCREATE ALL 12 SLIDES FOR \" + $json.audience_type + \" AND RETURN ONLY THE JSON.\"}]}] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "generate-slides-gemini",
+      "name": "5a. Generate Slides (Gemini)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1560, 200]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Parse Gemini response (multiple format handling)\nlet rawResponse = '';\n\n// Try different Gemini response structures\nif ($json.candidates && $json.candidates[0]) {\n  rawResponse = $json.candidates[0].content.parts[0].text;\n} else if ($json.content && $json.content.parts) {\n  rawResponse = $json.content.parts[0].text;\n} else if ($json.text) {\n  rawResponse = $json.text;\n} else if (typeof $json === 'string') {\n  rawResponse = $json;\n} else {\n  return [{ json: {\n    error: 'Unknown Gemini format',\n    structure: Object.keys($json),\n    raw: JSON.stringify($json).substring(0, 500)\n  }}];\n}\n\n// Clean response\nrawResponse = rawResponse.replace(/<think>[\\s\\S]*?<\\/think>/gi, '');\nrawResponse = rawResponse.replace(/```json\\n?/g, '').replace(/```\\n?/g, '');\nrawResponse = rawResponse.trim();\n\n// Parse JSON\nlet slideData;\ntry {\n  slideData = JSON.parse(rawResponse);\n} catch (e) {\n  return [{ json: {\n    error: 'JSON parse failed',\n    parseError: e.message,\n    rawResponse: rawResponse.substring(0, 1000)\n  }}];\n}\n\n// Get module data\nconst moduleData = $('4a. Clean Perplexity Response').item.json;\n\nreturn [{\n  json: {\n    ...moduleData,\n    slides: slideData.slides || []\n  }\n}];\n"
+      },
+      "id": "parse-gemini-slides",
+      "name": "6a. Parse Gemini Slides",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1780, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=YOUR_GEMINI_API_KEY_HERE",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "contents",
+              "value": "={{ [{\"parts\": [{\"text\": \"CREATE PROFESSIONAL LMS UPLOAD DOCUMENT for ABSORB CREATE\\n\\nMODULE INFORMATION:\\n- Module Number: \" + $json.moduleNumber + \"\\n- Module Title: \" + $json.moduleTitle + \"\\n- Course: \" + $json.course_title + \"\\n- Target Audience: \" + $json.audience_type + \"\\n- Enhanced Summary: \" + $json.enhancedSummary + \"\\n- Learning Objectives: \" + JSON.stringify($json.learningObjectives) + \"\\n- Key Concepts: \" + JSON.stringify($json.keyConcepts) + \"\\n- Number of Slides: \" + ($json.slides ? $json.slides.length : 0) + \"\\n\\nTASK: Create a professional, formatted document for upload to ABSORB CREATE LMS.\\n\\nDOCUMENT STRUCTURE:\\n\\n# Module \" + $json.moduleNumber + \": \" + $json.moduleTitle + \"\\n\\n## Module Overview\\n[Write 2-3 paragraphs describing this module for \" + $json.audience_type + \". Include why it matters, what they'll learn, and how it applies to their role.]\\n\\n## Target Audience\\n\" + $json.audience_type + \"\\n\\n## Learning Objectives\\nUpon completion of this module, learners will be able to:\\n[List all learning objectives from the module data]\\n\\n## Module Components\\n\\n### Professional Slides (\" + ($json.slides ? $json.slides.length : 0) + \" slides)\\n[Describe the slide content and flow for \" + $json.audience_type + \"]\\n\\n### Voiceover Narration\\n[Describe the voiceover approach and tone for \" + $json.audience_type + \"]\\n\\n### Visual Design\\n[Describe the visual approach appropriate for \" + $json.audience_setting + \"]\\n\\n### Assessments\\n[Describe the assessment approach - note that assessments are generated separately and will be integrated]\\n\\n### Workbook Materials\\n[Describe the workbook components - note that workbook is generated separately and will be integrated]\\n\\n## Key Concepts Covered\\n[List and briefly explain each key concept for \" + $json.audience_type + \"]\\n\\n## Professional Standards Referenced\\n\" + $json.audience_standards + \"\\n\\n## Estimated Completion Time\\nApproximately 30-45 minutes\\n\\n## Technical Specifications\\n- Format: SCORM 1.2 compliant\\n- Slides: 12 professional slides with voiceover\\n- Assessments: Miller's Pyramid competency-based (integrated separately)\\n- Workbook: Comprehensive PDF workbook (integrated separately)\\n- Accessibility: WCAG 2.1 AA compliant\\n\\n## Upload Instructions for ABSORB CREATE\\n1. Upload this module as new course content\\n2. Integrate assessment package (generated separately)\\n3. Attach workbook PDF as downloadable resource\\n4. Set completion criteria: View all slides + Pass assessment (80%+)\\n5. Enable certificate upon completion\\n\\n---\\n\\n*Module created for \" + $json.audience_type + \" using evidence-based instructional design.*\\n*Standards: \" + $json.audience_standards + \"*\\n\\nCRITICAL OUTPUT RULES:\\n- Return ONLY the formatted markdown text\\n- NO JSON structure\\n- NO code blocks\\n- Professional formatting ready for LMS upload\\n\\nCREATE THE LMS UPLOAD DOCUMENT NOW.\"}]}] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "generate-lms-upload",
+      "name": "7a. Generate LMS Upload Document",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2000, 200]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Parse LMS Upload response\nlet lmsText = '';\n\nif ($json.candidates && $json.candidates[0]) {\n  lmsText = $json.candidates[0].content.parts[0].text;\n} else if ($json.content && $json.content.parts) {\n  lmsText = $json.content.parts[0].text;\n} else if ($json.text) {\n  lmsText = $json.text;\n} else if (typeof $json === 'string') {\n  lmsText = $json;\n} else {\n  lmsText = 'Error: Could not parse LMS upload document';\n}\n\n// Clean any stray markdown code blocks\nlmsText = lmsText.replace(/```markdown\\n?/g, '').replace(/```\\n?/g, '').trim();\n\nconst moduleData = $('6a. Parse Gemini Slides').item.json;\n\nreturn [{\n  json: {\n    ...moduleData,\n    lms_upload_text: lmsText\n  }\n}];\n"
+      },
+      "id": "parse-lms-upload",
+      "name": "8a. Parse LMS Upload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2220, 200]
+    },
+    {
+      "parameters": {
+        "model": "claude-sonnet-4-0",
+        "options": {
+          "temperature": 0.3,
+          "maxTokens": 8000
+        },
+        "systemMessage": "=You are an expert instructional designer creating sophisticated workbook materials for {{ $json.audience_type }}.",
+        "text": "=CREATE COMPREHENSIVE WORKBOOK MATERIALS for \"{{ $json.module_title }}\"\n\nCONTEXT:\n- Module: {{ $json.module_title }}\n- Course: {{ $json.course_title }}\n- Target Audience: {{ $json.audience_type }}\n- Enhanced Summary: {{ $json.enhancedSummary }}\n- Learning Objectives: {{ JSON.stringify($json.learningObjectives) }}\n- Key Concepts: {{ JSON.stringify($json.keyConcepts) }}\n- Standards: {{ $json.audience_standards }}\n- Frameworks: {{ $json.audience_frameworks }}\n\nTASK: Create sophisticated, value-add workbook materials specifically for {{ $json.audience_type }}.\n\nCRITICAL: These must be HIGH-VALUE, professionally designed materials, NOT simple concatenation or generic content.\n\nCRITICAL OUTPUT RULES:\n- Return ONLY valid JSON\n- NO <think> tags\n- NO markdown code blocks\n- Content must be sophisticated and audience-specific\n\nEXACT JSON STRUCTURE:\n{\n  \"quickReferenceCards\": [\n    {\n      \"cardNumber\": 1,\n      \"cardTitle\": \"Key framework or concept title for {{ $json.audience_type }}\",\n      \"frontContent\": {\n        \"heading\": \"Main concept heading\",\n        \"keyPoints\": [\n          \"Essential point 1 for {{ $json.audience_type }}\",\n          \"Essential point 2 with {{ $json.audience_standards }} reference\",\n          \"Essential point 3 with practical application\"\n        ],\n        \"visualCue\": \"Simple diagram or icon description\"\n      },\n      \"backContent\": {\n        \"detailedExplanation\": \"150-200 word explanation of how {{ $json.audience_type }} applies this concept in practice. Include {{ $json.audience_standards }} context.\",\n        \"practicalExample\": \"Specific scenario showing {{ $json.audience_type }} using this concept\",\n        \"commonPitfalls\": \"What {{ $json.audience_type }} should avoid\",\n        \"successIndicators\": \"How {{ $json.audience_type }} knows they're applying this correctly\"\n      }\n    },\n    {\n      \"cardNumber\": 2,\n      \"cardTitle\": \"Second key framework for {{ $json.audience_type }}\",\n      \"frontContent\": {},\n      \"backContent\": {}\n    }\n  ],\n  \"professionalChecklists\": [\n    {\n      \"checklistNumber\": 1,\n      \"checklistTitle\": \"Practical checklist title for {{ $json.audience_type }}\",\n      \"purpose\": \"Why {{ $json.audience_type }} needs this checklist\",\n      \"sections\": [\n        {\n          \"sectionName\": \"Preparation / Planning\",\n          \"items\": [\n            {\n              \"item\": \"Specific action for {{ $json.audience_type }}\",\n              \"rationale\": \"Why this matters for {{ $json.audience_type }}\",\n              \"standardReference\": \"{{ $json.audience_standards }} requirement if applicable\"\n            }\n          ]\n        },\n        {\n          \"sectionName\": \"Implementation\",\n          \"items\": []\n        },\n        {\n          \"sectionName\": \"Review / Follow-up\",\n          \"items\": []\n        }\n      ]\n    }\n  ],\n  \"caseStudies\": [\n    {\n      \"caseStudyNumber\": 1,\n      \"title\": \"Realistic scenario title for {{ $json.audience_type }}\",\n      \"scenario\": \"Write 200-300 words describing a realistic, complex scenario that {{ $json.audience_type }} would encounter. Include multiple stakeholders, competing priorities, and reference to {{ $json.audience_standards }}. Make it authentic to {{ $json.audience_setting }}.\",\n      \"backgroundInformation\": {\n        \"setting\": \"{{ $json.audience_setting }} context\",\n        \"stakeholders\": [\n          \"Stakeholder 1 relevant to {{ $json.audience_type }}\",\n          \"Stakeholder 2 with competing interests\"\n        ],\n        \"constraints\": [\n          \"Constraint 1 (time, budget, regulatory)\",\n          \"Constraint 2 specific to {{ $json.audience_type }}\"\n        ]\n      },\n      \"analysisQuestions\": [\n        \"What {{ $json.audience_standards }} principles apply to this situation?\",\n        \"What are the key considerations for {{ $json.audience_type }} in this scenario?\",\n        \"What risks need to be managed?\",\n        \"What stakeholder interests must be balanced?\"\n      ],\n      \"discussionPoints\": [\n        \"Critical decision point 1 for {{ $json.audience_type }}\",\n        \"Ethical consideration relevant to {{ $json.audience_standards }}\",\n        \"Practical implementation challenge\"\n      ]\n    }\n  ],\n  \"additionalResources\": {\n    \"essentialReading\": [\n      {\n        \"title\": \"Professional resource title\",\n        \"source\": \"{{ $json.audience_standards }} or professional body\",\n        \"url\": \"URL if publicly available or 'Available from [source]'\",\n        \"relevance\": \"Why {{ $json.audience_type }} should read this\",\n        \"keyTakeaways\": \"What {{ $json.audience_type }} will learn\"\n      }\n    ],\n    \"professionalStandards\": [\n      {\n        \"title\": \"{{ $json.audience_standards }} standard or guideline\",\n        \"issuingBody\": \"Professional organization or regulatory body\",\n        \"relevance\": \"How this applies to {{ $json.audience_type }}\",\n        \"keyRequirements\": \"Critical requirements {{ $json.audience_type }} must know\"\n      }\n    ],\n    \"advancedLearning\": [\n      {\n        \"title\": \"Advanced resource for {{ $json.audience_type }}\",\n        \"format\": \"Journal article / Webinar / Course\",\n        \"description\": \"What this covers and why it's valuable for {{ $json.audience_type }}\"\n      }\n    ]\n  },\n  \"practicalTools\": [\n    {\n      \"toolNumber\": 1,\n      \"toolName\": \"Practical tool name for {{ $json.audience_type }}\",\n      \"toolType\": \"Template / Decision Tree / Assessment Tool / Framework\",\n      \"purpose\": \"What {{ $json.audience_type }} uses this for\",\n      \"howToUse\": \"Step-by-step instructions for {{ $json.audience_type }}\",\n      \"template\": \"Actual template content or structure that {{ $json.audience_type }} can use\"\n    }\n  ],\n  \"reflectivePractice\": {\n    \"selfAssessment\": [\n      {\n        \"dimension\": \"Key competency area for {{ $json.audience_type }}\",\n        \"questions\": [\n          \"Self-reflection question 1 for {{ $json.audience_type }}\",\n          \"Self-reflection question 2 aligned with {{ $json.audience_standards }}\"\n        ],\n        \"developmentPrompts\": \"How {{ $json.audience_type }} can develop this competency\"\n      }\n    ],\n    \"actionPlanTemplate\": {\n      \"sections\": [\n        {\n          \"sectionName\": \"Key Learnings\",\n          \"prompts\": [\n            \"What are the 3 most important concepts for {{ $json.audience_type }}?\",\n            \"How do these align with {{ $json.audience_standards }}?\"\n          ]\n        },\n        {\n          \"sectionName\": \"Application Plan\",\n          \"prompts\": [\n            \"How will you apply this in your {{ $json.audience_setting }}?\",\n            \"What specific actions will you take in the next 30 days?\"\n          ]\n        },\n        {\n          \"sectionName\": \"Success Metrics\",\n          \"prompts\": [\n            \"How will you measure success as {{ $json.audience_type }}?\",\n            \"What evidence will demonstrate competency?\"\n          ]\n        }\n      ]\n    }\n  }\n}\n\nCREATE COMPREHENSIVE WORKBOOK MATERIALS FOR {{ $json.audience_type }} AND RETURN ONLY THE JSON."
+      },
+      "id": "generate-workbook-materials",
+      "name": "3b. Generate Workbook Materials",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1,
+      "position": [1120, 600],
+      "credentials": {
+        "anthropicApi": {
+          "id": "ANTHROPIC_CREDENTIAL_ID",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Parse Anthropic workbook response\nlet rawResponse = '';\n\nif ($json.choices && $json.choices[0]) {\n  rawResponse = $json.choices[0].message.content;\n} else if ($json.content && Array.isArray($json.content)) {\n  rawResponse = $json.content[0].text;\n} else if ($json.text) {\n  rawResponse = $json.text;\n} else if (typeof $json === 'string') {\n  rawResponse = $json;\n} else {\n  return [{ json: {\n    error: 'Unknown Anthropic format',\n    structure: Object.keys($json),\n    raw: JSON.stringify($json).substring(0, 500)\n  }}];\n}\n\n// Clean response\nrawResponse = rawResponse.replace(/<think>[\\s\\S]*?<\\/think>/gi, '');\nrawResponse = rawResponse.replace(/```json\\n?/g, '').replace(/```\\n?/g, '');\nrawResponse = rawResponse.trim();\n\n// Parse JSON\nlet workbookData;\ntry {\n  workbookData = JSON.parse(rawResponse);\n} catch (e) {\n  return [{ json: {\n    error: 'JSON parse failed',\n    parseError: e.message,\n    rawResponse: rawResponse.substring(0, 1000)\n  }}];\n}\n\n// Get original data\nconst originalData = $('1. Build Audience Context').item.json;\n\nreturn [{\n  json: {\n    module_number: originalData.module_number,\n    module_title: originalData.module_title,\n    course_title: originalData.course_title,\n    audience_type: originalData.audience_type,\n    timestamp: originalData.timestamp,\n    workbook_data: workbookData\n  }\n}];\n"
+      },
+      "id": "parse-workbook-materials",
+      "name": "4b. Parse Workbook Materials",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1340, 600]
+    },
+    {
+      "parameters": {
+        "mode": "mergeByPosition",
+        "options": {}
+      },
+      "id": "merge-content-resources",
+      "name": "9. Merge Content + Resources",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [2440, 400]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "GOOGLE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Concept to Course Requests"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Module Content Complete",
+          "mode": "list",
+          "cachedResultName": "Module Content Complete"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $json.timestamp }}",
+            "Course Title": "={{ $json.course_title }}",
+            "Module Number": "={{ $json.moduleNumber }}",
+            "Module Title": "={{ $json.moduleTitle }}",
+            "Target Audience": "={{ $json.audience_type }}",
+            "Enhanced Summary": "={{ $json.enhancedSummary }}",
+            "Learning Objectives": "={{ JSON.stringify($json.learningObjectives) }}",
+            "Key Concepts": "={{ JSON.stringify($json.keyConcepts) }}",
+            "Slides": "={{ JSON.stringify($json.slides) }}",
+            "LMS Upload Text": "={{ $json.lms_upload_text }}",
+            "Workbook Data": "={{ JSON.stringify($json.workbook_data) }}",
+            "Status": "Ready for Assessment Generation"
+          }
+        },
+        "options": {}
+      },
+      "id": "write-module-content-complete",
+      "name": "10. Write to Module Content Complete",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [2660, 400],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Trigger: Module Queue Row Added": {
+      "main": [
+        [
+          {
+            "node": "1. Build Audience Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1. Build Audience Context": {
+      "main": [
+        [
+          {
+            "node": "2. Split to Concurrent Streams",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. Split to Concurrent Streams": {
+      "main": [
+        [
+          {
+            "node": "If Content Stream",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If Resources Stream",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Content Stream": {
+      "main": [
+        [
+          {
+            "node": "3a. Enhanced Research (Perplexity)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Resources Stream": {
+      "main": [
+        [
+          {
+            "node": "3b. Generate Workbook Materials",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3a. Enhanced Research (Perplexity)": {
+      "main": [
+        [
+          {
+            "node": "4a. Clean Perplexity Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4a. Clean Perplexity Response": {
+      "main": [
+        [
+          {
+            "node": "5a. Generate Slides (Gemini)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "5a. Generate Slides (Gemini)": {
+      "main": [
+        [
+          {
+            "node": "6a. Parse Gemini Slides",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "6a. Parse Gemini Slides": {
+      "main": [
+        [
+          {
+            "node": "7a. Generate LMS Upload Document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "7a. Generate LMS Upload Document": {
+      "main": [
+        [
+          {
+            "node": "8a. Parse LMS Upload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "8a. Parse LMS Upload": {
+      "main": [
+        [
+          {
+            "node": "9. Merge Content + Resources",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3b. Generate Workbook Materials": {
+      "main": [
+        [
+          {
+            "node": "4b. Parse Workbook Materials",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4b. Parse Workbook Materials": {
+      "main": [
+        [
+          {
+            "node": "9. Merge Content + Resources",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "9. Merge Content + Resources": {
+      "main": [
+        [
+          {
+            "node": "10. Write to Module Content Complete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-03T00:00:00.000Z",
+  "versionId": "1"
+}

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Content Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .chat-bubble-user { background-color: #e0e7ff; }
+        .chat-bubble-ai { background-color: #f3f4f6; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div id="app" class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <header class="mb-8">
+            <div class="flex justify-between items-center flex-wrap gap-4">
+                <div>
+                    <h1 class="text-4xl font-bold text-gray-900">Course Content Dashboard</h1>
+                    <p class="text-lg text-gray-600 mt-1">Manage your micro-credentialing course creation workflow.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="show-workbench-btn" class="bg-indigo-600 text-white px-5 py-3 rounded-lg shadow-sm hover:bg-indigo-700 transition-colors flex items-center font-medium">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M11.982 2.006a2 2 0 00-1.964 0l-8 5a2 2 0 00-1.018 1.732V15a2 2 0 002 2h14a2 2 0 002-2V8.738a2 2 0 00-1.018-1.732l-8-5zM10 4.254L16.22 8h-2.445L10 5.845 6.225 8H3.78L10 4.254zM16 15H4v-5.5a.25.25 0 01.128-.22l6-3.75a.25.25 0 01.244 0l6 3.75a.25.25 0 01.128.22V15z" /></svg>
+                        AI Workbench
+                    </button>
+                    <button id="show-prompts-btn" class="bg-white text-gray-700 px-5 py-3 rounded-lg shadow-sm hover:bg-gray-50 transition-colors flex items-center font-medium border">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm2 0v12h2V4H6zm5 0v12h2V4h-2z" clip-rule="evenodd" /></svg>
+                        Prompt Library
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main id="main-content"></main>
+        
+    </div>
+
+    <!-- TEMPLATES -->
+    <template id="dashboard-view-template"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="module-list"></div></template>
+    <template id="module-card-template">
+        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer p-6 flex flex-col justify-between h-full">
+            <div>
+                <div class="flex justify-between items-start">
+                    <span class="text-sm font-semibold bg-indigo-100 text-indigo-800 py-1 px-3 rounded-full">Module <span class="module-number"></span></span>
+                    <span class="status-badge text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full"></span>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mt-4 module-title"></h3>
+                <p class="text-gray-500 text-sm mt-2 audience-type"></p>
+            </div>
+            <div class="mt-6">
+                <p class="text-sm text-gray-600 font-medium">Learning Objectives:</p>
+                <ul class="list-disc list-inside text-sm text-gray-500 mt-2 learning-objectives truncate-3-lines"></ul>
+            </div>
+        </div>
+    </template>
+    <template id="module-detail-template">
+        <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg">
+            <div class="flex justify-between items-center mb-6"><button id="back-to-dashboard" class="flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>Back to Dashboard</button><span class="status-badge text-sm font-medium mr-2 px-3 py-1 rounded-full"></span></div>
+            <div class="border-b border-gray-200 pb-4 mb-6"><h2 class="text-3xl font-bold text-gray-900 module-title"></h2><p class="text-md text-gray-500 mt-1 audience-type"></p></div>
+            <div><h3 class="text-xl font-semibold mb-4 text-gray-800">Slides</h3><div id="slide-list" class="space-y-6"></div></div>
+        </div>
+    </template>
+    <template id="slide-item-template">
+        <article class="border border-gray-200 rounded-lg p-4"><h4 class="text-lg font-semibold text-gray-900 mb-3 slide-title"></h4><div class="grid grid-cols-1 lg:grid-cols-2 gap-6"><div><label class="block text-sm font-medium text-gray-700 mb-1">Voiceover Script</label><div class="w-full h-40 p-2 border rounded-md bg-gray-50 text-sm text-gray-600 overflow-y-auto voiceover-script"></div><div class="mt-3 audio-player-container"></div></div><div><label class="block text-sm font-medium text-gray-700 mb-1">Image</label><div class="w-full h-40 border rounded-md bg-gray-200 flex items-center justify-center image-container"></div><div class="mt-3"><label class="block text-sm font-medium text-gray-700 mb-1">Image Prompt</label><div class="w-full p-2 border rounded-md bg-gray-50 text-xs text-gray-600 image-prompt"></div></div></div></div></article>
+    </template>
+    <template id="prompts-modal-template">
+        <div id="prompts-modal-overlay" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50"><div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col"><div class="flex justify-between items-center p-5 border-b sticky top-0 bg-white rounded-t-xl"><h2 class="text-2xl font-bold text-gray-800">Prompt Library</h2><button id="close-prompts-btn" class="text-gray-400 hover:text-gray-600 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button></div><div id="prompts-content" class="p-6 overflow-y-auto"></div></div></div>
+    </template>
+    <template id="prompt-category-template"><section class="mb-8"><h3 class="text-xl font-bold text-indigo-700 mb-4 pb-2 border-b-2 border-indigo-200 category-title"></h3><div class="space-y-6 prompt-items-container"></div></section></template>
+    <template id="prompt-item-template"><div class="prompt-item"><h4 class="text-md font-semibold text-gray-800 mb-2 prompt-title"></h4><div class="relative"><pre class="bg-gray-100 text-gray-700 p-4 rounded-md text-sm whitespace-pre-wrap font-sans prompt-text leading-relaxed"></pre><div class="absolute top-2 right-2 flex gap-1"><button class="use-prompt-btn bg-indigo-100 hover:bg-indigo-200 text-indigo-700 text-xs font-medium py-1 px-2 rounded transition-colors">Use</button><button class="copy-prompt-btn bg-gray-200 hover:bg-gray-300 text-gray-600 text-xs font-medium py-1 px-2 rounded transition-colors">Copy</button></div></div></div></template>
+
+    <!-- AI WORKBENCH MODAL -->
+    <template id="workbench-modal-template">
+        <div id="workbench-modal-overlay" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-40">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-6xl h-[90vh] flex flex-col">
+                <div class="flex justify-between items-center p-5 border-b"><h2 class="text-2xl font-bold text-gray-800">AI Workbench</h2><button id="close-workbench-btn" class="text-gray-400 hover:text-gray-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button></div>
+                <div class="flex-grow grid grid-cols-1 md:grid-cols-3 gap-1 overflow-hidden">
+                    <div class="md:col-span-2 flex flex-col h-full p-4 bg-white">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-700">Gemini Chat</h3>
+                        <div id="gemini-chat-history" class="flex-grow overflow-y-auto p-4 bg-gray-50 rounded-lg space-y-4"></div>
+                        <div class="mt-4 flex items-center gap-2">
+                            <textarea id="gemini-prompt-input" class="w-full p-2 border rounded-md resize-none" rows="3" placeholder="Paste a prompt or type your message..."></textarea>
+                            <button id="send-gemini-prompt" class="bg-indigo-600 text-white px-4 py-2 rounded-md h-full hover:bg-indigo-700 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg></button>
+                        </div>
+                    </div>
+                    <div class="md:col-span-1 bg-gray-50 p-6 border-l flex flex-col justify-center items-center text-center">
+                        <img src="https://www.gstatic.com/lamda/images/notebooklm/notebook_icon_192.svg" alt="NotebookLM icon" class="w-24 h-24 mb-4">
+                        <h3 class="text-xl font-bold text-gray-800">NotebookLM</h3>
+                        <p class="text-gray-600 my-2">Your research and writing partner. Ground your responses in your sources.</p>
+                        <a href="https://notebooklm.google.com/" target="_blank" class="mt-4 bg-blue-600 text-white px-6 py-3 rounded-lg shadow-sm hover:bg-blue-700 transition-colors font-medium">Open NotebookLM</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="chat-bubble-template"><div class="chat-bubble p-4 rounded-lg max-w-xl"><div class="font-bold text-sm mb-1"></div><div class="chat-content text-gray-800 whitespace-pre-wrap"></div></div></template>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mainContent = document.getElementById('main-content');
+            const app = document.getElementById('app');
+            let currentData = [];
+
+            const mockData = [ { moduleNumber: 1, title: "Practice Preparation for GP Training", audience: "Healthcare Administrative", status: "Media Generated", learningObjectives: ["Explain the two-tiered accreditation framework...", "Implement a comprehensive registrar readiness checklist...", "Execute the complete placement process...", "Design and deliver an effective orientation and induction program..."], slides: [{ slideNumber: 1, title: "Welcome & Introduction", script: "Welcome to this crucial module focused on preparing your practice for the rewarding experience of hosting a GP registrar...", audioUrl: "https://drive.google.com/uc?export=download&id=1DXcumeLgUOBffQPS8njoEa_tzLECfwz2", imagePrompt: "A modern, well-lit general practice waiting room. Soft, natural light filters through large windows...", imageUrl: "https://placehold.co/600x400/a3e635/ffffff?text=Slide+1+Image" }, { slideNumber: 2, title: "The AGPT Program", script: "The General Practice training program represents a vocational specialty pathway, enabling qualified doctors to specialise...", audioUrl: null, imagePrompt: "A brightly lit, modern general practice waiting room. Soft, natural light...", imageUrl: "https://placehold.co/600x400/60a5fa/ffffff?text=Slide+2+Image" }, { slideNumber: 3, title: "Accreditation Framework", script: "Understanding the accreditation framework is fundamental. Practices must meet standards set by both the RACGP and ACRRM...", audioUrl: "https://drive.google.com/uc?export=download&id=1ktogMhkM86etZAyzhLFEL0bqj97NnBNp", imagePrompt: "An infographic showing the logos of RACGP and ACRRM with checkmarks.", imageUrl: null }] }, { moduleNumber: 2, title: "NTCER and Employment Conditions", audience: "Healthcare Administrative", status: "Content Generated", learningObjectives: ["Understand key employment conditions.", "Differentiate between employee and contractor.", "Calculate leave and remuneration accurately."], slides: [] }, { moduleNumber: 3, title: "Advanced Supervisory Skills", audience: "Clinical Supervisors", status: "In Queue", learningObjectives: ["Master effective feedback techniques.", "Manage underperforming registrars.", "Foster a positive learning culture."], slides: [] } ];
+            const mockPrompts = { "🔬 Phase 1: Research Foundation": [{ title: "Web Research (for Gemini)", content: "Research current best practices for [YOUR TOPIC] training in [INDUSTRY/CONTEXT].\n\nFocus on:\n- Latest industry standards and compliance requirements\n- Common challenges faced by [TARGET AUDIENCE]\n- Proven teaching methods and pedagogical approaches\n- Current trends and developments (2024-2025)\n- Success metrics and learning outcomes\n\nTarget: 2500-3500 words with citations." }, { title: "Internal Resources (for NotebookLM)", content: "Analyse these internal resources and extract:\n\n- Key concepts that must be included\n- Company-specific terminology and approaches\n- Real examples and case studies\n- Compliance requirements specific to our organisation\n- Learning gaps from previous training initiatives\n\nSynthesise into a structured summary that complements external research." }], "🏗️ Phase 2: Course Architecture": [{ title: "Course Architecture Design", content: "Using the research foundation below, design a comprehensive course architecture for:\n\nCourse Topic: [Your Topic]\nTarget Audience: [Your Audience]\n\nProduce a list of 7-9 module titles that are logically sequenced and cover the topic comprehensively. For each module, provide a brief justification explaining why it is essential for the learning journey of the [TARGET AUDIENCE]." }], "✍️ Phase 4: Content Generation": [{ title: "Generate Module Content", content: "You are an expert instructional designer creating content for a professional micro-credential course.\n\nCourse Title: [Course Title]\nModule Title: [Module Title]\nTarget Audience: [Audience Type]\n\nBased on the research summary provided below, generate the complete slide content for this module. The output must be a single, clean JSON object containing a 'slides' array.\n\n[PASTE RESEARCH SUMMARY HERE]" }], "🎨 Phase 5: Audio/Visual Enhancement": [{ title: "Generate Voiceover Script", content: "From the slide content below, generate a professional, engaging, and clear voiceover script.\n\n- The script must be between 150 and 225 words.\n- The tone should be [TONE (e.g., informative, encouraging, authoritative)].\n- The language must be suitable for an Australian [TARGET AUDIENCE] audience.\n- Adhere to the phonetic guidance in the style guide (e.g., pronounce 'AHPRA' as 'Ah-pra').\n\n[PASTE SLIDE CONTENT HERE]" }, { title: "Generate Image Prompt", content: "Based on the slide content below, create a detailed text-to-image prompt for a photorealistic image.\n\n- The prompt must be specific and descriptive.\n- Describe the setting, subjects, lighting, and overall mood.\n- Ensure the image concept is professional and relevant to the content for a [TARGET AUDIENCE] audience.\n\n[PASTE SLIDE CONTENT HERE]" }] };
+
+            function getStatusBadgeClasses(status) {
+                switch (status) { case 'Media Generated': return { bg: 'bg-green-100', text: 'text-green-800' }; case 'Content Generated': return { bg: 'bg-blue-100', text: 'text-blue-800' }; case 'In Queue': return { bg: 'bg-yellow-100', text: 'text-yellow-800' }; case 'Error': return { bg: 'bg-red-100', text: 'text-red-800' }; default: return { bg: 'bg-gray-100', text: 'text-gray-800' }; }
+            }
+
+            function renderDashboard() {
+                mainContent.innerHTML = '';
+                const template = document.getElementById('dashboard-view-template');
+                const dashboardView = template.content.cloneNode(true);
+                const moduleList = dashboardView.getElementById('module-list');
+                currentData.forEach(module => {
+                    const moduleCard = document.getElementById('module-card-template').content.cloneNode(true);
+                    moduleCard.querySelector('.module-number').textContent = module.moduleNumber;
+                    moduleCard.querySelector('.module-title').textContent = module.title;
+                    moduleCard.querySelector('.audience-type').textContent = module.audience;
+                    const statusBadge = moduleCard.querySelector('.status-badge');
+                    statusBadge.textContent = module.status;
+                    const { bg, text } = getStatusBadgeClasses(module.status);
+                    statusBadge.classList.add(bg, text);
+                    const objectivesList = moduleCard.querySelector('.learning-objectives');
+                    objectivesList.innerHTML = '';
+                    module.learningObjectives.slice(0, 3).forEach(obj => { const li = document.createElement('li'); li.textContent = obj; objectivesList.appendChild(li); });
+                    moduleCard.querySelector('div').addEventListener('click', () => renderModuleDetail(module.moduleNumber));
+                    moduleList.appendChild(moduleCard);
+                });
+                mainContent.appendChild(dashboardView);
+            }
+
+            function renderModuleDetail(moduleNumber) {
+                const module = currentData.find(m => m.moduleNumber === moduleNumber);
+                if (!module) return;
+                mainContent.innerHTML = '';
+                const detailView = document.getElementById('module-detail-template').content.cloneNode(true);
+                detailView.querySelector('.module-title').textContent = module.title;
+                detailView.querySelector('.audience-type').textContent = module.audience;
+                const statusBadge = detailView.querySelector('.status-badge');
+                statusBadge.textContent = module.status;
+                const { bg, text } = getStatusBadgeClasses(module.status);
+                statusBadge.classList.add(bg, text);
+                detailView.getElementById('back-to-dashboard').addEventListener('click', () => fetchDataAndRender());
+                const slideList = detailView.getElementById('slide-list');
+                if (!module.slides || module.slides.length === 0) {
+                    slideList.innerHTML = `<div class="text-center py-8 bg-gray-50 rounded-lg"><p class="text-gray-500">No slides for this module yet.</p></div>`;
+                } else {
+                    module.slides.forEach(slide => {
+                        const slideItem = document.getElementById('slide-item-template').content.cloneNode(true);
+                        slideItem.querySelector('.slide-title').textContent = `Slide ${slide.slideNumber}: ${slide.title}`;
+                        slideItem.querySelector('.voiceover-script').textContent = slide.script;
+                        slideItem.querySelector('.image-prompt').textContent = slide.imagePrompt;
+                        const audioContainer = slideItem.querySelector('.audio-player-container');
+                        if (slide.audioUrl) { const audio = new Audio(slide.audioUrl); audio.controls = true; audio.className = "w-full"; audioContainer.appendChild(audio); } else { const button = document.createElement('button'); button.textContent = "Generate Audio"; button.className = "generate-audio-btn bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700"; button.dataset.slide = slide.slideNumber; button.dataset.module = module.moduleNumber; audioContainer.appendChild(button); }
+                        const imageContainer = slideItem.querySelector('.image-container');
+                        if (slide.imageUrl) { const img = document.createElement('img'); img.src = slide.imageUrl; img.alt = `Image for ${slide.title}`; img.className = "w-full h-full object-cover rounded-md"; imageContainer.innerHTML = ''; imageContainer.appendChild(img); } else { const button = document.createElement('button'); button.textContent = "Generate Image"; button.className = "generate-image-btn bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700"; button.dataset.slide = slide.slideNumber; button.dataset.module = module.moduleNumber; imageContainer.innerHTML = ''; imageContainer.appendChild(button); }
+                        slideList.appendChild(slideItem);
+                    });
+                }
+                mainContent.appendChild(detailView);
+            }
+
+            function renderPromptsModal() {
+                const modal = document.getElementById('prompts-modal-template').content.cloneNode(true);
+                const promptsContent = modal.getElementById('prompts-content');
+                for (const category in mockPrompts) {
+                    const categoryTemplate = document.getElementById('prompt-category-template').content.cloneNode(true);
+                    categoryTemplate.querySelector('.category-title').textContent = category;
+                    const itemsContainer = categoryTemplate.querySelector('.prompt-items-container');
+                    mockPrompts[category].forEach(prompt => {
+                        const itemTemplate = document.getElementById('prompt-item-template').content.cloneNode(true);
+                        itemTemplate.querySelector('.prompt-title').textContent = prompt.title;
+                        itemTemplate.querySelector('.prompt-text').textContent = prompt.content;
+                        itemsContainer.appendChild(itemTemplate);
+                    });
+                    promptsContent.appendChild(categoryTemplate);
+                }
+                document.body.appendChild(modal);
+                const overlay = document.getElementById('prompts-modal-overlay');
+                overlay.addEventListener('click', (e) => {
+                    if (e.target.id === 'close-prompts-btn' || e.target.closest('#close-prompts-btn') || e.target.id === 'prompts-modal-overlay') {
+                        overlay.remove();
+                    }
+                });
+            }
+
+            function renderWorkbenchModal() {
+                const modal = document.getElementById('workbench-modal-template').content.cloneNode(true);
+                document.body.appendChild(modal);
+                const overlay = document.getElementById('workbench-modal-overlay');
+                overlay.addEventListener('click', (e) => {
+                    if (e.target.id === 'close-workbench-btn' || e.target.closest('#close-workbench-btn') || e.target.id === 'workbench-modal-overlay') {
+                        overlay.remove();
+                    }
+                });
+            }
+
+            function addChatMessage(sender, message) {
+                const history = document.getElementById('gemini-chat-history');
+                if (!history) return;
+                const bubble = document.getElementById('chat-bubble-template').content.cloneNode(true);
+                bubble.querySelector('.font-bold').textContent = sender;
+                bubble.querySelector('.chat-content').textContent = message;
+                const bubbleDiv = bubble.querySelector('.chat-bubble');
+                if (sender === 'You') {
+                    bubbleDiv.classList.add('chat-bubble-user', 'self-end');
+                } else {
+                    bubbleDiv.classList.add('chat-bubble-ai', 'self-start');
+                    if (message === '...') {
+                        bubble.querySelector('.chat-content').innerHTML = '<div class="loader"></div>';
+                    }
+                }
+                history.appendChild(bubble);
+                history.scrollTop = history.scrollHeight;
+            }
+
+            document.getElementById('show-prompts-btn').addEventListener('click', renderPromptsModal);
+            document.getElementById('show-workbench-btn').addEventListener('click', renderWorkbenchModal);
+
+            document.body.addEventListener('click', (e) => {
+                const copyBtn = e.target.closest('.copy-prompt-btn');
+                const useBtn = e.target.closest('.use-prompt-btn');
+                const sendBtn = e.target.closest('#send-gemini-prompt');
+
+                if (copyBtn) {
+                    const pre = copyBtn.closest('.relative').querySelector('pre');
+                    navigator.clipboard.writeText(pre.textContent).then(() => {
+                        copyBtn.textContent = 'Copied!';
+                        setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
+                    });
+                }
+                if (useBtn) {
+                    const pre = useBtn.closest('.relative').querySelector('pre');
+                    const promptText = pre.textContent;
+                    if (!document.getElementById('workbench-modal-overlay')) {
+                        renderWorkbenchModal();
+                    }
+                    setTimeout(() => {
+                        const input = document.getElementById('gemini-prompt-input');
+                        input.value = promptText;
+                        input.focus();
+                        document.querySelector('#prompts-modal-overlay')?.remove();
+                    }, 50);
+                }
+                if (sendBtn) {
+                    const input = document.getElementById('gemini-prompt-input');
+                    const promptText = input.value.trim();
+                    if (!promptText) return;
+                    
+                    addChatMessage('You', promptText);
+                    input.value = '';
+                    addChatMessage('Gemini', '...');
+
+                    // --- SIMULATED API CALL to Gemini ---
+                    setTimeout(() => {
+                        document.querySelector('.chat-content .loader').closest('.chat-bubble').remove();
+                        const mockResponse = `This is a mock response from Gemini based on your prompt:\n\n"${promptText.substring(0, 70)}..."\n\nIn a real application, this text would be the result of the actual API call, providing a detailed answer, generated content, or analysis as requested.`;
+                        addChatMessage('Gemini', mockResponse);
+                    }, 2500);
+                }
+            });
+
+            app.addEventListener('click', (e) => {
+                if (e.target.classList.contains('generate-audio-btn') || e.target.classList.contains('generate-image-btn')) {
+                    const button = e.target;
+                    const moduleNumber = button.dataset.module;
+                    const slideNumber = button.dataset.slide;
+                    const isAudio = e.target.classList.contains('generate-audio-btn');
+                    const actionType = isAudio ? 'audio' : 'image';
+                    button.disabled = true;
+                    button.innerHTML = '<div class="loader mx-auto"></div>';
+                    setTimeout(() => {
+                        const module = currentData.find(m => m.moduleNumber == moduleNumber);
+                        const slide = module.slides.find(s => s.slideNumber == slideNumber);
+                        if (isAudio) { slide.audioUrl = "https://drive.google.com/uc?export=download&id=1DXcumeLgUOBffQPS8njoEa_tzLECfwz2"; }
+                        else { slide.imageUrl = `https://placehold.co/600x400/fb923c/ffffff?text=New+Image!`; }
+                        renderModuleDetail(parseInt(moduleNumber));
+                    }, 2000);
+                }
+            });
+
+            function fetchDataAndRender() {
+                currentData = mockData;
+                renderDashboard();
+            }
+            
+            fetchDataAndRender();
+        });
+    </script>
+</body>
+</html>
+
