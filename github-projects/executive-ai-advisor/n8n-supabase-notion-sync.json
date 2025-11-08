@@ -1,0 +1,466 @@
+{
+  "name": "Executive AI Advisor - Supabase to Notion Sync",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "config-node",
+      "name": "⚙️ Config - Edit These Values!",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [250, 100],
+      "notes": "EDIT THIS NODE:\n1. Click 'Add Field' below\n2. Add these fields:\n   - supabase_url (your Supabase project URL)\n   - notion_users_db_id (from Notion Users database)\n   - notion_usage_db_id (from Notion Usage database)\n\nExample:\nsupabase_url: https://abcdefgh.supabase.co\nnotion_users_db_id: 1234567890abcdef1234567890abcdef\nnotion_usage_db_id: fedcba0987654321fedcba0987654321"
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "supabase_url",
+              "value": "https://YOUR-PROJECT.supabase.co"
+            },
+            {
+              "name": "notion_users_db_id",
+              "value": "PASTE-YOUR-NOTION-USERS-DATABASE-ID-HERE"
+            },
+            {
+              "name": "notion_usage_db_id",
+              "value": "PASTE-YOUR-NOTION-USAGE-DATABASE-ID-HERE"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-config",
+      "name": "📝 Set Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [250, 200]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 1
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "⏰ Hourly Sync Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $('📝 Set Configuration').item.json.supabase_url }}/rest/v1/users?select=*,chat_sessions(count),messages(count,tokens_used)",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "options": {}
+      },
+      "id": "fetch-users",
+      "name": "📊 Fetch Users from Supabase",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [450, 300],
+      "credentials": {
+        "supabaseApi": {
+          "id": "your-supabase-credential-id",
+          "name": "Supabase Executive AI Advisor"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Calculate user stats from Supabase data\nconst users = $input.all();\nconst processedUsers = [];\n\nfor (const item of users) {\n  const userData = item.json;\n  \n  // Calculate total sessions\n  const totalSessions = userData.chat_sessions?.[0]?.count || 0;\n  \n  // Calculate total messages and tokens\n  const totalMessages = userData.messages?.[0]?.count || 0;\n  \n  let totalTokens = 0;\n  if (userData.messages && Array.isArray(userData.messages)) {\n    totalTokens = userData.messages.reduce((sum, msg) => {\n      return sum + (msg.tokens_used || 0);\n    }, 0);\n  }\n  \n  // Calculate estimated cost\n  // Pro: $0.001/1K, Flash: $0.0002/1K, Lite: $0.00005/1K\n  // Average: $0.0003/1K tokens\n  const estimatedCost = (totalTokens / 1000) * 0.0003;\n  \n  // Format dates\n  const createdAt = userData.created_at;\n  const lastActive = userData.last_active_at;\n  \n  // Check if active in last 7 days\n  const isActive7d = lastActive && \n    (Date.now() - new Date(lastActive).getTime()) < (7 * 24 * 60 * 60 * 1000);\n  \n  processedUsers.push({\n    json: {\n      wordpress_user_id: userData.wordpress_user_id,\n      name: userData.name || 'Unknown',\n      email: userData.email,\n      subscription_tier: userData.subscription_tier || 'basic',\n      subscription_status: userData.subscription_status || 'active',\n      currency_preference: userData.currency_preference || 'USD',\n      total_sessions: totalSessions,\n      total_messages: totalMessages,\n      total_tokens: totalTokens,\n      estimated_cost: parseFloat(estimatedCost.toFixed(4)),\n      created_at: createdAt,\n      last_active_at: lastActive,\n      is_active_7d: isActive7d\n    }\n  });\n}\n\nreturn processedUsers;"
+      },
+      "id": "process-users",
+      "name": "🧮 Calculate User Stats",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "databaseId": "={{ $('📝 Set Configuration').item.json.notion_users_db_id }}",
+        "returnAll": true,
+        "options": {}
+      },
+      "id": "fetch-notion-users",
+      "name": "🔍 Fetch Existing Notion Users",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.1,
+      "position": [850, 300],
+      "credentials": {
+        "notionApi": {
+          "id": "your-notion-credential-id",
+          "name": "Notion Integration"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get config for later use\nconst config = $('📝 Set Configuration').item.json;\n\n// Get processed users and existing Notion pages\nconst processedUsers = $('🧮 Calculate User Stats').all();\nconst notionResponse = $input.first().json;\n\n// Create lookup map of existing Notion pages by email\nconst notionUserMap = {};\nif (notionResponse.results && Array.isArray(notionResponse.results)) {\n  notionResponse.results.forEach(page => {\n    const emailProp = page.properties?.Email;\n    const email = emailProp?.email || emailProp?.title?.[0]?.plain_text;\n    if (email) {\n      notionUserMap[email] = page.id;\n    }\n  });\n}\n\n// Prepare operations with config embedded\nconst operations = processedUsers.map(item => {\n  const user = item.json;\n  const existingPageId = notionUserMap[user.email];\n  \n  return {\n    json: {\n      operation: existingPageId ? 'update' : 'create',\n      pageId: existingPageId,\n      notion_users_db_id: config.notion_users_db_id,\n      ...user\n    }\n  };\n});\n\nreturn operations;"
+      },
+      "id": "prepare-operations",
+      "name": "🔄 Match Existing Records",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.operation }}",
+              "operation": "equals",
+              "value2": "create"
+            }
+          ]
+        }
+      },
+      "id": "route-operation",
+      "name": "⚡ Route: Create or Update?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1250, 300]
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": "={{ $json.notion_users_db_id }}",
+        "title": "={{ $json.name }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Name",
+              "textContent": "={{ $json.name }}"
+            },
+            {
+              "key": "Email",
+              "emailValue": "={{ $json.email }}"
+            },
+            {
+              "key": "Subscription Tier",
+              "selectValue": "={{ $json.subscription_tier }}"
+            },
+            {
+              "key": "Status",
+              "selectValue": "={{ $json.subscription_status }}"
+            },
+            {
+              "key": "Total Sessions",
+              "numberValue": "={{ $json.total_sessions }}"
+            },
+            {
+              "key": "Total Messages",
+              "numberValue": "={{ $json.total_messages }}"
+            },
+            {
+              "key": "Total Tokens",
+              "numberValue": "={{ $json.total_tokens }}"
+            },
+            {
+              "key": "Est. Cost ($)",
+              "numberValue": "={{ $json.estimated_cost }}"
+            },
+            {
+              "key": "Created",
+              "dateValue": "={{ $json.created_at }}"
+            },
+            {
+              "key": "Last Active",
+              "dateValue": "={{ $json.last_active_at }}"
+            },
+            {
+              "key": "Active (7d)",
+              "checkboxValue": "={{ $json.is_active_7d }}"
+            }
+          ]
+        }
+      },
+      "id": "create-notion-page",
+      "name": "➕ Create Notion Page",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.1,
+      "position": [1450, 200],
+      "credentials": {
+        "notionApi": {
+          "id": "your-notion-credential-id",
+          "name": "Notion Integration"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "page",
+        "operation": "update",
+        "pageId": "={{ $json.pageId }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Name",
+              "textContent": "={{ $json.name }}"
+            },
+            {
+              "key": "Subscription Tier",
+              "selectValue": "={{ $json.subscription_tier }}"
+            },
+            {
+              "key": "Status",
+              "selectValue": "={{ $json.subscription_status }}"
+            },
+            {
+              "key": "Total Sessions",
+              "numberValue": "={{ $json.total_sessions }}"
+            },
+            {
+              "key": "Total Messages",
+              "numberValue": "={{ $json.total_messages }}"
+            },
+            {
+              "key": "Total Tokens",
+              "numberValue": "={{ $json.total_tokens }}"
+            },
+            {
+              "key": "Est. Cost ($)",
+              "numberValue": "={{ $json.estimated_cost }}"
+            },
+            {
+              "key": "Last Active",
+              "dateValue": "={{ $json.last_active_at }}"
+            },
+            {
+              "key": "Active (7d)",
+              "checkboxValue": "={{ $json.is_active_7d }}"
+            }
+          ]
+        }
+      },
+      "id": "update-notion-page",
+      "name": "✏️ Update Notion Page",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.1,
+      "position": [1450, 400],
+      "credentials": {
+        "notionApi": {
+          "id": "your-notion-credential-id",
+          "name": "Notion Integration"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('📝 Set Configuration').item.json.supabase_url }}/rest/v1/rpc/get_daily_usage",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "options": {}
+      },
+      "id": "fetch-usage-stats",
+      "name": "📈 Fetch Usage Analytics",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [450, 500],
+      "credentials": {
+        "supabaseApi": {
+          "id": "your-supabase-credential-id",
+          "name": "Supabase Executive AI Advisor"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": "={{ $('📝 Set Configuration').item.json.notion_usage_db_id }}",
+        "title": "={{ $json.date }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Date",
+              "dateValue": "={{ $json.date }}"
+            },
+            {
+              "key": "Total Messages",
+              "numberValue": "={{ $json.total_messages }}"
+            },
+            {
+              "key": "Active Users",
+              "numberValue": "={{ $json.active_users }}"
+            },
+            {
+              "key": "Total Tokens",
+              "numberValue": "={{ $json.total_tokens }}"
+            },
+            {
+              "key": "Search Queries",
+              "numberValue": "={{ $json.search_queries }}"
+            },
+            {
+              "key": "Avg Response Time (ms)",
+              "numberValue": "={{ $json.avg_response_time }}"
+            }
+          ]
+        }
+      },
+      "id": "create-usage-record",
+      "name": "📝 Create Usage Record",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.1,
+      "position": [650, 500],
+      "credentials": {
+        "notionApi": {
+          "id": "your-notion-credential-id",
+          "name": "Notion Integration"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Log sync summary\nconst mergedItems = $input.all();\nconst totalUsers = mergedItems.length;\nconst timestamp = new Date().toISOString();\n\nconsole.log(`✅ Sync completed at ${timestamp}`);\nconsole.log(`📊 Synced ${totalUsers} users to Notion`);\n\nreturn [{\n  json: {\n    success: true,\n    timestamp,\n    users_synced: totalUsers\n  }\n}];"
+      },
+      "id": "log-summary",
+      "name": "✅ Log Sync Summary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 300]
+    }
+  ],
+  "connections": {
+    "⏰ Hourly Sync Trigger": {
+      "main": [
+        [
+          {
+            "node": "📝 Set Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📝 Set Configuration": {
+      "main": [
+        [
+          {
+            "node": "📊 Fetch Users from Supabase",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "📈 Fetch Usage Analytics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📊 Fetch Users from Supabase": {
+      "main": [
+        [
+          {
+            "node": "🧮 Calculate User Stats",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🧮 Calculate User Stats": {
+      "main": [
+        [
+          {
+            "node": "🔍 Fetch Existing Notion Users",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔍 Fetch Existing Notion Users": {
+      "main": [
+        [
+          {
+            "node": "🔄 Match Existing Records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔄 Match Existing Records": {
+      "main": [
+        [
+          {
+            "node": "⚡ Route: Create or Update?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚡ Route: Create or Update?": {
+      "main": [
+        [
+          {
+            "node": "➕ Create Notion Page",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "✏️ Update Notion Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "➕ Create Notion Page": {
+      "main": [
+        [
+          {
+            "node": "✅ Log Sync Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "✏️ Update Notion Page": {
+      "main": [
+        [
+          {
+            "node": "✅ Log Sync Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📈 Fetch Usage Analytics": {
+      "main": [
+        [
+          {
+            "node": "📝 Create Usage Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-10-27T00:00:00.000Z",
+  "versionId": "1"
+}

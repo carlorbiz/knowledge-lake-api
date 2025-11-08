@@ -1,0 +1,30 @@
+name: gamma
+title: Gamma
+description: Create presentations, documents, and social media posts with Gamma.
+tools:
+  - name: generate_gamma
+    title: Generate Gamma
+    description: Create a new presentation, document, or social media post.
+    server: http://127.0.0.1:8001
+    method: POST
+    endpoint: /generate
+    body:
+      inputText: str
+      textMode: str
+      format: str
+      themeName: str
+      numCards: int
+      cardSplit: str
+      additionalInstructions: str
+      exportAs: str
+      textOptions: dict
+      imageOptions: dict
+      cardOptions: dict
+      sharingOptions: dict
+  - name: get_generation
+    title: Get Generation Status
+    description: Get the status and URLs of a generation request.
+    server: http://127.0.0.1:8001
+    method: GET
+    endpoint: /generations/{generation_id}
+    }

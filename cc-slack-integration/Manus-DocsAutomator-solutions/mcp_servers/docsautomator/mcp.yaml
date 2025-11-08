@@ -1,0 +1,22 @@
+name: docsautomator
+title: DocsAutomator
+description: Create and manage documents with DocsAutomator.
+tools:
+  - name: create_document
+    title: Create Document
+    description: Create a new document from a template.
+    server: http://127.0.0.1:8000
+    method: POST
+    endpoint: /create_document
+    body:
+      docId: str
+      documentName: str
+      recId: str
+      taskId: str
+      data: dict
+  - name: get_automations
+    title: Get Automations
+    description: Get a list of all available automations.
+    server: http://127.0.0.1:8000
+    method: GET
+    endpoint: /get_automations

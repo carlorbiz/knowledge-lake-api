@@ -1,0 +1,7 @@
+{
+  "name": "Executive AI Advisor",
+  "description": "An educational and decision-making tool for executives exploring AI solutions. It offers personalized advice on top LLMs and productivity agents, contextualized to unique user needs, with features, pricing, and adoption insights.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

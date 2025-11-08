@@ -173,6 +173,9 @@ test-db
 
 .DS_Store
 
+# Claude Code settings with API keys
+.claude/
+
 notebooks/*.yaml
 .ipynb_checkpoints/
 

@@ -39,5 +39,6 @@ def health_check():
     return jsonify({'status': 'healthy', 'service': 'mem0_knowledge_lake'})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3000, debug=True)
+    # Use port 5002 to match existing n8n workflow configuration
+    app.run(host='0.0.0.0', port=5002, debug=True)
 

@@ -1,0 +1,271 @@
+{
+  "name": "CareTrack - Gemini AI Proxy",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "caretrack-ai",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "caretrack-ai"
+    },
+    {
+      "parameters": {
+        "jsCode": "const crypto = require('crypto');\nconst queryType = $input.item.json.query_type;\nconst params = $input.item.json.params;\nconst queryString = JSON.stringify(params);\nconst hash = crypto.createHash('md5').update(queryString).digest('hex');\n\nreturn {\n  query_type: queryType,\n  params: params,\n  query_hash: hash,\n  user_message: params.medication_name || params.symptoms || params.medications || ''\n};"
+      },
+      "id": "create-hash",
+      "name": "Create Hash",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/ai_response_cache",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "query_hash",
+              "value": "=eq.{{ $json.query_hash }}"
+            },
+            {
+              "name": "expires_at",
+              "value": "=gt.{{ $now.toISO() }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $env.SUPABASE_SERVICE_KEY }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.SUPABASE_SERVICE_KEY }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "check-cache",
+      "name": "Check Cache",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "cache-hit",
+      "name": "Cache Hit?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json[0] }}",
+        "options": {}
+      },
+      "id": "return-cached",
+      "name": "Return Cached",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1050, 200]
+    },
+    {
+      "parameters": {
+        "jsCode": "const queryType = $('Create Hash').item.json.query_type;\nconst params = $('Create Hash').item.json.params;\nconst apiKey = $env.GEMINI_API_KEY;\n\nlet prompt = '';\n\nif (queryType === 'medication_lookup') {\n  const medName = params.medication_name;\n  prompt = `You are a helpful medical assistant for cancer patients. Provide clear, patient-friendly information about: **${medName}**\n\n### What it's for\n### Common Side Effects  \n### Important Notes\n\nCRITICAL: Start with this disclaimer:\n> **Disclaimer:** This is educational information only. Always consult your doctor or pharmacist about your specific medications.`;\n}\n\nif (queryType === 'symptom_checker') {\n  const symptoms = params.symptoms;\n  prompt = `You are a helpful medical assistant. The user is experiencing these symptoms: ${symptoms}\n\nProvide:\n### Possible Causes (most common first)\n### When to Seek Medical Help\n### Self-Care Suggestions\n\nCRITICAL: Start with this disclaimer:\n> **Disclaimer:** This is educational information only. If symptoms are severe or worsening, seek medical attention immediately.`;\n}\n\nif (queryType === 'drug_interactions') {\n  const meds = params.medications;\n  prompt = `You are a helpful medical assistant. Check for potential interactions between these medications: ${meds}\n\nProvide:\n### Potential Interactions\n### Severity Level\n### What to Do\n\nCRITICAL: Start with this disclaimer:\n> **Disclaimer:** This is educational information only. Always consult your doctor or pharmacist about medication interactions.`;\n}\n\nconst response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${apiKey}`, {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json' },\n  body: JSON.stringify({\n    contents: [{ parts: [{ text: prompt }] }]\n  })\n});\n\nconst data = await response.json();\nconst responseText = data.candidates[0].content.parts[0].text;\n\nreturn {\n  query_type: queryType,\n  query_hash: $('Create Hash').item.json.query_hash,\n  response_markdown: responseText,\n  expires_at: $now.plus({days: 30}).toISO()\n};"
+      },
+      "id": "call-gemini",
+      "name": "Call Gemini API",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 400]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SUPABASE_URL }}/rest/v1/ai_response_cache",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "={{ $env.SUPABASE_SERVICE_KEY }}"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.SUPABASE_SERVICE_KEY }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=representation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "query_type",
+              "value": "={{ $json.query_type }}"
+            },
+            {
+              "name": "query_hash",
+              "value": "={{ $json.query_hash }}"
+            },
+            {
+              "name": "response_markdown",
+              "value": "={{ $json.response_markdown }}"
+            },
+            {
+              "name": "expires_at",
+              "value": "={{ $json.expires_at }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "save-cache",
+      "name": "Save to Cache",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1250, 400]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {}
+      },
+      "id": "return-fresh",
+      "name": "Return Fresh Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1450, 400]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Create Hash",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Hash": {
+      "main": [
+        [
+          {
+            "node": "Check Cache",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Cache": {
+      "main": [
+        [
+          {
+            "node": "Cache Hit?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cache Hit?": {
+      "main": [
+        [
+          {
+            "node": "Return Cached",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Call Gemini API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call Gemini API": {
+      "main": [
+        [
+          {
+            "node": "Save to Cache",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save to Cache": {
+      "main": [
+        [
+          {
+            "node": "Return Fresh Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-10-25T00:00:00.000Z",
+  "versionId": "1"
+}

@@ -1,0 +1,150 @@
+{
+  "name": "Slack → CC Inbox (Wake CC)",
+  "nodes": [
+    {
+      "parameters": {
+        "channel": "={{ $json.channel }}",
+        "options": {}
+      },
+      "name": "Slack Trigger",
+      "type": "n8n-nodes-base.slackTrigger",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "cc-inbox-trigger",
+      "credentials": {
+        "slackApi": {
+          "id": "YOUR_SLACK_CREDENTIAL_ID",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.text }}",
+              "operation": "contains",
+              "value2": "CC —"
+            }
+          ]
+        }
+      },
+      "name": "Filter: Contains 'CC —'",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": "29094405-56f7-8060-af28-eee401918ced",
+        "title": "={{ $json.text.replace('CC — ', '') }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Status",
+              "selectValue": "Pending"
+            },
+            {
+              "key": "Wake CC",
+              "checkboxValue": true
+            },
+            {
+              "key": "Priority",
+              "selectValue": "={{ $json.text.includes('URGENT') ? 'Urgent' : 'Medium' }}"
+            },
+            {
+              "key": "Source",
+              "textValue": "={{ $json.channel_name || 'DM' }}"
+            },
+            {
+              "key": "Slack Thread Link",
+              "urlValue": "={{ $json.permalink }}"
+            },
+            {
+              "key": "Slack Channel ID",
+              "textValue": "={{ $json.channel }}"
+            },
+            {
+              "key": "Slack Message TS",
+              "textValue": "={{ $json.ts }}"
+            }
+          ]
+        }
+      },
+      "name": "Create CC Inbox Item",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [650, 300],
+      "credentials": {
+        "notionApi": {
+          "id": "YOUR_NOTION_CREDENTIAL_ID",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "channel": "={{ $json.channel }}",
+        "text": "✅ Got it! I'll process this when CC wakes up.",
+        "otherOptions": {
+          "thread_ts": "={{ $json.ts }}"
+        }
+      },
+      "name": "Slack Confirmation",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [850, 300],
+      "credentials": {
+        "slackApi": {
+          "id": "YOUR_SLACK_CREDENTIAL_ID",
+          "name": "Slack account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Slack Trigger": {
+      "main": [
+        [
+          {
+            "node": "Filter: Contains 'CC —'",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter: Contains 'CC —'": {
+      "main": [
+        [
+          {
+            "node": "Create CC Inbox Item",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create CC Inbox Item": {
+      "main": [
+        [
+          {
+            "node": "Slack Confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-10-18T00:00:00.000Z",
+  "versionId": "1"
+}

@@ -1,0 +1,156 @@
+{
+  "name": "AI Command Router - CLEAN v2",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ai-command",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [0, 0],
+      "id": "webhook-node",
+      "name": "Webhook"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=OK",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/plain"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [200, 0],
+      "id": "respond-node",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "const slackData = $input.item.json.body;\n\nreturn {\n  json: {\n    user_id: slackData.user_id,\n    user_name: slackData.user_name,\n    command_text: slackData.text,\n    channel_id: slackData.channel_id,\n    response_url: slackData.response_url,\n    timestamp: new Date().toISOString()\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [200, 200],
+      "id": "parse-node",
+      "name": "Parse Slack Command"
+    },
+    {
+      "parameters": {
+        "url": "https://knowledge-lake-api-production.up.railway.app/knowledge/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "={{ $json.command_text }}"
+            },
+            {
+              "name": "user_id",
+              "value": "={{ $json.user_name }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [400, 200],
+      "id": "query-lake-node",
+      "name": "Query Knowledge Lake"
+    },
+    {
+      "parameters": {
+        "jsCode": "const command = $('Parse Slack Command').item.json.command_text.toLowerCase();\nconst knowledgeContext = $('Query Knowledge Lake').item.json.results || [];\n\nlet agent = 'claude-gui';\nlet reasoning = '';\n\nif (command.includes('cc') || command.includes('claude code') || command.includes('code') || command.includes('terminal')) {\n  agent = 'claude-code';\n  reasoning = 'Routing to Claude Code for coding/system tasks';\n} else if (command.includes('fred') || command.includes('chatgpt') || command.includes('write') || command.includes('draft')) {\n  agent = 'fred';\n  reasoning = 'Routing to Fred (ChatGPT) for content/writing';\n} else if (command.includes('gemini') || command.includes('research') || command.includes('analyze')) {\n  agent = 'gemini';\n  reasoning = 'Routing to Gemini for research/analysis';\n} else if (command.includes('jan') || command.includes('genspark') || command.includes('web search')) {\n  agent = 'jan';\n  reasoning = 'Routing to Jan (Genspark) for web research';\n} else {\n  reasoning = 'Routing to Claude GUI for strategy/architecture (default)';\n}\n\nreturn {\n  json: {\n    agent: agent,\n    reasoning: reasoning,\n    original_command: command,\n    knowledge_context: knowledgeContext,\n    user_name: $('Parse Slack Command').item.json.user_name,\n    timestamp: new Date().toISOString()\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [600, 200],
+      "id": "route-node",
+      "name": "Route to Agent"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "1a6c9296-096a-4529-81f9-e6c014c4b808",
+          "mode": "list",
+          "cachedResultName": "🤖 AI Agent Conversations - Universal Database"
+        },
+        "title": "={{ $('Route to Agent').item.json.original_command }}",
+        "simple": false,
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Primary AI Agent|select",
+              "selectValue": "={{ $('Route to Agent').item.json.agent === 'claude-code' ? 'Claude Code' : $('Route to Agent').item.json.agent === 'fred' ? 'Fred (ChatGPT)' : $('Route to Agent').item.json.agent === 'gemini' ? 'Gemini (Google)' : $('Route to Agent').item.json.agent === 'jan' ? 'Jan (Genspark)' : 'Claude (Anthropic)' }}"
+            },
+            {
+              "key": "Source Link|url",
+              "urlValue": "https://carlorbizworkspace.slack.com"
+            },
+            {
+              "key": "Instructions|rich_text",
+              "textContent": "={{ $('Route to Agent').item.json.reasoning }}"
+            },
+            {
+              "key": "Tags|multi_select",
+              "multiSelectValue": "=automation"
+            },
+            {
+              "key": "Status|select",
+              "selectValue": "=📥 Captured"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [800, 200],
+      "id": "notion-node",
+      "name": "Create Notion Entry",
+      "credentials": {
+        "notionApi": {
+          "id": "ONxVZ2GfinAHs3nV",
+          "name": "n8n AI Router"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {"node": "Respond to Webhook", "type": "main", "index": 0},
+          {"node": "Parse Slack Command", "type": "main", "index": 0}
+        ]
+      ]
+    },
+    "Parse Slack Command": {
+      "main": [[{"node": "Query Knowledge Lake", "type": "main", "index": 0}]]
+    },
+    "Query Knowledge Lake": {
+      "main": [[{"node": "Route to Agent", "type": "main", "index": 0}]]
+    },
+    "Route to Agent": {
+      "main": [[{"node": "Create Notion Entry", "type": "main", "index": 0}]]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "tags": []
+}

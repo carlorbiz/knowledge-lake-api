@@ -1,5 +1,310 @@
 # COURSE DEVELOPMENT SYSTEM - CHANGELOG
 
+## Version 1.0.1 - HPSA Production Release (2025-10-10)
+
+### 🐛 CRITICAL BUG FIX - LMS Upload Data Flow
+
+**Fixed incorrect data mapping in LMS Upload generation that caused misalignment between LMS slides and audio files.**
+
+**Problem:**
+- LMS Upload was using wrong data sources
+- Bullet points were being extracted from wrong location
+- 8/12 slides aligned but 4 in middle were way off
+- Data flow was backwards
+
+**Solution:**
+- **CORRECTED Data Flow:**
+  - Slide Title: Column L (rows 2-13)
+  - Bullet Points: Column M Content Points JSON (rows 2-13)
+  - Voiceover Summary: Column X Slides JSON detailedContent (1-2 sentences)
+
+**Impact:** LMS uploads now match audio files perfectly across all 12 slides.
+
+---
+
+## Version 1.0 - HPSA Production Release (2025-10-10)
+
+### 🎯 PRODUCTION DEPLOYMENT
+
+**This is the complete production release developed by Carlorbiz for GPSA (General Practice Supervisors Australia) and deployed for HPSA (Healthcare Professionals Support Australia).**
+
+**Status:** ✅ Production Ready for HPSA Deployment
+
+---
+
+### ✅ Major Features - LMS Upload Generation
+
+#### 1. LMS Upload Document Creation
+**Automated generation from Module tabs matching ProvenLMSlayout.txt format**
+
+**Features:**
+- Reads from individual Module tabs (Module 1, Module 2, etc.)
+- Uses Slides JSON (Column X) for bullet point structure
+- Uses Raw Slide Content (Column R) for voiceover context summaries
+- Creates clean, parseable documents for Absorb LMS AI
+- NO phonetic spellings (clean text for LMS parsing)
+- Saves URL automatically to Column Y
+- Menu option: 📄 Generate LMS Upload
+
+**Key Innovation:**
+- **Separation of concerns:** LMS upload text (clean) vs TTS voiceover (phonetic)
+- LMS upload has clean text: "ACRRM", "NMBA"
+- TTS voiceover has phonetics: "Ackr'm", "N.M.B.A."
+- Prevents Absorb LMS AI from being confused by phonetic spellings
+- Audio files uploaded separately align perfectly with LMS-generated slides
+
+**Format Structure:**
+```
+Module X: [Title]
+=============================================================
+
+Slide 1: [Title]
+- [bullet point 1]
+- [bullet point 2]
+- [bullet point 3]
+
+Voiceover:
+"[1-2 sentence summary for LMS context]"
+
+---
+```
+
+---
+
+### ✅ Australian Spelling Enforcement
+
+#### Multi-Level Australian English Verification
+**Comprehensive Australian spelling across all workflows**
+
+**Implementation:**
+1. **enforceAustralianSpelling() function** (60+ US→AU replacements)
+   - organize → organise
+   - color → colour
+   - favor → favour
+   - center → centre
+   - analyze → analyse
+   - emphasize → emphasise
+   - And 50+ more conversions
+
+2. **Applied at multiple levels:**
+   - Gemini prompts (generation time)
+   - Post-processing (verification)
+   - LMS upload (final output)
+
+3. **Smart word boundary matching:**
+   - Preserves original case (uppercase, title case, lowercase)
+   - Avoids partial word matches
+   - Context-aware (excludes practice/practise automatic replacement)
+
+4. **Instruction headers for Absorb LMS AI:**
+   - "IMPORTANT: All content MUST use Australian English spelling"
+   - Guides LMS AI to maintain spelling consistency
+
+**Australian Healthcare Focus:**
+- AHPRA, NMBA, NSQHS standards compliance
+- Professional tone for experienced practitioners
+- Evidence-based content with Vancouver citations
+
+---
+
+### ✅ Research Foundation Management
+
+#### Array Formula Integration for Full Text Preservation
+**Solved Google Sheets character limit issues**
+
+**Problem:** Research was truncated when saved to Module Content Complete (only 500 chars vs full 2500-3500 words)
+
+**Solution:**
+1. **Split storage in Module Queue:**
+   - Column F: Research Notes (2500-3500 words)
+   - Column M: Citations (Vancouver style, separate to avoid character limits)
+
+2. **Array formulas in Module Content Complete:**
+   - Column C (Citations): `={"Citations";ARRAYFORMULA(IF(A2:A="","",VLOOKUP(A2:A,'Module Queue'!A:M,13,FALSE)))}`
+   - Column E (Research Summary): `={"Research Summary";ARRAYFORMULA(IF(A2:A="","",VLOOKUP(A2:A,'Module Queue'!A:F,6,FALSE)))}`
+
+3. **AI generation workflow:**
+   - Module Generator reads FULL research from Module Queue Column F (first 6000 chars for slides, first 1500 for LMS/workbook)
+   - Module Content Complete displays full text via array formulas
+   - No truncation, no data loss
+
+**Benefits:**
+- Full research foundation preserved
+- AI generation uses complete context
+- Dynamic updates when Module Queue changes
+- Clean separation of research and citations
+
+---
+
+### ✅ Hybrid Quality Control Workflow
+
+#### Manual Research + Automated Content Generation
+**Best of both worlds: human expertise + AI efficiency**
+
+**Workflow:**
+1. **RESEARCH (Manual - Quality Control)**
+   - User conducts research via:
+     - Gems (web-based AI research)
+     - NotebookLM (Drive source analysis)
+     - Manual curation
+   - Pastes into Module Queue:
+     - Research Notes (Column F)
+     - Citations (Column M)
+
+2. **CONTENT GENERATION (Automated)**
+   - Module_Content_Generator.gs
+   - Generates 12 slides (80-120 words/slide)
+   - Creates LMS upload (Markdown, 12-screen structure)
+   - Creates workbook + case studies
+   - Creates assessments + audio scripts
+   - Australian spelling enforced in prompts
+   - Writes to Audio tab (Status: Pending)
+   - Saves to Module Content Complete
+
+3. **AUDIO ENHANCEMENT (Automated)**
+   - Audio_Tab_Enhanced.gs
+   - Reads Column R (Raw Slide Content)
+   - Generates:
+     - Content Points (4-6 bullets)
+     - Voiceover Script (150-225 words WITH phonetics)
+     - Image Prompt
+   - Status: Content Enhanced
+
+4. **AUDIO GENERATION (Automated)**
+   - Reads Column B (voiceover with phonetics)
+   - Generates audio with Gemini TTS
+   - Uploads to Google Drive
+   - Status: Audio Generated
+
+5. **LMS UPLOAD CREATION (Automated)**
+   - Go to Module tab (Module 1, Module 2, etc.)
+   - Run: 🎙️ Audio Generation → 📄 Generate LMS Upload
+   - Creates ProvenLMSlayout.txt format
+   - NO phonetics (clean for LMS parsing)
+   - Australian spelling enforced
+   - Saves URL to Column Y
+
+6. **ABSORB LMS DEPLOYMENT (Manual)**
+   - Upload LMS document to Absorb
+   - Absorb AI creates 12 screens
+   - Upload audio files to each screen
+   - Publish course
+
+---
+
+### 📁 Files Updated
+
+**Scripts:**
+- Audio_Tab_Enhanced.gs (added LMS generation, AU spelling enforcement)
+- Module_Content_Generator.gs (AU spelling in prompts - no changes this release)
+
+**New HPSA Production Folder:**
+- HPSA/Audio_Tab_Enhanced.gs
+- HPSA/Module_Content_Generator.gs
+- HPSA/ProvenLMSlayout.txt
+- HPSA/README.md
+
+**Documentation:**
+- README.md (updated to v1.0 HPSA Production Release)
+- HPSA/README.md (new production documentation)
+- CHANGELOG.md (this file)
+
+---
+
+### 🔑 Key Design Decisions
+
+#### 1. Hybrid Quality Control
+- **Manual research** ensures expertise and accuracy
+- **Automated content generation** ensures consistency and efficiency
+- **Human review** at LMS upload stage before publishing
+
+#### 2. Pure Google Stack
+- Gemini API for all AI operations
+- Google Drive for file storage
+- Google Sheets for data management
+- No external AI services (Anthropic, OpenAI, etc.)
+
+#### 3. LMS Upload Innovation
+- **Separates concerns:** LMS text (clean) vs TTS voiceover (phonetic)
+- **ProvenLMSlayout.txt format:** Simple, proven to work with Absorb
+- **No phonetic confusion:** ACRRM stays "ACRRM" (not "Ackr'm") in LMS upload
+- **Audio alignment:** Audio files match LMS slides perfectly
+
+#### 4. Research Foundation Management
+- **Split storage:** Research (Col F) + Citations (Col M) avoids character limits
+- **Array formulas:** Module Content Complete preserves full text dynamically
+- **Full AI access:** Generation uses complete research, not truncated versions
+
+---
+
+### 📊 Column Structure Updates
+
+#### Module Queue Sheet
+| Column | Name | Purpose |
+|--------|------|---------|
+| A | Module Number | Unique identifier |
+| B | Module Title | Module name |
+| C | Audience Type | Healthcare Clinical/Administrative/Combined |
+| D | Learning Objectives | Module objectives |
+| E | Core Content Focus | Key topics |
+| F | Research Notes | Full research body (2500-3500 words) |
+| M | Citations | Vancouver style citations (separate for character limits) |
+| Status | Status | Next → Content Generated |
+| Last Updated | Last Updated | Timestamp |
+
+#### Audio Tab Updates
+| Column | Name | Purpose |
+|--------|------|---------|
+| Y (NEW) | LMS Upload URL | Generated LMS document link |
+
+#### Module Content Complete Updates
+| Column | Name | Purpose |
+|--------|------|---------|
+| C | Citations | Full citations (array formula from Module Queue Col M) |
+| E | Research Summary | Full research (array formula from Module Queue Col F) |
+
+---
+
+### 🐛 Bug Fixes
+
+- ✅ Fixed LMS Upload to match ProvenLMSlayout.txt format exactly
+- ✅ Fixed phonetic spelling contamination in LMS upload documents
+- ✅ Fixed research truncation in Module Content Complete (array formula solution)
+- ✅ Removed incorrect practice/practise blanket replacement from AU spelling
+
+---
+
+### 🚀 Future Enhancements
+
+**Phase 2 - Client Version (Post-HPSA)**
+- Dashboard integration (in progress)
+- Enhanced automation workflows
+- Additional quality control checkpoints
+- Client-specific customizations
+- Value-add features for paying clients
+
+**Current Focus:**
+- ✅ HPSA production deployment complete
+- 🔄 Dashboard development ongoing
+- 📋 Client enhancement planning phase
+
+---
+
+### 📞 Production Release Info
+
+**Developer:** Carlorbiz
+**Client:** GPSA/HPSA
+**Purpose:** Australian healthcare education course development
+**Version:** 1.0 - HPSA Production Release
+**Release Date:** 2025-10-10
+**Status:** ✅ Production Ready
+
+---
+
+**© 2025 Carlorbiz | Developed for GPSA/HPSA**
+
+---
+
 ## Version 3.0 (2025-10-08)
 
 ### ✅ Major Changes

@@ -1,0 +1,359 @@
+{
+  "name": "Content → DocsAutomator → Drive → Notion",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "primary-production-de49"
+  },
+  "tags": [
+    {
+      "name": "AAE",
+      "createdAt": "2025-11-03"
+    }
+  ],
+  "nodes": [
+    {
+      "parameters": {
+        "path": "process-content",
+        "httpMethod": "POST",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Webhook - Process Content",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "process-content",
+      "notes": "Receives POST with: {filename: 'topic.md', conversation_id: 'optional'}"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": "YOUR_GITHUB_USERNAME",
+        "repository": "knowledge-lake",
+        "filePath": "=content-queue/{{$json.filename}}"
+      },
+      "name": "Read File from GitHub",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [450, 300],
+      "credentials": {
+        "githubApi": {
+          "id": "YOUR_GITHUB_CREDENTIAL_ID",
+          "name": "GitHub Account"
+        }
+      },
+      "notes": "Retrieves .md file from content-queue folder"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse frontmatter and content\nconst content = Buffer.from($input.item.json.content, 'base64').toString('utf8');\nconst parts = content.split('---');\n\nif (parts.length < 3) {\n  throw new Error('Invalid frontmatter format');\n}\n\nconst frontmatterText = parts[1];\nconst bodyContent = parts.slice(2).join('---').trim();\n\n// Parse YAML frontmatter (simple key: value parsing)\nconst metadata = {};\nfrontmatterText.split('\\n').forEach(line => {\n  line = line.trim();\n  if (!line) return;\n  \n  const colonIndex = line.indexOf(':');\n  if (colonIndex === -1) return;\n  \n  const key = line.substring(0, colonIndex).trim();\n  let value = line.substring(colonIndex + 1).trim();\n  \n  // Handle arrays [tag1, tag2]\n  if (value.startsWith('[') && value.endsWith(']')) {\n    value = value.substring(1, value.length - 1)\n      .split(',')\n      .map(v => v.trim());\n  }\n  \n  metadata[key] = value;\n});\n\n// Return structured data\nreturn {\n  json: {\n    metadata: metadata,\n    content: bodyContent,\n    docId: metadata.docId || '68d7b000c2fc16ccc70abdac',\n    conversation_id: metadata.conversation_id || `cc-${new Date().toISOString().split('T')[0]}-${metadata.topic.toLowerCase().replace(/\\s+/g, '-')}`,\n    filename: $input.item.json.filename\n  }\n};"
+      },
+      "name": "Parse Frontmatter & Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [650, 300],
+      "notes": "Extracts metadata from YAML frontmatter and separates content"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.docsautomator.co/createDocument",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "docId",
+              "value": "={{$json.docId}}"
+            },
+            {
+              "name": "documentName",
+              "value": "={{$json.metadata.topic}}"
+            },
+            {
+              "name": "data",
+              "value": "={{JSON.stringify({\n  main_content: $json.content,\n  conversation_id: $json.conversation_id,\n  agent: $json.metadata.agent || 'Claude Code',\n  date: new Date().toISOString().split('T')[0],\n  priority: $json.metadata.priority || 'Medium',\n  tags: Array.isArray($json.metadata.tags) ? $json.metadata.tags.join(', ') : $json.metadata.tags\n})}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Call DocsAutomator API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [850, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "YOUR_DOCSAUTOMATOR_CREDENTIAL_ID",
+          "name": "DocsAutomator API"
+        }
+      },
+      "notes": "Creates Google Doc + PDF in Shared Drive, returns URLs"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "create",
+        "databaseId": "1a6c9296-096a-4529-81f9-e6c014c4b808",
+        "title": "={{$node['Parse Frontmatter & Content'].json.metadata.topic}}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Conversation ID",
+              "textValue": "={{$node['Parse Frontmatter & Content'].json.conversation_id}}"
+            },
+            {
+              "key": "Primary Agent",
+              "selectValue": "={{$node['Parse Frontmatter & Content'].json.metadata.agent || 'Claude Code'}}"
+            },
+            {
+              "key": "Date",
+              "dateValue": "={{new Date().toISOString()}}"
+            },
+            {
+              "key": "Status",
+              "selectValue": "Processed"
+            },
+            {
+              "key": "Priority",
+              "selectValue": "={{$node['Parse Frontmatter & Content'].json.metadata.priority || 'Medium'}}"
+            },
+            {
+              "key": "Tags",
+              "multiSelectValue": "={{$node['Parse Frontmatter & Content'].json.metadata.tags}}"
+            },
+            {
+              "key": "Drive Document",
+              "urlValue": "={{$json.googleDocUrl}}"
+            },
+            {
+              "key": "PDF Version",
+              "urlValue": "={{$json.pdfUrl}}"
+            }
+          ]
+        },
+        "blockUi": {
+          "blockValues": [
+            {
+              "type": "paragraph",
+              "richText": true,
+              "textContent": "=**Summary:** {{$node['Parse Frontmatter & Content'].json.content.substring(0, 500)}}...\n\n**Full content:** [Google Doc]({{$json.googleDocUrl}})"
+            }
+          ]
+        }
+      },
+      "name": "Create Notion Page",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [1050, 300],
+      "credentials": {
+        "notionApi": {
+          "id": "YOUR_NOTION_CREDENTIAL_ID",
+          "name": "Notion Account"
+        }
+      },
+      "notes": "Creates database page with all metadata and links to Drive files"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "create",
+        "owner": "YOUR_GITHUB_USERNAME",
+        "repository": "knowledge-lake",
+        "filePath": "=agent-conversations/{{$node['Parse Frontmatter & Content'].json.conversation_id}}/metadata.json",
+        "fileContent": "={{JSON.stringify({\n  conversation_id: $node['Parse Frontmatter & Content'].json.conversation_id,\n  topic: $node['Parse Frontmatter & Content'].json.metadata.topic,\n  agent_primary: $node['Parse Frontmatter & Content'].json.metadata.agent || 'Claude Code',\n  date_created: new Date().toISOString(),\n  urls: {\n    google_doc: $node['Call DocsAutomator API'].json.googleDocUrl,\n    pdf: $node['Call DocsAutomator API'].json.pdfUrl,\n    notion_page: $json.url,\n    github_folder: `https://github.com/YOUR_USERNAME/knowledge-lake/tree/main/agent-conversations/${$node['Parse Frontmatter & Content'].json.conversation_id}`\n  },\n  summary: $node['Parse Frontmatter & Content'].json.content.substring(0, 300) + '...',\n  key_decisions: [],\n  outputs: [\n    {\n      name: $node['Parse Frontmatter & Content'].json.metadata.topic,\n      type: 'google_doc',\n      url: $node['Call DocsAutomator API'].json.googleDocUrl,\n      description: 'Complete content in Google Doc format'\n    }\n  ],\n  status: 'Processed',\n  priority: $node['Parse Frontmatter & Content'].json.metadata.priority || 'Medium',\n  tags: $node['Parse Frontmatter & Content'].json.metadata.tags || [],\n  token_estimate: 500,\n  full_content_location: 'google_doc_url'\n}, null, 2)}}",
+        "commitMessage": "=Add metadata for {{$node['Parse Frontmatter & Content'].json.conversation_id}}"
+      },
+      "name": "Create Compressed Metadata in GitHub",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [1250, 300],
+      "credentials": {
+        "githubApi": {
+          "id": "YOUR_GITHUB_CREDENTIAL_ID",
+          "name": "GitHub Account"
+        }
+      },
+      "notes": "Saves lightweight metadata.json (~500 tokens) instead of full conversation"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "delete",
+        "owner": "YOUR_GITHUB_USERNAME",
+        "repository": "knowledge-lake",
+        "filePath": "=content-queue/{{$node['Parse Frontmatter & Content'].json.filename}}",
+        "commitMessage": "=Processed {{$node['Parse Frontmatter & Content'].json.filename}}"
+      },
+      "name": "Remove from Queue",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [1450, 300],
+      "credentials": {
+        "githubApi": {
+          "id": "YOUR_GITHUB_CREDENTIAL_ID",
+          "name": "GitHub Account"
+        }
+      },
+      "notes": "Deletes processed file from content-queue folder"
+    },
+    {
+      "parameters": {
+        "channel": "YOUR_SLACK_CHANNEL_ID",
+        "text": "=✅ **Content Processed Successfully!**\n\n**Topic:** {{$node['Parse Frontmatter & Content'].json.metadata.topic}}\n**Conversation ID:** {{$node['Parse Frontmatter & Content'].json.conversation_id}}\n**Agent:** {{$node['Parse Frontmatter & Content'].json.metadata.agent || 'Claude Code'}}\n\n**Links:**\n📄 [Google Doc]({{$node['Call DocsAutomator API'].json.googleDocUrl}})\n📑 [PDF Version]({{$node['Call DocsAutomator API'].json.pdfUrl}})\n📋 [Notion Page]({{$node['Create Notion Page'].json.url}})\n🗂️ [GitHub Metadata](https://github.com/YOUR_USERNAME/knowledge-lake/tree/main/agent-conversations/{{$node['Parse Frontmatter & Content'].json.conversation_id}})\n\n**Status:** Ready for agent access",
+        "attachments": [],
+        "otherOptions": {}
+      },
+      "name": "Slack Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [1650, 300],
+      "credentials": {
+        "slackApi": {
+          "id": "YOUR_SLACK_CREDENTIAL_ID",
+          "name": "Slack Account"
+        }
+      },
+      "notes": "Sends success notification with all relevant links"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{JSON.stringify({\n  success: true,\n  conversation_id: $node['Parse Frontmatter & Content'].json.conversation_id,\n  urls: {\n    google_doc: $node['Call DocsAutomator API'].json.googleDocUrl,\n    pdf: $node['Call DocsAutomator API'].json.pdfUrl,\n    notion_page: $node['Create Notion Page'].json.url,\n    github_metadata: `https://github.com/YOUR_USERNAME/knowledge-lake/blob/main/agent-conversations/${$node['Parse Frontmatter & Content'].json.conversation_id}/metadata.json`\n  },\n  message: 'Content processed and distributed across all platforms'\n})}}",
+        "options": {}
+      },
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1850, 300],
+      "notes": "Returns success response to webhook caller"
+    },
+    {
+      "parameters": {
+        "channel": "YOUR_SLACK_CHANNEL_ID",
+        "text": "=❌ **Content Processing Failed**\n\n**Filename:** {{$node['Webhook - Process Content'].json.filename}}\n**Error:** {{$node.error.message}}\n\n**Workflow:** Content → DocsAutomator → Drive → Notion\n**Time:** {{new Date().toISOString()}}",
+        "attachments": [],
+        "otherOptions": {}
+      },
+      "name": "Error Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [850, 500],
+      "credentials": {
+        "slackApi": {
+          "id": "YOUR_SLACK_CREDENTIAL_ID",
+          "name": "Slack Account"
+        }
+      },
+      "notes": "Sends error notification if workflow fails"
+    }
+  ],
+  "connections": {
+    "Webhook - Process Content": {
+      "main": [
+        [
+          {
+            "node": "Read File from GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read File from GitHub": {
+      "main": [
+        [
+          {
+            "node": "Parse Frontmatter & Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Frontmatter & Content": {
+      "main": [
+        [
+          {
+            "node": "Call DocsAutomator API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call DocsAutomator API": {
+      "main": [
+        [
+          {
+            "node": "Create Notion Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Notion Page": {
+      "main": [
+        [
+          {
+            "node": "Create Compressed Metadata in GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Compressed Metadata in GitHub": {
+      "main": [
+        [
+          {
+            "node": "Remove from Queue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove from Queue": {
+      "main": [
+        [
+          {
+            "node": "Slack Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack Notification": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "pinData": {},
+  "versionId": "1",
+  "active": true
+}

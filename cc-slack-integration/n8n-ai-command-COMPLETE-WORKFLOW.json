@@ -1,0 +1,131 @@
+{
+  "name": "AI Command Router - Complete with Responses",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ai-command",
+        "responseMode": "onReceived"
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "const slackData = $input.item.json.body;\n\nreturn {\n  json: {\n    user_id: slackData.user_id,\n    user_name: slackData.user_name,\n    command_text: slackData.text,\n    channel_id: slackData.channel_id,\n    response_url: slackData.response_url,\n    timestamp: new Date().toISOString()\n  }\n};"
+      },
+      "name": "Parse Slack Command",
+      "type": "n8n-nodes-base.code",
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "const command = $('Parse Slack Command').item.json.command_text.toLowerCase();\nconst userName = $('Parse Slack Command').item.json.user_name;\nconst channelId = $('Parse Slack Command').item.json.channel_id;\nconst responseUrl = $('Parse Slack Command').item.json.response_url;\n\nlet agent = 'claude-gui';\nlet reasoning = '';\n\nif (command.includes('cc') || command.includes('claude code') || command.includes('code') || command.includes('terminal')) {\n  agent = 'claude-code';\n  reasoning = 'Routing to Claude Code for coding/system tasks';\n} else if (command.includes('fred') || command.includes('chatgpt') || command.includes('write') || command.includes('draft')) {\n  agent = 'fred';\n  reasoning = 'Routing to Fred (ChatGPT) for content/writing';\n} else if (command.includes('gemini') || command.includes('research') || command.includes('analyze')) {\n  agent = 'gemini';\n  reasoning = 'Routing to Gemini for research/analysis';\n} else if (command.includes('grok') || command.includes('trends') || command.includes('current')) {\n  agent = 'grok';\n  reasoning = 'Routing to Grok for real-time trends';\n} else {\n  reasoning = 'Routing to Claude GUI for strategy/architecture (default)';\n}\n\nreturn {\n  json: {\n    agent: agent,\n    reasoning: reasoning,\n    original_command: command,\n    user_name: userName,\n    channel_id: channelId,\n    response_url: responseUrl,\n    timestamp: new Date().toISOString()\n  }\n};"
+      },
+      "name": "Route to Agent",
+      "type": "n8n-nodes-base.code",
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.agent}}",
+              "operation": "equals",
+              "value2": "claude-code"
+            }
+          ]
+        }
+      },
+      "name": "Is CC Task?",
+      "type": "n8n-nodes-base.if",
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "create",
+        "owner": "={{$env.GITHUB_OWNER}}",
+        "repository": "cc-task-queue",
+        "title": "={{$('Route to Agent').item.json.user_name}}: {{$('Route to Agent').item.json.original_command}}",
+        "body": "**From:** {{$('Route to Agent').item.json.user_name}}\n**Channel:** {{$('Route to Agent').item.json.channel_id}}\n**Timestamp:** {{$('Route to Agent').item.json.timestamp}}\n**Response URL:** {{$('Route to Agent').item.json.response_url}}\n\n---\n\n## Task\n\n{{$('Route to Agent').item.json.original_command}}\n\n---\n\n**Status:** 🔵 QUEUED\n\n_CC: Please process this task and comment with your response. Close the issue when complete._",
+        "labels": ["cc-task", "from-slack", "pending"]
+      },
+      "name": "Create GitHub Issue for CC",
+      "type": "n8n-nodes-base.github",
+      "position": [1050, 200]
+    },
+    {
+      "parameters": {
+        "channel": "={{$('Route to Agent').item.json.channel_id}}",
+        "text": "✅ Task queued for {{$('Route to Agent').item.json.agent}}.\n\n{{$('Route to Agent').item.json.reasoning}}\n\nI'll notify you when complete.",
+        "otherOptions": {
+          "thread_ts": ""
+        }
+      },
+      "name": "Send Slack Acknowledgment",
+      "type": "n8n-nodes-base.slack",
+      "position": [1250, 300]
+    },
+    {
+      "parameters": {
+        "resource": "page",
+        "operation": "create",
+        "databaseId": "1a6c9296-096a-4529-81f9-e6c014c4b808",
+        "simple": false,
+        "properties": {
+          "property": [
+            {
+              "key": "Conversation Title|title",
+              "title": "={{$('Route to Agent').item.json.original_command}}"
+            },
+            {
+              "key": "Primary AI Agent|select",
+              "optionValue": "={{$('Route to Agent').item.json.agent === 'claude-code' ? 'Claude Code' : $('Route to Agent').item.json.agent === 'fred' ? 'Fred (ChatGPT)' : $('Route to Agent').item.json.agent === 'gemini' ? 'Gemini (Google)' : $('Route to Agent').item.json.agent === 'grok' ? 'Grok (xAI)' : 'Claude (Anthropic)'}}"
+            },
+            {
+              "key": "Source Link|url",
+              "url": "https://carlorbizworkspace.slack.com"
+            },
+            {
+              "key": "Instructions|rich_text",
+              "richText": "={{$('Route to Agent').item.json.reasoning}}"
+            },
+            {
+              "key": "Status|select",
+              "optionValue": "📥 Captured"
+            }
+          ]
+        }
+      },
+      "name": "Log to Notion",
+      "type": "n8n-nodes-base.notion",
+      "position": [1250, 450]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [[{"node": "Parse Slack Command", "type": "main", "index": 0}]]
+    },
+    "Parse Slack Command": {
+      "main": [[{"node": "Route to Agent", "type": "main", "index": 0}]]
+    },
+    "Route to Agent": {
+      "main": [[{"node": "Is CC Task?", "type": "main", "index": 0}]]
+    },
+    "Is CC Task?": {
+      "main": [
+        [{"node": "Create GitHub Issue for CC", "type": "main", "index": 0}],
+        [{"node": "Send Slack Acknowledgment", "type": "main", "index": 0}]
+      ]
+    },
+    "Create GitHub Issue for CC": {
+      "main": [[{"node": "Send Slack Acknowledgment", "type": "main", "index": 0}]]
+    },
+    "Send Slack Acknowledgment": {
+      "main": [[{"node": "Log to Notion", "type": "main", "index": 0}]]
+    }
+  }
+}

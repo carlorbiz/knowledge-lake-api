@@ -1,0 +1,362 @@
+# n8n MCP Integration: Step-by-Step Node Configuration
+
+## Overview
+
+Add MCP integration to your existing "AI Command Router" workflow to handle long-form content by routing it to DocsAutomator MCP instead of GitHub/CC.
+
+---
+
+## Current Flow (Before MCP)
+```
+Parse Slack Command → Create GitHub Issue → [CC processes] → GitHub Response → Slack
+```
+
+## New Flow (With MCP)
+```
+Parse Slack Command → Check Content Length
+                           ↓
+              ├─── Short (<1800 chars) → GitHub Issue (existing flow)
+              │
+              └─── Long (>=1800 chars) → DocsAutomator MCP
+                                             ↓
+                                        Store URL in Notion
+                                             ↓
+                                        Send Slack Response
+```
+
+---
+
+## Step 1: Add Content Length Check Node
+
+**After**: "Parse Slack Command" node
+**Node Type**: IF Node
+**Node Name**: "Check Content Length"
+
+### Configuration:
+
+**Conditions:**
+- **Condition 1**:
+  - Value 1: `{{$json.command_text.length}}`
+  - Operator: `Larger or equal`
+  - Value 2: `1800`
+
+**Outputs:**
+- `true` → Long content, route to MCP
+- `false` → Short content, route to existing GitHub flow
+
+---
+
+## Step 2: Connect Existing Flow to "false" Output
+
+**Action**: Connect the `false` output of "Check Content Length" to your existing "Format for GitHub" node
+
+This preserves your current workflow for short content.
+
+---
+
+## Step 3: Add DocsAutomator MCP Call
+
+**After**: "Check Content Length" node (connect to `true` output)
+**Node Type**: HTTP Request
+**Node Name**: "Call DocsAutomator MCP"
+
+### Configuration:
+
+**Authentication**: None
+
+**Request Method**: POST
+
+**URL**: `https://web-production-14aec.up.railway.app/create_document`
+
+**Send Body**: Yes
+
+**Body Content Type**: JSON
+
+**Body**:
+```json
+{
+  "docId": "68d7b000c2fc16ccc70abdac",
+  "documentName": "{{$node['Parse Slack Command'].json.user_name}} - {{$now.format('yyyy-MM-dd HH:mm')}}",
+  "data": {
+    "document_title": "{{$node['Parse Slack Command'].json.notion_title || 'Slack Task'}}",
+    "generation_date": "{{$now.format('MMMM d, yyyy')}}",
+    "main_content": "{{$node['Parse Slack Command'].json.command_text}}"
+  }
+}
+```
+
+**Options → Response**:
+- Response Format: JSON
+- Include Response Headers and Status: Yes (optional, for debugging)
+
+### Expected Response Structure:
+```json
+{
+  "pdfUrl": "https://firebasestorage.googleapis.com/...",
+  "googleDocUrl": "https://docs.google.com/document/d/...",
+  "savePdfGoogleDriveFolderId": "..."
+}
+```
+
+---
+
+## Step 4: Add Notion Node for Long Content
+
+**After**: "Call DocsAutomator MCP" node
+**Node Type**: Notion
+**Node Name**: "Log to Notion (Long Content)"
+
+### Configuration:
+
+**Resource**: Database Page
+
+**Operation**: Create
+
+**Database ID**: [Your AI Agent Universal Conversations Database ID]
+
+**Properties**:
+
+| Property Name | Type | Value | Notes |
+|--------------|------|-------|-------|
+| **Title/Name** | Title | `{{$node['Parse Slack Command'].json.notion_title}}` | Page title |
+| **Document URL** | URL | `{{$json.googleDocUrl}}` | Link to Google Doc |
+| **User** | Text/Select | `{{$node['Parse Slack Command'].json.user_name}}` | Who requested |
+| **Channel** | Text | `{{$node['Parse Slack Command'].json.channel_id}}` | Slack channel |
+| **Priority** | Select | `{{$node['Parse Slack Command'].json.priority}}` | Task priority |
+| **Content Type** | Select | `Document` | Mark as document |
+| **Created Date** | Date | `{{$now}}` | Auto timestamp |
+| **Source** | Select | `Slack` | Where it came from |
+
+**IMPORTANT**: Do NOT use a "Content" or "Full Text" property - that's what caused the 2000 char limit error. Only store the URL!
+
+---
+
+## Step 5: Add Slack Response for MCP Flow
+
+**After**: "Log to Notion (Long Content)" node
+**Node Type**: HTTP Request
+**Node Name**: "Send Slack Response (Document)"
+
+### Configuration:
+
+**Authentication**: None (uses response_url)
+
+**Request Method**: POST
+
+**URL**: `{{$node['Parse Slack Command'].json.response_url}}`
+
+**Send Body**: Yes
+
+**Body Content Type**: JSON
+
+**Body**:
+```json
+{
+  "response_type": "in_channel",
+  "text": ":white_check_mark: Document created successfully!",
+  "blocks": [
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Task*: {{$node['Parse Slack Command'].json.notion_title}}\n*From*: <@{{$node['Parse Slack Command'].json.user_id}}>"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": ":page_facing_up: *Google Doc*: <{{$node['Call DocsAutomator MCP'].json.googleDocUrl}}|View Document>\n:page_with_curl: *PDF*: <{{$node['Call DocsAutomator MCP'].json.pdfUrl}}|Download PDF>"
+      }
+    },
+    {
+      "type": "context",
+      "elements": [
+        {
+          "type": "mrkdwn",
+          "text": "Logged to Notion | Generated by DocsAutomator MCP"
+        }
+      ]
+    }
+  ]
+}
+```
+
+**Options → Response**:
+- Never Error: Yes (to prevent workflow failures if Slack response_url times out)
+
+---
+
+## Step 6: Optional - Add Knowledge Lake Logging
+
+**After**: "Log to Notion (Long Content)" node (in parallel with Slack response)
+**Node Type**: HTTP Request
+**Node Name**: "Log to Knowledge Lake (Document)"
+
+### Configuration:
+
+**Request Method**: POST
+
+**URL**: `http://localhost:5000/ai/log-conversation`
+
+**Body**:
+```json
+{
+  "conversation_id": "{{$node['Log to Notion (Long Content)'].json.id}}",
+  "user": "{{$node['Parse Slack Command'].json.user_name}}",
+  "task": "{{$node['Parse Slack Command'].json.command_text}}",
+  "result_type": "document",
+  "document_url": "{{$node['Call DocsAutomator MCP'].json.googleDocUrl}}",
+  "notion_page_id": "{{$node['Log to Notion (Long Content)'].json.id}}",
+  "source": "slack",
+  "timestamp": "{{$now}}"
+}
+```
+
+---
+
+## Complete Node Sequence (MCP Branch)
+
+```
+Parse Slack Command
+    ↓
+Check Content Length (IF Node)
+    ↓ (true = content >= 1800)
+Call DocsAutomator MCP (HTTP Request)
+    ↓
+Log to Notion (Long Content) (Notion)
+    ↓
+    ├→ Send Slack Response (Document) (HTTP Request)
+    └→ Log to Knowledge Lake (Document) (HTTP Request) [Optional]
+```
+
+---
+
+## Testing the MCP Integration
+
+### Test Case 1: Short Content (Should use GitHub flow)
+```
+/ai cc check the system status
+```
+**Expected**: Creates GitHub issue, standard processing
+
+### Test Case 2: Long Content (Should use MCP flow)
+```
+/ai cc [Paste 2000+ character content here]
+```
+**Expected**:
+1. Creates Google Doc via MCP
+2. Logs URL to Notion
+3. Responds in Slack with links to Doc and PDF
+4. No GitHub issue created
+
+### Test Case 3: Medium Content at Threshold (1800 chars exactly)
+```
+/ai cc [Exactly 1800 characters]
+```
+**Expected**: Uses MCP flow (>= 1800)
+
+---
+
+## Troubleshooting
+
+### MCP Returns Error
+**Check**:
+- Is Railway MCP server online? `curl https://web-production-14aec.up.railway.app/get_automations`
+- Are you using the correct docId? `68d7b000c2fc16ccc70abdac`
+- Is the data structure correct? (document_title, main_content)
+
+### Notion Creation Fails
+**Check**:
+- Does the Notion property exist? (Document URL)
+- Is it the right property type? (URL, not Text)
+- Do you have write permissions to the database?
+
+### Slack Response Doesn't Appear
+**Check**:
+- Is response_url still valid? (15-minute timeout)
+- Is the JSON structure valid?
+- Check n8n execution logs for errors
+
+### Content Length Check Not Working
+**Check**:
+- Is the expression correct? `{{$json.command_text.length}}`
+- Is it comparing to a number? (1800, not "1800")
+- Are both outputs connected to nodes?
+
+---
+
+## Visual Workflow Layout
+
+```
+                    [Parse Slack Command]
+                            │
+                    [Check Content Length]
+                      ╱            ╲
+               false ╱              ╲ true
+                    ╱                ╲
+      [Format for GitHub]    [Call DocsAutomator MCP]
+            │                         │
+      [Create GitHub Issue]    [Log to Notion]
+            │                    ╱          ╲
+      [existing flow...]    [Slack]    [Knowledge Lake]
+```
+
+---
+
+## Next Steps After Implementation
+
+1. ✅ Save and activate the workflow
+2. ✅ Test with short content (<1800 chars)
+3. ✅ Test with long content (>=1800 chars)
+4. ✅ Verify Google Docs are created and accessible
+5. ✅ Verify Notion pages have correct URLs
+6. ✅ Check Slack responses are formatted properly
+7. ✅ Monitor Railway MCP server logs for issues
+
+---
+
+## Advanced: Add Gamma MCP for Presentations
+
+If you want to also route presentation requests to Gamma MCP:
+
+### Add Another IF Node After Content Length Check:
+
+**Node**: "Check for Presentation Request"
+**Type**: IF Node
+**Condition**:
+```javascript
+{{$json.command_text.toLowerCase().includes('presentation') ||
+  $json.command_text.toLowerCase().includes('slides') ||
+  $json.command_text.toLowerCase().includes('deck')}}
+```
+
+### Add Gamma HTTP Request Node:
+
+**URL**: `https://web-production-b4cb0.up.railway.app/generate`
+**Body**:
+```json
+{
+  "inputText": "{{$json.command_text}}",
+  "format": "presentation",
+  "numCards": 12,
+  "additionalInstructions": "Create a professional presentation with clear structure"
+}
+```
+
+**Then add**: "Check Gamma Status" node (GET request to `/generations/{generationId}`) after 10-second wait
+
+---
+
+## Summary
+
+This integration:
+- ✅ Bypasses Notion's 2000-char limit
+- ✅ Creates professional Google Docs automatically
+- ✅ Stores URLs instead of full text
+- ✅ Eliminates Zapier costs ($18-98/month savings)
+- ✅ Scales to handle any content length
+- ✅ Maintains full workflow automation
+
+**Cost**: ~$1-2/month for Railway hosting
+**ROI**: Immediate 90-98% cost reduction

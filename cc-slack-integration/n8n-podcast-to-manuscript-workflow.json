@@ -1,0 +1,364 @@
+{
+  "name": "Podcast to Manuscript (Google Recorder → Whisper → Claude)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "google-drive-recorder",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "webhook-drive-notification",
+      "name": "Webhook: Drive Push Notification",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "google-recorder-new-file"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "download",
+        "fileId": "={{ $json.id }}",
+        "options": {}
+      },
+      "id": "google-drive-get-file",
+      "name": "Google Drive: Get Recording",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [450, 300],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "your-google-drive-credentials",
+          "name": "Google Drive Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.mimeType }}",
+              "operation": "contains",
+              "value2": "audio"
+            }
+          ]
+        }
+      },
+      "id": "filter-audio-only",
+      "name": "Filter: Audio Files Only",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "requestMethod": "POST",
+        "url": "https://api.openai.com/v1/audio/transcriptions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "file",
+              "value": "={{ $binary.data }}"
+            },
+            {
+              "name": "model",
+              "value": "whisper-1"
+            },
+            {
+              "name": "language",
+              "value": "en"
+            },
+            {
+              "name": "response_format",
+              "value": "verbose_json"
+            },
+            {
+              "name": "timestamp_granularities[]",
+              "value": "segment"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "openai-whisper-transcribe",
+      "name": "OpenAI Whisper: Transcribe",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [850, 200],
+      "credentials": {
+        "openAiApi": {
+          "id": "your-openai-credentials",
+          "name": "OpenAI Account"
+        }
+      },
+      "notes": "Transcribes audio with timestamps and segments"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "transcripts-folder-id",
+          "mode": "list"
+        },
+        "name": "={{ $json.fileName.replace('.m4a', '') }}-transcript.txt",
+        "options": {}
+      },
+      "id": "save-raw-transcript",
+      "name": "Google Drive: Save Raw Transcript",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [1050, 200],
+      "notes": "Stores raw Whisper transcript in Google Drive/Transcripts folder"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "transcript",
+              "name": "transcript",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "recording-name",
+              "name": "recordingName",
+              "value": "={{ $('Google Drive: Get Recording').item.json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "duration",
+              "name": "duration",
+              "value": "={{ $json.duration }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "prepare-for-claude",
+      "name": "Prepare Data for Claude",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [1250, 200]
+    },
+    {
+      "parameters": {
+        "instruction": "={{ $json.instructions }}",
+        "prompt": "=TRANSCRIPT TO CLEAN AND ENHANCE:\n\nRecording: {{ $json.recordingName }}\nDuration: {{ $json.duration }} seconds\n\n---\n\n{{ $json.transcript }}\n\n---\n\nPlease perform the following tasks:\n\n1. CLEAN THE TRANSCRIPT:\n   - Remove filler words (um, uh, like, you know, etc.)\n   - Fix grammar and punctuation\n   - Correct obvious transcription errors\n   - Maintain speaker intent and meaning\n\n2. CONVERT TO NARRATIVE PROSE:\n   - Transform conversational dialogue into flowing narrative\n   - Maintain first-person perspective (Carla's voice)\n   - Preserve key insights and anecdotes from Fredo\n   - Add paragraph breaks for readability\n\n3. IDENTIFY CHAPTER STRUCTURE:\n   - Suggest logical chapter breaks based on topic shifts\n   - Provide chapter titles\n   - Note any sections that need further development\n\n4. ADD CONTEXT:\n   - Where Fredo references acronyms or jargon, add brief clarifications\n   - Flag any statements that need fact-checking\n   - Suggest areas where more detail would enhance the narrative\n\nOutput the enhanced manuscript draft ready for book publication.",
+        "options": {
+          "systemMessage": "You are an expert book editor specializing in transforming podcast interviews into compelling manuscript drafts. You excel at maintaining authentic voice while elevating conversational content to publication-ready prose."
+        }
+      },
+      "id": "claude-enhance-manuscript",
+      "name": "Claude: Enhance to Manuscript",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [1450, 200],
+      "notes": "Uses Claude via OpenAI-compatible endpoint or Zapier MCP"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "title": "={{ $json.recordingName.replace('.m4a', '') }} - Manuscript Draft",
+        "body": "={{ $json.choices[0].message.content }}",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "book-drafts-folder-id",
+          "mode": "list"
+        },
+        "options": {}
+      },
+      "id": "save-manuscript-draft",
+      "name": "Google Docs: Save Manuscript",
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [1650, 200],
+      "notes": "Creates formatted Google Doc in Book Drafts folder"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": "book-manuscripts-database-id",
+        "title": "={{ $json.recordingName.replace('.m4a', '') }}",
+        "properties": {
+          "customProperties": [
+            {
+              "key": "Status",
+              "value": "Draft"
+            },
+            {
+              "key": "Recording Date",
+              "value": "={{ new Date().toISOString() }}"
+            },
+            {
+              "key": "Duration (min)",
+              "value": "={{ Math.round($('Prepare Data for Claude').item.json.duration / 60) }}"
+            },
+            {
+              "key": "Manuscript Link",
+              "value": "={{ $json.webViewLink }}"
+            },
+            {
+              "key": "Raw Transcript",
+              "value": "={{ $('Google Drive: Save Raw Transcript').item.json.webViewLink }}"
+            }
+          ]
+        }
+      },
+      "id": "create-notion-page",
+      "name": "Notion: Create Book Entry",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [1850, 200],
+      "credentials": {
+        "notionApi": {
+          "id": "your-notion-credentials",
+          "name": "Notion Account"
+        }
+      },
+      "notes": "Links manuscript to Notion Book Manuscripts database"
+    },
+    {
+      "parameters": {
+        "content": "=✅ Podcast processed successfully!\n\n📝 Recording: {{ $('Google Drive: Get Recording').item.json.name }}\n⏱️ Duration: {{ Math.round($('Prepare Data for Claude').item.json.duration / 60) }} minutes\n📄 Manuscript: {{ $json.webViewLink }}\n📊 Notion: Created in Book Manuscripts database",
+        "options": {}
+      },
+      "id": "completion-message",
+      "name": "Success Message",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [2050, 200],
+      "notes": "Optional: Send notification (Slack/Email)"
+    }
+  ],
+  "connections": {
+    "Webhook: Drive Push Notification": {
+      "main": [
+        [
+          {
+            "node": "Google Drive: Get Recording",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive: Get Recording": {
+      "main": [
+        [
+          {
+            "node": "Filter: Audio Files Only",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter: Audio Files Only": {
+      "main": [
+        [
+          {
+            "node": "OpenAI Whisper: Transcribe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Whisper: Transcribe": {
+      "main": [
+        [
+          {
+            "node": "Google Drive: Save Raw Transcript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive: Save Raw Transcript": {
+      "main": [
+        [
+          {
+            "node": "Prepare Data for Claude",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Data for Claude": {
+      "main": [
+        [
+          {
+            "node": "Claude: Enhance to Manuscript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude: Enhance to Manuscript": {
+      "main": [
+        [
+          {
+            "node": "Google Docs: Save Manuscript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs: Save Manuscript": {
+      "main": [
+        [
+          {
+            "node": "Notion: Create Book Entry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion: Create Book Entry": {
+      "main": [
+        [
+          {
+            "node": "Success Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-07T00:00:00.000Z",
+  "versionId": "1"
+}

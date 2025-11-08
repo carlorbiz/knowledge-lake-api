@@ -171,8 +171,11 @@ function onOpen() {
     .addSeparator()
     .addItem('▶️ STEP 2: Generate Audio for Selected Slides', 'generateAudioForSelected')
     .addItem('📊 STEP 3: Generate Presentation from Selected Slides', 'generatePresentationForSelected')
+    .addItem('📄 Generate LMS Upload', 'generateLMSForSelectedModule')
     .addSeparator()
     .addItem('⚡ AUTO: Enhance + Audio (Full Pipeline)', 'fullPipelineForSelected')
+    .addSeparator()
+    .addItem('📦 Transfer Audio to Module Tab', 'transferAudioToModuleTab')
     .addSeparator()
     .addSubMenu(ui.createMenu('🔄 Auto-Process by Status')
       .addItem('▶️ Process All "Next" Slides (Sequential)', 'processNextSlides')
@@ -246,6 +249,151 @@ function showSettings() {
   `).setWidth(600).setHeight(550);
 
   SpreadsheetApp.getUi().showModalDialog(html, '⚙️ Settings');
+}
+
+// ========================================
+// TRANSFER AUDIO TO MODULE TAB
+// ========================================
+
+/**
+ * Transfer completed audio content from Audio tab to a specific Module # tab
+ * Validates module number from audio filenames
+ * Copies cols A-R from Audio tab → cols A-R of Module # tab
+ * Clears Audio tab after successful transfer
+ */
+function transferAudioToModuleTab() {
+  const ui = SpreadsheetApp.getUi();
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  const audioSheet = spreadsheet.getSheetByName(CONFIG.SHEET_NAME);
+
+  if (!audioSheet) {
+    ui.alert('Error', 'Audio tab not found.', ui.ButtonSet.OK);
+    return;
+  }
+
+  // Get audio data (rows 2-13, columns A-R = 18 columns)
+  const audioDataRange = audioSheet.getRange(2, 1, 12, 18);
+  const audioData = audioDataRange.getValues();
+
+  // Validate we have 12 rows of data
+  const nonEmptyRows = audioData.filter(row => row[0] || row[1] || row[2]).length;
+  if (nonEmptyRows < 12) {
+    ui.alert('Error',
+      `Audio tab needs 12 complete rows.\n\nFound ${nonEmptyRows} rows with data.\n\nPlease ensure all 12 slides are generated before transferring.`,
+      ui.ButtonSet.OK);
+    return;
+  }
+
+  // Extract module number from audio filenames to validate consistency
+  const audioFilenames = audioData.map(row => row[CONFIG.COLS.AUDIO_FILE]).filter(url => url);
+
+  if (audioFilenames.length < 12) {
+    ui.alert('Error',
+      `Not all audio files have been generated.\n\nFound ${audioFilenames.length} of 12 audio files.\n\nPlease complete audio generation before transferring.`,
+      ui.ButtonSet.OK);
+    return;
+  }
+
+  // Parse module numbers from filenames (format: Module#_Slide#_VoiceName.wav)
+  const moduleNumbers = new Set();
+  const filenamePattern = /\/([^\/]+)\.wav$/; // Extract filename from URL
+
+  audioFilenames.forEach(url => {
+    const match = url.match(filenamePattern);
+    if (match) {
+      const filename = match[1];
+      // Extract module number from filename (e.g., "1" from "1_3_Charon")
+      const parts = filename.split('_');
+      if (parts.length >= 2) {
+        moduleNumbers.add(parts[0]);
+      }
+    }
+  });
+
+  if (moduleNumbers.size === 0) {
+    ui.alert('Error',
+      'Could not extract module number from audio filenames.\n\nExpected format: Module#_Slide#_VoiceName.wav',
+      ui.ButtonSet.OK);
+    return;
+  }
+
+  if (moduleNumbers.size > 1) {
+    ui.alert('Error',
+      `Multiple module numbers detected in audio files: ${Array.from(moduleNumbers).join(', ')}\n\nAudio tab should contain only one module at a time.`,
+      ui.ButtonSet.OK);
+    return;
+  }
+
+  const detectedModuleNumber = Array.from(moduleNumbers)[0];
+
+  // Prompt user to confirm module number
+  const response = ui.prompt(
+    'Transfer Audio to Module Tab',
+    `Module number detected from audio filenames: ${detectedModuleNumber}\n\nConfirm module number to transfer to:\n(Or enter a different module number)`,
+    ui.ButtonSet.OK_CANCEL
+  );
+
+  if (response.getSelectedButton() !== ui.Button.OK) return;
+
+  const moduleNumber = response.getResponseText().trim();
+
+  if (!moduleNumber || moduleNumber === '') {
+    ui.alert('Error', 'Module number cannot be empty.', ui.ButtonSet.OK);
+    return;
+  }
+
+  // Check if detected number matches user input
+  if (moduleNumber !== detectedModuleNumber) {
+    const confirmResponse = ui.alert(
+      'Module Number Mismatch',
+      `⚠️ Warning: You entered "${moduleNumber}" but audio filenames indicate "${detectedModuleNumber}".\n\nAre you sure you want to transfer to Module ${moduleNumber}?`,
+      ui.ButtonSet.YES_NO
+    );
+
+    if (confirmResponse !== ui.Button.YES) return;
+  }
+
+  // Get target module tab
+  const moduleTabName = `Module ${moduleNumber}`;
+  let moduleSheet = spreadsheet.getSheetByName(moduleTabName);
+
+  if (!moduleSheet) {
+    ui.alert('Error',
+      `Module tab "${moduleTabName}" not found.\n\nPlease ensure the module tab exists before transferring.`,
+      ui.ButtonSet.OK);
+    return;
+  }
+
+  // Final confirmation
+  const finalConfirm = ui.alert(
+    'Confirm Transfer',
+    `Transfer 12 rows from Audio tab → ${moduleTabName}?\n\n- Copies columns A-R (audio content)\n- Clears Audio tab after transfer\n- Overwrites existing data in ${moduleTabName} columns A-R`,
+    ui.ButtonSet.YES_NO
+  );
+
+  if (finalConfirm !== ui.Button.YES) return;
+
+  try {
+    // Write data to Module # tab (rows 2-13, columns A-R)
+    const moduleTargetRange = moduleSheet.getRange(2, 1, 12, 18);
+    moduleTargetRange.setValues(audioData);
+
+    Logger.log(`Transferred 12 rows to ${moduleTabName} columns A-R`);
+
+    // Clear Audio tab (rows 2-13, columns A-R)
+    audioDataRange.clearContent();
+
+    Logger.log('Cleared Audio tab rows 2-13');
+
+    // Success message
+    ui.alert('Transfer Complete',
+      `✅ Successfully transferred 12 slides to ${moduleTabName}\n\n- Audio tab cleared and ready for next module\n- ${moduleTabName} now contains complete audio content in columns A-R`,
+      ui.ButtonSet.OK);
+
+  } catch (error) {
+    Logger.log('Error transferring audio: ' + error.message);
+    ui.alert('Error', `Failed to transfer audio:\n\n${error.message}`, ui.ButtonSet.OK);
+  }
 }
 
 // ========================================
@@ -493,6 +641,8 @@ function fullPipelineForSelected() {
       const courseTitle = rowData[CONFIG.COLS.COURSE_TITLE];
       const moduleTitle = rowData[CONFIG.COLS.MODULE_TITLE];
       const voiceSelection = rowData[CONFIG.COLS.VOICE_SELECTION] || CONFIG.DEFAULT_VOICE;
+      const moduleNumber = rowData[CONFIG.COLS.MODULE_NUMBER];
+      const slideNumber = rowData[CONFIG.COLS.SLIDE_NUMBER];
 
       // STEP 1: Enhance content
       if (rawContent) {
@@ -519,7 +669,7 @@ function fullPipelineForSelected() {
       // STEP 2: Generate audio
       const voiceoverScript = rowData[CONFIG.COLS.VOICEOVER_SCRIPT];
       if (voiceoverScript) {
-        const audioUrl = generateAudio(voiceoverScript, voiceSelection, targetAudience, slideTitle);
+        const audioUrl = generateAudio(voiceoverScript, voiceSelection, targetAudience, slideTitle, moduleNumber, slideNumber);
         if (audioUrl) {
           sheet.getRange(rowIndex, CONFIG.COLS.AUDIO_FILE + 1).setValue(audioUrl);
           audioSuccess++;
@@ -648,6 +798,7 @@ function generateAudioForSelected() {
       const voiceSelection = rowData[CONFIG.COLS.VOICE_SELECTION] || CONFIG.DEFAULT_VOICE;
       const targetAudience = rowData[CONFIG.COLS.TARGET_AUDIENCE];
       const slideTitle = rowData[CONFIG.COLS.SLIDE_TITLE];
+      const moduleNumber = rowData[CONFIG.COLS.MODULE_NUMBER];
       const slideNumber = rowData[CONFIG.COLS.SLIDE_NUMBER];
       const courseTitle = rowData[CONFIG.COLS.COURSE_TITLE];
 
@@ -658,7 +809,7 @@ function generateAudioForSelected() {
       }
 
       // Generate audio
-      const audioUrl = generateAudio(voiceoverScript, voiceSelection, targetAudience, slideTitle);
+      const audioUrl = generateAudio(voiceoverScript, voiceSelection, targetAudience, slideTitle, moduleNumber, slideNumber);
 
       if (audioUrl) {
         // Write audio URL to column C
@@ -692,8 +843,43 @@ function generateAudioForSelected() {
     ui.ButtonSet.OK);
 }
 
-function generateAudio(script, voiceName, targetAudience, slideTitle) {
+/**
+ * Pre-process script to fix TTS misinterpretations and hallucinations
+ * Catches problematic words before TTS generation to prevent mispronunciations
+ */
+function preprocessScriptForTTS(text) {
+  const ttsFixup = {
+    // Words that TTS commonly mispronounces - force syllable breaks or phonetic hints
+    'administration': 'admin-istration',
+    'administrative': 'admin-istrative',
+    'administrator': 'admin-istrator',
+    'administrators': 'admin-istrators',
+
+    // Add more as discovered during testing
+    // Format: 'problematic-word': 'phonetic-hint'
+  };
+
+  let processed = text;
+
+  // Apply replacements with word boundaries to avoid partial matches
+  for (const [word, phonetic] of Object.entries(ttsFixup)) {
+    const regex = new RegExp('\\b' + word + '\\b', 'gi');
+    processed = processed.replace(regex, (match) => {
+      // Preserve original case
+      if (match === match.toUpperCase()) return phonetic.toUpperCase();
+      if (match[0] === match[0].toUpperCase()) return phonetic.charAt(0).toUpperCase() + phonetic.slice(1);
+      return phonetic;
+    });
+  }
+
+  return processed;
+}
+
+function generateAudio(script, voiceName, targetAudience, slideTitle, moduleNumber, slideNumber) {
   try {
+    // Pre-process script to fix TTS misinterpretations
+    script = preprocessScriptForTTS(script);
+
     // Australian professional voice prompt
     const voicePrompt = `GEMINI API AUSTRALIAN VOICE GENERATION:
 
@@ -716,10 +902,11 @@ CRITICAL EXCLUSIONS:
 Read this content as if listener is valued professional team member:`;
 
     // Build TTS request for Gemini (script already has phonetic replacements from enhancement)
+    // NOTE: Do NOT include "Slide Title:" label - it can cause TTS to read it aloud
     const requestBody = {
       "contents": [{
         "parts": [{
-          "text": `${voicePrompt}\n\nSlide Title: ${slideTitle}\n\nVoiceover Script:\n${script}`
+          "text": `${voicePrompt}\n\n${script}`
         }]
       }],
       "generationConfig": {
@@ -805,7 +992,7 @@ Read this content as if listener is valued professional team member:`;
           }
 
           // Save to Google Drive using Advanced Drive service
-          const audioUrl = saveAudioToDrive(audioBlob, slideTitle, voiceName);
+          const audioUrl = saveAudioToDrive(audioBlob, slideTitle, voiceName, moduleNumber, slideNumber);
           return audioUrl;
         }
       }
@@ -862,7 +1049,7 @@ function convertL16ToWav(inputData, mimeType = "audio/L16;codec=pcm;rate=24000",
 /**
  * Save audio blob to Google Drive using Advanced Drive service (v3)
  */
-function saveAudioToDrive(audioBlob, slideTitle, voiceName) {
+function saveAudioToDrive(audioBlob, slideTitle, voiceName, moduleNumber, slideNumber) {
   try {
     // Get folder ID from config or create folder
     let folderId = CONFIG.DRIVE_FOLDER_ID;
@@ -873,9 +1060,8 @@ function saveAudioToDrive(audioBlob, slideTitle, voiceName) {
       folderId = folder.getId();
     }
 
-    // Create filename with timestamp
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const fullFileName = `${slideTitle}_${voiceName}_${timestamp}.wav`;
+    // Create filename: Module#_Slide#_VoiceName.wav (no timestamp - keeps it clean and predictable)
+    const fullFileName = `${moduleNumber}_${slideNumber}_${voiceName}.wav`;
 
     // Use Advanced Drive service v3
     const fileMetadata = {
@@ -960,10 +1146,12 @@ function generateAudioAndImagesForSelected() {
       const voiceSelection = rowData[CONFIG.COLS.VOICE_SELECTION] || CONFIG.DEFAULT_VOICE;
       const targetAudience = rowData[CONFIG.COLS.TARGET_AUDIENCE];
       const slideTitle = rowData[CONFIG.COLS.SLIDE_TITLE];
+      const moduleNumber = rowData[CONFIG.COLS.MODULE_NUMBER];
+      const slideNumber = rowData[CONFIG.COLS.SLIDE_NUMBER];
 
       // Generate audio
       if (voiceoverScript) {
-        const audioUrl = generateAudio(voiceoverScript, voiceSelection, targetAudience, slideTitle);
+        const audioUrl = generateAudio(voiceoverScript, voiceSelection, targetAudience, slideTitle, moduleNumber, slideNumber);
         if (audioUrl) {
           sheet.getRange(rowIndex, CONFIG.COLS.AUDIO_FILE + 1).setValue(audioUrl);
           audioSuccess++;
@@ -1196,13 +1384,15 @@ function processNextSlides() {
       const slideTitle = rowData[CONFIG.COLS.SLIDE_TITLE];
       const targetAudience = rowData[CONFIG.COLS.TARGET_AUDIENCE];
       const voiceSelection = rowData[CONFIG.COLS.VOICE_SELECTION] || CONFIG.DEFAULT_VOICE;
+      const moduleNumber = rowData[CONFIG.COLS.MODULE_NUMBER];
+      const slideNumber = rowData[CONFIG.COLS.SLIDE_NUMBER];
 
       Logger.log(`Row ${rowIndex}: About to generate audio`);
       Logger.log(`Script length: ${finalScript ? finalScript.length : 0}`);
       Logger.log(`First 100 chars: ${finalScript ? finalScript.substring(0, 100) : 'EMPTY'}`);
 
       if (finalScript && finalScript.trim().length > 0) {
-        const audioUrl = generateAudio(finalScript, voiceSelection, targetAudience, slideTitle);
+        const audioUrl = generateAudio(finalScript, voiceSelection, targetAudience, slideTitle, moduleNumber, slideNumber);
         if (audioUrl) {
           sheet.getRange(rowIndex, CONFIG.COLS.AUDIO_FILE + 1).setValue(audioUrl);
           SpreadsheetApp.flush(); // Force update to sheet NOW
@@ -1322,9 +1512,11 @@ function processPendingSlides() {
       const slideTitle = rowData[CONFIG.COLS.SLIDE_TITLE];
       const targetAudience = rowData[CONFIG.COLS.TARGET_AUDIENCE];
       const voiceSelection = rowData[CONFIG.COLS.VOICE_SELECTION] || CONFIG.DEFAULT_VOICE;
+      const moduleNumber = rowData[CONFIG.COLS.MODULE_NUMBER];
+      const slideNumber = rowData[CONFIG.COLS.SLIDE_NUMBER];
 
       if (finalScript) {
-        const audioUrl = generateAudio(finalScript, voiceSelection, targetAudience, slideTitle);
+        const audioUrl = generateAudio(finalScript, voiceSelection, targetAudience, slideTitle, moduleNumber, slideNumber);
         if (audioUrl) {
           sheet.getRange(rowIndex, CONFIG.COLS.AUDIO_FILE + 1).setValue(audioUrl);
           SpreadsheetApp.flush(); // Force update to sheet NOW
@@ -1661,6 +1853,378 @@ function getOrCreateFolder(folderName) {
   } else {
     return DriveApp.createFolder(folderName);
   }
+}
+
+// ========================================
+// LMS UPLOAD GENERATION
+// ========================================
+
+/**
+ * Australian spelling enforcement function
+ * Converts US spelling to Australian spelling throughout text
+ */
+function enforceAustralianSpelling(text) {
+  const spellingReplacements = {
+    // -ize to -ise
+    'optimize': 'optimise',
+    'optimized': 'optimised',
+    'optimizing': 'optimising',
+    'organize': 'organise',
+    'organized': 'organised',
+    'organizing': 'organising',
+    'recognize': 'recognise',
+    'recognized': 'recognised',
+    'recognizing': 'recognising',
+    'realize': 'realise',
+    'realized': 'realised',
+    'realizing': 'realising',
+    'specialize': 'specialise',
+    'specialized': 'specialised',
+    'specializing': 'specialising',
+    'standardize': 'standardise',
+    'standardized': 'standardised',
+    'standardizing': 'standardising',
+    'minimize': 'minimise',
+    'minimized': 'minimised',
+    'minimizing': 'minimising',
+    'maximize': 'maximise',
+    'maximized': 'maximised',
+    'maximizing': 'maximising',
+    'utilize': 'utilise',
+    'utilized': 'utilised',
+    'utilizing': 'utilising',
+    'prioritize': 'prioritise',
+    'prioritized': 'prioritised',
+    'prioritizing': 'prioritising',
+    'emphasize': 'emphasise',
+    'emphasized': 'emphasised',
+    'emphasizing': 'emphasising',
+    'summarize': 'summarise',
+    'summarized': 'summarised',
+    'summarizing': 'summarising',
+
+    // -or to -our
+    'color': 'colour',
+    'colors': 'colours',
+    'colored': 'coloured',
+    'coloring': 'colouring',
+    'favor': 'favour',
+    'favors': 'favours',
+    'favored': 'favoured',
+    'favoring': 'favouring',
+    'honor': 'honour',
+    'honors': 'honours',
+    'honored': 'honoured',
+    'honoring': 'honouring',
+    'labor': 'labour',
+    'labors': 'labours',
+    'labored': 'laboured',
+    'laboring': 'labouring',
+    'neighbor': 'neighbour',
+    'neighbors': 'neighbours',
+    'behavior': 'behaviour',
+    'behaviors': 'behaviours',
+    'behavioral': 'behavioural',
+
+    // -er to -re
+    'center': 'centre',
+    'centers': 'centres',
+    'centered': 'centred',
+    'centering': 'centring',
+    'fiber': 'fibre',
+    'fibers': 'fibres',
+    'meter': 'metre',
+    'meters': 'metres',
+    'liter': 'litre',
+    'liters': 'litres',
+
+    // -ense to -ence
+    'defense': 'defence',
+    'defenses': 'defences',
+    'license': 'licence',
+    'licenses': 'licences',
+    'offense': 'offence',
+    'offenses': 'offences',
+
+    // -og to -ogue
+    'analog': 'analogue',
+    'analogs': 'analogues',
+    'catalog': 'catalogue',
+    'catalogs': 'catalogues',
+    'dialog': 'dialogue',
+    'dialogs': 'dialogues',
+
+    // Other common differences
+    'analyze': 'analyse',
+    'analyzed': 'analysed',
+    'analyzing': 'analysing',
+    'analysis': 'analysis', // same
+    'practiced': 'practised',
+    'practicing': 'practising',
+    'program': 'programme', // TV/radio context
+    'aging': 'ageing',
+    'judgment': 'judgement',
+    'pediatric': 'paediatric',
+    'pediatrics': 'paediatrics',
+    'pediatrician': 'paediatrician',
+    'anesthesia': 'anaesthesia',
+    'anesthetic': 'anaesthetic',
+    'anesthesiologist': 'anaesthesiologist',
+    'edema': 'oedema',
+    'estrogen': 'oestrogen',
+    'fetus': 'foetus',
+    'hemoglobin': 'haemoglobin',
+    'leukemia': 'leukaemia',
+    'maneuver': 'manoeuvre',
+    'maneuvers': 'manoeuvres',
+    'maneuvering': 'manoeuvring'
+  };
+
+  let processedText = text;
+
+  // Apply replacements with word boundaries to avoid partial matches
+  for (const [us, au] of Object.entries(spellingReplacements)) {
+    // Case-insensitive replacement preserving original case
+    const regex = new RegExp('\\b' + us + '\\b', 'gi');
+    processedText = processedText.replace(regex, (match) => {
+      // Preserve case of original
+      if (match === match.toUpperCase()) return au.toUpperCase();
+      if (match[0] === match[0].toUpperCase()) return au.charAt(0).toUpperCase() + au.slice(1);
+      return au;
+    });
+  }
+
+  return processedText;
+}
+
+/**
+ * Generate LMS Upload document matching ProvenLMSlayout.txt format EXACTLY
+ * CORRECTED DATA FLOW:
+ * - Slide Title: Column L (rows 2-13)
+ * - Bullet Points: Column M Content Points JSON (rows 2-13)
+ * - Voiceover Summary: Column X Slides JSON detailedContent (1-2 sentences)
+ * Works with individual module tabs (Module 1, Module 2, etc.)
+ * NO NEED TO SELECT ROWS - just click anywhere in the module tab
+ */
+function generateLMSForSelectedModule() {
+  const sheet = SpreadsheetApp.getActiveSheet();
+  const ui = SpreadsheetApp.getUi();
+
+  // Get module info from row 2
+  const moduleNumber = sheet.getRange(2, 7).getValue(); // Column G
+  const moduleTitle = sheet.getRange(2, 9).getValue();  // Column I - Module Title
+
+  // Get Slides JSON from Column X (column 24) for detailedContent (voiceover source)
+  const slidesJsonCell = sheet.getRange(2, 24).getValue();
+
+  if (!moduleNumber || !moduleTitle) {
+    ui.alert('Error',
+      'Module Number or Module Title not found.\n\nExpected:\n- Module Number in Column G (row 2)\n- Module Title in Column I (row 2)',
+      ui.ButtonSet.OK);
+    return;
+  }
+
+  if (!slidesJsonCell || slidesJsonCell.trim() === '') {
+    ui.alert('Error',
+      'No Slides JSON found in Column X (row 2).\n\nThis function requires Slides JSON generated by Module_Content_Generator.gs.',
+      ui.ButtonSet.OK);
+    return;
+  }
+
+  // Parse Slides JSON (for detailedContent only - voiceover summaries)
+  let slidesData;
+  try {
+    slidesData = JSON.parse(slidesJsonCell);
+    if (!Array.isArray(slidesData) || slidesData.length === 0) {
+      throw new Error('Slides JSON is empty or invalid');
+    }
+  } catch (parseError) {
+    ui.alert('Error',
+      `Failed to parse Slides JSON:\n\n${parseError.message}`,
+      ui.ButtonSet.OK);
+    return;
+  }
+
+  // Read SLIDE TITLES from Column L (rows 2-13)
+  const slideTitlesRange = sheet.getRange(2, 12, 12, 1); // Column L, 12 rows
+  const slideTitlesData = slideTitlesRange.getValues();
+
+  // Read CONTENT POINTS from Column M (rows 2-13)
+  const contentPointsRange = sheet.getRange(2, 13, 12, 1); // Column M, 12 rows
+  const contentPointsData = contentPointsRange.getValues();
+
+  // Confirm with user
+  const response = ui.alert(
+    'Generate LMS Upload Document',
+    `Create LMS upload document for:\n\nSheet: "${sheet.getName()}"\nModule ${moduleNumber}: ${moduleTitle}\n12 slide(s)\n\nFormat: ProvenLMSlayout.txt (bullet points + voiceover)`,
+    ui.ButtonSet.YES_NO
+  );
+
+  if (response !== ui.Button.YES) return;
+
+  try {
+    // Build LMS document content matching ProvenLMSlayout.txt EXACTLY
+    let lmsContent = `Module ${moduleNumber}: ${moduleTitle}\n`;
+    lmsContent += '='.repeat(60) + '\n\n';
+
+    // Process each slide (12 slides)
+    for (let i = 0; i < 12; i++) {
+      const slideNumber = i + 1;
+
+      // Get slide title from Column L
+      const slideTitle = slideTitlesData[i] ? slideTitlesData[i][0] : `Slide ${slideNumber}`;
+
+      // Get content points from Column M (JSON array)
+      const contentPointsJson = contentPointsData[i] ? contentPointsData[i][0] : '';
+      let bulletPoints = [];
+
+      if (contentPointsJson && contentPointsJson.trim() !== '') {
+        try {
+          bulletPoints = JSON.parse(contentPointsJson);
+          if (!Array.isArray(bulletPoints)) {
+            bulletPoints = [contentPointsJson]; // Fallback if not array
+          }
+        } catch (parseError) {
+          Logger.log(`Row ${i+2}: Failed to parse content points JSON: ${parseError.message}`);
+          bulletPoints = ['Key concept 1', 'Key concept 2', 'Key concept 3'];
+        }
+      } else {
+        bulletPoints = ['Key concept 1', 'Key concept 2', 'Key concept 3'];
+      }
+
+      // Get detailedContent from Slides JSON for voiceover summary
+      const detailedContent = (slidesData[i] && slidesData[i].detailedContent) ? slidesData[i].detailedContent : '';
+
+      // Add slide header (EXACT format from ProvenLMSlayout.txt)
+      lmsContent += `Slide ${slideNumber}: ${slideTitle}\n`;
+
+      // Add bullet points from Column M
+      bulletPoints.forEach(bullet => {
+        lmsContent += `- ${bullet}\n`;
+      });
+
+      lmsContent += '\n';
+
+      // Add voiceover section (EXACT format from ProvenLMSlayout.txt)
+      lmsContent += 'Voiceover:\n';
+
+      // Extract 1-2 sentences from detailedContent (Column X) for LMS context
+      let voiceoverSummary = extractVoiceoverSummaryFromDetailed(detailedContent);
+
+      lmsContent += `"${voiceoverSummary}"\n`;
+
+      lmsContent += '\n---\n\n';
+    }
+
+    // Apply Australian spelling enforcement
+    lmsContent = enforceAustralianSpelling(lmsContent);
+
+    // Create Google Doc
+    const docName = `LMS Upload - Module ${moduleNumber} - ${moduleTitle}`;
+    const doc = DocumentApp.create(docName);
+    const body = doc.getBody();
+
+    // Add content as plain text (no fancy formatting - keep it simple for LMS parsing)
+    body.setText(lmsContent);
+
+    const docUrl = doc.getUrl();
+
+    // Save Google Doc URL to Column Y (column 25) in row 2
+    sheet.getRange(2, 25).setValue(docUrl);
+
+    Logger.log(`LMS Upload URL saved to ${sheet.getName()} row 2, column Y`);
+
+    // Show success dialog
+    const htmlOutput = HtmlService.createHtmlOutput(`
+      <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        h3 { color: #1a73e8; }
+        .success { background: #e6f4ea; padding: 15px; border-radius: 8px; border-left: 4px solid #34a853; margin: 20px 0; }
+        a { color: #1a73e8; text-decoration: none; font-weight: bold; font-size: 16px; }
+        a:hover { text-decoration: underline; }
+        .note { background: #fef7e0; padding: 12px; border-radius: 4px; margin-top: 20px; font-size: 13px; }
+        button { background: #1a73e8; color: white; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; font-size: 14px; margin-top: 15px; }
+        button:hover { background: #1557b0; }
+      </style>
+
+      <h3>✅ LMS Upload Document Created</h3>
+
+      <div class="success">
+        <p><strong>Module ${moduleNumber}: ${moduleTitle}</strong></p>
+        <p>${slidesData.length} slide(s) in ProvenLMSlayout.txt format</p>
+        <p style="font-size: 13px; color: #5f6368;">Bullet points + Voiceover (no phonetics)</p>
+      </div>
+
+      <p><a href="${docUrl}" target="_blank">→ Open LMS Upload Document</a></p>
+
+      <div class="note">
+        <strong>📋 Next Steps:</strong><br>
+        1. Review document - matches ProvenLMSlayout.txt structure<br>
+        2. Australian spelling enforced throughout<br>
+        3. Download as .txt or copy content<br>
+        4. Upload to Absorb LMS "Create" tool<br>
+        5. Upload your audio files (from Audio tab) to align with each slide<br>
+        6. Absorb will parse into exactly 12 slides matching your audio
+      </div>
+
+      <div style="text-align: center;">
+        <button onclick="window.open('${docUrl}', '_blank'); google.script.host.close();">Open Document</button>
+      </div>
+    `).setWidth(600).setHeight(500);
+
+    ui.showModalDialog(htmlOutput, '✅ LMS Upload Document Ready');
+
+    Logger.log(`LMS Upload document created: ${docUrl}`);
+
+  } catch (error) {
+    Logger.log('Error generating LMS document: ' + error.message);
+    ui.alert('Error', `Failed to generate LMS document:\n\n${error.message}`, ui.ButtonSet.OK);
+  }
+}
+
+/**
+ * Extract brief 1-2 sentence summary from detailedContent (Column X Slides JSON) for LMS voiceover
+ * Gives Absorb LMS AI just enough background context without overwhelming it
+ * Max ~50 words, 1-2 sentences
+ */
+function extractVoiceoverSummaryFromDetailed(detailedContent) {
+  if (!detailedContent || detailedContent.trim().length < 20) {
+    return 'This slide covers key concepts for Australian healthcare practice.';
+  }
+
+  // Split into sentences
+  const sentences = detailedContent
+    .split(/[.!?]+/)
+    .map(s => s.trim())
+    .filter(s => s.length > 10);
+
+  if (sentences.length === 0) {
+    return 'This slide covers key concepts for Australian healthcare practice.';
+  }
+
+  // Take first 1-2 sentences (max ~50 words total)
+  let summary = '';
+  let wordCount = 0;
+  const maxWords = 50;
+
+  for (let i = 0; i < sentences.length && wordCount < maxWords; i++) {
+    const sentence = sentences[i];
+    const words = sentence.split(/\s+/).length;
+
+    if (wordCount + words <= maxWords) {
+      summary += sentence + '. ';
+      wordCount += words;
+    } else {
+      break;
+    }
+  }
+
+  // Ensure we have at least 1 sentence
+  if (summary.trim().length < 20 && sentences.length > 0) {
+    summary = sentences[0] + '.';
+  }
+
+  return summary.trim();
 }
 
 // ========================================

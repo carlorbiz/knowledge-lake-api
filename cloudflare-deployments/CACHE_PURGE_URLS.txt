@@ -1,0 +1,26 @@
+CLOUDFLARE CACHE PURGE - URLs TO PURGE
+========================================
+
+Copy and paste these URLs into Cloudflare Custom Purge (one per line):
+
+https://carlorbiz-strategic-tool.carla-c8b.workers.dev/
+https://carlorbiz-strategic-tool.carla-c8b.workers.dev/index.html
+https://carlorbiz-strategic-tool.carla-c8b.workers.dev/css/styles.css
+https://carlorbiz-strategic-tool.carla-c8b.workers.dev/js/app.js
+https://carlorbiz-strategic-tool.carla-c8b.workers.dev/js/strategic-data-inline.js
+https://carlorbiz-strategic-tool.carla-c8b.workers.dev/js/data/rwav-strategic-data.json
+
+========================================
+HOW TO PURGE:
+
+1. Go to Cloudflare Dashboard
+2. Select domain: carlorbiz.com.au
+3. Navigate to: Caching → Configuration
+4. Click: "Custom Purge" button
+5. Select: "By URL"
+6. Paste: All 6 URLs above
+7. Click: "Purge"
+8. Wait: 60 seconds
+9. Test: Hard refresh browser (Ctrl+Shift+R)
+
+========================================

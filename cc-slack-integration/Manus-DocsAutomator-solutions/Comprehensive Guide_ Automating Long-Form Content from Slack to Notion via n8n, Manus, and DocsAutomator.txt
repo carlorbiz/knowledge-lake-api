@@ -1,0 +1,113 @@
+# Comprehensive Guide: Automating Long-Form Content from Slack to Notion via n8n, Manus, and DocsAutomator
+
+**Date:** November 5, 2025
+
+**Author:** Manus AI
+
+## 1. Executive Summary
+
+This document provides a detailed, end-to-end solution for capturing long-form content from Slack, processing it with an AI agent (Manus), generating a formatted Google Doc, and storing a link to that document in a Notion database. This workflow is specifically designed to overcome the 2000-character limit for Notion properties by storing the full content externally in Google Docs and saving only the URL in Notion.
+
+The architecture leverages the power of n8n for workflow automation, Manus for intelligent content processing and API orchestration, and DocsAutomator for robust document generation. This guide will cover the complete workflow architecture, step-by-step configuration of each component, and the specific role of Manus in this process.
+
+## 2. Workflow Architecture: Manus as the Central Hub
+
+The core of this workflow is a webhook call to Manus, which acts as the central processing hub. This architecture simplifies the n8n workflow by offloading the complex tasks of content parsing, formatting, and API interaction to the AI agent.
+
+### Workflow Diagram
+
+```mermaid
+graph TD
+    A[Slack Task with Long-Form Content] --> B{n8n Workflow Trigger};
+    B --> C[n8n HTTP Request Node];
+    C --> D[Manus AI (via Webhook)];
+    D --> E{Analyzes & Formats Content};
+    E --> F[Calls DocsAutomator API];
+    F --> G[DocsAutomator Generates Google Doc];
+    G --> H{Manus Captures Google Drive URL};
+    H --> I[Manus Returns URL in HTTP Response];
+    I --> J[n8n Receives Response];
+    J --> K[n8n Notion Node];
+    K --> L[Creates Notion DB Page with Google Drive URL];
+```
+
+### Step-by-Step Process
+
+1.  **Trigger:** The workflow begins when a task containing long-form content is identified in Slack.
+2.  **n8n Call to Manus:** An n8n workflow is triggered, which then makes an HTTP request (webhook) to Manus, sending the raw, long-form content from the Slack task.
+3.  **Manus AI Processing:** Manus receives the content and performs the following actions:
+    *   **Analyzes and parses** the long-form content.
+    *   **Generates formatted content** suitable for a structured document.
+    *   **Triggers DocsAutomator** by calling its API, passing the formatted content and a specific template ID.
+4.  **Document Generation:** DocsAutomator creates a new Google Doc based on the provided template and data.
+5.  **URL Capture and Response:** Manus captures the Google Drive URL from the DocsAutomator API response and includes it in the HTTP response sent back to the n8n workflow.
+6.  **Notion Integration:** The n8n workflow receives the HTTP response from Manus, extracts the Google Drive URL, and uses the Notion node to create a new page in a specified database, populating a "URL" property with the link to the Google Doc.
+
+## 3. Implementation Guide
+
+### Part 1: DocsAutomator Template for Long-Form Content
+
+1.  **Create a Google Doc Template:** Design a Google Doc that will serve as the template for your long-form content. A simple, flexible structure is recommended.
+
+    **Example Template:**
+
+    *   **Title:** `{{document_title}}`
+    *   **Date:** `{{generation_date}}`
+    *   **Content:**
+        `{{main_content}}`
+
+2.  **Get the `docId`:** From your DocsAutomator dashboard, find the automation associated with this template and copy the `docId`.
+
+### Part 2: n8n Workflow Configuration
+
+1.  **Create a New Workflow:** Start with a trigger that retrieves the long-form content from Slack (e.g., a Slack trigger or a webhook from another service).
+
+2.  **Add an HTTP Request Node:** This node will call Manus.
+    *   **Method:** `POST`
+    *   **URL:** `YOUR_MANUS_WEBHOOK_URL`
+    *   **Authentication:** As required by your Manus setup (e.g., Header Auth).
+    *   **Send Body:** `true`
+    *   **Body Content Type:** `application/json`
+    *   **JSON:**
+
+        ```json
+        {
+          "slack_content": "{{$json.long_form_content_from_slack}}"
+        }
+        ```
+
+3.  **Add a Notion Node:**
+    *   **Resource:** `Database/Page`
+    *   **Operation:** `Create`
+    *   **Database ID:** Your target Notion database ID.
+    *   **Properties:**
+        *   **Title:** A suitable title for your Notion page (e.g., "New Document from Slack").
+        *   **URL:** Use an expression to get the URL from the HTTP Request node's response: `{{$node["HTTP Request"].json.google_drive_url}}`
+
+### Part 3: Manus AI Configuration (Conceptual)
+
+This part describes the logic that would be implemented within the Manus agent.
+
+1.  **Receive Webhook:** Manus is configured to listen for incoming POST requests at a specific endpoint.
+
+2.  **Process Content:**
+    *   Extract the `slack_content` from the request body.
+    *   Perform any necessary analysis or formatting (e.g., cleaning up text, adding headings).
+
+3.  **Call DocsAutomator:**
+    *   Make a `POST` request to `https://api.docsautomator.co/createDocument`.
+    *   Include the `docId` and the formatted content in the `data` object of the request.
+
+4.  **Return Response:**
+    *   Capture the `googleDocUrl` from the DocsAutomator API response.
+    *   Return a JSON response to the n8n workflow containing the URL:
+
+        ```json
+        {
+          "google_drive_url": "THE_CAPTURED_URL_FROM_DOCSAUTOMATOR"
+        }
+        ```
+
+## 4. Conclusion
+
+This end-to-end workflow provides a robust and scalable solution for managing long-form content within a Notion-based system. By leveraging Manus as an intelligent intermediary, you can automate the entire process from content capture in Slack to structured document generation and storage, effectively bypassing Notion's character limitations and creating a more organized and efficient knowledge management system.

@@ -1,0 +1,405 @@
+{
+  "name": "AI Command Router",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ai-command",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/plain"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -544,
+        -208
+      ],
+      "id": "5193e9fd-306d-49f4-8c40-9dab7b775320",
+      "name": "Webhook",
+      "webhookId": "b98cec10-096f-4a52-85b5-c17fa437ec33"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Handle both webhook structures\n  const slackData = $input.first().json.body || $input.first().json;\n\n  // Get the raw text\n  let text = slackData.text || '';\n\n  // Remove fluff but keep substance\n  const fluffPatterns = [\n    /^(hey|hi|hello|thanks|thank you|please|pls|plz)\\s*/gi,\n    /\\s*(thanks|thank you|please|pls|plz|cheers)\\.?$/gi,\n    /\\b(just|maybe|perhaps|possibly|now that I think of it|by the way|btw)\\b/gi,\n    /\\s+(please|pls|plz)\\s+/gi,\n  ];\n\n  // Apply cleaning\n  fluffPatterns.forEach(pattern => {\n    text = text.replace(pattern, ' ');\n  });\n\n  // Clean up spaces\n  text = text.replace(/\\s+/g, ' ').trim();\n\n  // Extract metadata from text\n  let priority = 'normal';\n  let category = 'general';\n  let agent = 'claude-code'; // default\n\n  // Check for priority markers\n  if (/\\b(urgent|asap|critical|emergency)\\b/i.test(text)) {\n    priority = 'high';\n  } else if (/\\b(low priority|when you can|no rush)\\b/i.test(text)) {\n    priority = 'low';\n  }\n\n  // Check for explicit agent mentions\n  if (/\\bmanus\\b/i.test(text)) agent = 'manus';\n  if (/\\bfred\\b/i.test(text)) agent = 'fred';\n  if (/\\bpenny\\b/i.test(text)) agent = 'penny';\n  if (/\\bgemini\\b/i.test(text)) agent = 'gemini';\n  if (/\\bgrok\\b/i.test(text)) agent = 'grok';\n\n  // Categorize by content\n  if (/\\b(research|investigate|analyze|study)\\b/i.test(text)) category = 'research';\n  if (/\\b(create|build|generate|make)\\b/i.test(text)) category = 'creation';\n  if (/\\b(fix|bug|error|issue|problem)\\b/i.test(text)) category = 'debugging';\n  if (/\\b(document|docs|documentation|write up)\\b/i.test(text)) category = 'documentation';\n  if (/\\b(test|check|verify|validate)\\b/i.test(text)) category = 'testing';\n\n  // Determine if this needs document creation\n  const needsDocument = text.length > 1800;\n  const documentType = needsDocument ? 'long-form' : 'standard';\n\n  // Create short summary for Notion title\n  let summary = text;\n  if (summary.length > 100) {\n    // Find first sentence or reasonable break point\n    const firstPeriod = summary.indexOf('. ');\n    if (firstPeriod > 0 && firstPeriod < 100) {\n      summary = summary.substring(0, firstPeriod);\n    } else {\n      summary = summary.substring(0, 97) + '...';\n    }\n  }\n\n  return {\n    json: {\n      // Core fields\n      user_id: slackData.user_id,\n      user_name: slackData.user_name,\n      command_text: text,\n      original_text: slackData.text,\n\n      // Channel info\n      channel_id: slackData.channel_id,\n      response_url: slackData.response_url,\n\n      // Metadata\n      priority: priority,\n      category: category,\n      agent: agent,\n      timestamp: new Date().toISOString(),\n\n      // Document handling\n      needs_document: needsDocument,\n      document_type: documentType,\n      content_length: text.length,\n\n      // Notion-ready fields\n      notion_title: `${category}: ${summary}`,\n      notion_status: 'Queued',\n      notion_agent: agent,\n      notion_priority: priority,\n      notion_category: category,\n\n      // For routing\n      route_to_manus: needsDocument,\n      original_command: text // for backward compatibility\n    }\n  };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -288,
+        -208
+      ],
+      "id": "3a08d1a1-6a44-4160-8652-569d2be22a62",
+      "name": "Parse Slack Command"
+    },
+    {
+      "parameters": {
+        "url": "=https://knowledge-lake-api-production.up.railway.app/knowledge/search?query={{ $json.command_text }}&user_id={{ $json.user_name }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        128,
+        -80
+      ],
+      "id": "f75d7247-39ae-408f-a673-8746e72275dd",
+      "name": "Query Knowledge Lake"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1a6c9296-096a-4529-81f9-e6c014c4b808",
+          "__regex": "^([0-9a-f]{8}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{4}-?[0-9a-f]{12})"
+        },
+        "title": "={{ $('Route to Agent').item.json.original_command }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Primary AI Agent|select",
+              "selectValue": "={{$('Route to Agent').item.json.agent === 'claude-code' ? 'Claude Code' : $('Route to Agent').item.json.agent === 'fred' ? 'Fred (ChatGPT)' : ('Route to Agent').item.json.agent === 'gemini' ? 'Gemini (Google)' : $('Route to Agent').item.json.agent === 'grok' ? 'Grok (xAI)' : 'Claude (Anthropic)'}}"
+            },
+            {
+              "key": "Source Link|url",
+              "urlValue": "https://carlorbizworkspace.slack.com"
+            },
+            {
+              "key": "Instructions|rich_text",
+              "textContent": "={{ $('Route to Agent').item.json.reasoning }}"
+            },
+            {
+              "key": "Tags|multi_select",
+              "multiSelectValue": [
+                "automation"
+              ]
+            },
+            {
+              "key": "Status|select",
+              "selectValue": "📥 Captured"
+            },
+            {
+              "key": "Conversation Date|date",
+              "includeTime": false,
+              "date": "={{ $now }}",
+              "timezone": "Australia/Melbourne"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        752,
+        -240
+      ],
+      "id": "06199d82-1a7a-42de-984d-f879c4bb017a",
+      "name": "Create Notion Entry",
+      "credentials": {
+        "notionApi": {
+          "id": "zsyuPjlrNQJvuV6i",
+          "name": "n8n AI Router"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://knowledge-lake-api-production.up.railway.app/knowledge/add",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"content\": \"={{ 'Slack /ai command from ' + $('Route to Agent').item.json.user_name + ': ' + $('Route to Agent').item.json.original_command + '. Routed to agent: ' + $('Route to Agent').item.json.agent + '. Reasoning: ' + $('Route to Agent').item.json.reasoning }}\",\n\"user_id\": \"={{ $('Route to Agent').item.json.user_name }}\",\n    \"metadata\": {\n      \"source\": \"slack_ai_command\",\n      \"agent\": \"={{ $('Route to Agent').item.json.agent }}\",\n      \"timestamp\": \"={{ $('Route to Agent').item.json.timestamp }}\",\n      \"notion_page_id\": \"={{ $('Create Notion Entry').item.json.id }}\",\n      \"github_issue\": \"={{ $('Create Github issue for CC').item.json.number }}\"\n    }\n  }",
+        "options": {
+          "timeout": 15000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        928,
+        -80
+      ],
+      "id": "6fdb92b0-add6-463c-b77a-021bbb795575",
+      "name": "Log to Knowledge Lake"
+    },
+    {
+      "parameters": {
+        "owner": {
+          "__rl": true,
+          "value": "carlorbiz",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "cc-task-queue",
+          "mode": "list",
+          "cachedResultName": "cc-task-queue",
+          "cachedResultUrl": "https://github.com/carlorbiz/cc-task-queue"
+        },
+        "title": "={{ $json.title }}",
+        "body": "={{ $json.body }}",
+        "labels": [
+          {
+            "label": "pending"
+          },
+          {
+            "label": "cc-task"
+          },
+          {
+            "label": "from-slack"
+          }
+        ],
+        "assignees": []
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        448,
+        -96
+      ],
+      "id": "3465b0f3-9444-4dab-bbe7-24a61e2e1dcb",
+      "name": "Create Github issue for CC",
+      "webhookId": "a55303b1-4e89-41ad-b431-1ebd59297fb2",
+      "credentials": {
+        "githubApi": {
+          "id": "WAkTSrEtGeFUn5c7",
+          "name": "n8n Railway GitHub"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C09PP5GSAS3",
+          "mode": "list",
+          "cachedResultName": "ai-commands"
+        },
+        "text": "=✅ Task queued for {{$('Route to Agent').item.json.agent}}.  {{$('Route to Agent').item.json.reasoning}}  I'll notify you when complete.",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        592,
+        -112
+      ],
+      "id": "82a5b7a8-0d69-40fd-bfbb-fb997c56e493",
+      "name": "Send a message",
+      "webhookId": "22d53306-fd4e-4000-a2af-dfc23080a846",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "szECAK01YJHshFKj",
+          "name": "n8n Railway Slack OAuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Diagnostic - see what we're actually receiving\n  const data = $input.first().json;\n\n  // Log what we have\n  console.log('Data received:', JSON.stringify(data, null, 2));\n\n  // Try to find command text in any field\n  const commandText = data.original_command || data.command_text || data.text || 'No command text found';\n  const userName = data.user_name || 'unknown';\n  const channelId = data.channel_id || 'unknown';\n  const timestamp = data.timestamp || new Date().toISOString();\n  const userId = data.user_id || 'unknown';\n  const responseUrl = data.response_url || '';\n\n  // Create short title\n  let title = commandText;\n  if (title && title.length > 80) {\n    title = title.substring(0, 77) + '...';\n  }\n\n  // Create body\n  const body = `## Task\n  ${commandText}\n\n  ## Metadata\n  **From:** ${userName}\n  **User ID:** ${userId}\n  **Channel:** ${channelId}\n  **Timestamp:** ${timestamp}\n\n  ---\n  *Created by AI Command Router*`;\n\n  return {\n    json: {\n      title: `${userName}: ${title}`,\n      body: body,\n      user_name: userName,\n      channel_id: channelId,\n      response_url: responseUrl,\n      debug: data  // Include original data for debugging\n    }\n  };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        288,
+        -80
+      ],
+      "id": "d586e24c-b5ea-49c1-af1f-c251dde2432d",
+      "name": "Format for Github"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d8766318-8041-4940-b835-aae00191edb0",
+              "leftValue": "={{ $json.needs_document }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -80,
+        -208
+      ],
+      "id": "cfeab164-68ab-4183-94c4-5028610a6c3f",
+      "name": "Check if needs document"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.manus.ai/v1/tasks",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"prompt\": \"{{$json.content}}\",\n  \"taskMode\": \"agent\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        128,
+        -224
+      ],
+      "id": "af15f9a8-f90c-4e6f-b391-241a52808d17",
+      "name": "Manus Call",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Do0NL4JuGkFh3yN5",
+          "name": "n8n Railway Manus"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Parse Slack Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Slack Command": {
+      "main": [
+        [
+          {
+            "node": "Check if needs document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Query Knowledge Lake": {
+      "main": [
+        [
+          {
+            "node": "Format for Github",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Notion Entry": {
+      "main": [
+        [
+          {
+            "node": "Log to Knowledge Lake",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Github issue for CC": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Create Notion Entry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format for Github": {
+      "main": [
+        [
+          {
+            "node": "Create Github issue for CC",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check if needs document": {
+      "main": [
+        [
+          {
+            "node": "Manus Call",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Query Knowledge Lake",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manus Call": {
+      "main": [
+        [
+          {
+            "node": "Query Knowledge Lake",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "73501ea9-0af1-4c46-974d-43ad0ed8ce5f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d1654c09babc3d3770d0b3cf46519f744ecbe89460ab53f7fcd517db9d213626"
+  },
+  "id": "C7Ul5niP4V5BiD9Q",
+  "tags": []
+}

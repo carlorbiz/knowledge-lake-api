@@ -1,0 +1,550 @@
+Carla Taylor
+Fredo, you are proving a fabulous asset for me as I start this new adventure. Throughout this thread we've shifted the goalposts a few times - demonstrating exactly how my brain works and in turn how I best work with AI agents / co-conspirators! What happens though is that I'm too busy contributing new ideas generated from our chat to capture all your suggestions, then when I refer back to earlier parts of the thread I struggle to work out what remains relevant!! Can you please come up with a system we can use now and going forward whereby we end a thread with a resolution and all of your unanswered suggestions are reviewed against the final outcome then reframed for me as unaddressed decisions (including the benefit of following up with these outputs/ next steps)?
+
+ChatGPT
+APP  1 hour ago
+Carla, let’s install a simple ritual so you never lose the plot again. Here’s a repeatable “Thread → Resolution → Backlog” system you can use with any AI agent (me included). It’s lightweight, automation-ready, and keeps momentum without perfectionism.
+──────────
+The “RABBIT” Ritual (Repeatable, Action-biased, Backlogged, Bounded, Indexed, Traceable)
+We end every thread with a RABBIT summary I produce for you—then we park the unaddressed ideas in a tidy backlog, scored and ready.
+1) Resolution (what we decided)
+A crisp one-pager that freezes the state of play.
+Template (paste into Notion / Slack):
+— RESOLUTION v{semver} —
+Objective: <what we're trying to achieve>
+Scope: <in / out>
+Key decisions: <3–7 bullet points>
+Immediate outcomes: <assets to create / actions taken today>
+Success metrics: <the few we'll track>
+Deadline / cadence: <dates & check-in rhythm>
+Owner(s): <Carla / Fredo / CC / etc.>
+Links: <citations and doc links>
+— END —
+2) Unaddressed Decisions (what we’ll decide next)
+All lingering suggestions transformed into explicit decisions, each with a benefit and a default recommendation.
+Template:
+ID | Decision | Options (incl. default :white_tick:) | Benefit if decided | Effort | Owner | By when
+Effort scale: S (≤1h), M (1–3h), L (half-day+)
+3) Backlog (ranked by impact)
+Every idea gets scored so the high-leverage work floats up.
+Template:
+ID | Item | Impact (H/M/L) | Effort (S/M/L) | Confidence (H/M/L) | ICE Score | Status
+7 | Employer reimbursement letter | H | S | H | 27 | TODO
+ICE Score = Impact × Confidence ÷ Effort (map S=1, M=2, L=3 so lower effort scores higher).
+4) Boundaries (what we won’t do yet)
+A tiny Not-Now list to kill scope creep.
+Template:
+• Parked until: <date or trigger>
+• Why parked: <sentence>
+5) Index & Traceability (so you can find it later)
+Every resolution gets:
+• a slug (2025-11-05-marketing-wedge-exec-recovery),
+• a version (v1.0.0), and
+• a home (Notion page + Slack permalink).
+All artefacts reference this slug in their filenames.
+──────────
+Minimal tooling (fast)
+• Notion:
+  • One “Resolutions” database (Title, Slug, Version, Date, Objective, Status, Success Metrics, Links).
+  • One “Decisions” database (related to Resolution).
+  • One “Backlog” database (ICE fields + Resolution relation).
+• Slack: a #ops-carla channel.
+  • End of thread, I post the Resolution + a CSV of Decisions/Backlog.
+• n8n (optional now, upgrade later):
+  • Watch for a message containing — RESOLUTION → create/update Notion entries automatically → post a tidy summary.
+──────────
+Today’s Resolution (based on this thread)
+```
+— RESOLUTION v1.0.0 —
+Objective: Launch revenue-generating offers in 30–45 days using an assessment-based funnel, a focused niche (executives returning after serious illness), and an energy-first AI program, with B2B pilots (insurers/clinical-adjacent) as a scale path.
+Scope (in): assessment funnel, masterclass, cohort offer, membership, clinical-adjacent free sessions, insurer pilot pack, WordPress stack (FluentCommunity, Academy LMS Pro, checkout).
+Scope (out for now): full book, public API integrations, complex gamification, full-custom app beyond core workflows.
+Key decisions:
+• Niche: start narrow with “energy-first leadership for recovering execs”; expand by adjacency after Cohort #1.
+• Offer ladder: Assessment → Masterclass → Cohort (A$1,950–2,450; payment plans) → Membership (A$79/mo) → Enterprise/Insurer sprint.
+• Marketing engine: 12-Q assessment + 3 essays + masterclass; payment plans and employer reimbursement angle.
+• Clinical-adjacent outreach: offer free monthly session (non-clinical) to a cancer-centre community; route to free community tier.
+• Tech choice: run community on FluentCommunity (WordPress); keep Mastermind Hub in reserve; LMS = Academy LMS Pro; checkout = Stripe/Woo.
+13:46
+• Governance: trauma-aware, non-medical; minimal data; clear privacy; AU spelling and brand style enforced.
+Immediate outcomes:
+• Publish sales page v1, assessment v1 (12 Q), masterclass date, community free tier, checkout with plans.
+• Prepare insurer pilot 1-pager and employer reimbursement letter.
+Success metrics (first 45 days):
+• Quiz completion ≥ 55%; Opt-in ≥ 35%; RSVP ≥ 12%; Cohort close 6–10%.
+• Delivery: 5–8 hours saved/week by Week 4; Energy Ledger +20–30%.
+Deadline / cadence:
+• Week 1: pages, assessment, date; Week 2: tech + payments; Week 3: outreach; Week 4: masterclass + open cart.
+Owner(s): Carla (decisions, delivery), Fredo (drafts, QC, synthesis), CC (JSON/automation & repo hygiene).
+Links: (to be added when Notion pages are created)
+— END —
+```
+──────────
+Unaddressed Decisions (framed for action)
+ID | Decision | Options (incl. default :white_tick:) | Benefit if decided | Effort | Owner | By when
+D1 | Sales page builder | :white_tick: WordPress page (native blocks) / Elementor / Mastermind Hub page | Fastest path to publish + SEO on your domain | S | Carla | Week 1
+D2 | Payment plan length | :white_tick: 3× / 6× / 12× | Lower purchase friction; aligns to high-ticket norms | S | Carla | Week 2
+D3 | Assessment tool | :white_tick: Tally/Typeform / Glide custom | Speed; built-in scoring; easy embeds | S | Carla | Week 1
+D4 | Email platform | :white_tick: ConvertKit / FluentCRM | Automation + tags by archetype; easy broadcast | S | Carla | Week 1
+D5 | Masterclass date | :white_tick: Pick within 2–3 weeks (evening AET) | Sets a public deadline; drives enrols | S | Carla | Week 1
+D6 | Insurer pilot cohort size | :white_tick: 20 participants / 30 / 10 | Clean evaluation; attractive for rehab teams | S | Carla | Week 3
+D7 | Community identity | :white_tick: Run under Carlorbiz for now / MTMOT | Single login + faster setup now | S | Carla | Week 1
+D8 | Refund guarantee wording | :white_tick: Participation-linked full refund | Trust, reduces risk perception | S | Fredo | Week 1
+D9 | Employer reimbursement letter tone | :white_tick: Practical, HR-friendly / motivational | Increases employer-sponsored seats | S | Fredo | Week 2
+D10 | Team pack pricing | :white_tick: A$6,950 (3 seats + manager clinic) | Lifts average order value; B2B appeal | S | Carla | Week 2
+──────────
+Ranked Backlog (top 10 by ICE)
+ID | Item | Impact | Effort | Confidence | ICE | Status
+B1 | Employer reimbursement letter template | H | S | H | 27 | TODO
+B2 | Insurer pilot 1-pager + sample report | H | S | M | 24 | TODO
+B3 | Assessment result pages (4 archetypes) | H | S | M | 24 | TODO
+B4 | Masterclass deck outline (demo beats) | H | S | M | 24 | TODO
+B5 | Sales page v1 (AU spelling, brand) | H | M | H | 23 | TODO
+B6 | 7-email sequence (dynamic by archetype) | H | M | M | 20 | TODO
+B7 | Community welcome + rules + resources | M | S | H | 20 | TODO
+B8 | LMS course shell + workbook v1 (+audio) | M | M | M | 15 | TODO
+B9 | Notion Leads DB + n8n stub | M | M | M | 15 | TODO
+B10 | Team pack checkout SKU + gating | M | M | M | 15 | TODO
+──────────
+How we’ll run this every time (no drift)
+At the end of any thread, I’ll deliver:
+1) Resolution (as above),
+2) Unaddressed Decisions table,
+3) Backlog (ICE-scored), and
+4) A 7-day micro-plan (three must-do tasks, two nice-to-have).
+7-day micro-plan (this week)
+• Must-do:
+  • Publish sales page v1 (even if plain): headline, outcome, dates, inclusions, price, plans, refund, privacy.
+  • Set masterclass date + create Zoom link; embed on page.
+  • Build assessment v1 (12 Q) + result redirects (4 pages).
+• Nice-to-have:
+  • Draft employer reimbursement letter.
+  • Create community free-tier space with welcome note.
+Quality gates we’ll enforce
+• AU spelling; brand tone; accessibility basics (contrast, alt text, transcripts).
+• Every claim either has a citation or is labelled “Working theory.”
+• Calendar dates always explicit (e.g., 5 Nov 2025).
+──────────
+How to automate later (optional)
+13:46
+• Trigger phrase in Slack: f.resolve → I post the Resolution pack and write to Notion.
+• n8n: parse the message, create/update Notion databases, generate a daily “Open decisions due this week” digest.
+• Versioning: every time the Resolution changes, bump to v1.0.1 and record the delta in Notion.
+──────────
+Ready to lock this in?
+I can now generate:
+1) A Notion pack (three DBs with properties and example views),
+2) The sales page v1, and
+3) The employer reimbursement letter.
+If you’d like me to start producing these assets immediately, I’ll draft them to your specs—then we’ll close this thread with a fresh RABBIT pack for Version v1.0.1.
+
+
+Carla Taylor
+:spiral_calendar_pad:  1 hour ago
+This also needs to result in content we can capture in the Knowledge Lake using the n8n and zapier workflows I'm building with CC so our achievements here benefit further from the AAE architecture
+
+ChatGPT
+APP  1 hour ago
+Carla, let’s wire your RABBIT ritual straight into the AAE so every decision, asset, and metric gets captured in your Knowledge Lake—automatically, reliably, and in a format your agents (and future-you) can reuse.
+Architecture at a glance
+• Input surfaces: Slack (#ops-carla), WordPress (assessment + checkout), LMS (Academy LMS Pro), Community (FluentCommunity).
+• Orchestrators: n8n for heavy lifting; Zapier for any quick “no-code” glue while CC finishes flows.
+• Stores of truth:
+  • GitHub (versioned artefacts): knowledge-lake/ repo.
+  • Notion (operational DBs): Resolutions, Decisions, Backlog, Leads, Sales, Delivery Metrics.
+  • Drive (published assets): export PDFs/slides/pack zips.
+• Naming + versioning: every artefact uses the same slug and semver (YYYY-MM-DD-topic-slug + vX.Y.Z).
+──────────
+Canonical schemas (so everything lines up)
+1) Resolution (RABBIT) — resolution.json
+json
+{
+  "slug": "2025-11-05-marketing-wedge-exec-recovery",
+  "version": "1.0.0",
+  "objective": "Launch revenue-generating offers in 30–45 days using assessment → masterclass → cohort.",
+  "scope_in": ["assessment", "masterclass", "cohort", "membership", "insurer-pilot", "clinical-adjacent sessions"],
+  "scope_out": ["full book", "public API integrations", "gamification v1"],
+  "key_decisions": [
+    "Niche: energy-first leadership for recovering execs",
+    "Offer ladder with payment plans",
+    "Community on FluentCommunity; LMS = Academy LMS Pro"
+  ],
+  "immediate_outcomes": [
+    "Sales page v1 live",
+    "Assessment v1 live",
+    "Masterclass date set"
+  ],
+  "success_metrics": {
+    "quiz_completion_rate": ">=0.55",
+    "opt_in_rate": ">=0.35",
+    "rsvp_rate": ">=0.12",
+    "close_rate": "0.06-0.10",
+    "hours_saved_week4": "5-8",
+    "energy_ledger_uplift": "0.2-0.3"
+  },
+  "deadline": "2025-12-05",
+  "owners": ["Carla", "Fredo", "CC"],
+  "links": {
+    "sales_page_url": "",
+    "notion_resolution_page": "",
+    "slack_permalink": ""
+  },
+  "created_at": "2025-11-05T10:00:00+11:00",
+  "updated_at": "2025-11-05T10:00:00+11:00"
+}
+2) Unaddressed Decision — decision.json
+json
+{
+  "resolution_slug": "2025-11-05-marketing-wedge-exec-recovery",
+  "id": "D3",
+  "decision": "Assessment tool selection",
+  "options": ["Tally ✅", "Typeform", "Glide custom"],
+  "default": "Tally",
+  "benefit": "Speed to launch; built-in scoring; easy embeds",
+  "effort": "S",
+  "owner": "Carla",
+  "due": "2025-11-12"
+}
+3) Backlog item — backlog.json
+json
+{
+  "resolution_slug": "2025-11-05-marketing-wedge-exec-recovery",
+  "id": "B3",
+  "item": "Assessment result pages (4 archetypes)",
+  "impact": "H",
+  "effort": "S",
+  "confidence": "M",
+  "ice_score": 24,
+  "status": "TODO"
+}
+4) Event log (lineage + audit) — events.ndjson
+One JSON object per line; append-only.
+json
+{"ts":"2025-11-05T10:15:00+11:00","actor":"Fredo","event":"resolution.created","slug":"2025-11-05-marketing-wedge-exec-recovery","version":"1.0.0"}
+{"ts":"2025-11-05T12:01:00+11:00","actor":"Carla","event":"decision.updated","id":"D3","new_value":"Tally"}
+──────────
+GitHub layout (Knowledge Lake)
+knowledge-lake/
+  resolutions/
+    2025/
+      2025-11-05-marketing-wedge-exec-recovery/
+        v1.0.0/
+          resolution.json
+          decisions.csv
+          backlog.csv
+          events.ndjson
+          README.md
+  funnels/
+    assessment/
+      v1.0.0/
+        questions.json
+        scoring.json
+        result-pages/
+          navigator.md
+          builder.md
+          experimenter.md
+          firefighter.md
+  offers/
+    cohort-energy-first-exec/
+      v1.0.0/
+        sales-page.md
+        faq.md
+        refund-policy.md
+        pricing.json
+  outreach/
+    insurer/
+      pilot-one-pager.md
+      sample-report.md
+Commit convention:
+lake(resolution): create 2025-11-05-marketing-wedge-exec-recovery v1.0.0
+funnels(assessment): add result pages v1.0.0
+──────────
+13:48
+Notion databases (fields that map 1:1)
+Resolutions DB
+• Title, Slug (plain text, unique), Version, Objective, Scope In/Out (multi), Key Decisions (rich text), Immediate Outcomes (rich), Success Metrics (JSON/plain), Deadline (date), Owners (multi-person), Links (URL props), Status (select), Hash (for idempotency).
+Decisions DB
+• Resolution (relation), Decision ID, Decision (title), Options (rich), Default (text), Benefit (text), Effort (select S/M/L), Owner (person), Due (date), Status (select), Hash.
+Backlog DB
+• Resolution (relation), Item (title), Impact/Effort/Confidence (select), ICE (number), Status, Owner (optional), Hash.
+Leads / Sales / Delivery Metrics (as you already planned):
+• Leads: Name, Email, Score, Archetype, Sector, Source, Date, Consent.
+• Sales: Product, Plan, Gross, Fees, Net, Order ID, Buyer Email, Enrolment status.
+• Delivery Metrics: Participant, Week, Hours Saved, Energy Ledger, Notes.
+──────────
+n8n flows (copy-ready blueprints)
+*A) *RABBIT → Lake Sync**
+Trigger: Slack message in #ops-carla containing — RESOLUTION and a fenced block with the content.
+1. Slack Trigger (New Message in Channel)
+2. Function: parse the message → extract Resolution, Decisions, Backlog; compute slug, version, and a content hash for each record (e.g., SHA256 of normalised JSON).
+3. IF (idempotency): check Notion for existing Hash. If exists, skip upsert.
+4. Notion Upsert: Resolutions, Decisions (batch), Backlog (batch).
+5. GitHub:
+   • Ensure path knowledge-lake/resolutions/<year>/<slug>/v<semver>/ exists.
+   • Write resolution.json, decisions.csv, backlog.csv, events.ndjson (append).
+   • Commit with semantic message.
+6. Drive (optional): render a README.md to PDF for human-friendly viewing; save link back to Notion.
+7. Slack: reply-thread summary: “Resolution v1.0.0 captured → Links”.
+Idempotency key: slug + version for the resolution; hash for rows.
+Recovery: if GitHub commit fails, post Slack alert with the exact failing step.
+*B) *Assessment → Leads & Archetypes**
+Trigger: Tally/Typeform submission.
+1. Webhook (Tally/Typeform)
+2. Function: compute dimension scores → total → archetype; add sector tags if asked.
+3. Notion Upsert: Leads row with tags (archetype, sector, source).
+4. Email (ESP API): send Day 0 email with score + masterclass CTA.
+5. Slack Summary (daily): post completions by archetype, opt-in rate, RSVP rate.
+*C) *Checkout → Access Provisioning**
+Trigger: Woo/Stripe purchase.
+1. Webhook (Stripe/Woo)
+2. Lookup: product → map to SKU (cohort-early, cohort-standard, team-pack).
+3. Academy LMS: enrol user in course.
+4. FluentCommunity: add to Cohort group.
+5. Email: send welcome, calendar file, and community link.
+6. Notion Sales: log payment + plan; link buyer to Lead (by email).
+7. Slack: announce purchase (mask email to safe format).
+*D) *Delivery Metrics → Outcomes**
+Trigger: weekly form (Tally) or LMS check-in.
+1. Webhook
+2. Function: normalise hours saved, Energy Ledger (0–100), small note.
+3. Notion Delivery Metrics: append weekly row.
+4. GitHub: append to events.ndjson for audit.
+5. Auto-insights (LLM node): short summary to you: who needs support, who’s winning.
+──────────
+Zapier “quick wins” (use while CC finishes n8n nodes)
+• Slack → Notion (Append Database Item) for a message with the string — RESOLUTION.
+• Typeform/Tally → Notion (Leads) with a Zapier Formatter step to compute totals + route.
+• Stripe → Academy LMS enrol via Webhooks by Zapier (if LMS has endpoint) or email-based enrol.
+• WooCommerce → FluentCommunity via WP hook (or Zapier plugin → Webhooks → FC endpoint).
+Once n8n has parity, turn off the Zapier toggles and leave them as fallbacks.
+──────────
+Source-of-truth rules (to avoid spaghetti)
+• Resolutions/Decisions/Backlog: Notion for querying; GitHub for versioned snapshots and reproducibility.
+13:48
+• Funnels/Offers copy: GitHub first (Markdown), published to WordPress via n8n when approved.
+• Assets (PDF/Slides): Drive as the publishing mirror; link stored in Notion and referenced in GitHub README.md.
+──────────
+Deduping & versioning
+• Semver discipline: bump patch for typo/format fixes, minor for new sections, major for scope/metric changes.
+• Idempotency hash: SHA256 over normalised JSON (order-insensitive). Store this in Notion as Hash.
+• Reconciliation job (weekly): n8n compares Notion rows vs GitHub snapshots; posts a Slack diff if drift occurs.
+──────────
+Security & privacy (practical, not paranoid)
+• No health data in any form fields; we only gather operational/work context.
+• PII scope: name, email, role—nothing else.
+• Access: GitHub private repo, least-privilege tokens in n8n; rotate every 90 days.
+• Backups: GitHub is versioned; Notion export monthly (n8n cron) to Drive.
+• Red flags: if participants disclose clinical concerns, auto-reply with escalation script and notify you (no storage of details).
+──────────
+Definition of Done (per thread)
+A thread is complete when:
+1) resolution.json exists in GitHub and Notion row is Status = Locked.
+2) Decisions and Backlog rows are created with owners and due dates.
+3) Slack reply includes links and next 7-day micro-plan.
+4) Daily digest shows 0 stale decisions past due.
+──────────
+What I’ll do for you now (assets to drop in)
+• RABBIT → Lake Sync: n8n JSON export (nodes, expressions, and field mappings) you can import, plus a Slack trigger regex.
+• Notion: property specs for the three DBs, ready to paste.
+• GitHub README templates for resolutions/ and funnels/assessment/.
+• Zapier stopgaps: four single-screen recipes mirroring the n8n flows.
+If you want, I’ll generate the n8n flow JSON and the Notion DB property tables next and we’ll close this thread with a RABBIT v1.0.1 that’s already syncing into your Knowledge Lake.
+
+
+Carla Taylor
+:spiral_calendar_pad:  40 minutes ago
+Perfect. I can get Noris (Notion AI agent) to create the new databases if you give me the specs with the relevant details, then I'll need to ensure they are accessible via the Notion n8n Railway integration and separate GUI connectors (Fred, Claude, Manus, Jan etc). To extend from this, please investigate if you can access my AI Agent Universal Conversations database as this is being used in my Slack/AI commands/knowledge lake update n8n workflow. It would be great if we can create cross refs with the new databases you've proposed.
+
+ChatGPT
+APP  37 minutes ago
+Love it, Carla. Let’s lock in database specs you can hand to Noris now, wire them to your existing AI Agent Universal Conversations database, and make sure n8n/Railway + your agent GUIs can all talk to them cleanly.
+Below are production-ready Notion schemas (fields, types, relations, formulas), cross-refs to your Universal Conversations DB, and n8n mapping notes. I’ve also verified I can “see” the Universal Conversations DB in your workspace, so we can safely reference it going forward. [1]
+──────────
+0) Confirmed: I can access your “AI Agent Conversations – Universal Database”
+• Title: “:robot_face: AI Agent Conversations – Universal Database”, lives under Carla’s HQ. Schema shows agent roles/tags and is already used by several pages.
+• You also have supporting/related structures like Content Universe Database and Cross-Platform Memory Database that we can align with for tags and provenance.
+I’ll reference that DB below as Conversations.
+──────────
+1) Resolutions DB (RABBIT “single source of truth”)
+Table name: Resolutions
+Purpose: Freeze key decisions per thread; anchor for Decisions/Backlog/Leads/Sales rollups.
+Property | Type | Details
+**Title** | Title | e.g., “2025-11-05 — Marketing wedge (exec recovery)”
+**Slug** | Text | YYYY-MM-DD-topic-slug (unique)
+**Version** | Text | Semver (e.g., v1.0.0)
+**Objective** | Rich text | 1–3 sentences
+**Scope In** | Multi-select | Use stable tags (assessment, masterclass, cohort, membership, insurer-pilot, clinical-adjacent)
+**Scope Out** | Multi-select | Parked items
+**Key Decisions** | Rich text | Bulleted list
+**Immediate Outcomes** | Rich text | Assets/actions committed this thread
+**Success Metrics (JSON)** | Text | Store as JSON string for n8n; human views can use callouts
+**Deadline** | Date | Target ship date
+**Owners** | People | Carla / Fredo / CC
+**Links** | URL | “Home” doc/sales page
+**Status** | Select | 📥 Captured, 🔄 Processing, ✅ Applied, 📚 Reference, 🗄️ Archived (matches your existing Status vocabulary). [2]
+**Conversation(s)** | Relation → **Conversations** | Link the thread(s) that produced this
+**Hash (Idempotency)** | Text | SHA256 from n8n
+**Created** | Created time | —
+**Updated** | Last edited time | —
+Default views
+• Active (Status ≠ Archived, sorted by Updated desc)
+• By Owner (grouped by Owners)
+• Shipped (Status = Applied)
+──────────
+2) Decisions DB (unaddressed → explicit choices)
+Table name: Decisions
+Relation: many → one Resolutions.
+Property | Type | Details
+**Decision** | Title | e.g., “Assessment tool selection”
+**Decision ID** | Text | D# (unique within Resolution)
+**Resolution** | Relation → Resolutions | Required
+**Options** | Rich text | Include :white_tick: in default
+**Default** | Text | Normalised value (for automations)
+**Benefit** | Text | One-liner
+**Effort** | Select | S / M / L
+**Owner** | People | —
+**Due** | Date | —
+**Status** | Select | Open, Chosen, Declined, Deferred
+**Conversation(s)** | Relation → **Conversations** | Cross-ref to origin(s)
+**Hash** | Text | For idempotency
+Formula (ICE-style priority, optional):
+ICE = toNumber(prop("Impact")?: 0) * toNumber(prop("Confidence")?: 0) / toNumber(prop("EffortNum")?: 1)
+(If you prefer: add Impact, Confidence, EffortNum hidden properties; or keep ICE only in Backlog.)
+──────────
+3) Backlog DB (ranked tasks/ideas with ICE)
+Table name: Backlog
+Relation: many → one Resolutions.
+Property | Type | Details
+**Item** | Title | e.g., “Assessment result pages (4 archetypes)”
+**Backlog ID** | Text | B#
+**Resolution** | Relation → Resolutions | Required
+**Impact** | Select | H / M / L
+**Effort** | Select | S / M / L
+**Confidence** | Select | H / M / L
+**ICE Score** | Formula | Map S=1, M=2, L=3 → ICE = (ImpactMap * ConfidenceMap) / EffortMap
+**Owner** | People | Optional
+**Status** | Select | TODO, In progress, Done, Parked
+13:58
+**Conversation(s)** | Relation → **Conversations** | Traceability
+**Hash** | Text | For idempotency
+Suggested view: Top 10 (sort by ICE desc, then Impact desc, then Effort asc)
+──────────
+4) Leads DB (assessment funnel)
+Table name: Leads
+Purpose: store quiz results, archetypes, source; link to Resolution that launched the campaign.
+Property | Type | Details
+**Name** | Title | —
+**Email** | Email | —
+**Score** | Number | 0–100
+**Archetype** | Select | Navigator / Builder / Experimenter / Firefighter
+**Sector** | Multi-select | Health, Service, Public sector, etc.
+**Source** | Select | Assessment / Masterclass / Partner / Insurer
+**Consent** | Checkbox | Required for email
+**Date** | Created time | —
+**Resolution** | Relation → Resolutions | Optional
+**Conversation(s)** | Relation → **Conversations** | If captured by agent
+**Notes** | Text | —
+──────────
+5) Sales DB (checkout events)
+Table name: Sales
+Property | Type | Details
+**Order** | Title | COHORT-early-#10023
+**Buyer Email** | Email | —
+**Product** | Select | Cohort Early / Cohort Std / Team Pack / Membership
+**Plan** | Select | Pay-in-full / 3× / 6×
+**Gross** | Number (currency) | —
+**Fees** | Number (currency) | processor fees
+**Net** | Formula | Gross − Fees
+**Order ID** | Text | Stripe/Woo ID
+**Resolution** | Relation → Resolutions | Campaign linkage
+**Lead** | Relation → Leads | via email match (n8n can upsert)
+**Conversation(s)** | Relation → **Conversations** | If agent-driven
+**Date** | Created time | —
+──────────
+6) Delivery Metrics DB (cohort outcomes)
+Table name: Delivery Metrics
+Property | Type | Details
+**Participant** | Title | Name or alias
+**Email** | Email | —
+**Week** | Number | 0–12
+**Hours Saved** | Number | 0–40
+**Energy Ledger** | Number | 0–100
+**Notes** | Text | —
+**Resolution** | Relation → Resolutions | Cohort version
+**Conversation(s)** | Relation → **Conversations** | If updates were agent-logged
+**Created** | Created time | —
+──────────
+*7) Cross-references to the Conversations DB (your Universal Conversations)*
+Why: this preserves provenance across agents and threads (your “universal” memory).
+How: each of the five DBs above includes a Relation → Conversations field.
+• The Conversations DB shows agent-oriented fields (e.g., Agent Primary Role, topics, “Follow Up Needed”, etc.), which we can use for filtering/reporting. [1]
+• You already have conversation collections (e.g., Claude Conversations, Carla-Fred Instruction Platform) nested under that umbrella; linking keeps everything in one fabric.
+Bonus alignment: Pull tags like Business Area and AI Agent Contributions from your existing tag vocab so analytics are consistent.
+──────────
+8) Suggested Notion views (ready to create)
+Resolutions
+• Active by Owner (group = Owners; filter Status ≠ Archived)
+• By Campaign (filter Slug contains campaign keyword)
+Decisions
+• Open Decisions Due (Status = Open; Due ≤ next 7 days; grouped by Owner)
+• Chosen vs Deferred (board by Status)
+Backlog
+• Top 10 ICE (sorted by ICE desc)
+• By Conversation (group by Conversations relation)
+Leads
+• Archetypes by Source (board)
+• Masterclass RSVPs (if you add a “RSVP” checkbox)
+Sales
+• Revenue by Product (table with Sum on Net)
+• Team Packs (filter Product = Team Pack)
+Delivery Metrics
+• Cohort Roll-up (group by Week; average Hours Saved, average Energy Ledger)
+──────────
+9) n8n & Railway mapping (field-level)
+A) Slack → Resolutions/Decisions/Backlog
+• Trigger: message contains — RESOLUTION fenced block
+• Function node: parse → compute Slug, Version, Hash
+• Notion Upsert:
+  • Resolutions.Title ← parsed Title
+  • Resolutions.Slug/Version/Objective/... ← parsed fields
+  • Resolutions.Conversation(s) ← search by Slack permalink ID in Conversations; if found, relate
+  • Bulk upsert Decisions and Backlog rows with Resolution relation + Hash
+13:58
+• GitHub: mirror JSON snapshot as per Knowledge Lake spec (already defined in our previous plan)
+B) Assessment (Tally/Typeform) → Leads
+• Webhook → Function: score + archetype → Notion Leads
+• Link to Resolutions (current campaign by slug stored in env)
+• If the submission originated in an agent thread, relate to Conversations
+C) Checkout (Stripe/Woo) → Sales + access
+• Map Product/Plan, compute Net, relate to Leads by email, relate to Resolutions by current campaign slug
+D) Weekly check-ins → Delivery Metrics
+• Append rows; roll up weekly cohort outcomes to the linked Resolution
+──────────
+10) Quick conventions (so Noris nails it)
+• Property names exactly as listed.
+• Use the same Status select options you’re already using elsewhere to keep filters/views consistent. [2]
+• In each DB, the Relation → Conversations should allow multiple (a Resolution may derive from multiple agent threads).
+• Where applicable, add Rollups on the Resolutions DB (e.g., total Sales Net, average Hours Saved, average Energy Ledger) using the relations above.
+──────────
+11) Can I cross-reference your existing Universal Conversations DB?
+Yes. I can already read its structure and pages, so we can link to it from the new DBs immediately. See:
+• Universal Conversations database record and schema dump. [1]
+• Related pages tying back to that database under Carla’s HQ. [3]
+• Your classification/tagging helpers (Business Area, Status, Business Impact) that we can reuse for consistency.
+──────────
+12) Hand-off to Noris (paste this as instructions)
+Create these databases: Resolutions, Decisions, Backlog, Leads, Sales, Delivery Metrics.
+Use the property tables above verbatim.
+Add a Relation field in each pointing to the existing :robot_face: AI Agent Conversations – Universal Database.
+Reuse the Status select values we already have.
+Create the suggested default views.
+Confirm Notion page IDs for each DB (I’ll pass them to n8n/Railway).
+──────────
+*Want me to generate the n8n upsert payload maps (JSON examples) for each DB next?  *
+If you say the word, I’ll output copy-paste request bodies for Notion > Create/Update nodes and a one-screen cheat sheet Noris can follow.
+──────────
+Citations:
+1. https://www.notion.so/1a6c9296096a452981f9e6c014c4b808
+2. https://www.notion.so/7c6f09613911492da13917d4d60f37bd
+3. https://www.notion.so/2439440556f780d285aee619dd6d8b10
+──────────

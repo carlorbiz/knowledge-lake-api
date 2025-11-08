@@ -1,0 +1,2334 @@
+Ackr’m Practice Support Handbook
+For Practice Managers and Training Posts
+
+Document Purpose and Scope
+This handbook is the definitive source of truth for Ackr’m accredited training posts and practice managers supporting Rural Generalist registrar training. It consolidates all procedural, administrative, educational, and compliance requirements for training posts across primary care, hospital, Aboriginal Medical Service (A.M.S.), and Advanced Specialised Training (A.S.T.) settings.
+
+Target Audience: Practice Managers, Training Post Administrators, Principal Supervisors, Additional Supervisors, Training Program Advisors (T.P.A.’s), and regional support teams working in rural and remote healthcare settings across Australia.
+
+
+1. Welcome and Introduction
+About Ackr’m
+Welcome to the Australian College of Rural and Remote Medicine (Ackr’m), the home of the Rural Generalist.
+
+The Australian College of Rural and Remote Medicine is a professional medical college accredited by the Australian Medical Council to define standards and deliver specialist training in the discipline of general practice. Fellows of Ackr’m (Fackr’m) receive specialist registration as a General Practitioner with the Medical Board of Australia and can practise in any location throughout Australia. Ackr’m's curriculum and training programme also prepare doctors to become Rural Generalist medical practitioners—specialists uniquely equipped to serve rural, remote, and Aboriginal and Torres Strait Islander communities.
+The Critical Role of Training Posts
+Being an Ackr’m training post plays a vital role in registrar success and training outcomes. The quality of experiences registrars receive during their placements has a profound and lasting impact—not only on their clinical competence and confidence but also on their overall inclination to pursue a Rural Generalist career pathway and return to rural and remote practice.
+
+Ackr’m envisages a holistic, community-embedded approach to registrar training. We promote communities of practice within each training post, recognising that excellent training environments emerge when practice teams work collaboratively to support registrar development.
+Purpose of This Handbook
+This handbook is designed to provide training posts—and especially Practice Managers—with comprehensive information, procedural guidance, and ready access to resources for creating and sustaining the desired environment for Rural Generalist training.
+
+Key Objectives:
+
+- Provide clear, actionable guidance for Practice Managers on administrative systems, timelines, and compliance requirements
+- Map all procedural touchpoints between training posts, registrars, T.P.A.’s, and Ackr’m systems (R.G. Hub, Aptify, Prodah or H-pos)
+- Consolidate resource links, templates, and proformas to support day-to-day training post operations
+- Clarify roles, responsibilities, and reporting obligations across the registrar training lifecycle
+- Serve as the single source of truth for training posts and supervisors
+
+Ackr’m maintains a collegial working relationship with the Royal Australian College of General Practitioners (RACGP) to ensure training posts and supervisors are not burdened by unnecessary duplication of accreditation or administrative processes. Where possible, we work collaboratively on bi-college placement processes and shared standards to support dual-fellowship registrars and training posts accredited by both colleges.
+
+
+2. Rural Generalist Medical Practitioner
+Definition and Scope
+A Rural Generalist medical practitioner is a General Practitioner who has developed specific expertise in providing comprehensive medical care for rural, remote, and isolated communities.
+
+Rural Generalist practitioners:
+
+- Understand and respond to the diverse and often complex healthcare needs of rural communities
+- Apply a population health approach, recognising the social, cultural, and environmental determinants of health in rural settings
+- Provide safe, high-quality primary, secondary, and emergency care across the lifespan and across a broad scope of practice
+- Deliver culturally engaged healthcare for Aboriginal and Torres Strait Islander peoples, respecting and responding to cultural knowledge, protocols, and community leadership
+- Provide specialised medical care in at least one additional discipline (such as emergency medicine, anaesthetics, obstetrics, mental health, paediatrics, Aboriginal and Torres Strait Islander health, or other Advanced Specialised Training disciplines recognised by Ackr’m)
+
+Rural Generalists are the backbone of healthcare delivery in regional, rural, and remote Australia. Their extended scope, clinical breadth, and community-embedded practice make them uniquely capable of delivering accessible, continuous, high-quality care in settings where specialist and tertiary services are distant or unavailable.
+
+Training posts play a pivotal role in shaping these doctors and instilling the values, skills, and resilience required for Rural Generalist practice.
+
+
+3. Standards for Supervisors and Training Posts
+Application and Scope
+The Standards for Supervisors and Training Posts apply to all supervisors and training posts training registrars on the Ackr’m Fellowship Training Program. These standards apply to:
+
+- Core Generalist Training (CGT) in primary care, hospital, and emergency settings
+- Advanced Specialised Training (A.S.T.) in all Ackr’m-recognised disciplines
+Outcome-Based Standards
+The Standards are outcome-based and do not prescribe rigid inputs such as specific hours, percentages, or fixed teaching formats. Instead, they describe the educational environment, supervision quality, and learning outcomes expected of accredited posts.
+
+The description of evidence within the Standards provides guidance on Ackr’m's expectations for training posts participating in the Ackr’m Fellowship Training Program. These expectations are grounded in the competencies, knowledge, skills, and attributes described in the Rural Generalist Curriculum.
+Key Principles
+Training posts and supervisors are expected to:
+
+- Provide a safe, respectful, and supportive learning environment that fosters registrar confidence, clinical skill development, and professional identity formation
+- Ensure patient safety is maintained at all times through appropriate supervision, oversight, and graduated responsibility
+- Deliver structured orientation, teaching, and feedback tailored to the registrar's stage of training and learning needs
+- Support registrar wellbeing and resilience through pastoral care, workload management, and responsive problem-solving
+- Maintain accreditation compliance and engage with Ackr’m's quality assurance and continuous improvement processes
+
+Accreditation is granted to individual supervisors and individual training posts. Accreditation processes for supervisors and posts may occur concurrently or separately, depending on the circumstances of the application.
+
+
+4. Information Management Systems
+Training posts, Practice Managers, and supervisors interact with multiple information systems throughout the training lifecycle. Understanding these systems, their purposes, and access requirements is essential for smooth administrative operations and compliance.
+4.1 R.G. Hub (Primary Training Management System)
+R.G. Hub is Ackr’m's primary information management system for registrars, supervisors, medical educators, Training Program Advisors, regional support staff, and other stakeholders.
+
+Key Functions:
+
+- Accreditation management: Training post and supervisor accreditation applications, profiles, and renewal processes
+- Placement management: Training post profiles, registrar placement requests, and placement confirmations
+- Progress tracking: Registrar learning plans, feedback, formative assessments, and training progression data
+- Reporting: Collection and submission of registrar progress reports to the Australian Government Department of Health
+- Communication: Automated notifications, reminders, and updates related to placements, assessments, and compliance
+
+Access Requirements:
+
+- Practice Managers and supervisors require "web user" access to R.G. Hub
+- Access is granted upon completion of training post or supervisor accreditation
+- Single sign-on (S.S.O.) is available once account credentials are established
+- For access issues or questions, contact: practice support at Ackr’m dot org dot au
+
+Best Practice:
+
+- Check R.G. Hub regularly for placement updates, registrar progress reports, and accreditation renewal reminders
+- Ensure all Practice Manager and supervisor contact details are current in R.G. Hub to receive automated notifications
+4.2 Aptify (T.P.A. Contact Management System)
+Aptify is used by Training Program Advisors (T.P.A.’s) to maintain detailed contact logs, track interactions with training posts, and document support provided throughout the training term.
+
+Key Functions:
+
+- Contact log entries for T.P.A. communications with training posts and Practice Managers
+- Documentation of training post queries, issues raised, and resolutions
+- Tracking of site visit schedules and follow-up actions
+
+Access:
+
+- Aptify is primarily a T.P.A. and Ackr’m internal system
+- Practice Managers do not require direct access but should be aware that all T.P.A. interactions are logged and tracked in this system for quality assurance and continuity of support
+4.3 Prodah and H-pos (Government Funding Access)
+Prodah (Provider Digital Access) and H-pos (Health Professional Online Services) are Australian Government portals required for accessing National Consistent Payment (NCP) funding for AGPT registrars and RGTS funding disbursements (until 2026).
+
+Key Functions:
+
+- Prodah: Authentication gateway for accessing Australian Government online services
+- H-pos: Portal for submitting claims and accessing funding payments under NCP and RGTS schemes
+
+Access Requirements for Practice Managers:
+
+- Practice Managers must establish Prodah credentials linked to the training post's Organisation Site ID
+- H-pos access is then enabled through Prodah authentication
+- For AGPT registrars, NCP funding requires active H-pos access. This encompasses Salary Support, Professional Development, and Wellbeing Support payments
+- Until 1 January 2026, funding for RGTS registrars requires the Training Post Profile in R.G. Hub to include current bank account details
+
+Critical Administrative Step:
+
+Before the first AGPT or RGTS registrar placement, Practice Managers must:
+
+1. Confirm Prodah account is established and linked to the correct organisation
+2. Verify H-pos access is functional
+3. For RGTS placements, confirm bank details are recorded in R.G. Hub Training Post Profile
+
+For Prodah or H-pos setup assistance, contact: practice support at Ackr’m dot org dot au
+4.4 My College (Ackr’m E-learning Platform)
+My College is Ackr’m's online learning environment, providing high-quality educational resources, supervisor professional development modules, and registrar learning content.
+
+Key Features:
+
+- Interactive learning modules for registrars, supervisors, and medical educators
+- Supervisor Resources section with teaching guides, assessment tools, and professional development courses
+- Registrar Dashboard for accessing training plans, education programmes, and assessment submission portals (including Medicare Provider Number applications)
+
+Technical Requirements:
+
+- Desktop or laptop computer recommended for optimal viewing (some interactive modules are not optimised for mobile devices)
+- Reliable internet connection required
+- Google Chrome browser recommended for best compatibility
+
+Access:
+
+- My College and R.G. Hub use single sign-on (S.S.O.) once account credentials are established
+- For login issues, contact: practice support at Ackr’m dot org dot au
+
+Supervisor Access:
+
+Supervisors should familiarise themselves with the Supervisor Resources section of My College, which includes:
+
+- Orientation to Fellowship Training (Supervisors) module
+- Foundations of Rural Generalist Supervision series
+- Assessment training modules (MiniCEX, CBD, StAMPS, MCQ)
+- Cultural awareness and safety courses
+4.5 Email Communication Protocols
+Email is the primary communication channel between Ackr’m, regional teams, T.P.A.’s, and training posts.
+
+Best Practice for Practice Managers:
+
+- Check email regularly to ensure important notifications, placement updates, reporting reminders, and policy updates are not missed
+- Add the following Ackr’m email addresses to your safe sender list:
+- practice support at Ackr’m dot or dot au
+- Your regional T.P.A. email 
+- noreply at Ackr’m dot org dot au (automated R.G. Hub notifications)
+- Notify Ackr’m immediately of any changes to Practice Manager or supervisor email addresses to ensure continuity of communication
+- Update contact details in R.G. Hub to ensure automated notifications reach the correct recipients
+
+
+5. Key Stakeholder Organisations
+Training posts operate within a collaborative network of organisations that support medical education, employment standards, and registrar wellbeing. Understanding the roles of these key stakeholders will help Practice Managers navigate the training ecosystem effectively.
+5.1 Ackr’m Supervisor Liaison Officers (S.L.O.’s)
+Supervisor Liaison Officers (S.L.O.’s) are experienced Ackr’m-accredited supervisors who represent and support GP supervisors within their training region.
+
+Key Responsibilities:
+
+- Liaison between supervisors and Ackr’m on matters related to GP training and registrar supervision
+- Advocacy for supervisors' perspectives and concerns
+- Input into the development and review of policies, procedures, and activities affecting supervisors
+- Facilitation of regional supervisor networking and peer support
+- Co-delivery of regional professional development activities for supervisors
+
+Accessing S.L.O. Support:
+
+- A list of S.L.O.’s for each Ackr’m region is available on the Ackr’m website
+- Supervisors are encouraged to connect with their regional S.L.O. for peer support, mentoring, and guidance on supervision challenges
+5.2 Ackr’m Training Program Advisors (T.P.A.’s)
+Training Program Advisors (T.P.A.’s) are the primary point of contact for training posts and Practice Managers. T.P.A.’s provide dedicated support to create and maintain ideal training environments and ensure training posts meet Ackr’m standards.
+
+Key Responsibilities:
+
+- Liaison with training posts and Practice Managers on all matters related to accreditation, placements, and registrar support
+- Guidance on compliance with Standards for Supervisors and Training Posts
+- Coordination of site visits (virtual and in-person) for accreditation and re-accreditation
+- Facilitation of placement approvals and documentation (in collaboration with Medical Educators and Regional Directors of Training)
+- Problem-solving support when training post or registrar issues arise
+- Input into the development and review of policies, procedures, and activities affecting training posts
+- Maintenance of contact logs in Aptify to ensure continuity of support
+
+Accessing T.P.A. Support:
+
+- A list of T.P.A.’s for each Ackr’m region is available on the Ackr’m website 
+- Practice Managers should establish early contact with their regional T.P.A. and maintain regular communication throughout placements
+- T.P.A.’s are your first point of contact for:
+- Accreditation queries and applications
+- Placement documentation and approvals
+- Training Practice Report submission guidance
+- Registrar or supervisor concerns requiring Ackr’m support
+5.3 General Practice Supervision Australia (GPSA)
+General Practice Supervision Australia (GPSA) is the national representative body supporting supervisors and practices across Australia. GPSA represents the views and interests of GP supervisors and provides essential employment and educational resources.
+
+Key Resources Provided by GPSA:
+
+- National Terms and Conditions for the Employment of Registrars (NTCER): The authoritative employment standard for GP registrars (see Section 13 for detailed guidance)
+- Employment contract templates compliant with NTCER
+- Guides for Practice Managers and supervisors on employment obligations, rostering, remuneration, and leave entitlements
+- Advocacy on behalf of supervisors and training posts on workforce and education policy matters
+
+Current NTCER Version:
+
+Practice Managers must refer to NTCER Version 2025-02, effective from the pay cycle following 1 July 2025. This version applies to all AGPT and RGTS registrars and supersedes previous editions. It is important to note that this agreement is updated annually with MBS indexation rates and more substantially on a biennial review cycle. 
+
+Accessing GPSA Resources:
+
+- GPSA website: gpsa dot org dot au 
+- Employment resources: gpsa dot org dot au forward slash training-practice-menu forward slash employment-support
+- NTCER documentation: gpra dot org dot au forward slash ntcer
+5.4 General Practice Registrars Australia (GPRA)
+General Practice Registrars Australia (GPRA) is the national representative body for GP registrars in training. GPRA advocates for registrar wellbeing, education quality, and employment conditions.
+
+Resources for Training Posts:
+
+- GPRA provides FAQ’s and guidance on employment matters from the registrar perspective
+- Practice Managers and supervisors can refer to GPRA resources to better understand registrar expectations and support needs
+- GPRA FAQs: gpra dot org dot au forward slash faq 
+5.5 Ackr’m Medical Educators (M.E. to s)
+Medical Educators (M.E.’s) are experienced Ackr’m Fellows who provide one-on-one educational support and oversight for registrars throughout their training journey.
+
+Key Responsibilities:
+
+- Regular meetings with registrars to review training plans, learning progress, and career goals
+- Assessment of registrar readiness for progression to subsequent training stages
+- Approval of training placements to ensure they align with registrar learning needs and curriculum requirements
+- Escalation of registrar or training post concerns to Regional Directors of Training when necessary
+
+Interaction with Training Posts:
+
+- M.E.’s work closely with T.P.A.’s to ensure proposed placements are suitable for registrar progression
+- Practice Managers and supervisors may be contacted by M.E.’s to discuss a registrar's learning environment, supervision arrangements, or specific educational needs
+- If a registrar proposes a self-arranged placement, the M.E. must approve the placement before it proceeds
+
+
+6. Ackr’m Training Pathways
+Ackr’m offers four distinct training pathways to Fellowship (Fackr’m). Each pathway has unique funding arrangements, eligibility criteria, and administrative requirements. Practice Managers must understand which pathway their registrar is enrolled in to ensure correct funding access, employment contracts, and compliance with pathway-specific policies.
+6.1 Australian General Practice Training (AGPT)
+Australian General Practice Training (AGPT) is a Commonwealth-funded Fellowship training programme in the specialty of General Practice.
+
+Key Features:
+
+- Four years full-time equivalent (FTE) duration
+- Training must occur in regional, rural, and remote facilities (Modified Monash Model classifications MM2 to 7)
+- Minimum 12 months training in MM4 to 7 (rural and remote) locations required
+- College-supported placements based on registrar priority and preferred locations in Ackr’m-accredited training posts
+- Training fees are Commonwealth-funded; assessment fees are self-funded by registrars
+- Registrars receive National Consistent Payments (NCP) during Core Generalist Training (CGT), including Salary Support, Professional Development Support, and Wellbeing Support
+- Registrars receive Flexible Funds during Advanced Specialised Training (A.S.T.) terms
+- Subsidised examination preparation workshops with individualised feedback
+
+Funding Access for Practice Managers:
+
+- AGPT registrars' NCP funding is accessed via H-pos (see Section 4.3)
+- Practice Managers must establish Prodah credentials and H-pos access before the registrar commences
+- For detailed NCP funding information, refer to: National Consistent Payments Framework
+
+Employment Requirements:
+
+- AGPT registrars must be employed under contracts that comply with NTCER Version 2025-02
+- Joint GPSA/GPRA employment contract templates must be used
+6.2 Rural Generalist Training Scheme (RGTS)
+Until 31 December 2025, Rural Generalist Training Scheme (RGTS) is a four-year, fully funded stream of the College-led Independent Pathway specifically designed to produce Rural Generalist Fellows (Fackr’m).
+
+Key Features:
+
+- Four years FTE duration
+- Comprehensive Rural Generalist education programme with agile training environment and flexible options to meet programme requirements
+- Individualised training support
+- Training must occur in MM2 to 7 locations with minimum 12 months in MM4 to 7
+- College-supported placements based on priority and preferred locations in accredited training posts
+- Training fees are Commonwealth-funded through RGTS; assessment fees are self-funded
+- Registrars receive RGTS Registrar Training Payments during both CGT and A.S.T. terms
+- Subsidised examination preparation workshops with individualised feedback
+
+Funding Access for Practice Managers:
+
+- RGTS registrars' funding (until 1 January 2026) requires the Training Post Profile in R.G. Hub to include current bank account details
+- Practice Managers must verify bank details are recorded in R.G. Hub before the registrar commences
+- Important Policy Change: From 1 January 2026, RGTS transitioned to AGPT/Commonwealth funding mechanisms. RGTS registrars commencing Semester One 2026 and beyond receive GP Training Incentive Payments through the new Commonwealth framework.
+
+GP Training Incentive Payments (Effective Semester 1, 2026):
+
+RGTS registrars are now eligible for the following Commonwealth-funded incentive payments:
+
+- Salary Support: $30,000 per registrar per annum (paid to training post/employer to offset employment costs)
+- Study Leave Support: 5 paid study leave days per year (in addition to educational release time and annual leave entitlements)
+- Parental Leave Support: Up to 20 weeks paid parental leave for primary caregivers (supplementing standard parental leave entitlements under National Employment Standards)
+
+These payments align RGTS registrars with AGPT registrars under the Commonwealth National Consistent Payments (NCP) framework and are accessed via Prodah or H-pos (replacing the previous RGTS Registrar Training Payment structure administered through R.G. Hub bank details).
+
+Employment Requirements:
+
+- RGTS registrars must be employed under contracts that comply with NTCER Version 2025-02
+- Joint GPSA/GPRA employment contract templates must be used
+6.3 Independent Pathway (IP)
+Independent Pathway (IP) is a supported and flexible training pathway with a comprehensive, structured education programme developed and delivered by experienced Ackr’m Fellows.
+
+Key Features:
+
+- Four years FTE duration
+- Registrars work directly with Ackr’m staff and Medical Educators to craft individualised training plans suited to their career goals
+- Registrars negotiate their own training placements and manage their own learning experience
+- Training must occur in MM2 to 7 locations with minimum 12 months in MM4 to 7
+- College-supported placements available (but registrars have greater autonomy to propose placements)
+- Not restricted by Commonwealth funding requirements or policy
+- Training fees, assessment fees, and all registrar support costs are self-funded by the registrar
+
+Funding and Employment:
+
+- IP registrars do not receive Commonwealth funding (NCP, Flexible Funds, or RGTS payments)
+- Employment contracts are negotiated directly between registrar and training post
+- Contracts should still align with NTCER principles to ensure fair employment conditions, but strict NTCER compliance is not mandated for IP registrars
+
+Practice Manager Considerations:
+
+- IP registrars bring greater flexibility but require more individualised administrative arrangements
+- Practice Managers should clarify funding responsibilities, salary expectations, and contract terms early in the placement negotiation process
+6.4 Remote Vocational Training Scheme (RVTS)
+Remote Vocational Training Scheme (RVTS) is a Commonwealth-funded programme providing vocational training for medical practitioners in remote, isolated, and Aboriginal and Torres Strait Islander communities throughout Australia.
+
+Key Features:
+
+- Four years FTE duration
+- Training must occur in MM2 to 7 locations with minimum 12 months in MM4 to 7
+- College-supported placements available
+- Training fees, assessment fees, registrar support, and funding arrangements are managed by RVTS
+- RVTS registrars have access to RVTS-specific support services and funding mechanisms
+
+Practice Manager Considerations:
+
+- RVTS registrars' administrative and funding arrangements are coordinated by RVTS programme staff
+- Practice Managers should liaise with RVTS directly for guidance on employment contracts, funding claims, and reporting requirements
+- For RVTS-specific queries, contact the RVTS programme: https://www.Ackr’m.org.au/training/rvts
+6.5 Training Pathway Comparison Table
+The table below summarises key features of each Ackr’m training pathway to assist Practice Managers in understanding pathway-specific requirements.
+
+FeatureAGPTRGTSRVTSIPDuration of Training4 years FTE*4 years FTE*4 years FTE*4 years FTE*Location RestrictionsRegional, rural and remote facilities. MM2 to 7 with minimum 12 months in MM4 to 7Regional, rural and remote facilities. MM2 to 7 with minimum 12 months in MM4 to 7Regional, rural and remote facilities. MM2 to 7 with minimum 12 months in MM4 to 7Regional, rural and remote facilities. MM2 to 7 with minimum 12 months in MM4 to 7Practice PlacementCollege-supported placements based on priority and preferred locations in accredited training postsCollege-supported placements based on priority and preferred locations in accredited training postsCollege-supported placements based on priority and preferred locations in accredited training postsCollege-supported placements; registrar may negotiate own placementsTraining FeesTraining is Commonwealth-funded through AGPT; assessment fees are self-fundedTraining is Commonwealth-funded through RGTS; assessment fees are self-fundedManaged by RVTSSelf-fundedRegistrar Support Payments: CGT TermsNational Consistent Payments (NCP) and Flexible FundsRGTS Registrar Training Payment (until 2026); GP Training Incentive Payments (from Semester 1, 2026)Managed by RVTSSelf-fundedRegistrar Support Payments: A.S.T. TermsFlexible FundsRGTS Registrar Training Payment (until 2026); GP Training Incentive Payments (from Semester 1, 2026)Managed by RVTSSelf-fundedAssessment PreparationSubsidised examination preparation workshops with individualised feedbackSubsidised examination preparation workshops with individualised feedbackManaged by RVTSSelf-fundedEmployment Contract RequirementsNTCER 2025-02 compliance mandatory; GPSA/GPRA templates requiredNTCER 2025-02 compliance mandatory; GPSA/GPRA templates requiredRVTS-specific arrangementsNegotiated directly; NTCER alignment recommendedFunding Access SystemProdah or H-pos (NCP)R.G. Hub bank details (until 2026); Prodah or H-pos (from 2026)RVTS programmeNot applicable
+*Refer to Ackr’m Training Time Policy for definitions of full-time equivalent training and part-time training calculations.
+
+
+
+Part 2: Accreditation and Site Preparation
+
+7. Becoming an Accredited Training Post
+7.1 Background and Requirements
+All Ackr’m registrar training must take place in accredited training posts. Accreditation is based on the Standards for Supervisors and Training Posts and ensures that training environments meet quality, safety, and educational benchmarks.
+
+Key Accreditation Principles:
+
+- Registrars must have a nominated accredited supervisor throughout training (either a Principal Supervisor or, in some circumstances, an Additional Supervisor providing coverage)
+- Training placements must provide the opportunity to gain the required scope, type, and volume of clinical experience at an appropriate level of responsibility
+- Individual accreditation: Supervisors and training posts are accredited individually. The accreditation process for supervisors and posts may occur concurrently or separately.
+
+Types of Training Posts Accredited by Ackr’m:
+
+- Primary care: General practices in rural, remote, and regional areas
+- Aboriginal and Torres Strait Islander medical services (A.M.S.): Community-controlled health services and Aboriginal Community Controlled Health Organisations (Atchos)
+- Hospitals: Rural and remote hospitals providing primary care clinics, emergency department experience, and inpatient care
+- Emergency departments and retrieval services with integrated primary care clinics
+
+Recognition of Other Accreditations:
+
+- Ackr’m recognises training posts accredited by state and territory Postgraduate Medical Councils (PMCs) for doctors undertaking junior doctor terms during Core Generalist Training (CGT)
+- Ackr’m also recognises training posts accredited by other specialist colleges as suitable for short-term placements (up to three months) to fulfil mandatory training requirements
+- For long-term placements in disciplines recognised by Ackr’m for Advanced Specialised Training (A.S.T.), posts accredited by other specialist colleges may be suitable, but Ackr’m accreditation is required for placements longer than three months
+7.2 Benefits of Becoming an Accredited Training Post
+Practices that invest in accreditation and commit to training registrars experience significant benefits:
+
+Professional and Educational Benefits:
+
+- Enhance your training post's reputation as a leader in medical education and rural health workforce development
+- Strengthen collaborative relationships with other organisations involved in teaching registrars, medical students, and junior doctors
+- Enhance the teaching skills of supervisors, fostering a culture of continuous professional development and reflective practice
+- Contribute to and shape future generations of Rural Generalist GP’s who will serve rural and remote communities
+
+Practice Benefits:
+
+- Inject fresh perspectives and energy into your training post, which may stimulate process improvements, quality initiatives, and innovation
+- Build relationships with doctors who may return to your practice or region as Fellows, supporting succession planning and workforce retention
+- Access to registrar services to support practice capacity and patient access
+- Potential for VMO arrangements and after-hours coverage, depending on local health service needs
+
+Community and Workforce Benefits:
+
+- Address local workforce shortages by supporting the development of doctors who understand and are committed to rural practice
+- Strengthen community health infrastructure through registrar involvement in local health networks and outreach services
+7.3 Readiness to Train: Key Considerations
+Before committing to accreditation and registrar training, practices should carefully assess their readiness across multiple domains.
+
+Clinical Experience and Service Quality:
+
+- Will your practice be able to provide relevant clinical experience across the breadth and depth required by the Rural Generalist Curriculum?
+- Is your practice able to provide a safe and high-quality health service with appropriate clinical governance, risk management, and quality improvement systems?
+
+Resources and Infrastructure:
+
+- Does the practice have appropriate physical space (consulting rooms, shared clinical areas, teaching spaces) to accommodate a registrar?
+- Are practice systems (IT, clinical software, appointment scheduling, clinical documentation, billing) robust and user-friendly for a learner?
+- Is administrative support available to assist with registrar onboarding, rostering, and training-related documentation?
+
+Supervision Capacity:
+
+- Who is suitable, willing, and available to provide the level of supervision required for registrars at different stages of training?
+- Does the practice have sufficient supervisor capacity to meet supervision ratios (generally no more than two first-term [GPT1] registrars per Principal Supervisor at any one time)?
+- Is there an Additional Supervisor or supervisory team available to provide coverage when the Principal Supervisor is on leave or unavailable?
+
+Educational Commitment:
+
+- Can the practice quarantine mandated formal teaching time (3 hours per week for first-term registrars, 1.5 hours per week for second-term registrars)?
+- Is the practice prepared to support registrar educational leave for Ackr’m workshops, courses, and mandatory training activities?
+- Is there a culture of learning and teaching within the practice that will support registrar development?
+
+Commitment and Culture:
+
+- Is the practice committed to long-term engagement with training (recognising that accreditation may not guarantee a registrar every semester)?
+- Does the practice have a community of practice approach, with all staff (GP’s, nurses, allied health, administrative staff) engaged in supporting registrar learning?
+7.4 Attributes of a Good Training Post
+Excellent training environments are characterised by:
+
+- Diverse and appropriate case mix reflecting rural and remote primary care needs across the lifespan
+- Accessible and engaged supervisors who prioritise teaching and provide timely, constructive feedback
+- Supportive, collaborative practice culture with shared commitment to registrar success
+- Strong clinical governance with clear policies, procedures, and systems for patient safety and quality improvement
+- Well-organised administrative systems supporting registrar onboarding, rostering, and documentation
+- Community connections supporting registrar integration into local health networks, professional communities, and social supports
+- Commitment to cultural safety and respectful engagement with Aboriginal and Torres Strait Islander peoples, staff, and patients
+7.5 Attributes of a Good Supervisor
+Excellent supervisors demonstrate:
+
+- Clinical expertise and currency in rural and remote general practice
+- Commitment to teaching and registrar development, with allocated time for formal and informal teaching
+- Strong communication and interpersonal skills, fostering open dialogue, trust, and constructive feedback
+- Educational knowledge and skills, including familiarity with adult learning principles, workplace-based assessment, and feedback techniques
+- Adaptability and responsiveness to individual registrar learning needs, stages of training, and personal circumstances
+- Professional role modelling, including clinical reasoning, ethical decision-making, cultural safety, and reflective practice
+- Pastoral care skills, with attention to registrar wellbeing, resilience, and professional identity development
+- Engagement with ongoing professional development as an educator, including participation in Ackr’m supervisor training and regional networking
+
+
+8. Accreditation Site Visits
+8.1 Purpose and Scope
+The Australian College of Rural and Remote Medicine's accreditation standards and guidelines stipulate that a site visit must take place as part of the compliance evaluation process. The site visit is the final component of the evaluation of the accreditation submission and provides an opportunity for:
+
+- Ackr’m accreditation representatives to clarify minor ambiguities in the application and assess the training environment
+- Training post representatives (Practice Managers, supervisors, practice owners) to seek information about Ackr’m and registrar training processes, ask questions, and discuss practice-specific arrangements
+8.2 Timing of Site Visits
+The timing and format of the site visit depend on whether the application is for a new accreditation or a re-accreditation.
+New Accreditation
+- The site visit is the final stage of the new accreditation evaluation process
+- The visit must take place prior to granting final approval of the training post and supervisors
+- The visit allows Ackr’m to confirm compliance with Standards and provides the training post with an opportunity to demonstrate readiness to train
+Re-Accreditation
+- Training posts that have previously undergone initial accreditation and approval processes will initially be granted a 12-month "approved provisional" accreditation status following a satisfactory desktop audit of the re-accreditation submission
+- During the 12-month provisional period, a virtual site visit will be conducted
+- The visit provides an opportunity for Ackr’m to discuss the nuances of registrar training, explore educational opportunities available at the post, and answer any queries training post representatives have about Ackr’m processes, policies, or changes since the last accreditation cycle
+8.3 Preparation for the Site Visit
+The site visit is designed as a two-way discussion about delivery of registrar training and the placement environment. Extensive preparation is not required, but Practice Managers should have the following information available:
+
+Patient Demographics:
+
+- Overview of patient population demographics, particularly:
+- Percentage of patients identifying as Aboriginal and/or Torres Strait Islander
+- Age distribution (paediatric, adult, aged care proportions)
+- Common presenting conditions and clinical areas of practice focus
+
+Optional:
+
+- Training posts may offer a virtual tour of the facility if they wish, but this is not expected or required
+
+Participants:
+
+- At a minimum, the Principal Supervisor must attend
+- Practice Managers, Additional Supervisors, practice owners, and other relevant staff are welcome and encouraged to participate
+- Ackr’m representatives typically include:
+- Accreditation representative
+- Training Program Advisor (T.P.A.)
+- Sometimes the Regional Director of Training (RDOT) and/or Training Network Coordinator may attend to better understand the training environment
+8.4 The Site Visit Process
+Format:
+
+- Site visits are conducted virtually via Zoom or Microsoft Teams
+- In some cases, a member of the regional team may request to attend in person to provide additional support for the training post outside the scope of the accreditation process
+
+Duration:
+
+- Approximately one hour
+
+Topics Covered:
+
+Site visits typically cover the following areas:
+
+1. Communication:
+
+- How the practice communicates with Ackr’m, T.P.A.’s, and registrars
+- Email and R.G. Hub access for Practice Managers and supervisors
+- Processes for receiving and responding to Ackr’m notifications and updates
+
+2. Registrar Support:
+
+- Orientation processes for new registrars
+- Pastoral care and wellbeing support mechanisms
+- Administrative support for registrar onboarding, rostering, and documentation
+- Community integration and social supports
+
+3. Education Processes and Opportunities:
+
+- In-practice teaching arrangements (formal and informal)
+- Supervision models and capacity
+- Access to diverse clinical experiences (procedural skills, emergency care, chronic disease management, Aboriginal and Torres Strait Islander health, etc.)
+- Opportunities for hospital work, VMO arrangements, or after-hours experience (if applicable)
+
+4. Patient Safety:
+
+- Clinical governance structures and processes
+- Supervision protocols and escalation pathways
+- Risk management and critical incident reporting systems
+- Quality improvement activities
+8.5 After the Site Visit
+If Compliance is Confirmed:
+
+- If the site visit reinforces compliance with Ackr’m's accreditation standards, the training post and supervisor accreditation end dates are extended to the maximum of three years
+- Accreditation status is updated from "approved provisional" to "approved"
+- New training posts are entered for the full three-year cycle with an "approved" status
+
+If Compliance Gaps are Identified:
+
+- Site visits that identify compliance gaps are assessed on a case-by-case basis
+- Measures may include:
+- Involvement of the regional team to work with training post representatives to address knowledge gaps
+- Provision of additional resources, guidance, or targeted professional development
+- Extension or adoption of "approved provisional" status whilst training posts mitigate identified areas of concern
+- In rare cases, conditional accreditation or deferral of accreditation pending remediation
+
+Follow-Up:
+
+- T.P.A.’s will follow up with training posts after site visits to provide written confirmation of accreditation status and any actions required
+- Training posts will receive updated accreditation certificates reflecting new accreditation end dates
+
+
+9. Becoming an Accredited Supervisor
+9.1 Background and Process
+Supervisors are accredited individually, and the accreditation process may occur concurrently with training post accreditation or separately, depending on the circumstances.
+
+Who Can Apply:
+
+- Ackr’m Fellows (Fackr’m)
+- Specialists registered in relevant disciplines (e.g., emergency medicine physicians, obstetricians, anaesthetists, paediatricians for A.S.T. supervision)
+- Experienced practitioners with relevant qualifications, clinical expertise, and CPD in education
+
+Application via R.G. Hub:
+
+To commence the process of becoming an Ackr’m-accredited supervisor, log into R.G. Hub and complete the supervisor accreditation application.
+9.2 Information Required
+The supervisor accreditation application will request information on:
+
+Personal and Professional Details:
+
+- Full name, contact details, and AHPRA registration number
+- Current employment and practice details
+- Medical qualifications and Fellowship status
+
+Supervisor Experience:
+
+- Previous experience supervising registrars, interns, resident medical officers (RMOs), or medical students
+- Training completed in supervision or medical education
+
+Clinical Practice Details:
+
+- Scope of practice and areas of clinical expertise
+- Patient demographics and case mix
+- Consulting hours per week
+- Involvement in hospital work, VMO arrangements, or emergency medicine (if applicable)
+
+Accreditations:
+
+- Current supervisor accreditation with Ackr’m or other relevant specialist colleges (if applicable)
+- Health service accreditations (RACGP, AGPAL, or other quality accreditation schemes)
+9.3 Evidence Required for Supervisor Accreditation
+Evidence requirements depend on the supervisor's current accreditation and registration status.
+If Already an Ackr’m-Accredited Supervisor:
+- No additional evidence required (renewal via R.G. Hub profile update and confirmation of ongoing CPD)
+If Currently Accredited with Another Relevant Specialist College:
+- Evidence of current supervisor accreditation, including accreditation dates and expiry
+- Copy of accreditation certificate or letter from the accrediting college
+If Holding Specialist Registration in a Relevant Discipline but Not Currently Accredited as a Supervisor:
+- Proof of Specialist Registration/Fellowship (if recorded on AHPRA Medical Register, certificate not required; otherwise, provide Fellowship certificate)
+- CPD certificate demonstrating participation in continuing professional development within the last 12 months
+- Evidence of completion of supervisor training (e.g., Ackr’m Orientation to Fellowship Training – Supervisors module, or equivalent training from another college)
+If Not Currently Accredited and Without Specialist Registration, but With Relevant Qualifications and Experience:
+- Curriculum vitae (CV) detailing medical qualifications, postgraduate training, and relevant clinical and supervisory experience
+- Copies of relevant qualifications (medical degree, postgraduate diplomas or certificates)
+- Evidence of clinical privileging or credentialing at current place of work
+- CPD certificate demonstrating participation in continuing professional development within the last 12 months
+- Name and contact details for two referees who can attest to clinical and supervisory capability (referees should be medical practitioners familiar with the applicant's work)
+- Evidence of completion of supervisor training
+9.4 Supervisor Training Requirements
+All new supervisors must complete Ackr’m's Orientation to Fellowship Training – Supervisors online module (or equivalent training from another specialist college) prior to or within the first three months of their first supervision placement.
+
+Recommended Supervisor Professional Development Modules:
+
+- Orientation to Fellowship Training – Supervisors
+- Foundations of Rural Generalist Supervision: Introduction
+- Foundations of Rural Generalist Supervision: Supervision and Teaching
+- Foundations of Rural Generalist Supervision: Supervision Placement
+- Foundations of Rural Generalist Supervision: Consultation Observation and Feedback
+
+Access via My College.
+
+
+10. Supervisor Professional Development
+10.1 Ongoing Professional Development Requirements
+Engaging with professional development is essential for supervisors. Ackr’m requires all supervisors to participate in regular professional development activities to maintain and enhance their educational knowledge and skills.
+
+Minimum Requirements:
+
+- Completion of Ackr’m Orientation to Fellowship Training – Supervisors module (for new supervisors)
+- Participation in at least one educational CPD activity per year related to supervision, teaching, assessment, or medical education (e.g., Ackr’m webinars, regional supervisor networking events, assessment training modules)
+- Familiarity with the Rural Generalist Curriculum and updates to Ackr’m Fellowship Training Program requirements
+- Monitoring of CPD compliance reviewed triennially as part of accreditation renewal
+10.2 National Supervisor Webinars and Regional Networking
+Ackr’m offers National Supervisor Webinars to provide up-to-date information on College processes, policies, and educational innovations. Webinars are followed by regional networking sessions facilitated by Supervisor Liaison Officers (S.L.O.’s), providing opportunities for peer support, shared learning, and problem-solving.
+
+Benefits of Participation:
+
+- Stay informed about changes to training programme requirements, assessment processes, and accreditation standards
+- Connect with peers and share strategies for effective supervision and teaching
+- Access expert advice on managing complex supervision scenarios
+- Contribute to the development and review of Ackr’m policies and resources
+
+Accessing Webinars:
+
+- Webinar schedules and registration links are communicated via email and posted on the Ackr’m website
+10.3 Online Courses for Supervisors
+Ackr’m provides a comprehensive suite of online professional development modules designed specifically for supervisors. All modules are available via My College.
+Orientation to Fellowship Training – Supervisors
+Purpose: Provide an orientation for supervisors training Ackr’m registrars
+
+Learning Objectives:
+
+- Familiarise supervisors with the Ackr’m Fellowship Training Program structure, pathways, and competencies required for Fellowship
+- Understand the role of a supervisor and how to prepare to train registrars
+- Navigate Ackr’m systems (R.G. Hub, My College) and access supervisor resources
+
+Target Audience: All new supervisors (mandatory completion within first three months of supervision)
+
+Access: My College Supervisor Resources
+Foundations of Rural Generalist Supervision: Introduction
+Purpose: Provide a conceptual foundation for understanding the supervisor role
+
+Learning Objectives:
+
+- Understand the dual professional identity of supervisor: clinician and educator
+- Explore the tasks and responsibilities of a supervisor
+- Recognise the unique context of Rural Generalist supervision
+
+Target Audience: All supervisors
+Foundations of Rural Generalist Supervision: Supervision and Teaching
+Purpose: Explore the relationship between supervision and teaching in workplace-based learning
+
+Learning Objectives:
+
+- Understand the distinction and synergy between supervision and teaching
+- Apply adult learning principles to registrar education
+- Balance conceptual knowledge with practical "how-to" guidance in teaching
+
+Target Audience: All supervisors
+Foundations of Rural Generalist Supervision: Supervision Placement
+Purpose: Examine the tasks required at the beginning of a supervised doctor's placement
+
+Learning Objectives:
+
+- Understand the importance of a structured orientation and positive start to the placement
+- Use tools and resources to support effective registrar onboarding
+- Establish clear expectations, learning plans, and communication protocols
+
+Target Audience: Principal Supervisors and Practice Managers
+
+Key Resources Introduced:
+
+- Orientation checklist/proforma
+- Training Post Teaching Plan template
+- Initial learning needs assessment tools
+Foundations of Rural Generalist Supervision: Consultation Observation and Feedback
+Purpose: Develop skills in consultation observation and provision of constructive feedback
+
+Learning Objectives:
+
+- Understand the importance of direct consultation observation for assessing and developing registrar communication and consultation skills
+- Use structured observation frameworks (e.g., MiniCEX)
+- Provide timely, specific, and constructive feedback that promotes registrar learning and skill development
+
+Target Audience: All supervisors
+
+Key Skills Developed:
+
+- Direct observation techniques
+- Use of patient consent forms for consultation observation
+- Formative feedback delivery
+- Documentation of observation and feedback using Ackr’m tools (MiniCEX, DOPS, CBD)
+10.4 Cultural Awareness and Safety Training
+Cultural Awareness – PIP Indigenous Health Incentive
+Purpose: Provide knowledge and awareness of Australian Aboriginal and Torres Strait Islander cultures in the context of healthcare
+
+Learning Objectives:
+
+- Understand the history, cultures, and contemporary experiences of Aboriginal and Torres Strait Islander peoples
+- Recognise the impact of colonisation, dispossession, and systemic racism on health outcomes
+- Develop culturally responsive approaches to clinical practice
+
+Target Audience: All supervisors (particularly those working in practices with significant Aboriginal and Torres Strait Islander patient populations or in Aboriginal Medical Services)
+
+Incentive:
+
+- There is a fee associated with this module, but upon completion, doctors can apply for the PIP Indigenous Health Incentive payment
+- Further information: PIP Indigenous Health Incentive
+Ackr’m Cultural Safety
+Purpose: Provide learners with introductory knowledge and insight to develop understanding of Aboriginal and Torres Strait Islander peoples' beliefs, values, histories, cultures, and experiences from pre-colonisation to the present
+
+Learning Objectives:
+
+- Understand Ackr’m's approach to improving cultural awareness and cultural safety
+- Develop a personal plan to make meaningful difference in your community
+- Apply principles of cultural safety to supervision and practice environments
+
+Target Audience: All supervisors and Practice Managers
+
+Access: My College
+10.5 Assessment Training Modules
+Supervisors are expected to conduct workplace-based assessments during registrar placements. Ackr’m provides training modules for each assessment type to ensure supervisors understand assessment purposes, processes, and scoring criteria.
+MiniCEX (Mini Clinical Evaluation Exercise) Training
+Purpose: Train supervisors to conduct and score MiniCEX assessments
+
+Target Audience: All CGT supervisors
+
+Access: MiniCEX Training Module
+MCQ (Multiple Choice Question) Introduction
+Purpose: Familiarise supervisors and registrars with MCQ format and content
+
+Target Audience: Supervisors and registrars preparing for MCQ examination
+
+Access: MCQ Introduction Module
+CBD (Case-Based Discussion) Introduction
+Purpose: Train supervisors to conduct and score CBD assessments
+
+Target Audience: All CGT supervisors
+
+Access: CBD Introduction Module
+StAMPS (Structured Assessment using Multiple Patient Scenarios) Introduction
+Purpose: Familiarise supervisors and registrars with StAMPS format, process, and preparation strategies
+
+Target Audience: Supervisors and registrars preparing for StAMPS examination
+
+Access: StAMPS Introduction Module
+10.6 Key Supervisor Resources
+Supervisors should familiarise themselves with the following resources, all available on the Ackr’m website:
+
+- Supervisor and Training Post Accreditation Guide
+- Supervisor and Training Post Standards
+- Guide for Supervisors
+- Fellowship Training Program Handbook
+- Handbook for Fellowship Assessment
+- Respectful Workplaces Policy
+- Bullying, Harassment and Discrimination Complaints Procedure
+- Bullying, Harassment and Discrimination Policy
+- Position Statement: Cultural Safety (AIDA Framework)
+- National Consistent Payments Framework
+- AGPT Program Salary Support Program Policy 2023
+
+
+
+Part 3: Placement Process and Registrar Onboarding
+
+11. Registrar Placement Process
+11.1 Open-Market Placement System
+It is important to understand that being an accredited training post does not guarantee you will receive an Ackr’m registrar. Ackr’m's registrar placement process is based on an open-market style system with a bi-college approach in collaboration with RACGP.
+
+Key Features:
+
+- Every six months, accredited training posts can choose to be included in the training placements process
+- Training Post profiles are accessible to registrars to promote facilities and communities
+- Registrars can apply for advertised vacancies or advise the College of agreed arrangements with training posts
+- In some regions, there may be more training vacancies than registrars available, meaning some practices may not attract a registrar
+- Ackr’m works with RACGP to manage allocation of training placements and ensure equitable distribution across regions and training pathways
+
+Bi-College Collaboration:
+
+Ackr’m and RACGP collaborate to:
+
+- Align placement timing to minimise disruption for dual-fellowship registrars and training posts accredited by both colleges
+- Assess training practice capacities each term, which limit the number of registrars per supervisor and per post (capacities may change from term to term based on practice circumstances and supervisor availability)
+- Communicate and collaborate to ensure equity in access to training posts and registrars
+11.2 Registrar Placement Workflow
+The following workflow outlines the typical steps from registrar allocation to placement confirmation and funding access.
+Step 1: Registrar Allocation List Generated
+- The Program Coordinator/Training Post Operations Coordinator (PC/TPOC) generates the registrar allocation list for the upcoming semester
+- The list is sent to Training Program Advisors (T.P.A.’s) with accreditation information for each training post
+Step 2: Regional Team Meets with Registrar
+- The regional team (Medical Educator, RDOT, T.P.A.) meets with the registrar to discuss placement preferences, learning needs, and suitability of proposed placements
+Step 3: Placement Approval by M.E./RDOT
+- The Medical Educator (M.E.) and Regional Director of Training (RDOT) review and approve proposed placements to ensure they align with registrar progression requirements and curriculum needs
+- If a registrar proposes a self-arranged placement, the M.E. must approve the placement before it proceeds
+Step 4: T.P.A. Sends Placement Approvals and Documentation
+- The T.P.A. sends placement approval notification and required documentation to both the registrar and the training post
+- Documentation includes:
+- Placement Confirmation Form (to be completed by registrar, supervisor, and Practice Manager)
+- Training Post Agreement (T.P.A.) template
+- Medicare Provider Number (MPN) application guidance
+- Employment contract checklist and NTCER compliance guidance
+Step 5: Training Post Status Determines Next Steps
+If Training Post is Not Yet Accredited:
+
+- T.P.A. provides guidance on accreditation portal access and application process
+- Practice Manager completes accreditation application in R.G. Hub
+- Accreditation Coordinator reviews application and schedules site visit
+- Once accreditation is granted, proceed to Step 6
+
+If Training Post Requires Re-Accreditation:
+
+- T.P.A. provides guidance on re-accreditation paperwork
+- Practice Manager completes re-accreditation application in R.G. Hub
+- Accreditation Coordinator processes re-accreditation (desktop audit and site visit as required)
+- Once re-accreditation is confirmed, proceed to Step 6
+
+If Training Post is Already Accredited:
+
+- Proceed directly to Step 6
+Step 6: Placement Documentation Returned to T.P.A.
+- Registrar, supervisor, and Practice Manager complete and sign Placement Confirmation Form
+- Practice Manager completes Medicare Provider Number application (on behalf of registrar, via registrar's My College Dashboard)
+- All placement documentation is returned to T.P.A.
+Step 7: T.P.A. Emails Documentation to Accreditation Coordinator
+- T.P.A. sends the following to Accreditation Coordinator (AC):
+- Medicare application (forwarded to Medicare)
+- Placement Confirmation Form
+- Re-accreditation paperwork (if applicable)
+Step 8: Medicare Application Submitted
+- T.P.A. sends Medicare application to Medicare on behalf of registrar
+- Medicare processes application (typically 4-6 weeks; registrars should apply at least 8 weeks before placement commencement)
+Step 9: Accreditation Coordinator Processes Accreditation/Re-Accreditation
+- Accreditation Coordinator processes any outstanding accreditation or re-accreditation requirements for the training post (if applicable)
+Step 10: Accreditation Coordinator Enters Rotation and Triggers First Payment
+- Accreditation Coordinator enters the registrar rotation details into R.G. Hub
+- Entry of rotation triggers the first funding payment cycle (NCP for AGPT registrars, RGTS payment for RGTS registrars)
+11.3 Training Post Capacity and Supervisor Ratios
+Recommended Capacity Limits:
+
+- No more than two first-term (GPT1) registrars per Principal Supervisor at any one time
+- Supervisor capacity may be adjusted based on practice size, Additional Supervisor availability, and complexity of registrar needs
+- Ackr’m and RACGP assess training practice capacities each term and may adjust capacity limits based on practice circumstances
+
+Practice Manager Responsibility:
+
+- Inform your T.P.A. if supervisor availability or practice circumstances change (e.g., supervisor leave, practice closures, reduced clinical sessions)
+- Changes in capacity may affect future placement allocations
+11.4 VMO Arrangements and Rostering
+Registrars are encouraged to participate in the full spectrum of Rural Generalist practice whilst in training, including Visiting Medical Officer (VMO) work in local hospitals, after-hours care, and emergency department shifts.
+
+Rostering Requirements:
+
+- Rostering of registrars for both ordinary and on-call hours must be equitable (in comparison to other doctors in the practice)
+- Where possible, rosters should be developed in consultation with the registrar before the term commences
+- Registrars should not be rostered for excessive on-call or after-hours work that compromises their educational activities or wellbeing
+
+VMO Remuneration:
+
+- Discuss with the registrar how they will be paid for VMO work prior to them starting the term
+- VMO remuneration arrangements vary by location, health service, and employment model
+- Ensure VMO payment arrangements are clearly documented in the employment contract
+11.5 Screening and Interview Process
+Ackr’m recommends training posts adopt a robust screening and interview process to ensure mutual fit between registrar and training post.
+
+Information Registrars Should Provide:
+
+- Current curriculum vitae (CV) detailing medical qualifications, training history, and clinical experience
+- AHPRA registration details (ensure registrar has full and general registration as a medical practitioner)
+- Evidence of appropriate Professional Indemnity Insurance (PII)
+- References from previous supervisors or employers
+
+Recommended Interview Discussion Points:
+
+1. Training Stage and Pathway:
+
+- What is the registrar's current term level (GPT1, GPT2, etc.) and where are they in their training journey?
+- Which training pathway is the registrar enrolled in (AGPT, RGTS, IP, RVTS)?
+
+2. Full-Time or Part-Time Training:
+
+- Will the registrar be training full-time or part-time?
+- If part-time, what are the proposed working arrangements (days per week, hours per week)?
+
+3. Semester and Duration:
+
+- Which semester will the placement occur (Semester 1 or Semester 2)?
+- What is the anticipated duration of the placement (6 months, 12 months, longer)?
+
+4. Hospital Admitting Rights and VMO Work:
+
+- Are there admitting rights to the local public hospital?
+- Does the registrar have interest in and capacity for VMO work, on-call, or emergency department shifts?
+
+5. Educational and Special Interests:
+
+- What are the registrar's areas of educational interest and clinical focus (e.g., obstetrics, dermatology, emergency medicine, Aboriginal and Torres Strait Islander health, mental health)?
+- How can the training post support these interests?
+
+6. NTCER Items and Employment Conditions:
+
+- Working hours arrangement (ordinary hours, on-call, after-hours)
+- Remuneration (base salary, VMO payments, superannuation)
+- Leave entitlements (annual leave, personal/carer's leave, parental leave, study leave)
+- Mandatory educational release time (see Section 20 for detailed requirements)
+
+7. Accommodation and Support (Rural and Remote Placements):
+
+- For more rural and remote placements, registrars should discuss with the training post whether there is any accommodation support, relocation assistance, or additional community integration support available
+
+Conflict of Interest Considerations:
+
+The College must be notified of potential conflicts of interest during the placement process, such as if a registrar has any type of close personal relationship with a staff member at the practice.
+
+- Registrars are usually not placed at a practice if there is a significant pre-existing relationship with the supervisor, practice owner, or Practice Manager
+- It is not preferred to place a registrar at a practice if they have a significant pre-existing relationship with another staff member (e.g., practice nurse, administrative staff, other GP)
+- Refer to the Ackr’m Conflict of Interest Policy Statement
+
+
+12. Preparing for the Registrar
+12.1 Pre-Placement Meeting
+Ackr’m advises all registrars to arrange a pre-placement meeting with their supervisor and Practice Manager prior to starting their term.
+
+Key Discussion Points:
+
+1. Working Hours and Rostering:
+
+- Confirm ordinary working hours, on-call arrangements, and after-hours expectations
+- Discuss roster development process and registrar preferences
+
+2. Remuneration:
+
+- Negotiate remuneration in line with NTCER minimums (see Section 13)
+- Clarify how VMO work, on-call, and after-hours shifts will be remunerated
+- Confirm superannuation arrangements and pay cycle
+
+3. Medicare Provider Number Status:
+
+- Patients are not eligible to claim their Medicare rebate if the registrar does not have an active provider number
+- It is the registrar's responsibility to ensure they have an active Medicare Provider Number before starting the placement
+- Practice Manager should confirm MPN status with registrar and verify MPN activation with Medicare (see Section 14)
+
+4. Educational Release and Study Leave:
+
+- Confirm dates for Ackr’m mandatory education activities (workshops, cultural training, REST course)
+- Discuss arrangements for educational release and study leave (see Section 20)
+
+5. Orientation and Onboarding:
+
+- Outline the orientation schedule for the registrar's first week
+- Provide information on practice systems, IT access, clinical software, and documentation protocols
+- Introduce registrar to key staff and community contacts
+12.2 Once Appointment is Agreed Upon
+Once the registrar appointment has been confirmed, Practice Managers should prepare the following:
+Employment Contract and Documentation
+- Finalise employment contract that complies with NTCER Version 2025-02 (see Section 13)
+- Use joint GPSA/GPRA employment contract template (mandatory for AGPT and RGTS registrars)
+- Ensure contract is signed by both registrar and employer (practice owner or authorised representative) before registrar commences
+Medicare Provider Number Application
+- The College must endorse the MPN application before Medicare will process it
+- MPN applications are submitted via the registrar's My College Dashboard
+- Practice Manager assists registrar with application completion (see Section 14 for detailed process)
+Placement Documentation
+- Ensure Placement Confirmation Form has been completed and sent to the T.P.A.
+- Confirm Training Post Agreement (T.P.A.) has been signed by practice and registrar and returned to Ackr’m
+Funding Access Setup
+For AGPT Registrars:
+
+- Confirm Practice Manager has active Prodah credentials and H-pos access linked to the training post's Organisation Site ID
+- Verify H-pos access is functional before registrar commences to ensure NCP funding payments can be claimed
+
+For RGTS Registrars:
+
+- From Semester 1, 2026: RGTS registrars now access GP Training Incentive Payments via Prodah or H-pos (same process as AGPT)
+- Confirm Practice Manager has active Prodah credentials and H-pos access linked to the training post's Organisation Site ID
+- Verify H-pos access is functional before registrar commences
+
+For Aboriginal Medical Services (A.M.S.):
+
+- A.M.S. employing AGPT registrars must provide a copy of the employment agreement to the T.P.A. before the registrar commences
+- This enables processing of A.M.S. Salary Support payments under the AGPT programme
+- Employment Agreement must use GPSA/GPRA template and comply with NTCER Version 2025-02
+- Contact your regional T.P.A. for guidance on A.M.S. Salary Support eligibility and application process
+WorkCover and Insurance
+- Ensure registrar is covered under the practice's WorkCover insurance (or equivalent workers' compensation insurance)
+- Confirm registrar has Professional Indemnity Insurance (PII) appropriate to their scope of practice
+- Verify registrar has current AHPRA registration (full and general registration)
+12.3 Approximately One Month Before Registrar Commences
+IT and Practice Software
+- Arrange IT account creation and access credentials for practice management software, clinical software, email, and intranet
+- Provide registrar with IT setup instructions and technical support contact details
+- Confirm registrar has access to telehealth platforms (if applicable)
+Website Update
+- Update practice website with new registrar profile (name, qualifications, areas of interest, photo if available)
+- Inform patients of new registrar via waiting room posters, social media, or newsletter (if practice uses these communication channels)
+Rostering
+- Develop draft roster for registrar's first month, ensuring:
+- Adequate supervision coverage (see Section 18 for supervision requirements)
+- Quarantined formal teaching time (3 hours per week for first-term registrars; 1.5 hours per week for second-term registrars)
+- Appropriate patient load for stage of training (maximum 4 patients per hour for first-term registrars)
+- Time for orientation activities in first week
+Hospital Admitting Rights and Retrievals
+- If registrar will have hospital admitting rights or participate in retrieval services, initiate credentialing and privileging processes with local health service
+- Provide registrar with hospital orientation information and key contacts
+12.4 One to Two Weeks Before Registrar Commences
+Orientation Pack
+Prepare an orientation pack (digital or hard copy) containing:
+
+- Welcome letter from Practice Manager and/or Principal Supervisor
+- Practice information (history, values, team structure, services offered)
+- Staff contact list with roles and responsibilities
+- Map of practice and local area (if rural/remote placement)
+- Community information (accommodation options, schools, recreational facilities, social groups)
+- Key policies (see below)
+Provide Policies
+Registrars should receive copies of (or links to) the following policies before or on their first day:
+
+- Work Health and Safety (WHS) Policy and associated reporting procedures
+- Bullying, Harassment and Discrimination Policy and complaints procedure
+- Clinical governance and quality improvement policies
+- Critical incident and risk management policies and procedures
+- Infection prevention and control policies
+- Privacy and confidentiality policies
+- Cultural safety policies (particularly important for practices serving Aboriginal and Torres Strait Islander communities)
+Prepare Consulting Room
+- Allocate a consulting room for the registrar
+- Ensure room is equipped with:
+- Computer with software access configured
+- Examination couch and equipment
+- Stationery and documentation materials
+- Patient education resources
+- Emergency equipment (if applicable)
+12.5 First Day of Placement
+Orientation to Practice and Community
+Provide structured orientation covering:
+
+- Practice tour: Introduction to physical layout, consulting rooms, treatment rooms, staff areas, emergency equipment locations
+- Staff introductions: Meet all practice staff (GP’s, nurses, allied health, administrative staff)
+- Systems training: Demonstration of practice management software, clinical software, appointment booking, billing, pathology/radiology ordering, prescribing, referrals
+- Emergency procedures: Location of emergency equipment, emergency contact numbers, critical incident reporting procedures
+- Community orientation: Introduction to local health services, hospital, pharmacy, pathology, radiology, allied health providers, community health services
+- Cultural protocols: Introduction to local Aboriginal and Torres Strait Islander community contacts, Elders, cultural mentors (if applicable)
+
+Use the Training Post Orientation Proforma/Checklist to ensure all orientation elements are covered and documented.
+Hospital and Retrievals Orientation
+- If registrar will have hospital admitting rights or participate in retrievals, arrange hospital orientation and introduction to hospital medical staff, nursing staff, and emergency department team
+- Provide overview of hospital systems, admission procedures, and on-call protocols
+Supervisor Discusses Learning Needs and Training Plan
+- Principal Supervisor meets with registrar to discuss:
+- Registrar's prior experience, strengths, and areas for development
+- Learning goals for the placement
+- Training plan development (in collaboration with Ackr’m Medical Educator)
+- Supervision arrangements and communication protocols
+- Assessment requirements for the term (MiniCEX, CBD, Supervisor Report)
+- Formal teaching schedule
+
+
+13. Employment Agreements and NTCER Compliance
+13.1 National Terms and Conditions for the Employment of Registrars (NTCER)
+The National Terms and Conditions for the Employment of Registrars (NTCER) outlines the minimum employment conditions that training posts must meet for AGPT and RGTS registrars. NTCER is developed and maintained by General Practice Supervisors Australia (GPSA) and General Practice Registrars Australia (GPRA) in consultation with Ackr’m, RACGP, and other stakeholders.
+
+Current Version:
+
+NTCER Version 2025-02, effective from the pay cycle following 1 July 2025, applies to all AGPT and RGTS registrars.
+
+Accessing NTCER:
+
+- Full NTCER documentation: https://gpra.org.au/ntcer/
+- GPSA employment resources: https://gpsa.org.au/training-practice-menu/employment-support/
+13.2 Mandatory Use of GPSA/GPRA Employment Contract Templates
+AGPT and RGTS registrars must be employed under contracts that comply with NTCER Version 2025-02.
+
+Training posts must use the joint GPSA/GPRA employment contract templates, which are designed to ensure NTCER compliance and include all required clauses and entitlements.
+
+Accessing Contract Templates:
+
+- GPSA/GPRA contract templates: https://gpsa.org.au/training-practice-menu/employment-support/
+
+Key Contract Elements:
+
+- Base salary (minimum rates specified in NTCER, indexed annually)
+- Superannuation (employer contribution as per Superannuation Guarantee legislation)
+- Working hours (ordinary hours, on-call, after-hours arrangements)
+- Leave entitlements (annual leave, personal/carer's leave, parental leave, study leave)
+- Educational release time (mandatory time off work for Ackr’m education activities)
+- Supervision arrangements
+- Rostering protocols
+- Termination and notice provisions
+- Professional development support
+13.3 Key NTCER Provisions for Practice Managers
+Working Hours
+- Ordinary hours: Typically 38 hours per week for full-time registrars
+- On-call and after-hours: Must be negotiated and clearly documented in contract
+- Educational release time: Must be provided in addition to ordinary working hours (see Section 20)
+Remuneration
+- Minimum base salary: Specified in NTCER, indexed annually based on registrar term level
+- Base Salary Indexation: NTCER base salary rates are indexed annually with cost-of-living adjustments
+- CGT1 Registrar Increase: 3.5% staged increase applied to first-term (CGT1) base rate for registrars commencing Semester 1, 2026
+- VMO and after-hours payments: Must be negotiated and clearly documented
+- Superannuation: Employer must contribute as per Superannuation Guarantee legislation
+- 12% Superannuation Guarantee effective from 1 July 2025
+- Payment integrated with salary from 1 July 2026 (previously paid separately)
+Leave Entitlements
+- Annual leave: 4 weeks per year (pro-rata for part-time registrars)
+- Personal/carer's leave: 10 days per year (pro-rata for part-time registrars)
+- Parental leave: As per National Employment Standards (NES)
+- Study leave: Minimum 5 days per year for examination preparation and self-directed study (in addition to educational release time)
+Supervision and Teaching
+- In-practice teaching time: Must be quarantined and provided as per Ackr’m requirements (see Section 19)
+- Supervision coverage: Arrangements for supervisor leave and backup supervision must be documented
+Notice Periods and Termination
+- Notice periods: Minimum notice periods apply for both registrar and employer (specified in NTCER)
+- Termination: Grounds for termination and dispute resolution processes must be documented
+13.4 Employment Agreements for Aboriginal Medical Services (Salary Support)
+Aboriginal Medical Services (A.M.S.) employing AGPT registrars may be eligible for A.M.S. Salary Support payments under the AGPT programme.
+
+Key Requirement:
+
+- A.M.S. must use the GPSA/GPRA employment contract template and ensure NTCER compliance
+- Employment Agreement must be provided to Ackr’m as part of placement documentation to access Salary Support payments
+
+Accessing A.M.S. Salary Support:
+
+- Contact your regional T.P.A. for guidance on Salary Support eligibility and application process
+13.5 Independent Pathway (IP) Registrar Contracts
+Independent Pathway (IP) registrars are not restricted by Commonwealth funding requirements and therefore are not required to comply with NTCER.
+
+Best Practice:
+
+- Even for IP registrars, training posts are encouraged to use NTCER principles as a guide to ensure fair employment conditions
+- Contracts should clearly document remuneration, working hours, leave entitlements, supervision arrangements, and educational release expectations
+13.6 FAQs and Support
+For common employment questions and scenarios, refer to:
+
+- GPRA FAQs: https://gpra.org.au/faq/
+- GPSA employment resources: https://gpsa.org.au/training-practice-menu/employment-support/
+
+For practice-specific employment queries, contact your regional T.P.A.: practice support at Ackr’m dot org dot au
+
+
+14. Medicare Provider Number Process
+14.1 Importance of Medicare Provider Number (MPN)
+Patients are not eligible to claim their Medicare rebate if the registrar does not have an active Medicare Provider Number.
+
+It is the registrar's responsibility to ensure they have an active MPN before starting the placement. However, Practice Managers play a critical support role in facilitating the MPN application process and confirming MPN activation with Medicare before the registrar commences clinical work.
+14.2 MPN Application Process
+Step 1: Registrar Initiates Application via My College Dashboard
+- Registrars apply for their MPN using the application portal on their My College Dashboard
+- The application requires details from:
+- The registrar (personal details, AHPRA registration, qualifications)
+- The training post (practice name, address, practice manager contact details, supervisor details)
+- The placement (start date, duration, training pathway)
+Step 2: Practice Manager Assists with Training Post Details
+- Practice Managers should assist registrars with completing the training post sections of the MPN application
+- Ensure all practice details (name, address, ABN, supervisor name and AHPRA registration number) are accurate
+Step 3: Ackr’m Endorses the Application
+- Once the registrar submits the application via My College, it is automatically forwarded to Ackr’m for endorsement
+- The College must endorse the MPN application before Medicare will process it
+- Ackr’m verifies that:
+- The registrar is enrolled in an Ackr’m training pathway
+- The training post is accredited
+- The placement has been approved by the Medical Educator and Regional Director of Training
+Step 4: Ackr’m Forwards Application to Medicare
+- Once endorsed, Ackr’m forwards the MPN application to Medicare (Services Australia)
+- Medicare processes the application (typically 4-6 weeks)
+Step 5: Medicare Issues MPN
+- Medicare issues the MPN and notifies the registrar
+- The MPN is linked to the specific training post location and supervisor
+14.3 Timeline and Early Application
+Registrars should apply for their MPN at least 8 weeks before the placement commences to allow for processing time.
+
+Practice Manager Responsibility:
+
+- Confirm with the registrar that the MPN application has been submitted at least 8 weeks before commencement
+- Follow up with the registrar to confirm MPN has been issued before the first day of clinical work
+- If MPN has not been issued by the first day, registrar should not commence billing until MPN is active
+14.4 MPN Multi-Site Coverage
+Multi-Site Placements:
+
+Practice Managers should ensure MPN coverage extends to all accredited branch and associated sites where the registrar will provide clinical services.
+
+Key Requirements:
+
+- Multi-site placements require separate MPN applications for each location
+- Each site must be an accredited training post or approved branch site
+- Registrars cannot bill Medicare at secondary sites until MPN for that location is active
+- Confirm with registrar and T.P.A. that all practice locations are covered before registrar commences billing at secondary sites
+
+Example Scenario:
+
+If a registrar will work at both the main practice location (3 days per week) and a branch clinic in a neighbouring town (2 days per week), separate MPN applications must be submitted for each site, and both MPNs must be active before the registrar can bill at either location.
+14.5 MPN Queries and Issues
+If there are delays or issues with MPN applications, contact:
+
+- Ackr’m Practice Support: practice support at Ackr’m dot org dot au
+- Your regional T.P.A. 
+
+For Medicare-specific queries (e.g., MPN not appearing in practice software, MPN activation status), registrars should contact:
+
+- Medicare Provider Enquiry Line: 132 150
+
+
+
+Part 4: Practice Manager Role and Responsibilities
+
+15. The Role of the Practice Manager
+15.1 Practice Manager as Cornerstone of Training Success
+The Practice Manager is the cornerstone of successful registrar training placements. Practice Managers coordinate the administrative, logistical, and systems elements that enable supervisors to focus on clinical teaching and registrar development. A proactive, well-informed Practice Manager ensures compliance, smooth operations, and a positive experience for registrars, supervisors, and practice teams.
+15.2 Key Responsibilities
+Practice Managers are responsible for the following functions throughout the training lifecycle:
+System Access and Administration
+- Confirm "web user" access to R.G. Hub for self and supervisors to enable placement management, progress reporting, and communication with Ackr’m
+- Establish and maintain Prodah credentials and H-pos access (for AGPT registrars) to enable National Consistent Payment (NCP) claims
+- Verify bank account details in R.G. Hub Training Post Profile (for RGTS registrars until 1 January 2026) to enable RGTS funding payments
+- Monitor email regularly for Ackr’m notifications, placement updates, reporting reminders, and policy changes
+- Update contact details in R.G. Hub whenever Practice Manager or supervisor email addresses or phone numbers change
+Contracts and Employment
+- Use correct GPSA/GPRA employment contract templates for AGPT and RGTS registrars to ensure NTCER Version 2025-02 compliance
+- Finalise employment contracts with registrars before placement commencement, ensuring all NTCER provisions (remuneration, working hours, leave, educational release, supervision) are clearly documented
+- Coordinate WorkCover and insurance coverage for registrars
+Placement Documentation and Reporting
+- Complete and submit Placement Confirmation Forms to T.P.A.’s before registrar commences
+- Complete and submit Training Post Agreements (T.P.A.) to Ackr’m before registrar commences
+- Complete and submit Training Practice Reports at mid-semester (Week 11) and end-of-semester (Week 22) via Microsoft Forms links sent by Ackr’m
+- Assist supervisors with Supervisor Report submission at end-of-semester (currently paper-based; electronic submission under development)
+Medicare Provider Number (MPN) Support
+- Assist registrars with MPN applications via My College Dashboard, ensuring practice details are accurate
+- Confirm MPN activation with registrar before commencement of clinical work
+- Liaise with Ackr’m Practice Support or T.P.A. if MPN issues or delays arise
+Rostering and Supervision Logistics
+- Develop rosters that:
+- Quarantine mandated formal teaching time (3 hours per week for first-term registrars, 1.5 hours per week for second-term registrars)
+- Ensure appropriate supervision coverage (100% on-site for first two months of first term, reducing progressively; see Section 18)
+- Provide equitable on-call and after-hours rostering (in comparison to other GP’s in practice)
+- Allow for educational release time for Ackr’m mandatory workshops and courses (see Section 20)
+- Arrange supervisor leave coverage to ensure registrars always have access to an accredited Additional Supervisor when Principal Supervisor is absent
+- Coordinate hospital admitting rights and credentialing for registrars (if applicable)
+Orientation and Onboarding
+- Prepare orientation packs for registrars (practice information, staff contacts, community information, key policies)
+- Coordinate orientation schedule for first week of placement, including practice tour, systems training, community introductions, and hospital orientation (if applicable)
+- Ensure registrars receive copies of key policies (WHS, bullying and harassment, clinical governance, cultural safety)
+Facilitating Feedback and Communication
+- Facilitate regular communication between registrars, supervisors, and Ackr’m regional teams
+- Support registrars to raise concerns if teaching, supervision, or workplace issues arise
+- Liaise with T.P.A. if practice or registrar support is required
+Maintaining Workplace Policies and Standards
+- Ensure practice policies are current and accessible (WHS, bullying and harassment, clinical governance, cultural safety)
+- Support a respectful, inclusive workplace that aligns with Ackr’m's Respectful Workplaces Policy
+- Implement conflict resolution processes if workplace issues arise
+Accreditation Maintenance
+- Monitor accreditation expiry dates for training post and supervisors in R.G. Hub
+- Initiate re-accreditation processes at least 6 months before accreditation expiry
+- Participate in site visits (virtual or in-person) to demonstrate practice readiness and compliance with Standards
+
+
+16. Administrative Timeline and Reporting Requirements
+16.1 Purpose of Training Post Check-Ins
+Ackr’m's Training Post Check-in schedule is designed to:
+
+- Maintain training post accreditation compliance and ensure posts continue to meet Ackr’m Standards
+- Monitor registrar progression and wellbeing throughout the training term
+- Promote strong relationships between Ackr’m and training posts, enabling open communication and collaborative problem-solving
+- Enable early identification and resolution of concerns before they escalate into larger issues affecting registrar learning or training post operations
+
+Regular check-ins ensure training posts receive timely support, remain informed of policy and funding updates, and provide safe, high-quality learning environments for registrars. Training Post Advisors (T.P.A.’s) use structured check-in templates at Week 5 and Week 22 to guide conversations with Practice Managers, ensuring all compliance and support elements are covered systematically.
+16.2 Overview of Reporting Requirements
+Practice Managers must be familiar with the semester reporting timeline to ensure all mandatory reports are completed and submitted on time. Timely reporting is essential for:
+
+- Registrar progression: Reports inform Medical Educators and Regional Directors of Training about registrar performance and readiness for progression
+- Funding compliance: Reporting is required to maintain AGPT and RGTS funding eligibility
+- Quality assurance: Reports provide Ackr’m with data to monitor training post quality and identify support needs
+16.3 Semester Structure
+Ackr’m operates on a two-semester academic year:
+
+- Semester 1: Typically February to July (approximately 24 weeks)
+- Semester 2: Typically August to January (approximately 24 weeks)
+
+Exact dates are published annually on the Ackr’m website and communicated via email to training posts.
+16.4 Key Reporting Dates and Activities
+The table below outlines the administrative timeline for Practice Managers throughout the semester, mapped to T.P.A. check-in schedules and mandatory reporting activities.
+
+TimepointApproximate WeekPractice Manager ActionsT.P.A./Ackr’m ActionsDocuments and LinksPre-CommencementWeeks -8 to -1- Finalise employment contract
+- Assist with MPN application
+- Establish Prodah or H-pos access (AGPT) or verify bank details in R.G. Hub (RGTS)
+- Prepare orientation pack
+- Confirm roster and teaching schedule
+- Complete Placement Confirmation Form
+
+- Complete Training Post Agreement- Send placement approval and documentation
+- Process accreditation (if required)
+- Submit MPN application to Medicare
+
+- Enter rotation in R.G. Hub and trigger first payment- Training Post Agreement
+- Placement Confirmation Form (https://www.Ackr’m.org.au/resources/training-post-resources)
+- NTCER 2025-02 (https://gpra.org.au/ntcer/)
+
+- GPSA/GPRA Employment Contracts (https://gpsa.org.au/training-practice-menu/employment-support/)OrientationWeek 1- Deliver structured orientation (use Training Post Orientation Proforma)
+- Confirm MPN is active
+- Introduce registrar to community contacts
+
+- Supervisor discusses learning needs and training plan- not applicable- Training Post Orientation ProformaEarly Semester Check-InWeek 5- Confirm registrar is settling well
+- Ensure formal teaching schedule is being followed
+- Verify supervision arrangements are working
+- Confirm community orientation and integration completed
+
+- Remind PM that mid-semester report will be due in approximately 6 weeks- T.P.A. conducts Core Generalist Training (CGT) Check at Week 5
+- T.P.A. confirms registrar and orientation are complete (including **practice orientation and community integration**)
+
+- T.P.A. reminds PM of upcoming reporting requirements- CGT Check – Week 5 TemplateMid-Semester ReportingWeek 11- Complete and submit Mid-Semester Training Practice Report (via Microsoft Forms link sent by Ackr’m EDM)
+- Ensure supervisor has conducted MiniCEX and/or CBD formative assessments
+
+- Address any issues raised in report- Ackr’m sends EDM with link to Mid-Semester Training Practice Report (MS Form)
+
+- T.P.A. follows up if report not received- Training Practice Report Link (sent via EDM)
+- MiniCEX Formative Scoring Form (https://www.Ackr’m.org.au/resources/assessment-resources)
+
+- CBD Formative Scoring Form (https://www.Ackr’m.org.au/resources/assessment-resources)End-of-Semester ReportingWeek 22 onwards- Complete and submit End-of-Semester Training Practice Report (via Microsoft Forms link sent by Ackr’m EDM)
+- **Assist Principal Supervisor to complete and submit Supervisor Report** (currently paper-based)
+- Confirm all assessments (MiniCEX, CBD) have been completed and documented
+
+- Discuss with supervisor and registrar any plans for continuation or transition to next placement- Ackr’m sends EDM with link to End-of-Semester Training Practice Report (MS Form)
+- T.P.A. follows up if reports not received
+
+- Medical Educator reviews reports and assessments to determine registrar progression- Training Practice Report Link (sent via EDM)
+
+- Supervisor Report Template (https://www.Ackr’m.org.au/docs/default-source/all-files/supervisor-report-template.docx)Ongoing Support (Throughout Semester)Weeks 1-24- Monitor registrar wellbeing and learning environment
+- Address rostering, supervision, or workplace issues as they arise
+- Update R.G. Hub profile if practice contact details change
+
+- Respond to T.P.A. or Ackr’m queries promptly- T.P.A. provides ongoing support for NTCER queries, NCP/RGTS funding updates, MPN issues, and practice concerns
+
+- Medical Educator meets with registrar regularly (typically every 6-8 weeks) to review training plans and progress- Contact your regional T.P.A.: practice support at Ackr’m dot org dot au16.5 Training Practice Report Content
+The Training Practice Report (submitted at mid-semester and end-of-semester) typically requests information on:
+
+- Registrar attendance and engagement: Days/weeks worked, leave taken, participation in practice activities
+- Teaching and supervision: Confirmation that formal teaching time has been provided, quality of supervision
+- Clinical experience: Types of clinical activities, patient demographics, procedural skills opportunities
+- Assessments completed: MiniCEX, CBD, or other workplace-based assessments conducted during the reporting period
+- Registrar performance and progress: Strengths, areas for development, any concerns
+- Support needs: Any issues requiring Ackr’m or T.P.A. support
+
+Best Practice:
+
+- Keep contemporaneous records throughout the semester (teaching logs, attendance records, assessment documentation) to make report completion easier
+- Discuss report content with Principal Supervisor before submission to ensure accuracy and consistency with Supervisor Report
+- Submit reports by the due date to avoid delays in registrar progression and funding
+16.6 Supervisor Report Submission
+The Supervisor Report is completed by the Principal Supervisor at the end of each semester. It provides a detailed assessment of the registrar's clinical competence, consultation skills, professional behaviours, and progress towards Fellowship competencies.
+
+Current Process:
+
+- Supervisor Reports are currently paper-based
+- Practice Managers should assist supervisors to complete and submit Supervisor Reports on time (Week 22 onwards)
+- Supervisor Reports are submitted to Ackr’m via email or post (check with your T.P.A. for current submission instructions)
+
+Future Development:
+
+- Electronic Supervisor Report submission is under development and will be integrated into R.G. Hub in future
+
+Supervisor Report Template:
+
+- Supervisor Report Template
+
+
+17. Funding Access and Management
+17.1 Overview of Funding Mechanisms
+Ackr’m registrars may access different funding mechanisms depending on their training pathway. Practice Managers must understand which funding applies to their registrar and ensure correct systems access and documentation.
+
+Training PathwayFunding TypeAccess SystemPractice Manager Action RequiredAGPTNational Consistent Payments (NCP): Salary Support, Professional Development Support, Wellbeing Support (CGT terms)
+
+Flexible Funds (A.S.T. terms)Prodah or H-pos- Establish Prodah credentials linked to Organisation Site ID
+- Verify H-pos access is functional
+
+- Submit claims via H-posRGTS (From Semester 1, 2026)GP Training Incentive Payments: Salary Support ($30,000 p.a.), Study Leave Support (5 days p.a.), Parental Leave Support (up to 20 weeks)Prodah or H-pos (Commonwealth mechanisms)- Establish Prodah credentials linked to Organisation Site ID
+- Verify H-pos access is functional
+
+- Submit claims via H-posIPSelf-funded (no Commonwealth funding)not applicable- No funding access requiredRVTSManaged by RVTS programmeRVTS-specific systems- Liaise with RVTS programme for funding guidance17.2 National Consistent Payments (NCP) for AGPT Registrars
+National Consistent Payments (NCP) provide financial support to AGPT registrars and training posts during Core Generalist Training (CGT) terms.
+
+NCP Components:
+
+1. Salary Support Payment: Contributes to registrar salary costs (paid to training post/employer)
+2. Professional Development Support: Supports registrar attendance at educational activities, conferences, and professional development (paid to registrar)
+3. Wellbeing Support: Supports registrar wellbeing initiatives and personal development (paid to registrar)
+
+Accessing NCP:
+
+- NCP claims are submitted via H-pos (Health Professional Online Services)
+- Practice Managers must have Prodah credentials linked to the training post's Organisation Site ID
+- Once Prodah or H-pos access is established, NCP claims can be submitted according to the schedule outlined in the National Consistent Payments Framework
+
+Key Resources:
+
+- National Consistent Payments Framework
+- AGPT Program Salary Support Program Policy 2023
+17.3 Flexible Funds for AGPT Registrars (A.S.T. Terms)
+AGPT registrars in Advanced Specialised Training (A.S.T.) terms are eligible for Flexible Funds to support educational activities, conference attendance, and A.S.T.-specific training costs.
+
+Payment Structure:
+
+- Flexible Funds are quarterly payments to training posts for clinical teaching and educational support during A.S.T. terms
+- Payments require correct Prodah or H-pos setup and NCP framework compliance
+- Practice Managers should confirm payment receipt each quarter and report any discrepancies to their regional T.P.A.
+
+Accessing Flexible Funds:
+
+- Flexible Funds are accessed via the same Prodah or H-pos system used for NCP payments
+- Practice Managers should monitor quarterly payment cycles and follow up if payments are delayed or incorrect
+- For queries, contact your regional T.P.A.: practice support at Ackr’m dot org dot au
+
+Key Resource:
+
+- Flexible Funding Payments Information
+17.4 GP Training Incentive Payments for RGTS Registrars (From Semester 1, 2026)
+From Semester 1, 2026, RGTS transitioned to AGPT/Commonwealth funding mechanisms. RGTS registrars commencing Semester 1, 2026 and beyond receive:
+
+GP Training Incentive Payments:
+
+1. Salary Support: $30,000 per registrar per annum (paid to training post/employer to offset employment costs)
+2. Study Leave Support: 5 paid study leave days per year (in addition to educational release time and annual leave entitlements under NTCER)
+3. Parental Leave Support: Up to 20 weeks paid parental leave for primary caregivers (supplementing standard parental leave entitlements under National Employment Standards)
+
+Accessing GP Training Incentive Payments:
+
+- GP Training Incentive Payments are accessed via Prodah or H-pos (same process as AGPT NCP payments)
+- Practice Managers must establish Prodah credentials linked to the training post's Organisation Site ID
+- Verify H-pos access is functional before registrar commences
+- Submit claims according to the schedule outlined in Commonwealth guidance
+
+Key Features:
+
+- These payments align RGTS registrars with AGPT registrars under the Commonwealth National Consistent Payments (NCP) framework
+- Payments replace the previous RGTS Registrar Training Payment structure (which was administered through R.G. Hub bank details and paid automatically by Ackr’m)
+
+Practice Managers with RGTS registrars should contact their regional T.P.A. for guidance on the Prodah or H-pos setup and claims process.
+17.5 A.M.S. Salary Support for Aboriginal Medical Services
+Aboriginal Medical Services (A.M.S.) employing AGPT registrars may be eligible for A.M.S. Salary Support payments.
+
+Eligibility:
+
+- Training post is an Aboriginal Community Controlled Health Organisation (Atcho) or Aboriginal Medical Service
+- Registrar is enrolled in AGPT pathway
+- Employment Agreement complies with NTCER and uses GPSA/GPRA contract template
+
+Accessing A.M.S. Salary Support:
+
+- Contact your regional T.P.A. for guidance on eligibility and application process
+- Provide Employment Agreement to Ackr’m as part of placement documentation
+17.6 State-Based Incentive Programmes
+Some states and territories offer additional financial incentives for registrars and training posts. Practice Managers should be aware of state-based programmes that may apply to their registrar.
+
+Example: Victorian GP Grant Program
+
+The Victorian Government offers grants to support GP training in rural and regional Victoria. The programme is administered by Ackr’m on behalf of the Victorian Department of Health.
+
+Key Resource:
+
+- Victorian GP Grant Program
+
+For information on other state-based incentive programmes, contact your regional T.P.A..
+17.7 Funding Queries and Support
+For funding-related queries (NCP, RGTS, A.M.S. Salary Support, state incentives), contact:
+
+- Your regional T.P.A.: practice support at Ackr’m dot org dot au
+- Ackr’m Finance Team: finance@Ackr’m.org.au
+
+
+
+
+
+Part 5: Supervision, Teaching and Educational Support
+
+18. Supervision Models and Requirements
+18.1 Supervision in the Apprenticeship Model
+Vocational general practice training in Australia is based on the apprenticeship model, where registrars consult independently with patients but practice under the supervision of accredited supervisors. Supervisors play an essential role in the development of registrars into confident, competent Rural Generalist practitioners.
+
+Key Principles:
+
+- Patient safety is paramount: Supervision arrangements must ensure patient safety at all times
+- Graduated responsibility: Supervision intensity decreases progressively as registrar competence and confidence increase
+- Accessible and responsive: Supervisors must be accessible (on-site or off-site) whenever the registrar is consulting
+- Oversight and feedback: Supervisors provide regular oversight, guidance, and constructive feedback to support registrar development
+18.2 Principal Supervisor and Additional Supervisor Roles
+Principal Supervisor
+The Principal Supervisor is the doctor who has full responsibility for the overall clinical and educational supervision of a registrar in the training post. A registrar must always have a nominated Principal Supervisor.
+
+Key Responsibilities:
+
+- Ensuring structured orientation is provided to registrars
+- Assisting registrars to develop their learning plan and supporting/monitoring progress
+- Ensuring all teaching and supervision requirements for registrars are met
+- Supporting registrars' personal, professional, and educational development by providing oversight, guidance, and feedback
+- Maximising patient safety by understanding a registrar's clinical strengths and weaknesses
+- Supporting and monitoring registrar wellbeing
+- Providing registrars with educational activities commensurate with their level of training
+- Participating in administrative activities (providing formal and informal feedback to registrars and Ackr’m, reviewing practice logs)
+- Encouraging registrars' regular completion of practice logs and reviewing submitted logs
+Additional Supervisor
+The Additional Supervisor contributes to the clinical and educational supervision for a registrar. An Additional Supervisor provides supervision at times when the registrar cannot access the Principal Supervisor (e.g., when Principal Supervisor is on leave, attending professional development, or unavailable for other reasons).
+
+Key Distinctions:
+
+- Additional Supervisors do not have overall responsibility for the registrar (this remains with the Principal Supervisor)
+- Additional Supervisors provide backup supervision and teaching to ensure continuity of supervision coverage
+- The roles are not hierarchical—both Principal and Additional Supervisors are valued members of the supervisory team
+- There is choice in the level of responsibility taken by a supervisor for a hosted registrar
+18.3 Supervision Requirements by Term
+Supervision requirements vary depending on the registrar's stage of training. The table below outlines minimum on-site supervision percentages for each stage of primary care training.
+
+Training StageMinimum On-Site SupervisionOff-Site SupervisionNotesFirst Term, First 2 Months (GPT1, Weeks 1-8)100% on-siteNot permittedRegistrar must have direct, face-to-face supervision at all times during first two months of first general practice termFirst Term, Remainder (GPT1, Weeks 9-24)80% on-site20% may be off-site (if approved)Off-site supervision may be considered after first two months if registrar demonstrates competence and supervisor is available off-siteSecond Term (GPT2)50% on-site50% may be off-site (if approved)Registrar expected to demonstrate increasing independence; supervisor must remain accessible off-siteThird and Fourth Terms (GPT3, GPT4)25% on-site75% may be off-site (if approved)Registrar approaching Fellowship level of competence; supervisor provides oversight and consultation as needed
+Important:
+
+- When the registrar is working and the supervisor is not on-site, the supervisor must be available off-site (contactable by phone, telehealth, or other communication means)
+- Off-site supervision arrangements must be approved by the Medical Educator and Regional Director of Training and documented in the placement approval
+18.4 Off-Site and Blended Supervision
+Off-site or blended supervision arrangements may be approved for registrars who have demonstrated appropriate competence, clinical reasoning, and professional maturity.
+Eligibility Criteria
+The approval process evaluates the following on an individual registrar basis:
+
+- Registrar experience: Prior clinical experience, postgraduate year (PGY) level, breadth of practice exposure
+- Clinical competence: Demonstrated clinical skills, diagnostic reasoning, and patient management capacity (assessed via MiniCEX, CBD, Supervisor Reports)
+- Emergency experience or training: Completion of emergency medicine training (e.g., REST, APLS, ALS) and confidence managing acute presentations
+- Resilience and resourcefulness: Ability to manage uncertainty, seek assistance appropriately, and problem-solve independently
+- Willingness to have off-site supervision: Registrar comfort level with reduced direct supervision
+Eligibility Criteria for Training Post and Supervisor
+The training post and supervisor, independently, must meet the Standards for Supervisors and Training Posts.
+
+If the post and supervisor are not already accredited, the accreditation application should be submitted in conjunction with the usual placement recommendation process to cover both the post and the supervisor for off-site supervision.
+Application Process
+- Registrar, Principal Supervisor, and Practice Manager discuss proposed off-site supervision arrangements and confirm mutual agreement
+- Medical Educator assesses registrar suitability for off-site supervision
+- Regional Director of Training reviews and approves off-site supervision arrangements
+- Approval is documented in placement approval and communicated to T.P.A. and training post
+Key Resources
+- Remote Supervision Policy: (In development; contact your regional T.P.A. for current guidance)
+- Remote Supervision Plan Template: (In development; contact your regional T.P.A. for current guidance)
+18.5 Supervisor Leave Coverage
+When the Principal Supervisor is on leave (annual leave, professional development, illness, etc.), the training post must ensure the registrar has access to an accredited Additional Supervisor to provide supervision coverage.
+
+Practice Manager Responsibility:
+
+- Plan ahead for supervisor leave periods
+- Confirm Additional Supervisor availability before Principal Supervisor takes leave
+- Notify registrar of supervision arrangements during Principal Supervisor's absence
+- If Additional Supervisor is not available within the practice, arrange supervision coverage with a nearby accredited supervisor or contact T.P.A. for support
+
+Best Practice:
+
+- Include supervisor leave coverage arrangements in the Training Post Agreement and employment contract
+- Document Additional Supervisor contact details and availability in the Training Post Teaching Plan
+
+
+19. In-Practice Teaching and Learning
+19.1 Overview of Teaching and Learning Environments
+Teaching and learning for registrars occur in three primary environments during fellowship training:
+
+1. In-Practice Teaching and Learning (provided by the training post and supervisory team)
+2. Ackr’m Fellowship Education Programme (workshops, online modules, cultural training, emergency medicine courses)
+3. Private Study (self-directed learning, examination preparation, reading, online resources)
+
+This section focuses on In-Practice Teaching and Learning, which consists of three distinct areas:
+a) Patient-Stimulated Learning (PSL)
+Patient-Stimulated Learning is what the patient brings to learning. The registrar works in a supportive general practice environment to participate in the delivery of patient care. The PSL apprenticeship model provides the foundation for much of the registrar's learning.
+
+Ackr’m Guidelines for Patient Load and Supervision:
+
+- Maximum 4 patients per hour in normal clinical settings
+- Patient load should be appropriate to stage of training and competence of registrar (first-term registrars typically see fewer patients per hour than advanced registrars)
+- Supervision level is matched to registrar competency (see Section 18.3)
+
+As the registrar progresses through a training term, competency assessments (MiniCEX, CBD) should be undertaken by the supervisor. If mutually agreed by supervisor and registrar, applications for off-site or remote supervision for a portion of the training time can be made to the Ackr’m regional team.
+b) In-Practice Teaching (IPT)
+In-Practice Teaching includes all formal and informal teaching activities provided by supervisors and practice staff to support registrar learning. This includes:
+
+- Direct observation of registrar consultations by supervisor and feedback
+- Case-based discussions
+- Random-case analysis
+- Chart, prescribing, pathology, and radiology request audits
+- Opportunistic education in relation to registrar consultations
+- Review of referrals
+- Critical incident review
+- Tutorials with supervisors and other practice staff
+- Procedural skills training
+- Joint aged care or home visits
+- Examination preparation support
+c) Mini Clinical Evaluation Exercises (MiniCEX)
+MiniCEX are formative workplace-based assessments of registrar-patient consultations during Core Generalist Training (CGT). MiniCEX provide a valuable assessment and learning opportunity to gauge progress through training and identify learning needs.
+
+Requirement:
+
+- Registrars must complete MiniCEX formative assessments at regular intervals throughout CGT (at least one per semester, ideally more)
+- Supervisors must be trained in MiniCEX assessment (see MiniCEX Training Module)
+19.2 Formal Teaching Requirements
+Formal teaching time must be quarantined and scheduled to ensure it occurs consistently. Many supervisors and registrars find it works best to have formal teaching scheduled for the same day and time every week.
+
+The requirements for formal in-practice teaching are outlined below, based on registrar stage of training.
+First 6 Months of Primary Care Placement (GPT1)
+Mandated Teaching Time: 3 hours per week (average)
+
+Registrar Meeting with Supervisor:
+
+- Discuss past experience, learning needs, required procedural skills (logbook), and assessment requirements
+- Develop Training Post Teaching Plan in collaboration with registrar
+
+3-Monthly Formative Assessment:
+
+- Conduct formative assessment following consultation review (direct observation or videoconference observation)
+- Use MiniCEX Formative Scoring Form or CBD Formative Scoring Form
+- Document assessment outcomes and feedback
+- Arrange for supervisor or Ackr’m Medical Educator to observe registrar consultations
+
+Patient Consent:
+
+- Obtain patient consent for consultation observation using Patient Consent Forms for Observation of Consultations
+
+Assessment Tools:
+
+- DOPS (Direct Observation of Procedural Skills) Formative Scoring Form
+- CBD Formative Scoring Form
+Second 6 Months of Primary Care Placement (GPT2)
+Mandated Teaching Time: 1.5 hours per week (average)
+
+Registrar Meeting with Supervisor:
+
+- Discuss past experience, learning needs, required procedural skills (logbook), and assessment requirements
+- Review and update Training Post Teaching Plan
+
+3-Monthly Formative Assessment:
+
+- Conduct formative assessment following consultation review (direct observation or videoconference observation)
+- Use MiniCEX Formative Scoring Form or CBD Formative Scoring Form
+- Document assessment outcomes and feedback
+
+Patient Consent:
+
+- Obtain patient consent for consultation observation
+
+Assessment Tools:
+
+- DOPS Formative Scoring Form
+- CBD Formative Scoring Form
+Third and Fourth 6 Months of Primary Care Placement (GPT3, GPT4)
+Recommended Teaching Time: 1 hour per week (average), dependent on registrar need
+
+Registrar Meeting with Supervisor:
+
+- Discuss past experience, learning needs, required procedural skills (logbook), and assessment requirements
+- Review and update Training Post Teaching Plan as needed
+
+3-Monthly Formative Assessment:
+
+- Conduct formative assessment following consultation review (direct observation or videoconference observation)
+- Use MiniCEX Formative Scoring Form or CBD Formative Scoring Form
+- Document assessment outcomes and feedback
+
+Patient Consent:
+
+- Obtain patient consent for consultation observation
+
+Assessment Tools:
+
+- DOPS Formative Scoring Form
+- CBD Formative Scoring Form
+Ongoing Teaching Beyond GPT4
+Although there is no mandated formal teaching requirement beyond the registrar's third primary care placement term (GPT3), it is highly recommended to always allow and offer registrars the opportunity to participate in usual formal practice teaching sessions.
+
+Teaching often evolves into coaching and mentoring and continues well beyond Fellowship. Registrars are individuals (and adults); teaching can and should be individualised to meet their specific learning needs and career goals.
+19.3 Informal Teaching
+Informal teaching, also known as opportunistic, corridor, or ad hoc teaching, is a core element of learning whilst working in clinical practice. It is a daily teaching and supervision activity and forms an essential part of the apprenticeship model of GP training.
+
+Informal teaching complements the formal teaching that occurs in clinical terms and is responsive to the registrar's immediate learning needs.
+
+Activities that Constitute Informal Teaching:
+
+- Orientation to the practice
+- Opportunistic and planned case discussions during and at the end of the day
+- Group teaching sessions with other registrars and students
+- Procedural skills education
+- Cultural education
+- Provision of feedback
+- Completion of assessments
+- Evaluation of teaching
+
+Characteristics of Effective Informal Teaching:
+
+- Learner-driven: Responsive to registrar's immediate learning needs and clinical questions
+- Context-rich: Grounded in real patient cases and clinical scenarios
+- Timely: Provided "in the moment" or shortly after a clinical encounter
+- Accessible: Supervisor is available when requested by registrar
+
+Informal teaching has the potential to be very powerful, as it is driven by, and responsive to, the registrar's learning needs. Supervisors should be accessible to provide informal teaching when requested by the registrar and ready to provide clinical guidance and support as needed.
+19.4 What Constitutes In-Practice Teaching and Learning?
+Definition:
+
+In-Practice Teaching and Learning includes any teaching that is agreed by both registrar and supervisor as appropriate for the registrar's learning.
+
+Characteristics:
+
+- Most teaching will be clinically based, but it can also incorporate administrative areas such as orientation undertaken in the practice during the first few days or weeks
+- If the registrar is consulting and the supervisor is sitting in on the consultation and providing teaching, this time can be recorded in both consulting hours and teaching hours
+- If the registrar is sitting in on the supervisor's consultation but is not consulting themselves, this time should only be recorded in teaching hours (not consulting hours)
+19.5 Who Can Provide In-Practice Teaching and Learning?
+Teaching and learning can be provided by:
+
+- The registrar's Principal Supervisor
+- Other GP’s in the practice or nearby practices
+- The Practice Manager or practice nurse
+- Pharmacists or allied health professionals (physiotherapists, psychologists, dietitians, occupational therapists, social workers)
+- Other agencies or individuals, such as community health professionals, Aboriginal Health Workers, Elders, or police, where there is an identified learning need that may be met by these people
+19.6 What Methods Can Be Used?
+In-practice teaching and learning can be delivered using a variety of methods, including:
+
+- Formal, structured teaching sessions
+- Direct observation of registrar consultations
+- Discussions of clinical problems and cases
+- Opportunistic teaching (corridor teaching)
+- Joint consultations (registrar and supervisor consulting together)
+- Review of recorded consultations (video or audio)
+- Demonstrations of clinical skills or procedures
+- Participation in clinical procedures (under supervision)
+- Group discussions with other practice members
+- Selected or random case analysis
+- Registrar presentations to supervisors or other staff
+- Journal clubs
+- Visits to other health professionals to meet specific learning needs
+19.7 Tips from Registrars: Maximising the Benefits of In-Practice Teaching
+Dr Krystyna de Lange (Registrar Liaison Officer, 2018) offers the following eight strategies to help registrars maximise the benefits of their in-practice teaching:
+
+1. Before you start at a practice, ask your supervisor what the teaching looks like and how much you will receive. It's often helpful to ask for specific examples of what teaching the current or previous registrars have received. This will help you choose a practice that values registrar teaching.
+
+2. Make sure your teaching time is stipulated in your contract. This should occur during paid hours, as per the NTCER.
+
+3. Schedule teaching sessions at a time when it will not be impacted by either you or your supervisor running late or having to leave early. First thing in the morning or immediately after lunch is often best.
+
+4. Create a learning plan and ensure topics being covered are relevant to what you want to learn. Work on your weak areas first rather than always coming back to areas you feel confident in.
+
+5. Use real patient cases and scenarios and link this with learning points. You will always remember things better if there is a clinical context.
+
+6. Think about how you learn, tell your supervisor this, and tailor sessions accordingly. Remember this may change as you progress through your training and especially as you approach examinations.
+
+7. Think outside the box. Sessions do not have to be purely didactic where the supervisor talks and you listen. Consider presenting a topic yourself to force you to read up on it. Think about going through some random patient cases picked out by the supervisor. Have your supervisor sit in on some consultations, or vice versa, or consider some role plays for difficult cases. Ask if you could have a session with a non-supervisor GP at the practice who may have a special interest area. You could even consider sitting in with the practice nurse or local allied health professional. There are so many options.
+
+8. It's important that you speak up and tell your supervisor if you feel teaching could be improved. Improvement requires feedback.
+19.8 What If The Registrar Believes They Are Not Receiving Agreed Teaching?
+It is important that the registrar raises concerns about teaching as soon as they arise. In some cases, it may be a misunderstanding as to what the registrar and supervisor consider to be teaching, or it could be a scheduling issue.
+
+Steps for Registrars:
+
+1. Discuss with supervisor directly: Clarify what constitutes teaching and how and when both parties are comfortable for it to be delivered
+2. Seek Practice Manager support: If the supervisor is not available, the Practice Manager may be able to assist. Practice Managers normally have a key support role in ensuring training requirements are met during placements and can help manage schedules.
+3. Contact Ackr’m for support: If the issue is unable to be resolved, or the registrar would like assistance on how to approach the situation, they are encouraged to contact their Medical Educator or regional T.P.A. for support.
+19.9 What If Supervisor Is Having Difficulty Providing Required Teaching?
+If a supervisor is having difficulty providing the required teaching (due to clinical workload, practice pressures, or other reasons), they should:
+
+1. Discuss with Practice Manager: Explore options for rostering adjustments, Additional Supervisor involvement, or redistribution of clinical workload to protect teaching time
+2. Contact Supervisor Liaison Officer (S.L.O.): S.L.O.’s provide peer support and mentoring for supervisors facing challenges
+3. Contact T.P.A.: T.P.A.’s can provide practical support and problem-solving for teaching and supervision challenges
+
+Contact your regional T.P.A. at: practice support at Ackr’m dot org dot au
+19.10 Integration with Ackr’m Fellowship Education Programme
+In-practice teaching should be relevant to the registrar's patient population demographics and clinical cases but should also link with the Ackr’m Fellowship Education Programme (AFEP).
+
+Best Practice:
+
+- Supervisors should refer to the AFEP curriculum and workshop content when developing the Training Post Teaching Plan with the registrar to complement their learning
+- AFEP workshop topics and schedules are available on My College
+
+
+20. Educational Leave Requirements
+20.1 Overview
+Registrars are required to participate in mandatory Ackr’m educational activities throughout their training. These activities include orientation, cultural training, virtual and face-to-face workshops, and emergency medicine courses.
+
+Training posts must provide educational release time to enable registrars to attend these mandatory activities in addition to ordinary working hours. Educational release time is separate from study leave and separate from annual leave.
+20.2 Ackr’m Registrar Education Release Table
+The table below outlines the mandatory educational release days for Core Generalist Training (CGT) registrars in primary care placements over a 12-month period.
+
+Education ActivityCGT Primary Care (12 months)NotesCGT – Regional Primary Care Orientation*1 dayMandatory at commencement of primary care termsCultural Education1 dayMandatory for all registrarsFellowship Education Programme (FEP) Virtual Workshop6 daysDelivered online; registrars attend from home or practiceFellowship Education Programme (FEP) Face-to-Face Workshop4 daysDelivered in regional centres; may require travel and accommodationRegional Face-to-Face Education4 daysDelivered in regional centres; coordinated by regional teamsREST (Rural Emergency Skills Training)*2 daysMandatory emergency medicine course; completed once during training (not included in 16 days education release)Total Education Release Days (excluding REST)16 days per 12 months
+*Assumptions: Orientation is mandatory at commencement of primary care terms. All registrars complete REST (once during training). Up to 25 registrars per group face-to-face activity.
+20.3 CGT and A.S.T. Face-to-Face Education Days
+For registrars in Advanced Specialised Training (A.S.T.) terms, educational release requirements differ. The table below outlines face-to-face education days for CGT and A.S.T. registrars.
+
+Education ActivityCGT Primary Care (12 months)A.S.T. (varies by discipline)Cultural Education1 dayAs applicable to disciplineRegional Face-to-Face Education4 daysAs applicable to disciplineREST (Rural Emergency Skills Training)*2 days (once during training)Not applicable (unless required for discipline)
+*Assumptions: All registrars undertake cultural education and participate in regional education during CGT and A.S.T. terms. REST is completed during CGT. Up to 25 registrars per group face-to-face activity.
+20.4 Study Leave (Separate from Educational Release)
+In addition to educational release time, registrars are entitled to a minimum of 5 days study leave per year under NTCER provisions for examination preparation and self-directed study.
+
+Key Distinctions:
+
+- Educational release time is for mandatory Ackr’m educational activities (workshops, courses, orientation, cultural training)
+- Study leave is for registrar-directed activities (examination preparation, reading, private study, attendance at non-mandatory conferences or courses)
+
+Best Practice:
+
+- Clearly distinguish educational release time from study leave in employment contracts and rostering
+- Confirm educational release dates with registrar early in the semester to enable practice planning
+
+*Please note that registrars under the AGPT programme may be eligible for study leave incentive payments from the Commonwealth government from the start of training in 2026. While this is not a matter for the practice to administer as all of the GP training incentives are to be paid directly to the trainee by Services Australia, the practice will need to coordinate any shifts taken as unpaid leave in order to claim this incentive payment.
+20.5 Coordination with Practice Manager
+Practice Manager Responsibility:
+
+- Ensure rosters accommodate educational release time for mandatory Ackr’m activities
+- Coordinate cover arrangements (locum, Additional Supervisor, roster adjustments) to maintain practice operations during registrar's absence
+- Communicate educational release dates to practice staff and patients (if necessary)
+
+Registrar Responsibility:
+
+- Provide Practice Manager with educational release dates as early as possible (Ackr’m publishes workshop schedules at the start of each semester)
+- Submit study leave requests in advance, in accordance with practice leave policies
+
+
+21. Ackr’m Fellowship Education Programme
+21.1 Overview
+Fellowship training happens on the job within the training post and through education activities outside the workplace to cover key areas of the Rural Generalist Curriculum.
+
+The Ackr’m Fellowship Education Programme (AFEP) includes:
+
+- Orientation to Fellowship Training
+- Cultural training (mandatory)
+- Series of online modules (accessed via My College)
+- Virtual workshops (delivered online)
+- Face-to-face workshops (delivered in regional centres)
+- Emergency medicine courses (REST, ALS, APLS, EMST)
+21.2 Key AFEP Components
+Orientation to Fellowship Training
+- Mandatory for all new registrars
+- Delivered regionally at commencement of primary care terms
+- Provides overview of Ackr’m training programme, curriculum, assessment requirements, and support systems
+Cultural Training
+- Mandatory for all registrars (1 day)
+- Focus on Aboriginal and Torres Strait Islander health, cultural safety, and culturally responsive practice
+- Delivered face-to-face in regional centres
+Fellowship Education Programme (FEP) Workshops
+- Virtual workshops: 6 days per 12 months (delivered online)
+- Face-to-face workshops: 4 days per 12 months (delivered in regional centres; may require travel and accommodation)
+- Content aligned with Rural Generalist Curriculum and registrar stage of training
+- Topics include clinical skills, procedural skills, mental health, Aboriginal and Torres Strait Islander health, chronic disease management, emergency medicine, and rural practice management
+Regional Face-to-Face Education
+- 4 days per 12 months
+- Delivered by regional teams in collaboration with local health services and educational providers
+- Provides opportunities for networking, peer support, and regionally relevant education
+Rural Emergency Skills Training (REST)
+- Mandatory 2-day emergency medicine course
+- Completed once during training (typically during CGT)
+- Focus on recognition and management of medical, surgical, and trauma emergencies in rural and remote settings
+- Not included in the 16 days education release (training posts must provide additional 2 days educational release for REST)
+21.3 Accessing AFEP Information and Schedules
+- Workshop schedules, course dates, and registration information are published on My College
+- Registrars receive email notifications from Ackr’m with workshop schedules and registration links at the start of each semester
+- Practice Managers and supervisors can access AFEP information via the Ackr’m website
+
+
+
+Part 6: Assessment and Progression
+
+22. Assessment Requirements and Resources
+22.1 Overview of Ackr’m Assessment Framework
+Ackr’m uses a comprehensive assessment framework to ensure registrars develop the competencies, knowledge, skills, and professional attributes required for Rural Generalist practice. Assessments include:
+
+- Workplace-based assessments (formative and summative)
+- Written examinations
+- Clinical examinations
+- Procedural logbooks
+- Portfolio assessments (for some A.S.T. disciplines)
+
+Training posts and supervisors play a critical role in supporting registrars to complete workplace-based assessments and prepare for examinations.
+22.2 Workplace-Based Assessments
+MiniCEX (Mini Clinical Evaluation Exercise)
+Purpose: Assess registrar consultation skills, clinical reasoning, communication, and professionalism through direct observation of registrar-patient consultations.
+
+When: Throughout Core Generalist Training (CGT); minimum one per semester, ideally more frequent
+
+Who Conducts: Principal Supervisor or Additional Supervisor (or Ackr’m Medical Educator)
+
+Training for Supervisors: MiniCEX Training Module
+
+Key Resources:
+
+- MiniCEX Formative Scoring Form
+- Patient Consent Forms for Observation of Consultations
+CBD (Case-Based Discussion)
+Purpose: Assess registrar clinical reasoning, decision-making, evidence-based practice, and record-keeping through structured discussion of real patient cases.
+
+When: Throughout CGT; minimum one per semester
+
+Who Conducts: Principal Supervisor or Additional Supervisor
+
+Training for Supervisors: CBD Introduction Module
+
+Key Resources:
+
+- CBD Formative Scoring Form
+DOPS (Direct Observation of Procedural Skills)
+Purpose: Assess registrar procedural skills and techniques through direct observation of procedures.
+
+When: Throughout training, as applicable to registrar's scope of practice and procedural learning goals
+
+Who Conducts: Principal Supervisor, Additional Supervisor, or credentialed proceduralist
+
+Key Resources:
+
+- DOPS Formative Scoring Form
+MSF (Multi-Source Feedback)
+Purpose: Gather feedback on registrar professional behaviours, communication, teamwork, and relationships with colleagues and patients from multiple sources (supervisors, peers, nurses, administrative staff, patients).
+
+When: Typically completed once or twice during training
+
+Who Provides Feedback: Supervisors, practice staff, peers, patients (coordinated by Ackr’m)
+
+Key Resource:
+
+- Information provided by Ackr’m Medical Educator when MSF is scheduled
+Procedural Logbook
+Purpose: Document registrar participation in and performance of procedural skills throughout training.
+
+When: Ongoing throughout training
+
+Who Reviews: Principal Supervisor reviews logbook regularly with registrar to identify procedural skills learning needs and opportunities
+
+Key Resource:
+
+- Procedural logbook templates available via My College
+22.3 Written and Clinical Examinations
+MCQ (Multiple Choice Question) Examination
+Purpose: Assess registrar knowledge across the breadth of the Rural Generalist Curriculum.
+
+When: Typically completed during CGT (registrar chooses when to sit based on readiness and Medical Educator advice)
+
+Format: Computer-based examination; multiple choice questions
+
+Preparation Support:
+
+- Ackr’m provides subsidised examination preparation workshops for AGPT and RGTS registrars
+- Practice Managers should ensure registrars have adequate study leave to prepare for MCQ examination
+- Supervisors can support registrars by discussing curriculum topics and providing clinical context for knowledge areas
+
+Key Resources:
+
+- MCQ Introduction Module
+- Handbook for Fellowship Assessment
+StAMPS (Structured Assessment using Multiple Patient Scenarios)
+Purpose: Assess registrar clinical reasoning, decision-making, and communication skills through structured clinical scenarios with simulated patients.
+
+When: Typically completed during CGT, after MCQ examination (registrar chooses when to sit based on readiness and Medical Educator advice)
+
+Format: Face-to-face clinical examination with simulated patients; multiple stations
+
+Preparation Support:
+
+- Ackr’m provides subsidised examination preparation workshops for AGPT and RGTS registrars
+- Supervisors can support registrars by conducting mock StAMPS scenarios, providing feedback on communication and clinical reasoning, and facilitating practice with standardised patients (if available)
+
+Key Resources:
+
+- StAMPS Introduction Module
+- Handbook for Fellowship Assessment
+A.S.T. Assessments
+Advanced Specialised Training (A.S.T.) assessments vary by discipline and may include:
+
+- Written examinations (discipline-specific)
+- Clinical examinations (OSCEs, vivas)
+- Portfolio assessments (case studies, reflective practice, procedural logs)
+- Workplace-based assessments (supervised practice, formative assessments)
+
+Practice Manager and Supervisor Support:
+
+- Provide educational release time for A.S.T. examination preparation and attendance
+- Support registrars to complete A.S.T.-specific workplace-based assessments and portfolio requirements
+- Liaise with A.S.T. supervisors and discipline-specific assessors as required
+
+Key Resource:
+
+- Handbook for Fellowship Assessment
+22.4 Supervisor Report
+The Supervisor Report is a comprehensive assessment of registrar performance completed by the Principal Supervisor at the end of each semester.
+
+Purpose: Provide detailed feedback on registrar clinical competence, consultation skills, professional behaviours, learning progress, and readiness for progression.
+
+When: End of each semester (Week 22 onwards)
+
+Who Completes: Principal Supervisor
+
+Format: Currently paper-based (electronic submission under development)
+
+Content:
+
+- Registrar attendance and engagement
+- Clinical competence and scope of practice
+- Consultation and communication skills
+- Procedural skills
+- Professional behaviours and attitudes
+- Learning and development
+- Strengths and areas for improvement
+- Recommendations for progression
+
+Practice Manager Support:
+
+- Remind Principal Supervisor of Supervisor Report due date (Week 22)
+- Assist with completion and submission (currently via email or post to Ackr’m; check with T.P.A. for current submission instructions)
+- Ensure Supervisor Report aligns with Training Practice Report content
+
+Key Resource:
+
+- Supervisor Report Template
+
+
+23. Progress Monitoring and Reporting
+23.1 Regular Medical Educator Meetings
+Throughout their training, registrars meet regularly (typically every 6-8 weeks) with an Ackr’m Medical Educator (M.E.) to discuss:
+
+- Training plans and learning progress
+- Career goals and A.S.T. discipline selection
+- Placement suitability and future placement planning
+- Assessment readiness and examination preparation
+- Any concerns or challenges affecting training or wellbeing
+
+Medical Educators work closely with T.P.A.’s to ensure training posts are suitable placements for registrars and to identify any issues requiring regional team support.
+23.2 Training Practice Reports
+Training Practice Reports are completed by Practice Managers at mid-semester (Week 11) and end-of-semester (Week 22).
+
+Purpose:
+
+- Inform Ackr’m of registrar attendance, engagement, and learning environment quality
+- Provide data on teaching and supervision delivery
+- Identify any concerns or support needs
+- Contribute to registrar progression decisions
+
+Submission Process:
+
+- Ackr’m sends an Electronic Direct Mail (EDM) with a Microsoft Forms link to Practice Managers at Weeks 11 and 22
+- Practice Managers complete the online form and submit electronically
+- T.P.A.’s follow up if reports are not received by due date
+
+Key Resource:
+
+- Training Practice Report Information (link sent via EDM)
+23.3 Progression Decisions
+At the end of each semester, Medical Educators and Regional Directors of Training review:
+
+- Training Practice Reports
+- Supervisor Reports
+- Workplace-based assessment outcomes (MiniCEX, CBD, DOPS)
+- Registrar self-reflection and learning plans
+- Examination results (if applicable)
+
+Based on this evidence, progression decisions are made:
+
+- Satisfactory progression: Registrar proceeds to next stage of training
+- Progression with recommendations: Registrar proceeds with specific learning goals or remediation activities
+- Progression concerns: Additional support, extended supervision, or repeat placement may be required
+- Unsatisfactory progression: Registrar may be required to repeat placement, undertake remediation, or (in rare cases) exit the training programme
+
+Practice Manager and Supervisor Role:
+
+- Provide accurate, timely, and constructive reports to support progression decisions
+- Communicate openly with Medical Educators and T.P.A.’s about registrar performance and any concerns
+- Support registrars to address identified learning needs or areas for improvement
+
+
+
+
+Part 7: Problem Resolution and Ongoing Support
+
+24. Troubleshooting: When Things Go Wrong
+24.1 Common Issues and First Steps
+Despite best intentions, issues can arise during registrar placements. Common issues include:
+
+- Teaching or supervision not being delivered as agreed
+- Rostering conflicts or excessive workload
+- Interpersonal conflicts between registrar and supervisor, or registrar and other staff
+- Registrar performance concerns (clinical competence, professionalism, communication)
+- Workplace issues (bullying, harassment, discrimination, cultural safety concerns)
+- Registrar wellbeing concerns (mental health, burnout, personal circumstances affecting training)
+
+First Steps:
+
+1. Address issues early: Do not wait for issues to escalate. Early intervention is key.
+2. Communicate directly: Registrar, supervisor, and Practice Manager should discuss issues openly and constructively to identify solutions.
+3. Document concerns: Keep contemporaneous records of discussions, agreed actions, and follow-up plans.
+4. Seek support: If issues cannot be resolved at the practice level, contact your regional T.P.A. or the registrar's Medical Educator for support.
+24.2 Escalation Pathways
+If issues cannot be resolved through direct communication and Practice Manager involvement, escalate to:
+
+- Training Program Advisor (T.P.A.): First point of contact for training post and practice management issues
+- Medical Educator (M.E.): First point of contact for registrar learning, performance, or wellbeing concerns
+- Supervisor Liaison Officer (S.L.O.): Peer support and mentoring for supervisors facing challenges
+- Regional Director of Training (RDOT): Oversight and decision-making for complex or unresolved issues
+- Ackr’m Practice Support Team: practice support at Ackr’m dot org dot au
+24.3 Formal Complaints and Reconsideration Processes
+If issues involve serious concerns (e.g., bullying, harassment, discrimination, patient safety, breaches of professional conduct), formal complaints processes may be required.
+
+Key Resources:
+
+- Bullying, Harassment and Discrimination Complaints Procedure
+- Ackr’m Complaints and Feedback Policy
+- Reconsideration, Review and Appeals Policy
+
+Contact:
+
+- Ackr’m Professional Standards and Conduct Team: conduct@Ackr’m.org.au
+24.4 Registrar Withdrawal or Placement Termination
+In rare cases, registrars may withdraw from a placement, or placements may be terminated by mutual agreement or due to unresolved issues.
+
+Key Principles:
+
+- Notice periods: NTCER specifies minimum notice periods for registrar and training post (refer to employment contract)
+- Communication with Ackr’m: Notify T.P.A. and Medical Educator immediately if placement withdrawal or termination is anticipated
+- Alternative placement: Medical Educator and regional team will work with registrar to secure alternative placement if withdrawal is necessary
+- Documentation: Ensure all relevant documentation (final reports, assessments, feedback) is completed and submitted to Ackr’m
+
+
+25. Building Respectful Workplaces
+25.1 Ackr’m's Commitment to Respectful Workplaces
+Ackr’m is committed to fostering respectful, inclusive, and safe learning and working environments for all registrars, supervisors, staff, and stakeholders.
+
+Key Principles:
+
+- Zero tolerance for bullying, harassment, discrimination, and racism
+- Cultural safety and respect for Aboriginal and Torres Strait Islander peoples, staff, patients, and communities
+- Gender equity and diversity inclusion
+- Support for registrar and supervisor wellbeing
+25.2 Preventing Bullying, Harassment, and Discrimination
+All training posts must have policies and procedures in place to prevent and respond to bullying, harassment, and discrimination.
+
+Training Post Responsibilities:
+
+- Ensure all staff (including registrars) receive copies of bullying, harassment, and discrimination policies during orientation
+- Provide training and awareness-raising activities on respectful workplaces
+- Implement clear reporting and complaints procedures
+- Respond promptly and appropriately to reports of bullying, harassment, or discrimination
+- Support affected individuals and ensure no retaliation or victimisation occurs
+
+Key Resources:
+
+- Ackr’m Respectful Workplaces Policy
+- Bullying, Harassment and Discrimination Policy
+- Bullying, Harassment and Discrimination Complaints Procedure
+25.3 Cultural Safety
+Cultural safety is a critical component of respectful workplaces and quality healthcare delivery, particularly in rural and remote settings where Aboriginal and Torres Strait Islander peoples experience significant health disparities.
+
+Training Post Responsibilities:
+
+- Develop and implement cultural safety policies and practices
+- Provide cultural awareness and safety training for all staff (including registrars)
+- Engage with local Aboriginal and Torres Strait Islander communities, Elders, and cultural mentors
+- Support registrars to develop culturally responsive practice and relationships with Aboriginal and Torres Strait Islander patients and communities
+
+Key Resources:
+
+- Ackr’m Position Statement: Cultural Safety (AIDA Framework)
+- Ackr’m Cultural Safety Module
+- Cultural Awareness – PIP Indigenous Health Incentive Module
+25.4 Registrar Wellbeing
+Registrar wellbeing is foundational to learning, performance, and long-term career sustainability. Training posts play a critical role in supporting registrar wellbeing through:
+
+- Workload management: Ensuring patient load, on-call, and after-hours rostering are appropriate and equitable
+- Pastoral care: Regular check-ins with registrars to monitor wellbeing and provide support
+- Access to support services: Providing information on Ackr’m registrar support services, GP Support, and mental health resources
+- Work-life balance: Respecting leave entitlements, educational release, and study leave
+- Supportive workplace culture: Fostering collegiality, peer support, and open communication
+
+Key Resources:
+
+- GP Support (24/7 confidential support for GP’s and registrars)
+- Ackr’m Registrar Wellbeing Resources (available via My College)
+
+
+26. Regional Support Teams
+26.1 Structure and Roles
+Ackr’m's regional support teams provide on-the-ground support for training posts, supervisors, and registrars across Australia. Regional teams typically include:
+
+- Regional Director of Training (RDOT): Senior medical educator with oversight for training quality, registrar progression, and complex issue resolution
+- Training Network Coordinator (TNC): Coordinates regional education activities, workshops, and logistics
+- Training Program Advisor (T.P.A.): Primary liaison for training posts and Practice Managers (see Section 5.2)
+- Medical Educators (M.E.’s): One-on-one educational support for registrars (see Section 5.5)
+- Supervisor Liaison Officers (S.L.O.’s): Peer support and advocacy for supervisors (see Section 5.1)
+26.2 Accessing Regional Support
+Primary Contacts:
+
+- For training post and Practice Manager queries: Contact your regional Training Program Advisor (T.P.A.)
+- For registrar learning and progression queries: Registrars should contact their allocated Medical Educator (M.E.)
+- For supervisor support and peer networking: Contact your regional Supervisor Liaison Officer (S.L.O.)
+
+General Enquiries:
+
+- Ackr’m Practice Support: practice support at Ackr’m dot org dot au
+
+
+
+
+Part 8: Specialist Contexts
+
+27. Advanced Specialised Training Posts
+27.1 Overview
+Advanced Specialised Training (A.S.T.) enables registrars to develop expertise in a specific discipline beyond general practice. Ackr’m recognises A.S.T. in disciplines including:
+
+- Emergency Medicine
+- Anaesthetics
+- Obstetrics and Gynaecology
+- Surgery (including General Surgery, Orthopaedics, ENT)
+- Paediatrics
+- Mental Health
+- Aboriginal and Torres Strait Islander Health
+- Adult Internal Medicine
+- Remote Medicine
+- Academic Practice
+- Dermatology
+27.2 A.S.T. Post Requirements
+A.S.T. posts must:
+
+- Be accredited by Ackr’m (or recognised by Ackr’m if accredited by the relevant specialist college for short-term placements)
+- Provide appropriate clinical experience, supervision, and educational support for the A.S.T. discipline
+- Have supervisors with specialist qualifications and experience in the A.S.T. discipline
+27.3 A.S.T. Post Accreditation
+- A.S.T. post accreditation follows the same process as CGT post accreditation (see Sections 7 and 8)
+- A.S.T. supervisors must hold specialist registration or equivalent qualifications in the A.S.T. discipline
+- For placements in posts accredited by other specialist colleges, Ackr’m accreditation is required for placements longer than three months
+27.4 Benefits of Becoming an A.S.T. Training Post
+- Contribute to Rural Generalist workforce development by supporting doctors to gain advanced skills for rural practice
+- Strengthen relationships with Ackr’m and rural health networks
+- Enhance reputation as a centre of excellence in specialist care for rural communities
+- Build relationships with doctors who may return to provide specialist services in rural settings
+27.5 T.P.A. Support for A.S.T. Posts
+Administrative Support:
+
+- Regional T.P.A.’s can assist A.S.T. posts and A.S.T. supervisors with administrative queries including:
+- Accreditation processes and documentation
+- Placement documentation and reporting
+- Funding access and payment queries (Flexible Funds for AGPT A.S.T. registrars)
+- General training post administrative support
+- For administrative support, contact your regional T.P.A.: practice support at Ackr’m dot org dot au
+
+Clinical and Educational Support:
+
+- Clinical, educational, and discipline-specific queries should be escalated to the National A.S.T. Coordinator
+- The National A.S.T. Coordinator provides specialised support for:
+- A.S.T.-specific curriculum and learning objectives
+- A.S.T. assessment requirements and processes
+- Registrar progression and educational planning in A.S.T. disciplines
+- Discipline-specific training issues and requirements
+
+Contact Pathways:
+
+- Administrative queries: Contact your regional T.P.A.
+- A.S.T.-specific educational and clinical queries: Contact National A.S.T. Coordinator (via regional T.P.A. or direct contact through practice support at Ackr’m dot org dot au)
+
+
+28. Hospital and Secondary Care Placements
+28.1 Hospital CGT Placements
+Ackr’m accredits hospital placements for Core Generalist Training when hospitals provide:
+
+- Primary care clinics
+- Emergency department experience
+- Inpatient care with appropriate supervision
+- Opportunities to develop Rural Generalist competencies
+
+Key Requirements:
+
+- Supervision by accredited Ackr’m supervisors or hospital specialists with Ackr’m supervisor accreditation
+- Teaching and supervision arrangements that meet Ackr’m Standards
+- Integration with Ackr’m Fellowship Education Programme
+28.2 Hospitalist Training
+Ackr’m recognises Hospitalist training as a component of Rural Generalist training. Hospitalist placements provide registrars with:
+
+- Inpatient medical care experience
+- Acute and sub-acute medical management
+- Handover and clinical governance skills
+- Collaboration with specialist and allied health teams
+
+Resources:
+
+- Hospitalist training resources and requirements are available via My College
+
+
+29. Aboriginal Medical Services and Cultural Safety
+29.1 Aboriginal Medical Services as Training Posts
+Aboriginal Medical Services (A.M.S.) and Aboriginal Community Controlled Health Organisations (Atchos) are highly valued training environments for Rural Generalist registrars.
+
+Benefits of Training in A.M.S.:
+
+- Exposure to comprehensive primary healthcare for Aboriginal and Torres Strait Islander communities
+- Development of culturally responsive practice and relationships with Aboriginal and Torres Strait Islander peoples
+- Opportunities to learn from Aboriginal Health Workers, cultural mentors, and Elders
+- Contribution to addressing Aboriginal and Torres Strait Islander health disparities
+29.2 A.M.S.-Specific Accreditation and Support
+- A.M.S. training posts follow the same accreditation process as other primary care posts (see Sections 7 and 8)
+- Ackr’m provides targeted support for A.M.S. training posts, including cultural safety resources, A.M.S.-specific workshops, and liaison with Aboriginal and Torres Strait Islander health networks
+29.3 Cultural Mentors
+A.M.S. training posts are encouraged to engage cultural mentors (Aboriginal Health Workers, Elders, or community members) to support registrar learning about:
+
+- Local Aboriginal and Torres Strait Islander cultures, histories, and protocols
+- Culturally responsive communication and consultation approaches
+- Community engagement and relationship-building
+- Addressing systemic barriers to healthcare access
+
+Best Practice:
+
+- Include cultural mentor contact details and role in Training Post Orientation Proforma
+- Facilitate regular meetings between registrar and cultural mentor throughout placement
+- Recognise and remunerate cultural mentors appropriately for their time and expertise
+29.4 A.M.S. Salary Support
+Aboriginal Medical Services employing AGPT registrars may be eligible for A.M.S. Salary Support payments (see Section 17.5).
+
+
+
+Please refer to the digital version of this Handbook for the suite of Appendices.

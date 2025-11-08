@@ -1,0 +1,220 @@
+{
+  "name": "Fred Research with Auto Knowledge Lake Integration",
+  "description": "Fred via ChatGPT/Zapier with automatic Knowledge Lake persistence",
+  "webhook_url": "http://localhost:5678/webhook/fred-research-auto",
+  "workflow": {
+    "nodes": [
+      {
+        "name": "Webhook: Receive Research Request",
+        "type": "n8n-nodes-base.webhook",
+        "position": [240, 300],
+        "parameters": {
+          "path": "fred-research-auto",
+          "method": "POST",
+          "responseMode": "lastNode",
+          "options": {}
+        },
+        "notes": "Receives: {research_topic, context (optional), task_id}"
+      },
+      {
+        "name": "Search Existing Research in Knowledge Lake",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [460, 300],
+        "parameters": {
+          "method": "GET",
+          "url": "http://192.168.68.61:8000/knowledge/search",
+          "qs": {
+            "query": "={{$json.research_topic}}",
+            "user_id": "fred",
+            "limit": "10"
+          },
+          "options": {
+            "timeout": 10000
+          }
+        },
+        "notes": "Check if Fred has already researched this topic"
+      },
+      {
+        "name": "Prepare Fred's Context",
+        "type": "n8n-nodes-base.code",
+        "position": [680, 300],
+        "parameters": {
+          "language": "javaScript",
+          "jsCode": "const topic = $input.first().json.research_topic;\nconst existingKnowledge = $('Search Existing Research in Knowledge Lake').first().json.results || [];\nconst userContext = $input.first().json.context || '';\n\nlet contextSummary = '';\nif (existingKnowledge.length > 0) {\n  contextSummary = '\\n\\nEXISTING KNOWLEDGE FROM PREVIOUS RESEARCH:\\n' + \n    existingKnowledge.map((item, i) => `${i+1}. ${item.memory || item.content || 'N/A'}`).join('\\n');\n}\n\nconst fullPrompt = `You are Fred, an academic research specialist with access to a Knowledge Lake for persistent memory.\n\nRESEARCH TOPIC: ${topic}\n\nUSER CONTEXT: ${userContext}\n${contextSummary}\n\nTASK: Perform deep research on this topic with academic rigor. Synthesize information from:\n1) Latest peer-reviewed research (2023-2025)\n2) Industry best practices and standards\n3) Regulatory compliance requirements (AHPRA/NMBA if healthcare-related)\n4) Emerging trends and future directions\n\nProvide comprehensive citations, compare competing methodologies, identify knowledge gaps, and deliver evidence-based recommendations.\n\nSTRUCTURE YOUR RESPONSE AS:\n# Executive Summary\n[Brief overview]\n\n# Key Findings\n[Main research points with citations]\n\n# Evidence Base\n[Detailed synthesis with references]\n\n# Regulatory/Compliance Considerations\n[AHPRA/NMBA or relevant standards]\n\n# Recommendations\n[Evidence-based actionable insights]\n\n# Knowledge Gaps\n[Areas needing further research]\n\n# References\n[Complete citation list]`;\n\nreturn {\n  json: {\n    prompt: fullPrompt,\n    research_topic: topic,\n    existing_knowledge_count: existingKnowledge.length,\n    task_id: $input.first().json.task_id || `fred_${Date.now()}`\n  }\n};"
+        },
+        "notes": "Build comprehensive prompt with existing knowledge context"
+      },
+      {
+        "name": "Call Fred via ChatGPT API",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [900, 300],
+        "parameters": {
+          "method": "POST",
+          "url": "https://api.openai.com/v1/chat/completions",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "openAiApi",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "=Bearer {{$env.OPENAI_API_KEY}}"
+              }
+            ]
+          },
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "model",
+                "value": "gpt-4o"
+              },
+              {
+                "name": "messages",
+                "value": "={{[{role: 'user', content: $json.prompt}]}}"
+              },
+              {
+                "name": "temperature",
+                "value": "0.3"
+              },
+              {
+                "name": "max_tokens",
+                "value": "4000"
+              }
+            ]
+          },
+          "options": {
+            "timeout": 120000
+          }
+        },
+        "notes": "Fred processes research via OpenAI API"
+      },
+      {
+        "name": "Extract Fred's Response",
+        "type": "n8n-nodes-base.code",
+        "position": [1120, 300],
+        "parameters": {
+          "language": "javaScript",
+          "jsCode": "const response = $input.first().json.choices[0].message.content;\nconst topic = $('Prepare Fred\\'s Context').first().json.research_topic;\nconst taskId = $('Prepare Fred\\'s Context').first().json.task_id;\nconst existingCount = $('Prepare Fred\\'s Context').first().json.existing_knowledge_count;\n\nreturn {\n  json: {\n    fred_research: response,\n    research_topic: topic,\n    task_id: taskId,\n    timestamp: new Date().toISOString(),\n    built_on_existing: existingCount > 0,\n    existing_research_count: existingCount\n  }\n};"
+        },
+        "notes": "Clean up response for storage"
+      },
+      {
+        "name": "Save to Knowledge Lake",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [1340, 300],
+        "parameters": {
+          "method": "POST",
+          "url": "http://192.168.68.61:8000/agent/fred/insights",
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "insights",
+                "value": "={{$json.fred_research}}"
+              },
+              {
+                "name": "task_id",
+                "value": "={{$json.task_id}}"
+              }
+            ]
+          },
+          "options": {
+            "bodyContentType": "json"
+          }
+        },
+        "notes": "Auto-save Fred's research to Knowledge Lake"
+      },
+      {
+        "name": "Workflow Handoff to Penny (Optional)",
+        "type": "n8n-nodes-base.httpRequest",
+        "position": [1560, 200],
+        "parameters": {
+          "method": "POST",
+          "url": "http://192.168.68.61:8000/workflow/handoff",
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "from_agent",
+                "value": "fred"
+              },
+              {
+                "name": "to_agent",
+                "value": "penny"
+              },
+              {
+                "name": "task",
+                "value": "Transform research into educational content"
+              },
+              {
+                "name": "context",
+                "value": "={{$json.fred_research}}"
+              },
+              {
+                "name": "task_id",
+                "value": "={{$json.task_id}}"
+              }
+            ]
+          },
+          "options": {
+            "bodyContentType": "json"
+          }
+        },
+        "notes": "Optional: Auto-trigger Penny to create content from research"
+      },
+      {
+        "name": "Return Final Response",
+        "type": "n8n-nodes-base.respondToWebhook",
+        "position": [1560, 400],
+        "parameters": {
+          "responseBody": "={{{\n  status: 'completed',\n  agent: 'fred',\n  task_id: $json.task_id,\n  research_topic: $json.research_topic,\n  built_on_existing_research: $json.built_on_existing,\n  existing_research_used: $json.existing_research_count,\n  research: $json.fred_research,\n  saved_to_knowledge_lake: true,\n  timestamp: $json.timestamp,\n  message: 'Research completed and saved to Knowledge Lake. Other agents can now access it.'\n}}}"
+        },
+        "notes": "Return comprehensive response to caller"
+      }
+    ],
+    "connections": {
+      "Webhook: Receive Research Request": {
+        "main": [[{"node": "Search Existing Research in Knowledge Lake"}]]
+      },
+      "Search Existing Research in Knowledge Lake": {
+        "main": [[{"node": "Prepare Fred's Context"}]]
+      },
+      "Prepare Fred's Context": {
+        "main": [[{"node": "Call Fred via ChatGPT API"}]]
+      },
+      "Call Fred via ChatGPT API": {
+        "main": [[{"node": "Extract Fred's Response"}]]
+      },
+      "Extract Fred's Response": {
+        "main": [[{"node": "Save to Knowledge Lake"}]]
+      },
+      "Save to Knowledge Lake": {
+        "main": [[
+          {"node": "Return Final Response"},
+          {"node": "Workflow Handoff to Penny (Optional)"}
+        ]]
+      }
+    }
+  },
+  "usage": {
+    "how_to_use": "Import this JSON into n8n at http://localhost:5678",
+    "webhook_endpoint": "POST http://localhost:5678/webhook/fred-research-auto",
+    "request_format": {
+      "research_topic": "The main topic to research",
+      "context": "Optional: Additional context or requirements",
+      "task_id": "Optional: Unique identifier for this research task"
+    },
+    "example_curl": "curl -X POST \"http://localhost:5678/webhook/fred-research-auto\" -H \"Content-Type: application/json\" -d '{\"research_topic\": \"Medication safety in aged care\", \"context\": \"For RN education course\", \"task_id\": \"course_123\"}'"
+  },
+  "benefits": [
+    "✅ Fred doesn't need to remember to save/search - it's automatic",
+    "✅ Always checks existing research first (no duplicate work)",
+    "✅ Builds on previous knowledge across sessions",
+    "✅ Auto-saves every research result to Knowledge Lake",
+    "✅ Other agents (Penny, Manus, etc) can immediately access Fred's research",
+    "✅ Workflow handoff to Penny for content creation (optional)",
+    "✅ Complete audit trail with task IDs",
+    "✅ Works even though Fred has no persistent memory in ChatGPT"
+  ]
+}

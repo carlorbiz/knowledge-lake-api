@@ -1,0 +1,114 @@
+/**
+ * Executive AI Advisor Widget Styles
+ */
+
+.executive-ai-advisor-container {
+    margin: 2rem auto;
+    max-width: 1200px;
+}
+
+.eaa-login-required,
+.eaa-subscription-required,
+.eaa-error {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    margin: 2rem auto;
+    max-width: 600px;
+}
+
+.eaa-subscription-required {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+}
+
+.eaa-subscription-required p {
+    color: white;
+    font-size: 1.1rem;
+}
+
+.eaa-subscription-required .button {
+    background: white;
+    color: #667eea;
+    padding: 0.75rem 2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: 600;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+}
+
+.eaa-subscription-required .button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.eaa-error {
+    background: #fee;
+    border-color: #fcc;
+    color: #c33;
+}
+
+.eaa-login-required a,
+.eaa-error a {
+    color: #667eea;
+    text-decoration: underline;
+}
+
+/* Loading state */
+.eaa-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.eaa-loading::after {
+    content: '';
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive iframe */
+#eaa-iframe {
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .executive-ai-advisor-container {
+        margin: 1rem;
+    }
+
+    #eaa-iframe {
+        height: 600px !important;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .eaa-login-required,
+    .eaa-loading {
+        background: #1a1a1a;
+        border-color: #333;
+        color: #fff;
+    }
+
+    .eaa-login-required a {
+        color: #8b9aff;
+    }
+}

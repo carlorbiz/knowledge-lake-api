@@ -1,207 +1,256 @@
 # Google Apps Script - Course Development System
 
-**Last Updated:** 2025-10-08
-**Status:** Production Ready
+**Version:** 1.0 - HPSA Production Release
+**Last Updated:** 2025-10-10
+**Status:** ✅ Production Ready
+**Developer:** Carlorbiz for GPSA/HPSA
+
+---
+
+## 🎯 HPSA PRODUCTION RELEASE
+
+This is the complete **Concept-to-Course** workflow developed by Carlorbiz for GPSA (General Practice Supervisors Australia) and deployed for HPSA (Healthcare Professionals Support Australia).
+
+**See:** `HPSA/` subfolder for production scripts and documentation
 
 ---
 
 ## 📚 ACTIVE SCRIPTS
 
 ### **1. Module_Content_Generator.gs**
-**Purpose:** Automated module content generation
-**Status:** ✅ Production Ready (Enhanced with Phase A/B/C improvements)
+**Purpose:** Automated module content generation with hybrid quality control
+**Status:** ✅ Production Ready
+**Location:** Main folder + `HPSA/` backup
 
 **Features:**
 - Pure Google stack (Gemini API only)
-- Hybrid workflow: Manual research (Claude UI/Genspark/NotebookLM/Gems) → Automated content generation
-- Generates 12 slides with rich 100-150 word detailed content per slide
+- **Hybrid workflow:** Manual research (Gems/NotebookLM) → Automated content generation
+- Generates 12 slides with rich 80-120 word detailed content per slide
 - Creates LMS upload document (Absorb AI compatible with exactly 12 screen structure)
 - Generates premium workbook materials with glossary, templates, resources
 - Creates 2-3 detailed case studies per module
 - Produces assessments (10 MCQs + 3 role-play scenarios) with iSpring audio scripts
-- Vancouver citations support (separate Citations column in Module Queue)
+- **Australian spelling enforcement** in all Gemini prompts
+- **Citations support** (Column M in Module Queue) - separate from Research Notes to avoid character limits
 - Writes to Audio tab with Status="Pending" for enhancement
 
-**Recent Enhancements (2025-10-08):**
-- ✅ Removed voiceover generation (handled by Audio tab)
-- ✅ Changed to rich detailedContent (100-150 words/slide) for quality downstream outputs
-- ✅ Fixed Absorb LMS AI slide alignment (explicit 12-screen structure)
-- ✅ Added Citations column support (Column M in Module Queue)
-- ✅ Optimized token usage (8192 max, temperature 0.7)
-- ✅ Enhanced error handling with JSON validation
-- ✅ Column mapping aligned with Audio_Tab_Enhanced.gs
-
-**Workflow:**
-1. User completes research manually (Claude UI/Genspark/etc.)
-2. Pastes research into Research Notes column + Citations into Column M
-3. Sets module Status = "Next" in Module Queue
-4. Runs "Process 'Next' Module" from menu
-5. Script generates all content and writes to Audio tab
-6. User processes Audio tab enhancement + audio generation
+**Recent Enhancements (2025-10-10):**
+- ✅ Australian spelling enforcement across ALL prompts (organize→organise, etc.)
+- ✅ Citations column integration (Column M) - preserved full text via array formulas
+- ✅ Research foundation split (Research + Citations) for character limit handling
+- ✅ Module Content Complete uses array formulas to preserve full research
+- ✅ Bullet points simplified to 5-10 words max for better readability
+- ✅ Absorb LMS AI compatibility with 12-screen structure
 
 ---
 
 ### **2. Audio_Tab_Enhanced.gs**
-**Purpose:** Slide enhancement and audio generation
+**Purpose:** Slide enhancement, audio generation, and LMS upload creation
 **Status:** ✅ Production Ready
+**Location:** Main folder + `HPSA/` backup
 
 **Features:**
-- Reads raw slide content from Column R (detailed content from Module Generator)
-- Enhances into:
-  - Content Points (4-6 bullet points, Column M)
-  - Voiceover Script (150-225 words with phonetic replacements, Column B)
-  - Image Prompt (visual description, Column D)
-- Generates audio using Gemini TTS with 30 voice options
-- Phonetic replacement for Australian healthcare acronyms (ACRRM → "Ackr'm", etc.)
-- Real-time sheet updates with `SpreadsheetApp.flush()`
+- **LMS Upload Generation** (NEW): Creates ProvenLMSlayout.txt format documents
+- Reads from individual Module tabs (Module 1, Module 2, etc.)
+- Uses Slides JSON (Column X) for bullet points
+- Uses Raw Slide Content (Column R) for voiceover context
+- **NO phonetic spellings** in LMS upload (clean for Absorb parsing)
+- **Australian spelling enforcement** with 60+ US→AU replacements
+- Saves LMS Upload URL to Column Y automatically
+- Gemini TTS audio generation with 30 professional voices
+- Phonetic replacements for TTS only (ACRRM → "Ackr'm", NMBA → "N.M.B.A.")
 - Professional Australian voice prompts
-- Status-based workflows: Pending → Content Enhanced → Audio Generated
+- Status-based workflows
 
-**Phonetic Replacements:**
-- ACRRM → "Ackr'm"
-- RACGP → "R.A.C.G.P."
-- AHPRA → "Ah-pra"
-- GPs → "G.P.s"
-- Number ranges: "3-5" → "3 to 5"
-- Day ranges: "Monday-Friday" → "Monday to Friday"
+**LMS Upload Feature (2025-10-10):**
+```
+Slide 1: [Title]
+- [bullet point 1]
+- [bullet point 2]
+- [bullet point 3]
 
-**Workflows:**
-- Process Next Slides (one-by-one)
-- Full Pipeline (enhance + audio for selected range)
-- Batch Audio Generation (audio only for enhanced slides)
+Voiceover:
+"[1-2 sentence summary for LMS context]"
+
+---
+```
+
+**Data Flow:**
+- Slide Title: Column L (Slide Title from Audio tab rows 2-13)
+- Bullet Points: Column M (Content Points JSON from Audio tab rows 2-13)
+- Voiceover Summary: Column X (Slides JSON detailedContent - 1-2 sentences extracted)
+
+**Key Innovation:**
+- Separates LMS upload text (clean, no phonetics) from TTS voiceover (with phonetics)
+- Ensures Absorb LMS AI doesn't get confused by ACRRM, N.M.B.A., etc.
+- Your uploaded audio files align perfectly with LMS-generated slides
 
 ---
 
 ## 📋 ACTIVE DOCUMENTATION
 
-### **AUDIO_TAB_INSTALLATION.md**
-Installation guide for Audio_Tab_Enhanced.gs
+### **Core Documentation**
+- **`README.md`** - This file (main overview)
+- **`HPSA/README.md`** - Production release documentation
+- **`CHANGELOG.md`** - Version history and changes
+- **`Complete_Course_Development_Workflow.txt`** - Full workflow specification
 
-### **SCRIPT_PROPERTIES_SETUP.md**
-Configuration guide for API keys and settings
+### **Setup Guides**
+- **`AUDIO_TAB_INSTALLATION.md`** - Audio_Tab_Enhanced.gs installation
+- **`SCRIPT_PROPERTIES_SETUP.md`** - API keys and configuration
+- **`STATUS_WORKFLOW_GUIDE.md`** - Status-based automation
 
-### **STATUS_WORKFLOW_GUIDE.md**
-Status-based automation workflows
-
-### **USER_GUIDE_QUICK_START.md**
-Quick start guide for end users
-
-### **CHANGELOG.md**
-Version history and changes
-
-### **Complete_Course_Development_Workflow.txt**
-Full workflow specification from research to final output
-
-### **Quick_Reference_All_Prompts_&_Templates.txt**
-Prompt library for manual Gems/NotebookLM use
+### **Reference**
+- **`USER_GUIDE_QUICK_START.md`** - Quick start for end users
+- **`Quick_Reference_All_Prompts_&_Templates.txt`** - Prompt library
+- **`ProvenLMSlayout.txt`** - LMS upload format template
 
 ---
 
 ## 🗂️ COLUMN STRUCTURE
 
 ### **Module Queue Sheet**
-- Module Number
-- Module Title
-- Audience Type
-- Learning Objectives
-- Core Content Focus
-- Research Notes (body of research)
-- **Citations** (Column M - Vancouver style citations)
-- Status (Next → Content Generated)
-- Last Updated
+| Column | Name | Purpose |
+|--------|------|---------|
+| A | Module Number | Unique identifier |
+| B | Module Title | Module name |
+| C | Audience Type | Healthcare Clinical/Administrative/Combined |
+| D | Learning Objectives | Module objectives |
+| E | Core Content Focus | Key topics |
+| F | Research Notes | Full research body (2500-3500 words) |
+| M | Citations | Vancouver style citations (separate for character limits) |
+| Status | Status | Next → Content Generated |
+| Last Updated | Last Updated | Timestamp |
 
 ### **Audio Tab (Master Workbook)**
-- A: Slide # (1-12)
-- B: Voiceover Script (generated by Audio tab)
-- C: Audio File
-- D: Image Prompt (generated by Audio tab)
-- E: Image File
-- F: Course ID
-- G: Module Number
-- H: Slide Number
-- I: Module Title
-- J: Course Title
-- K: Target Audience
-- L: Slide Title
-- M: Content Points JSON (generated by Audio tab)
-- N: Timestamp
-- O: Status (Pending → Content Enhanced → Audio Generated)
-- P: Voice Selection
-- Q: Slides PPT
-- R: Raw Slide Content (SOURCE - written by Module Generator)
+| Column | Name | Purpose |
+|--------|------|---------|
+| A | Slide # | 1-12 |
+| B | Voiceover Script | Generated by Audio tab (WITH phonetics for TTS) |
+| C | Audio File | Google Drive URL |
+| D | Image Prompt | Generated by Audio tab |
+| E | Image File | (Optional) |
+| F | Course ID | (Optional) |
+| G | Module Number | Links to Module Queue |
+| H | Slide Number | 1-12 |
+| I | Module Title | Module name |
+| J | Course Title | (Optional) |
+| K | Target Audience | Audience type |
+| L | Slide Title | Slide heading |
+| M | Content Points | JSON array of bullet points |
+| N | Timestamp | Last updated |
+| O | Status | Pending → Content Enhanced → Audio Generated |
+| P | Voice Selection | Gemini TTS voice name |
+| Q | Slides PPT | (Optional) |
+| R | Raw Slide Content | SOURCE - detailedContent from Module Generator |
 
 ### **Module Content Complete Sheet**
-- Module Number
-- Module Title
-- Audience Type
-- Learning Objectives
-- Research Summary
-- Slides JSON
-- LMS Document
-- Workbook Materials
-- **Case Studies** (new)
-- MCQs JSON
-- Role-Play Scenarios JSON
-- **Audio Scripts JSON** (new - iSpring compatible)
-- Generated Date
-- Audio Tab Link
-- Status
+| Column | Name | Purpose |
+|--------|------|---------|
+| A | Module Number | Unique identifier |
+| B | Module Title | Module name |
+| C | Citations | Full citations (array formula from Module Queue Col M) |
+| D | Learning Objectives | Module objectives |
+| E | Research Summary | Full research (array formula from Module Queue Col F) |
+| F | Slides JSON | All 12 slides in JSON |
+| G | LMS Document | Markdown LMS upload |
+| H | Workbook Materials | Premium workbook |
+| I | MCQs JSON | 10 assessment questions |
+| J | Role-Play Scenarios JSON | 3 scenarios |
+| Generated Date | Generated Date | Timestamp |
+| Audio Tab Link | Audio Tab Link | Hyperlink to Audio tab range |
+
+**Array Formula Example (Column E - Research Summary):**
+```
+={"Research Summary";ARRAYFORMULA(IF(A2:A="","",VLOOKUP(A2:A,'Module Queue'!A:F,6,FALSE)))}
+```
 
 ---
 
 ## 🔄 COMPLETE WORKFLOW
 
 ```
-1. Research (Manual)
+1. RESEARCH (Manual - Quality Control)
    ↓
-   User completes via Claude UI/Genspark/NotebookLM/Gems
-   Pastes into Research Notes + Citations columns
+   User conducts research via:
+   - Gems (web-based AI research)
+   - NotebookLM (Drive source analysis)
+   - Manual curation
+   Pastes into Module Queue:
+   - Research Notes (Column F)
+   - Citations (Column M)
 
-2. Module Content Generation (Automated)
+2. CONTENT GENERATION (Automated)
    ↓
    Module_Content_Generator.gs
-   - Generates 12 slides (detailedContent 100-150 words each)
-   - Creates LMS upload (Absorb AI compatible)
-   - Creates premium workbook + case studies
-   - Creates assessments + iSpring audio scripts
+   - Generates 12 slides (80-120 words/slide)
+   - Creates LMS upload (Markdown, 12-screen structure)
+   - Creates workbook + case studies
+   - Creates assessments + audio scripts
+   - Australian spelling enforced in prompts
    - Writes to Audio tab (Status: Pending)
+   - Saves to Module Content Complete
 
-3. Audio Tab Enhancement (Automated)
+3. AUDIO ENHANCEMENT (Automated)
    ↓
    Audio_Tab_Enhanced.gs
-   - Reads Column R (raw content)
-   - Generates content points, voiceover, image prompt
-   - Applies phonetic replacements
-   - Writes to Columns B, D, M
+   - Reads Column R (Raw Slide Content)
+   - Generates:
+     * Content Points (4-6 bullets)
+     * Voiceover Script (150-225 words WITH phonetics)
+     * Image Prompt
    - Status: Content Enhanced
 
-4. Audio Generation (Automated)
+4. AUDIO GENERATION (Automated)
    ↓
    Audio_Tab_Enhanced.gs
-   - Reads Column B (voiceover script)
+   - Reads Column B (voiceover with phonetics)
    - Generates audio with Gemini TTS
    - Uploads to Google Drive
    - Status: Audio Generated
 
-5. Absorb LMS Upload (Manual)
+5. LMS UPLOAD CREATION (Automated)
    ↓
-   User uploads LMS document to Absorb
-   Absorb AI creates exactly 12 screens matching slides
-   User adds audio files to each screen
-   Publishes course
+   Audio_Tab_Enhanced.gs
+   - Go to Module tab (Module 1, Module 2, etc.)
+   - Run: 🎙️ Audio Generation → 📄 Generate LMS Upload
+   - Reads from rows 2-13:
+     * Column L: Slide Title
+     * Column M: Content Points (JSON array for bullets)
+     * Column X: Slides JSON detailedContent (for voiceover summaries)
+   - Creates ProvenLMSlayout.txt format
+   - NO phonetics (clean for LMS parsing)
+   - Australian spelling enforced
+   - Saves URL to Column Y
+
+6. ABSORB LMS DEPLOYMENT (Manual)
+   ↓
+   - Upload LMS document to Absorb
+   - Absorb AI creates 12 screens
+   - Upload audio files to each screen
+   - Publish course
 ```
 
 ---
 
 ## 🎯 KEY DESIGN DECISIONS
 
-### **Separation of Concerns**
-- **Module Generator:** Creates educational content structure
-- **Audio Tab:** Optimizes content for presentation and audio
+### **Hybrid Quality Control**
+- **Manual research** ensures expertise and accuracy
+- **Automated content generation** ensures consistency and efficiency
+- **Human review** at LMS upload stage before publishing
 
-### **Hybrid Workflow**
-- Manual research (quality control, expertise)
-- Automated content generation (efficiency, consistency)
+### **Australian Healthcare Focus**
+- AHPRA, NMBA, NSQHS standards compliance
+- **Australian spelling throughout** (organise, colour, favour, centre, analyse, practise, emphasise)
+- Professional tone for experienced practitioners
+- Evidence-based content with Vancouver citations
+
+### **LMS Upload Innovation**
+- **Separates concerns:** LMS text (clean) vs TTS voiceover (phonetic)
+- **ProvenLMSlayout.txt format:** Simple, proven to work with Absorb
+- **No phonetic confusion:** ACRRM stays "ACRRM" (not "Ackr'm") in LMS upload
+- **Audio alignment:** Your audio files match LMS slides perfectly
 
 ### **Pure Google Stack**
 - Gemini API for all AI operations
@@ -209,38 +258,49 @@ Prompt library for manual Gems/NotebookLM use
 - Google Sheets for data management
 - No external AI services (Anthropic, OpenAI, etc.)
 
-### **Australian Healthcare Focus**
-- AHPRA, NMBA, NSQHS standards compliance
-- Australian spelling throughout
-- Professional tone for experienced practitioners
-- Evidence-based content with Vancouver citations
-
-### **Absorb LMS Compatibility**
-- Explicit 12-screen structure in LMS document
-- Markdown formatting for AI parsing
-- Voiceover files align with course screens
+### **Research Foundation Management**
+- **Split storage:** Research (Col F) + Citations (Col M) avoids character limits
+- **Array formulas:** Module Content Complete preserves full text dynamically
+- **Full AI access:** Generation uses complete research, not truncated versions
 
 ---
 
-## 📦 ARCHIVED (2025-10-08)
+## 📦 ARCHIVED
 
-Moved to `archive_2025-10-08/`:
-- Audio_Tab_Complete.gs (superseded by Audio_Tab_Enhanced.gs)
+**Location:** `archive_2025-10-08/`
+
+Superseded files:
+- Audio_Tab_Complete.gs (replaced by Audio_Tab_Enhanced.gs)
 - MODULE_GENERATOR_REVIEW.md (enhancements completed)
-- CONTENT_ENHANCEMENT_GUIDE.md (incorporated into current scripts)
+- CONTENT_ENHANCEMENT_GUIDE.md (incorporated)
 - CONTENT_ENHANCEMENT_SUMMARY.md (obsolete)
-- CRITICAL_AUDIO_FIX.md (issues resolved)
+- CRITICAL_AUDIO_FIX.md (resolved)
 
 ---
 
-## 🚀 NEXT STEPS
+## 🚀 FUTURE ENHANCEMENTS
 
-1. Test Module_Content_Generator.gs with new 100-150 word content length
-2. Verify JSON generation completes successfully
-3. Check Absorb AI parses 12 screens correctly
-4. Confirm voiceover alignment after upload
-5. Generate remaining course modules
+**Phase 2 - Client Version (Post-HPSA)**
+- Dashboard integration (in progress)
+- Enhanced automation workflows
+- Additional quality control checkpoints
+- Client-specific customizations
+- Value-add features for paying clients
+
+**Current Focus:**
+- ✅ HPSA production deployment complete
+- 🔄 Dashboard development ongoing
+- 📋 Client enhancement planning phase
 
 ---
 
-**For detailed implementation notes, see:** `carla-claude-conversations.txt`
+## 📞 SUPPORT
+
+**Developer:** Carlorbiz
+**Client:** GPSA/HPSA
+**Purpose:** Australian healthcare education course development
+**Version:** 1.0 - HPSA Production Release
+
+---
+
+**© 2025 Carlorbiz | Developed for GPSA/HPSA**

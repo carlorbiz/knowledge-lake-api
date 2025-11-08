@@ -464,37 +464,25 @@ function generateModuleContent(moduleRow, researchData) {
     const slidesData = generateTwelveSlides(moduleTitle, learningObjectives, coreContent, researchData, audienceConfig);
     Utilities.sleep(CONFIG.DELAY_BETWEEN_REQUESTS);
 
-    // Step 2: Generate LMS document
-    SpreadsheetApp.getActiveSpreadsheet().toast('Generating LMS document...', '⏳ Step 2/4', 10);
-    Logger.log('Step 2: Generating LMS document...');
-    const lmsDocument = generateLMSDocument(moduleTitle, slidesData, audienceConfig, researchData);
-    Utilities.sleep(CONFIG.DELAY_BETWEEN_REQUESTS);
-
-    // Step 3: Generate workbook
-    SpreadsheetApp.getActiveSpreadsheet().toast('Generating workbook materials...', '⏳ Step 3/6', 10);
-    Logger.log('Step 3: Generating workbook materials...');
+    // Step 2: Generate workbook
+    SpreadsheetApp.getActiveSpreadsheet().toast('Generating workbook materials...', '⏳ Step 2/4', 10);
+    Logger.log('Step 2: Generating workbook materials...');
     const workbookData = generateWorkbookMaterials(moduleTitle, slidesData, audienceConfig, researchData);
     Utilities.sleep(CONFIG.DELAY_BETWEEN_REQUESTS);
 
-    // Step 4: Generate case studies
-    SpreadsheetApp.getActiveSpreadsheet().toast('Generating case studies...', '⏳ Step 4/6', 10);
-    Logger.log('Step 4: Generating case studies...');
-    const caseStudiesData = generateCaseStudies(moduleTitle, slidesData, audienceConfig, researchData);
-    Utilities.sleep(CONFIG.DELAY_BETWEEN_REQUESTS);
-
-    // Step 5: Generate assessments
-    SpreadsheetApp.getActiveSpreadsheet().toast('Generating assessments...', '⏳ Step 5/6', 10);
-    Logger.log('Step 5: Generating assessments...');
+    // Step 3: Generate assessments
+    SpreadsheetApp.getActiveSpreadsheet().toast('Generating assessments...', '⏳ Step 3/4', 10);
+    Logger.log('Step 3: Generating assessments...');
     const assessmentData = generateAssessments(moduleTitle, slidesData, audienceConfig);
     Utilities.sleep(CONFIG.DELAY_BETWEEN_REQUESTS);
 
-    // Step 6: Write to Master Workbook Audio tab
-    SpreadsheetApp.getActiveSpreadsheet().toast('Writing to Master Workbook...', '⏳ Step 6/6', 10);
-    Logger.log('Step 6: Writing to Master Workbook Audio tab...');
+    // Step 4: Write to Master Workbook Audio tab
+    SpreadsheetApp.getActiveSpreadsheet().toast('Writing to Master Workbook...', '⏳ Step 4/4', 10);
+    Logger.log('Step 4: Writing to Master Workbook Audio tab...');
     const audioTabLink = writeToMasterAudioTab(moduleNumber, moduleTitle, slidesData);
 
-    // Step 7: Write to Module Content Complete
-    Logger.log('Step 7: Writing to Module Content Complete...');
+    // Step 5: Write to Module Content Complete
+    Logger.log('Step 5: Writing to Module Content Complete...');
     writeToContentComplete({
       moduleNumber,
       moduleTitle,
@@ -502,14 +490,12 @@ function generateModuleContent(moduleRow, researchData) {
       learningObjectives,
       researchData,
       slidesData,
-      lmsDocument,
       workbookData,
-      caseStudiesData,
       assessmentData,
       audioTabLink
     });
 
-    // Step 7: Update Module Queue status
+    // Step 6: Update Module Queue status
     const moduleQueue = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.SHEET_MODULE_QUEUE);
     moduleQueue.getRange(rowIndex, headers.indexOf('Status') + 1).setValue('Content Generated');
     moduleQueue.getRange(rowIndex, headers.indexOf('Last Updated') + 1).setValue(new Date());
@@ -595,11 +581,12 @@ Generate EXACTLY 12 slides with this structure:
 
 CONTENT REQUIREMENTS:
 - 80-120 words per slide (concise but comprehensive)
-- Australian spelling (organised, colour, favour, centre)
+- CRITICAL: AUSTRALIAN ENGLISH SPELLING ONLY (organise NOT organize, colour NOT color, favour NOT favor, centre NOT center, analyse NOT analyze, practise NOT practice, emphasise NOT emphasize, recognise NOT recognize, realise NOT realize)
 - Evidence-based, professionally rigorous
 - Reference ${audienceConfig.standards} standards
 - Include practical examples from ${audienceConfig.setting}
 - Professional tone for experienced practitioners
+- Bullet points: 5-10 words maximum per point (concise, scannable)
 
 JSON FORMAT (CRITICAL):
 Return ONLY a JSON array of exactly 12 objects with this structure:
@@ -845,12 +832,13 @@ CRITICAL REQUIREMENTS FOR ABSORB LMS AI COMPATIBILITY:
 
 **CONTENT REQUIREMENTS:**
 - Use MARKDOWN formatting only (# ## ** - etc.)
-- Australian spelling throughout (organised, colour, favour, centre)
+- CRITICAL: AUSTRALIAN ENGLISH SPELLING THROUGHOUT (organise NOT organize, colour NOT color, favour NOT favor, centre NOT center, analyse NOT analyze, practise NOT practice, emphasise NOT emphasize, recognise NOT recognize, realise NOT realize, standardise NOT standardize, utilise NOT utilize)
 - Professional tone for ${audienceConfig.setting}
 - CITATIONS: Extract actual sources from research foundation and format in Vancouver style
 - KEY CONCEPTS: Must be explicit glossary of core terms
 - MODULE RATIONALE: Must connect to research and pedagogical theory
 - All content evidence-based and aligned with ${audienceConfig.standards}
+- KEY POINTS: 5-10 words maximum per bullet point (concise, scannable)
 
 **ABSORB LMS AI PARSING:**
 - Place front matter (rationale, objectives, overview, key concepts) BEFORE the slides
@@ -1137,7 +1125,7 @@ How will I know I'm successfully applying this learning?
 ---
 
 CRITICAL REQUIREMENTS:
-- Use Australian spelling throughout (organised, colour, favour, centre)
+- CRITICAL: AUSTRALIAN ENGLISH SPELLING THROUGHOUT (organise NOT organize, colour NOT color, favour NOT favor, centre NOT center, analyse NOT analyze, practise NOT practice, emphasise NOT emphasize, recognise NOT recognize, realise NOT realize, standardise NOT standardize, utilise NOT utilize, prioritise NOT prioritize, summarise NOT summarize)
 - All activities must be practical and immediately applicable to ${audienceConfig.setting}
 - Align with ${audienceConfig.frameworks}
 - Include specific Australian examples
@@ -1294,7 +1282,7 @@ Generate 2-3 comprehensive case studies that:
 ---
 
 CRITICAL REQUIREMENTS:
-- Use Australian spelling throughout (organised, colour, favour, centre)
+- CRITICAL: AUSTRALIAN ENGLISH SPELLING THROUGHOUT (organise NOT organize, colour NOT color, favour NOT favor, centre NOT center, analyse NOT analyze, practise NOT practice, emphasise NOT emphasize, recognise NOT recognize, realise NOT realize, standardise NOT standardize, utilise NOT utilize, prioritise NOT prioritize)
 - All scenarios must be authentic to ${audienceConfig.setting}
 - Include cultural safety considerations where appropriate
 - Reference ${audienceConfig.standards} explicitly
@@ -1448,7 +1436,7 @@ For audio scripts provide this exact structure:
 
 CRITICAL REQUIREMENTS:
 - Align with Australian healthcare standards: ${audienceConfig.standards}
-- Use Australian spelling throughout (organised, colour, favour, centre)
+- CRITICAL: AUSTRALIAN ENGLISH SPELLING THROUGHOUT (organise NOT organize, colour NOT color, favour NOT favor, centre NOT center, analyse NOT analyze, practise NOT practice, emphasise NOT emphasize, recognise NOT recognize, realise NOT realize, standardise NOT standardize, utilise NOT utilize, prioritise NOT prioritize, summarise NOT summarize)
 - Make scenarios realistic for ${audienceConfig.setting}
 - Include cultural safety considerations where appropriate
 - Questions must test understanding and application, not just recall
@@ -1520,7 +1508,7 @@ AUDIO SCRIPT CRITICAL REQUIREMENTS:
 - Quiz feedback should be generic but meaningful
 - Role-play narration should build confidence and clarity
 - Use flowing paragraphs, not bullet points
-- Australian spelling throughout
+- CRITICAL: AUSTRALIAN ENGLISH SPELLING THROUGHOUT (organise NOT organize, colour NOT color, favour NOT favor, centre NOT center, analyse NOT analyze, practise NOT practice, emphasise NOT emphasize, recognise NOT recognize, realise NOT realize, standardise NOT standardize, utilise NOT utilize, prioritise NOT prioritize, summarise NOT summarize)
 
 CRITICAL: Respond ONLY with valid JSON matching the structure above. No markdown code blocks. No additional text. Pure JSON only.`;
 
@@ -1732,9 +1720,7 @@ function writeToContentComplete(moduleData) {
       'Learning Objectives',
       'Research Summary',
       'Slides JSON',
-      'LMS Document',
       'Workbook Materials',
-      'Case Studies',
       'MCQs JSON',
       'Role-Play Scenarios JSON',
       'Audio Scripts JSON',
@@ -1754,9 +1740,7 @@ function writeToContentComplete(moduleData) {
     moduleData.learningObjectives,
     moduleData.researchData.summary.substring(0, 500) + '...',  // First 500 chars
     JSON.stringify(moduleData.slidesData),
-    moduleData.lmsDocument,
     moduleData.workbookData,
-    moduleData.caseStudiesData,
     JSON.stringify(moduleData.assessmentData.mcqs),
     JSON.stringify(moduleData.assessmentData.rolePlayScenarios),
     JSON.stringify(moduleData.assessmentData.audioScripts || {}),

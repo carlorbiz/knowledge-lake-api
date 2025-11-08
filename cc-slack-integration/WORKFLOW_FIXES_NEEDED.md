@@ -1,0 +1,477 @@
+# Workflow Fixes Needed - AI Command Router
+
+## Issues Found
+
+After analyzing your current workflow, I found several issues that need fixing:
+
+### ❌ Issue 1: Manus Call node uses wrong field
+**Location**: "Manus Call" node (line 266)
+
+**Current JSON body**:
+```json
+{
+  "prompt": "{{$json.content}}",
+  "taskMode": "agent"
+}
+```
+
+**Problem**: Parse Slack Command outputs `command_text`, not `content`
+
+**Fix**: Change to:
+```json
+{
+  "prompt": "{{$json.command_text}}",
+  "taskMode": "agent"
+}
+```
+
+---
+
+### ❌ Issue 2: Missing node to handle Manus's response
+
+**Problem**: After Manus Call returns `{"documentUrl": "..."}`, the flow goes directly to Query Knowledge Lake without:
+1. Extracting the documentUrl
+2. Passing it to GitHub issue
+3. Passing it to Notion
+
+**Fix**: Add new Code node "Format Manus Response" between "Manus Call" and "Query Knowledge Lake"
+
+---
+
+### ❌ Issue 3: "Route to Agent" node deleted but still referenced
+
+**Referenced in these nodes:**
+- Create Notion Entry (lines 67, 72, 80)
+- Log to Knowledge Lake (line 123)
+- Send a message (line 192)
+
+**Problem**: These nodes reference `$('Route to Agent').item.json.agent` and similar fields that no longer exist
+
+**Fix**: Update to use `$('Parse Slack Command').item.json.agent`
+
+---
+
+### ❌ Issue 4: Format for Github doesn't handle Manus output
+
+**Current**: Only handles `original_command` / `command_text`
+
+**Problem**: When Manus path is taken, GitHub issue should include:
+- Link to Google Doc
+- Indication it was processed by Manus
+- Template used (if Manus provides it)
+
+**Fix**: Update to detect if `documentUrl` exists and format accordingly
+
+---
+
+## Detailed Fixes
+
+### Fix 1: Update Manus Call Node
+
+**Node**: "Manus Call" (id: af15f9a8-f90c-4e6f-b391-241a52808d17)
+
+**Change the JSON body from:**
+```json
+{
+  "prompt": "{{$json.content}}",
+  "taskMode": "agent"
+}
+```
+
+**To:**
+```json
+{
+  "prompt": "{{$json.command_text}}",
+  "taskMode": "agent"
+}
+```
+
+---
+
+### Fix 2: Add "Format Manus Response" Node
+
+**Position**: Between "Manus Call" and "Query Knowledge Lake"
+
+**Node Type**: Code
+
+**Name**: "Format Manus Response"
+
+**Code**:
+```javascript
+// Get data from both previous nodes
+const parsedData = $('Parse Slack Command').item.json;
+const manusResponse = $input.first().json;
+
+// Extract Manus response
+const documentUrl = manusResponse.documentUrl || '';
+const templateUsed = manusResponse.template_used || 'Unknown';
+const reasoning = manusResponse.reasoning || 'Manus processed this content';
+
+// Pass through all original data plus Manus results
+return {
+  json: {
+    // Original data from Parse Slack Command
+    user_id: parsedData.user_id,
+    user_name: parsedData.user_name,
+    command_text: parsedData.command_text,
+    original_text: parsedData.original_text,
+    channel_id: parsedData.channel_id,
+    response_url: parsedData.response_url,
+    priority: parsedData.priority,
+    category: parsedData.category,
+    agent: 'manus', // Override to show Manus handled it
+    timestamp: parsedData.timestamp,
+
+    // Manus results
+    documentUrl: documentUrl,
+    template_used: templateUsed,
+    manus_reasoning: reasoning,
+
+    // For Notion
+    notion_title: parsedData.notion_title,
+    notion_status: 'Processed by Manus',
+    notion_agent: 'Manus',
+
+    // For routing
+    processed_by_manus: true,
+    original_command: parsedData.command_text
+  }
+};
+```
+
+**Connection**:
+- Input: From "Manus Call"
+- Output: To "Query Knowledge Lake"
+
+---
+
+### Fix 3: Update "Format for Github" Node
+
+**Node**: "Format for Github" (id: d586e24c-b5ea-49c1-af1f-c251dde2432d)
+
+**Replace entire code with:**
+```javascript
+// Get data - could come from Parse Slack Command or Format Manus Response
+const data = $input.first().json;
+
+// Determine if this was processed by Manus
+const processedByManus = data.processed_by_manus || false;
+const documentUrl = data.documentUrl || '';
+
+// Extract core fields
+const commandText = data.original_command || data.command_text || data.text || 'No command text found';
+const userName = data.user_name || 'unknown';
+const channelId = data.channel_id || 'unknown';
+const timestamp = data.timestamp || new Date().toISOString();
+const userId = data.user_id || 'unknown';
+const responseUrl = data.response_url || '';
+const agent = data.agent || 'claude-code';
+const category = data.category || 'general';
+const priority = data.priority || 'normal';
+
+// Create short title
+let title = commandText;
+if (title && title.length > 80) {
+  const firstPeriod = title.indexOf('. ');
+  if (firstPeriod > 0 && firstPeriod < 80) {
+    title = title.substring(0, firstPeriod);
+  } else {
+    title = title.substring(0, 77) + '...';
+  }
+}
+
+// Create body based on processing path
+let body;
+
+if (processedByManus && documentUrl) {
+  // Manus path - include document link
+  const templateUsed = data.template_used || 'Unknown';
+  const manusReasoning = data.manus_reasoning || 'Processed by Manus AI';
+
+  body = `## 📄 Document Generated by Manus
+
+**Google Doc**: ${documentUrl}
+
+**Template Used**: ${templateUsed}
+
+**Manus Reasoning**: ${manusReasoning}
+
+---
+
+## Original Request
+
+${commandText}
+
+---
+
+## Metadata
+
+**From:** ${userName} (${userId})
+**Channel:** <#${channelId}>
+**Priority:** ${priority}
+**Category:** ${category}
+**Timestamp:** ${timestamp}
+**Agent:** ${agent}
+
+---
+
+## Knowledge Lake Context
+
+*Knowledge Lake query results will be added below by the workflow*
+
+---
+
+**Status:** 🟢 PROCESSED BY MANUS
+
+_Document available at the link above. This issue tracks the original request for reference._`;
+
+} else {
+  // Standard CC path - no Manus processing
+  body = `## Task
+
+${commandText}
+
+---
+
+## Metadata
+
+**From:** ${userName} (${userId})
+**Channel:** <#${channelId}>
+**Priority:** ${priority}
+**Category:** ${category}
+**Timestamp:** ${timestamp}
+**Agent:** ${agent}
+
+---
+
+## Knowledge Lake Context
+
+*Knowledge Lake query results will be added below*
+
+---
+
+**Status:** 🔵 QUEUED
+
+_CC: Please process this task and comment with your response. Close the issue when complete._`;
+}
+
+return {
+  json: {
+    title: `${userName}: ${title}`,
+    body: body,
+    user_name: userName,
+    channel_id: channelId,
+    response_url: responseUrl,
+    agent: agent,
+    category: category,
+    priority: priority,
+    documentUrl: documentUrl, // Pass through for Notion
+    processed_by_manus: processedByManus,
+    original_command: commandText
+  }
+};
+```
+
+---
+
+### Fix 4: Update "Create Notion Entry" Node
+
+**Node**: "Create Notion Entry" (id: 06199d82-1a7a-42de-984d-f879c4bb017a)
+
+**Update these property expressions:**
+
+**Title** (line 67):
+```
+Current: ={{ $('Route to Agent').item.json.original_command }}
+Fixed:   ={{ $('Format for Github').item.json.original_command }}
+```
+
+**Primary AI Agent** (line 72):
+```
+Current: ={{$('Route to Agent').item.json.agent === 'claude-code' ? 'Claude Code' : ...}}
+Fixed:   ={{$('Format for Github').item.json.agent === 'claude-code' ? 'Claude Code' : $('Format for Github').item.json.agent === 'manus' ? 'Manus' : $('Format for Github').item.json.agent === 'fred' ? 'Fred (ChatGPT)' : $('Format for Github').item.json.agent === 'gemini' ? 'Gemini (Google)' : $('Format for Github').item.json.agent === 'grok' ? 'Grok (xAI)' : 'Claude (Anthropic)'}}
+```
+
+**Instructions** (line 80):
+```
+Current: ={{ $('Route to Agent').item.json.reasoning }}
+Fixed:   ={{ $('Format for Github').item.json.processed_by_manus ? 'Processed by Manus: ' + $('Format for Github').item.json.documentUrl : 'Queued for ' + $('Format for Github').item.json.agent }}
+```
+
+**Add new property for Document URL** (if Manus processed):
+```
+{
+  "key": "Document URL|url",
+  "urlValue": "={{ $('Format for Github').item.json.documentUrl || '' }}"
+}
+```
+
+---
+
+### Fix 5: Update "Log to Knowledge Lake" Node
+
+**Node**: "Log to Knowledge Lake" (id: 6fdb92b0-add6-463c-b77a-021bbb795575)
+
+**Update the JSON body** (line 123):
+
+**Change from:**
+```json
+{
+  "content": "={{ 'Slack /ai command from ' + $('Route to Agent').item.json.user_name + ': ' + $('Route to Agent').item.json.original_command + '. Routed to agent: ' + $('Route to Agent').item.json.agent + '. Reasoning: ' + $('Route to Agent').item.json.reasoning }}",
+  "user_id": "={{ $('Route to Agent').item.json.user_name }}",
+  "metadata": {
+    "source": "slack_ai_command",
+    "agent": "={{ $('Route to Agent').item.json.agent }}",
+    "timestamp": "={{ $('Route to Agent').item.json.timestamp }}",
+    "notion_page_id": "={{ $('Create Notion Entry').item.json.id }}",
+    "github_issue": "={{ $('Create Github issue for CC').item.json.number }}"
+  }
+}
+```
+
+**To:**
+```json
+{
+  "content": "={{ 'Slack /ai command from ' + $('Format for Github').item.json.user_name + ': ' + $('Format for Github').item.json.original_command + '. ' + ($('Format for Github').item.json.processed_by_manus ? 'Processed by Manus. Document: ' + $('Format for Github').item.json.documentUrl : 'Routed to agent: ' + $('Format for Github').item.json.agent) }}",
+  "user_id": "={{ $('Format for Github').item.json.user_name }}",
+  "metadata": {
+    "source": "slack_ai_command",
+    "agent": "={{ $('Format for Github').item.json.agent }}",
+    "timestamp": "={{ $('Parse Slack Command').item.json.timestamp }}",
+    "notion_page_id": "={{ $('Create Notion Entry').item.json.id }}",
+    "github_issue": "={{ $('Create Github issue for CC').item.json.number }}",
+    "processed_by_manus": "={{ $('Format for Github').item.json.processed_by_manus }}",
+    "documentUrl": "={{ $('Format for Github').item.json.documentUrl || '' }}",
+    "category": "={{ $('Format for Github').item.json.category }}",
+    "priority": "={{ $('Format for Github').item.json.priority }}"
+  }
+}
+```
+
+---
+
+### Fix 6: Update "Send a message" Node
+
+**Node**: "Send a message" (id: 82a5b7a8-0d69-40fd-bfbb-fb997c56e493)
+
+**Update the text** (line 192):
+
+**Change from:**
+```
+=✅ Task queued for {{$('Route to Agent').item.json.agent}}.  {{$('Route to Agent').item.json.reasoning}}  I'll notify you when complete.
+```
+
+**To:**
+```
+={{$('Format for Github').item.json.processed_by_manus
+  ? '🧠 Manus created your document!\n\n📄 View: ' + $('Format for Github').item.json.documentUrl + '\n\nLogged to Notion and GitHub for reference.'
+  : '✅ Task queued for ' + $('Format for Github').item.json.agent + '. I will notify you when complete.'}}
+```
+
+---
+
+## Updated Workflow Flow
+
+### Short Content Path (< 1800 chars):
+```
+Webhook
+  ↓
+Parse Slack Command
+  ↓
+Check if needs document (FALSE)
+  ↓
+Query Knowledge Lake
+  ↓
+Format for Github (standard format)
+  ↓
+Create Github issue for CC
+  ↓
+Send a message (standard confirmation)
+  ↓
+Create Notion Entry
+  ↓
+Log to Knowledge Lake
+```
+
+### Long Content Path (>= 1800 chars):
+```
+Webhook
+  ↓
+Parse Slack Command
+  ↓
+Check if needs document (TRUE)
+  ↓
+Manus Call
+  ↓
+[NEW] Format Manus Response
+  ↓
+Query Knowledge Lake
+  ↓
+Format for Github (Manus format with doc link)
+  ↓
+Create Github issue for CC (includes doc link)
+  ↓
+Send a message (doc link in Slack)
+  ↓
+Create Notion Entry (includes doc URL property)
+  ↓
+Log to Knowledge Lake (includes doc URL in metadata)
+```
+
+---
+
+## Summary of Changes
+
+1. ✅ Fix Manus Call to use `command_text` instead of `content`
+2. ✅ Add "Format Manus Response" node to handle Manus output
+3. ✅ Update "Format for Github" to handle both paths
+4. ✅ Fix "Create Notion Entry" to work without "Route to Agent"
+5. ✅ Fix "Log to Knowledge Lake" to work without "Route to Agent"
+6. ✅ Fix "Send a message" to show correct info for both paths
+
+---
+
+## Testing Plan
+
+### Test 1: Short Content (Standard Path)
+```
+/ai cc check system status
+```
+
+**Expected**:
+- Goes through Query Knowledge Lake path
+- GitHub issue created with standard format
+- Slack message: "Task queued for claude-code"
+- Notion entry created
+- Knowledge Lake logged
+
+### Test 2: Long Content (Manus Path)
+```
+/ai cc [2000+ character research request]
+```
+
+**Expected**:
+- Goes through Manus path
+- Manus returns documentUrl
+- GitHub issue created with document link
+- Slack message includes Google Doc link
+- Notion entry includes Document URL property
+- Knowledge Lake logged with documentUrl
+
+---
+
+## Implementation Order
+
+1. **Fix Manus Call node** (1 min)
+2. **Add Format Manus Response node** (2 min)
+3. **Update Format for Github node** (3 min)
+4. **Update Create Notion Entry node** (2 min)
+5. **Update Log to Knowledge Lake node** (2 min)
+6. **Update Send a message node** (1 min)
+7. **Test both paths** (5 min)
+
+**Total time**: ~15 minutes
+
+---
+
+**Ready to implement? Follow the fixes in order and test after each major change!** 🚀

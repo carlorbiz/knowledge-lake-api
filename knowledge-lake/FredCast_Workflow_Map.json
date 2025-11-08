@@ -1,0 +1,273 @@
+{
+  "version": "1.0",
+  "generated_at": "2025-11-02T01:30:33.564653Z",
+  "name": "FredCast Slack \u2192 Notion Loop",
+  "description": "High-level system map for running FredCast roles inside Slack with Notion as the artifact vault and optional n8n automation glue.",
+  "actors": {
+    "user": {
+      "description": "Primary operator (Carla)."
+    },
+    "fredcast": {
+      "description": "Single GPT-5 assistant operating in named roles (characters).",
+      "roles": [
+        {
+          "name": "Fred",
+          "purpose": "Brainstorming Buddy"
+        },
+        {
+          "name": "Maya",
+          "purpose": "Vision Architect"
+        },
+        {
+          "name": "Felix",
+          "purpose": "Research Analyst"
+        },
+        {
+          "name": "Nora",
+          "purpose": "Trend Watcher"
+        },
+        {
+          "name": "Fifi",
+          "purpose": "Content Creator"
+        },
+        {
+          "name": "Oscar",
+          "purpose": "Book Builder"
+        },
+        {
+          "name": "Clara",
+          "purpose": "Course Designer"
+        },
+        {
+          "name": "Simon",
+          "purpose": "Strategist"
+        },
+        {
+          "name": "Tess",
+          "purpose": "Tech & Systems"
+        },
+        {
+          "name": "Alex",
+          "purpose": "Editor/Finisher"
+        },
+        {
+          "name": "Lena",
+          "purpose": "Marketing Maven"
+        },
+        {
+          "name": "Jules",
+          "purpose": "Brand Voice"
+        }
+      ]
+    }
+  },
+  "ui": {
+    "slack": {
+      "workspace": "Your Business Workspace",
+      "channels": [
+        {
+          "name": "#fred-studio",
+          "purpose": "Global coordination and announcements"
+        },
+        {
+          "name": "#fred-[project]",
+          "purpose": "Per-project channel, e.g., #fred-website, #fred-book"
+        }
+      ],
+      "conventions": {
+        "threading": "One thread per deliverable (e.g., 'Book Outline V1')",
+        "pinning": "Pin canonical drafts/decisions and the Cheat Sheet",
+        "reactions": {
+          "star": "Mark message for Notion capture via n8n"
+        }
+      }
+    },
+    "notion": {
+      "databases": {
+        "Projects": {
+          "key": "Project Key",
+          "properties": [
+            "Name",
+            "Status",
+            "Owner",
+            "Start Date",
+            "Due Date",
+            "Priority",
+            "Summary",
+            "Slack Channel",
+            "Project Key"
+          ]
+        },
+        "Threads": {
+          "properties": [
+            "Title",
+            "Project Key",
+            "Type",
+            "Linked Slack Permalink",
+            "Owner",
+            "Status",
+            "Notes"
+          ]
+        },
+        "Artifacts": {
+          "properties": [
+            "Title",
+            "Project Key",
+            "Thread Title",
+            "Type",
+            "Storage URL",
+            "Author",
+            "Version",
+            "Status",
+            "Tags"
+          ]
+        }
+      },
+      "relations": [
+        {
+          "from": "Threads.Project Key",
+          "to": "Projects.Project Key"
+        },
+        {
+          "from": "Artifacts.Project Key",
+          "to": "Projects.Project Key"
+        }
+      ]
+    }
+  },
+  "automations": [
+    {
+      "name": "Slack \u2b50 \u2192 Notion Artifact",
+      "optional": true,
+      "tool": "n8n",
+      "trigger": {
+        "app": "Slack",
+        "event": "reaction_added",
+        "filter": "reaction == 'star'"
+      },
+      "action": {
+        "app": "Notion",
+        "operation": "create_page",
+        "database": "Artifacts",
+        "fields": {
+          "Title": "{{user}} - {{ts}}",
+          "Type": "Slack Message",
+          "Storage URL": "https://slack.com/app_redirect?channel={{channel}}&message_ts={{ts}}",
+          "Project Key": "{{project_key}}"
+        }
+      }
+    },
+    {
+      "name": "Manual capture (no n8n)",
+      "optional": true,
+      "instructions": "Copy message/link from Slack thread to Notion \u2192 Artifacts. Set Project Key and Thread Title."
+    }
+  ],
+  "flows": [
+    {
+      "name": "Conversation & Role Switch",
+      "steps": [
+        "User posts in Slack channel/thread, prefixing with a role name (e.g., 'Fred \u2014 \u2026').",
+        "FredCast detects role and responds in that mode within the same thread.",
+        "User iterates; handoff by changing the role name (e.g., 'Clara \u2014 build module outline from Oscar\u2019s plan')."
+      ]
+    },
+    {
+      "name": "Artifact Capture",
+      "steps": [
+        "When a message is a 'keeper', add \u2b50 in Slack.",
+        "n8n listens and creates a Notion Artifacts page with the Slack permalink (or user copies manually).",
+        "Artifacts relate back to Projects via 'Project Key' for search and rollups."
+      ]
+    },
+    {
+      "name": "Recall & Reuse",
+      "steps": [
+        "From Slack, open the Notion Artifact to retrieve the draft/decision.",
+        "Continue the conversation in Slack referencing the artifact by name (no need to paste the whole draft)."
+      ]
+    }
+  ],
+  "graph": {
+    "nodes": [
+      {
+        "id": "slack",
+        "label": "Slack",
+        "type": "ui"
+      },
+      {
+        "id": "fredcast",
+        "label": "Fred & Friends",
+        "type": "assistant"
+      },
+      {
+        "id": "notion",
+        "label": "Notion (Artifacts/Threads/Projects)",
+        "type": "storage"
+      },
+      {
+        "id": "n8n",
+        "label": "n8n (optional)",
+        "type": "automation"
+      }
+    ],
+    "edges": [
+      {
+        "from": "slack",
+        "to": "fredcast",
+        "label": "Messages (role-prefixed)"
+      },
+      {
+        "from": "fredcast",
+        "to": "slack",
+        "label": "Responses in role"
+      },
+      {
+        "from": "slack",
+        "to": "n8n",
+        "label": "\u2b50 reaction events"
+      },
+      {
+        "from": "n8n",
+        "to": "notion",
+        "label": "Create Artifact record"
+      },
+      {
+        "from": "notion",
+        "to": "slack",
+        "label": "Backlink to thread/permalink"
+      }
+    ]
+  },
+  "macros": {
+    "examples": [
+      {
+        "role": "Fred",
+        "prompt": "Fred \u2014 explore angles on [topic] and list 10 bold ideas."
+      },
+      {
+        "role": "Maya",
+        "prompt": "Maya \u2014 turn idea #3 into a roadmap across blog \u2192 book \u2192 course \u2192 app with 90\u2011day sequence."
+      },
+      {
+        "role": "Felix",
+        "prompt": "Felix \u2014 synthesize the latest on [topic]; 5 bullets, 3 citations, 2 open questions."
+      },
+      {
+        "role": "Clara",
+        "prompt": "Clara \u2014 design a 6\u2011module course from this outline; slides, workbooks, quiz per module."
+      },
+      {
+        "role": "Alex",
+        "prompt": "Alex \u2014 edit for clarity; AU spelling; keep under 500 words."
+      }
+    ]
+  },
+  "environment": {
+    "auth_notes": [
+      "Slack: install ChatGPT app and grant channel access as needed.",
+      "Notion: create an internal integration and connect it to the three databases.",
+      "n8n: set Slack + Notion credentials; paste database ID for Artifacts."
+    ]
+  }
+}
