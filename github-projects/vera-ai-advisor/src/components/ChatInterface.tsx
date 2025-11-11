@@ -4,8 +4,8 @@ import { SendIcon, VeraIcon, ChevronDownIcon, PlusIcon, PaperclipIcon, PlayCircl
 import { marked } from 'marked';
 import SuggestedPrompts from './SuggestedPrompts.tsx';
 import QuickTips from './QuickTips.tsx';
-import { generateSpeech, startTranscriptionSession } from '../services/geminiService.ts';
-import { decode, decodeAudioData, createPcmBlob } from '../utils/audio.ts';
+import { generateSpeech, transcribeOnce } from '../services/geminiService.ts';
+import { decode, decodeAudioData } from '../utils/audio.ts';
 
 interface ChatInterfaceProps {
   session: ChatSession | null;
@@ -160,12 +160,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ session, onSendMessage, o
   const audioContextRef = useRef<AudioContext | null>(null);
   const audioSourceRef = useRef<AudioBufferSourceNode | null>(null);
 
-  const transcriptionSessionRef = useRef<ReturnType<typeof startTranscriptionSession> | null>(null);
-  const inputAudioContextRef = useRef<AudioContext | null>(null);
   const microphoneStreamRef = useRef<MediaStream | null>(null);
-  const scriptProcessorRef = useRef<ScriptProcessorNode | null>(null);
-  const mediaStreamSourceRef = useRef<MediaStreamAudioSourceNode | null>(null);
-  const partialTranscriptRef = useRef('');
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const recordedChunksRef = useRef<BlobPart[]>([]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -178,18 +175,11 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ session, onSendMessage, o
         microphoneStreamRef.current.getTracks().forEach(track => track.stop());
         microphoneStreamRef.current = null;
     }
-    if (scriptProcessorRef.current) {
-        scriptProcessorRef.current.disconnect();
-        scriptProcessorRef.current = null;
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+        try { mediaRecorderRef.current.stop(); } catch {}
     }
-    if (mediaStreamSourceRef.current) {
-        mediaStreamSourceRef.current.disconnect();
-        mediaStreamSourceRef.current = null;
-    }
-    if (inputAudioContextRef.current && inputAudioContextRef.current.state !== 'closed') {
-        await inputAudioContextRef.current.close();
-        inputAudioContextRef.current = null;
-    }
+    mediaRecorderRef.current = null;
+    recordedChunksRef.current = [];
   }, []);
 
   useEffect(() => {
@@ -255,66 +245,53 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ session, onSendMessage, o
 
     setVoiceState('transcribing');
     
-    if (transcriptionSessionRef.current) {
-        try {
-            const session = await transcriptionSessionRef.current;
-            session.close();
-        } catch (e) { console.error("Error closing transcription session:", e); }
+    try {
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+        mediaRecorderRef.current.stop();
+      }
+    } finally {
+      // The onstop handler will do the transcription
     }
-    await cleanupVoiceResources();
   }, [voiceState, cleanupVoiceResources]);
 
   const handleStartRecording = useCallback(async () => {
     if (voiceState !== 'idle') return;
 
-    partialTranscriptRef.current = '';
     setTranscribedText('');
 
     try {
         microphoneStreamRef.current = await navigator.mediaDevices.getUserMedia({ audio: true });
         setVoiceState('recording');
-        
-        inputAudioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 16000 });
 
-        const callbacks = {
-            onTranscriptionUpdate: (text: string) => {
-                partialTranscriptRef.current += text;
-                setTranscribedText(partialTranscriptRef.current);
-            },
-            onError: (e: ErrorEvent) => {
-                console.error("Transcription session error:", e);
-                setVoiceState('error');
-                setTimeout(() => setVoiceState('idle'), 2000);
-                handleStopRecording();
-            },
-            onClose: () => {
-                setInput(prev => (prev ? prev + ' ' : '') + partialTranscriptRef.current);
-                setVoiceState('idle');
-                setTranscribedText('');
-                partialTranscriptRef.current = '';
-            },
-            onOpen: () => {
-                if (!microphoneStreamRef.current || !inputAudioContextRef.current) return;
-                
-                mediaStreamSourceRef.current = inputAudioContextRef.current.createMediaStreamSource(microphoneStreamRef.current);
-                scriptProcessorRef.current = inputAudioContextRef.current.createScriptProcessor(4096, 1, 1);
-                
-                scriptProcessorRef.current.onaudioprocess = (audioProcessingEvent) => {
-                    const inputData = audioProcessingEvent.inputBuffer.getChannelData(0);
-                    const pcmBlob = createPcmBlob(inputData);
-                    if (transcriptionSessionRef.current) {
-                        transcriptionSessionRef.current.then((session) => {
-                            session.sendRealtimeInput({ media: pcmBlob });
-                        });
-                    }
-                };
-                
-                mediaStreamSourceRef.current.connect(scriptProcessorRef.current);
-                scriptProcessorRef.current.connect(inputAudioContextRef.current.destination);
-            }
+        const mimeType = 'audio/webm';
+        recordedChunksRef.current = [];
+        const recorder = new MediaRecorder(microphoneStreamRef.current, { mimeType });
+        mediaRecorderRef.current = recorder;
+
+        recorder.ondataavailable = (e: BlobEvent) => {
+          if (e.data && e.data.size > 0) recordedChunksRef.current.push(e.data);
         };
 
-        transcriptionSessionRef.current = startTranscriptionSession(callbacks);
+        recorder.onstop = async () => {
+          try {
+            setVoiceState('transcribing');
+            const blob = new Blob(recordedChunksRef.current, { type: mimeType });
+            const transcript = await transcribeOnce(blob);
+            if (transcript) {
+              setInput(prev => (prev ? prev + ' ' : '') + transcript);
+            }
+          } catch (e) {
+            console.error('Transcription failed:', e);
+            setVoiceState('error');
+            setTimeout(() => setVoiceState('idle'), 2000);
+          } finally {
+            await cleanupVoiceResources();
+            setTranscribedText('');
+            setVoiceState('idle');
+          }
+        };
+
+        recorder.start(250);
 
     } catch (err) {
         console.error("Failed to start recording:", err);
@@ -436,6 +413,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ session, onSendMessage, o
                             voiceState === 'recording' ? 'bg-red-500 text-white animate-pulse' : 'bg-slate-200 dark:bg-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-500'
                           }`}
                           aria-label={voiceState === 'recording' ? 'Stop recording' : 'Start recording'}
+                          title={voiceState === 'recording' 
+                            ? 'Release to stop. We will transcribe once.' 
+                            : 'Press and hold to record. Release to transcribe (one-shot STT).'}
                         >
                           <MicIcon className="w-5 h-5" />
                         </button>

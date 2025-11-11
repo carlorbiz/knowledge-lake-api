@@ -6,6 +6,12 @@ const getResponseText = (res: any): string => {
     if (typeof res?.text === 'string') return res.text as string;
     const t = res?.response?.text?.();
     if (typeof t === 'string') return t;
+    // REST JSON shape via proxy
+    const parts = res?.candidates?.[0]?.content?.parts;
+    if (Array.isArray(parts)) {
+      const txt = parts.map((p: any) => p?.text).filter(Boolean).join('\n');
+      if (txt) return txt;
+    }
   } catch {}
   return '';
 };
@@ -30,6 +36,26 @@ const getAi = () => {
   return new GoogleGenAI({ apiKey });
 };
 
+const API_BASE = (import.meta as any).env?.VITE_API_BASE as string | undefined;
+
+// Unified generateContent helper that uses a Cloudflare Worker proxy if configured.
+async function gen(params: { model: string; contents: any; config?: any }): Promise<GenerateContentResponse | any> {
+  if (API_BASE) {
+    const res = await fetch(`${API_BASE.replace(/\/$/, '')}/generate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: params.model, contents: params.contents, config: params.config }),
+    });
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(`Proxy error (${res.status}): ${errText}`);
+    }
+    // Return the raw JSON; callers will extract text safely via getResponseText
+    return await res.json();
+  }
+  return await getAi().models.generateContent(params as any);
+}
+
 const SEARCH_TRIGGERS = ['latest', 'current', 'news', 'recent', 'today', 'update'];
 
 const summarizeChats = async (chatSessions: ChatSession[]): Promise<string> => {
@@ -42,7 +68,7 @@ const summarizeChats = async (chatSessions: ChatSession[]): Promise<string> => {
       
     const prompt = `Based on the following chat history, summarize the user's key priorities, role, and interests. This summary will be used to provide context to another AI model. Be concise. History:\n\n${historyToSummarize}`;
 
-    const response = await getAi().models.generateContent({
+    const response = await gen({
         model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }]
     });
@@ -58,7 +84,7 @@ const summarizeChats = async (chatSessions: ChatSession[]): Promise<string> => {
 const generateFollowUpPrompts = async (userQuery: string, modelResponse: string): Promise<string[]> => {
     try {
         const prompt = `Based on the user's question ("${userQuery}") and the model's answer ("${modelResponse}"), generate up to 3 concise, insightful, and actionable follow-up questions an executive might ask. Assume the user is smart but frustrated with technology and wants practical advice. Focus on "how-to" or "what's next" type questions.`;
-        const result = await getAi().models.generateContent({
+        const result = await gen({
             model: 'gemini-2.5-flash',
             contents: [{ role: 'user', parts: [{ text: prompt }] }],
             config: {
@@ -131,15 +157,15 @@ export const getChatResponse = async (
     isThinkingMode: boolean,
 ): Promise<{ text: string; sources?: { title: string; uri: string }[], suggestedPrompts?: string[] }> => {
   try {
-    const ai = getAi();
+    const ai = API_BASE ? null : getAi();
     const lastUserMessage = currentSession.messages[currentSession.messages.length - 1];
     if (!lastUserMessage || lastUserMessage.role !== 'user') {
       throw new Error("Last message is not from user");
     }
 
-    const enableSearchFeature = (import.meta as any)?.env?.VITE_ENABLE_SEARCH === 'true';
+    const enableSearchFeature = !API_BASE && (import.meta as any)?.env?.VITE_ENABLE_SEARCH === 'true';
     const useSearch = enableSearchFeature && SEARCH_TRIGGERS.some(trigger => lastUserMessage.text.toLowerCase().includes(trigger));
-    const modelName = isThinkingMode ? 'gemini-2.5-pro' : 'gemini-2.5-flash';
+    const modelName = 'gemini-2.5-flash';
     
     const contextSummary = await summarizeChats(allSessions.filter(s => s.id !== currentSession.id));
     
@@ -184,22 +210,35 @@ ${getPersonaInstruction(userLanguage)}
       config.thinkingConfig = { thinkingBudget: 32768 };
     }
 
-    const chat: Chat = ai.chats.create({
-      model: modelName,
-      config,
-      history: currentSession.messages.slice(0, -1).map((m: Message) => ({
-        role: m.role,
-        parts: [{ text: m.text }]
-      })),
-    });
-
-    const result: GenerateContentResponse = await chat.sendMessage({ message: lastUserMessage.text });
-    
-    const text = getResponseText(result);
+    let text = '';
+    let result: GenerateContentResponse | any;
+    if (API_BASE) {
+      // Use proxy path with explicit contents to preserve same behavior
+      result = await gen({
+        model: modelName,
+        contents: [
+          ...currentSession.messages.slice(0, -1).map((m: Message) => ({ role: m.role, parts: [{ text: m.text }] })),
+          { role: 'user', parts: [{ text: lastUserMessage.text }] },
+        ],
+        config,
+      });
+      text = getResponseText(result);
+    } else {
+      const chat: Chat = (ai as GoogleGenAI).chats.create({
+        model: modelName,
+        config,
+        history: currentSession.messages.slice(0, -1).map((m: Message) => ({
+          role: m.role,
+          parts: [{ text: m.text }]
+        })),
+      });
+      result = await chat.sendMessage({ message: lastUserMessage.text });
+      text = getResponseText(result);
+    }
 
     const suggestedPrompts = await generateFollowUpPrompts(lastUserMessage.text, text);
     
-    const groundingMetadata = result.candidates?.[0]?.groundingMetadata;
+    const groundingMetadata = result?.candidates?.[0]?.groundingMetadata;
 
     let sources: { title: string; uri: string }[] = [];
     if (groundingMetadata?.groundingChunks) {
@@ -268,7 +307,7 @@ export const generateSpeech = async (text: string, userLanguage: string | null):
 
         const prompt = `${persona}\n\nWith that persona in mind, please read the following text aloud:\n\n"${cleanText}"`;
 
-        const response = await ai.models.generateContent({
+        const response = await gen({
             model: "gemini-2.5-flash-preview-tts",
             contents: [{ role: 'user', parts: [{ text: prompt }] }],
             config: {
@@ -281,10 +320,59 @@ export const generateSpeech = async (text: string, userLanguage: string | null):
             },
         });
 
-        const base64Audio = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+        const base64Audio = response?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
         return base64Audio || null;
     } catch (error) {
         console.error("Error generating speech:", error);
         return null;
+    }
+};
+
+// One-shot transcription via audio upload (HTTP). Accepts a browser Blob.
+export const transcribeOnce = async (audioBlob: Blob): Promise<string> => {
+    try {
+        const arrayBuf = await audioBlob.arrayBuffer();
+        const base64 = (() => {
+            let binary = '';
+            const bytes = new Uint8Array(arrayBuf);
+            const len = bytes.byteLength;
+            for (let i = 0; i < len; i++) binary += String.fromCharCode(bytes[i]);
+            return btoa(binary);
+        })();
+
+        const prompt = 'Transcribe the spoken content exactly as text. Do not summarize.';
+        const mime = audioBlob.type || 'audio/webm';
+
+        const response = await gen({
+            model: 'gemini-2.5-flash',
+            contents: [{
+                role: 'user',
+                parts: [
+                    { inlineData: { data: base64, mimeType: mime } },
+                    { text: prompt },
+                ],
+            }],
+            config: {
+                responseMimeType: 'application/json',
+                responseSchema: {
+                    type: Type.OBJECT,
+                    properties: { transcript: { type: Type.STRING } },
+                },
+            },
+        });
+
+        // Try to parse JSON first
+        try {
+            const text = getResponseText(response);
+            const json = JSON.parse(text || '{}');
+            if (json.transcript) return String(json.transcript);
+        } catch {}
+
+        // Fallback to plain text
+        const fallback = getResponseText(response);
+        return fallback || '';
+    } catch (e) {
+        console.error('Error in one-shot transcription:', e);
+        return '';
     }
 };

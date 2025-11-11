@@ -1,0 +1,8 @@
+name = "vera-ai-advisor-proxy"
+main = "src/index.ts"
+compatibility_date = "2024-10-01"
+
+[vars]
+# Optional: restrict allowed origins (comma-separated). Leave empty to allow all.
+ALLOWED_ORIGINS = ""
+
