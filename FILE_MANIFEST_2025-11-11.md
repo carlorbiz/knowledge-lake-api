@@ -1,7 +1,40 @@
-# File Reorganization Manifest - 2025-11-08
+# File Reorganization Manifest - 2025-11-11
 
 ## Purpose
 This manifest tracks all files during the reorganization, preserving creation/modification dates and new locations.
+
+## 2025-11-11 Update - New Projects and Documentation
+
+### Session Logs (ROOT)
+- 2025-11-09 | AUTONOMOUS_FIX_SESSION_LOG_2025-11-09.md
+
+### Cloudflare Deployment Documentation → cloudflare-deployments/
+- 2025-11-11 | AAE Dashboard Deployment Summary.md
+- 2025-11-11 | Cloudflare Pages Deployment Fix.md
+- 2025-11-11 | VibeSDK N8N API Integration Guide.md
+- 2025-11-11 | 🚀 Final Deployment Guide for AAE Dashboard.md
+
+### GitHub Projects → github-projects/
+- **mtmot-vibesdk-production/** (Complete VibeSDK production codebase - embedded git repo)
+  - Full-stack AI coding assistant with Cloudflare Workers integration
+  - React/TypeScript frontend with multi-agent architecture
+  - n8n workflow integrations
+
+- **vera-ai-advisor/** (New React/TypeScript AI advisor project)
+  - Gemini-powered location-aware AI advisor
+  - React 19 with Vite and TypeScript
+  - Tailwind CSS styling
+  - Multi-currency and multi-language support
+  - Voice interaction capabilities
+  - Complete source in src/ directory
+
+### Utility Scripts (ROOT)
+- 2025-11-11 | redact-secrets.sh (Secret redaction utility)
+- 2025-11-11 | package.json (Root-level Node.js configuration)
+- 2025-11-11 | package-lock.json (Dependency lock file)
+
+### Configuration Updates
+- 2025-11-11 | .gitignore (Updated to exclude nul and sensitive files)
 
 ## Files Being Moved
 
@@ -78,6 +111,7 @@ This manifest tracks all files during the reorganization, preserving creation/mo
 
 ---
 Manifest created: 2025-11-08
+Last updated: 2025-11-11
 Git tracking enabled for all moves
 
 ### Cloudflare Deployments (Found during reorganization)

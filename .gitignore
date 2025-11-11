@@ -192,3 +192,22 @@ testing.ipynb
 
 # Course generation outputs (may contain API keys in error messages)
 course_outputs/
+
+# Claude Code settings (may contain API keys)
+.claude/settings.local.json
+
+# Separate git repositories in subdirectories
+github-projects/*/
+
+# Cloudflare deployment documentation
+cloudflare-deployments/
+
+# Node.js projects in root
+package.json
+package-lock.json
+
+# Invalid file
+nul
+
+# Shell scripts
+redact-secrets.sh
