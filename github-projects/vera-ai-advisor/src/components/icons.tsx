@@ -18,15 +18,15 @@ export const PlusIcon: React.FC<{ className?: string }> = ({ className }) => (
     </svg>
 );
 
-export const VeraIcon: React.FC<{ className?: string }> = ({ className }) => (
+export const AureliaIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
       <defs>
-        <linearGradient id="veraGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id="aureliaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" style={{stopColor: 'rgb(129 140 248)', stopOpacity:1}} />
           <stop offset="100%" style={{stopColor: 'rgb(79 70 229)', stopOpacity:1}} />
         </linearGradient>
       </defs>
-      <path fill="url(#veraGradient)" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.03 15.41l-3.5-3.5a.75.75 0 0 1 1.06-1.06L11 12.29l4.47-4.47a.75.75 0 1 1 1.06 1.06l-5 5a.75.75 0 0 1-1.06 0z"/>
+      <path fill="url(#aureliaGradient)" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.03 15.41l-3.5-3.5a.75.75 0 0 1 1.06-1.06L11 12.29l4.47-4.47a.75.75 0 1 1 1.06 1.06l-5 5a.75.75 0 0 1-1.06 0z"/>
       <path d="M18.5 7.5a1 1 0 0 0-1-1h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1zm-4.3.8a1 1 0 0 0-1.4-1.4l-.7.7a1 1 0 1 0 1.4 1.4l.7-.7z"/>
     </svg>
 );

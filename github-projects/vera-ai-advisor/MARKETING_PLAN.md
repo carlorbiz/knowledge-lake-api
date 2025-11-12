@@ -1,8 +1,8 @@
-# Vera AI Advisor - Comprehensive Marketing Plan
+# Aurelia AI Advisor - Comprehensive Marketing Plan
 
 ## Executive Summary
 
-**Vera AI Advisor** is a privacy-first, voice-enabled AI assistant specifically designed for intelligent executives who are frustrated with technology. Unlike generic AI chatbots, Vera provides personalized, actionable advice with a sophisticated Australian-influenced professional voice ("Erinome" persona), multi-currency support, and deep contextual understanding.
+**Aurelia AI Advisor** is a privacy-first, voice-enabled AI assistant specifically designed for intelligent executives who are frustrated with technology. Unlike generic AI chatbots, Aurelia provides personalized, actionable advice with a sophisticated Australian-influenced professional voice ("Erinome" persona), multi-currency support, and deep contextual understanding.
 
 **Target Market**: C-suite executives, senior managers, and business leaders aged 35-65 who want practical AI assistance without the technical complexity.
 
@@ -32,12 +32,12 @@
 ### Competitive Analysis
 
 #### Direct Competitors
-| Competitor | Strengths | Weaknesses | Vera's Advantage |
+| Competitor | Strengths | Weaknesses | Aurelia's Advantage |
 |------------|-----------|------------|------------------|
 | **ChatGPT Plus** | Brand recognition, powerful AI | Generic, privacy concerns, no voice personalization | Privacy-first, executive-focused, personalized voice |
 | **Claude Pro** | Strong reasoning, context window | No voice, limited personalization | Voice interaction, multi-currency, deep thinking mode |
 | **Microsoft Copilot** | Enterprise integration | Complex setup, corporate feel | Simple onboarding, warm persona, actionable advice |
-| **Google Gemini** | Fast, search integration | Generic responses, no specialized personas | Vera persona, executive language, privacy guidance |
+| **Google Gemini** | Fast, search integration | Generic responses, no specialized personas | Aurelia persona, executive language, privacy guidance |
 
 #### Key Differentiators
 
@@ -83,10 +83,10 @@
 ### Positioning Statement
 
 **For** intelligent executives who are frustrated with technology,
-**Vera AI Advisor** is a privacy-first AI assistant
+**Aurelia AI Advisor** is a privacy-first AI assistant
 **That** delivers personalized, actionable advice in a warm, professional voice
 **Unlike** generic AI chatbots that overwhelm with tech jargon,
-**Vera** speaks your language, protects your privacy, and focuses on what matters to your business.
+**Aurelia** speaks your language, protects your privacy, and focuses on what matters to your business.
 
 ### Brand Personality
 
@@ -115,7 +115,7 @@
   - EUR €27 (EU)
 
 #### Place (Distribution)
-1. **Direct Web App**: Primary channel at vera-ai-advisor.com
+1. **Direct Web App**: Primary channel at Aurelia-ai-advisor.com
 2. **App Store**: iOS app for executives on-the-go (Phase 2)
 3. **Enterprise Portal**: B2B sales for team deployments
 4. **Partner Integrations**: API access for executive coaching platforms
@@ -136,7 +136,7 @@ See detailed marketing campaigns below.
 3. **Content Marketing**:
    - "The Executive's Guide to AI Privacy" (lead magnet)
    - "5 Prompts Every CEO Should Know" (viral content)
-4. **PR Push**: Coverage in Harvard Business Review, Fast Company, WSJ
+4. **PR Push**: CoAureliage in Harvard Business Review, Fast Company, WSJ
 5. **Beta Program**: Invite-only for 100 executives with personal onboarding
 
 **Budget**: $50,000
@@ -203,7 +203,7 @@ See detailed marketing campaigns below.
 ## Marketing Campaigns
 
 ### Campaign 1: "The Privacy Promise"
-**Objective**: Position Vera as the most privacy-conscious AI advisor
+**Objective**: Position Aurelia as the most privacy-conscious AI advisor
 
 **Target**: Privacy-conscious professionals and compliance officers
 
@@ -220,7 +220,7 @@ See detailed marketing campaigns below.
 
 **Content Assets**:
 1. "The Executive's Privacy Checklist for AI Tools" (PDF)
-2. "How Vera Protects Your Organizational Data" (video explainer)
+2. "How Aurelia Protects Your Organizational Data" (video explainer)
 3. Case study: "How [Company] Deployed AI Without Compromising Privacy"
 
 **Budget**: $30,000
@@ -242,12 +242,12 @@ See detailed marketing campaigns below.
 
 **Messaging**:
 - "Finally, an AI that sounds like YOU"
-- "Australian executive? Vera speaks your language—literally"
+- "Australian executive? Aurelia speaks your language—literally"
 - "Professional warmth, not robotic responses"
 
 **Content Assets**:
-1. Side-by-side voice comparison: Vera vs. generic AI (YouTube)
-2. "Meet Vera" interactive demo (website)
+1. Side-by-side voice comparison: Aurelia vs. generic AI (YouTube)
+2. "Meet Aurelia" interactive demo (website)
 3. Regional testimonials from executives in each market
 
 **Budget**: $75,000
@@ -300,7 +300,7 @@ See detailed marketing campaigns below.
 - "Gemini 2.5 Pro thinking, executive-level clarity"
 
 **Content Assets**:
-1. Case study: "How a CEO Used Vera for M&A Due Diligence"
+1. Case study: "How a CEO Used Aurelia for M&A Due Diligence"
 2. "Strategic Questions for Deep Thought" prompt library
 3. ROI calculator: "What's a Better Decision Worth?"
 
@@ -345,25 +345,25 @@ See detailed marketing campaigns below.
 ### Video Content
 
 **YouTube Channel** (2 videos/week):
-1. **"Vera in Action"**: Use case demonstrations (3-5 min)
-2. **"Ask Vera Anything"**: Q&A with real executives (10-15 min)
+1. **"Aurelia in Action"**: Use case demonstrations (3-5 min)
+2. **"Ask Aurelia Anything"**: Q&A with real executives (10-15 min)
 3. **"60-Second AI Tips"**: Quick wins (60 sec shorts)
 4. **"Executive Interviews"**: Thought leaders on AI adoption (20-30 min)
 
 **TikTok/Reels** (daily):
 - "Things my AI assistant says that make me LOL"
 - "Privacy red flags in AI tools"
-- "Before Vera / After Vera" transformations
+- "Before Aurelia / After Aurelia" transformations
 
 ### Email Marketing
 
 **Welcome Series** (7 emails):
-1. "Welcome to Vera! Here's what to ask first"
+1. "Welcome to Aurelia! Here's what to ask first"
 2. "Protect your privacy in 30 seconds"
-3. "Meet the executives who rely on Vera"
+3. "Meet the executives who rely on Aurelia"
 4. "Your first Deep Thought is on us"
 5. "The #1 mistake new AI users make"
-6. "How to get better answers from Vera"
+6. "How to get better answers from Aurelia"
 7. "Unlock Pro features (special offer)"
 
 **Weekly Newsletter** ("The Executive Edge"):
@@ -375,7 +375,7 @@ See detailed marketing campaigns below.
 ### Social Media Strategy
 
 **LinkedIn** (Primary Platform):
-- Daily posts from "Vera AI" company page
+- Daily posts from "Aurelia AI" company page
 - Weekly CEO ghostwriting
 - Executive customer testimonials
 - Interactive polls and discussions
@@ -406,7 +406,7 @@ See detailed marketing campaigns below.
 
 2. **Productivity Tool Integrations**
    - Notion, Roam Research, Obsidian
-   - "Ask Vera" button in note-taking apps
+   - "Ask Aurelia" button in note-taking apps
    - API integration partnerships
 
 3. **Privacy & Security Vendors**
@@ -463,7 +463,7 @@ See detailed marketing campaigns below.
 
 **Lifetime Value (LTV)**:
 - Free user: $0 (data value + referrals)
-- Pro user: $348 (12-month average retention)
+- Pro user: $348 (12-month aAureliage retention)
 - Enterprise user: $1,188 per seat
 
 **LTV:CAC Ratio**:
@@ -481,7 +481,7 @@ See detailed marketing campaigns below.
 ## Success Metrics & KPIs
 
 ### North Star Metric
-**Weekly Active Executives (WAE)** using Vera for 3+ conversations per week
+**Weekly Active Executives (WAE)** using Aurelia for 3+ conversations per week
 
 ### Supporting Metrics
 
@@ -507,12 +507,12 @@ See detailed marketing campaigns below.
 **Revenue**:
 - Monthly Recurring Revenue (MRR)
 - Annual Recurring Revenue (ARR)
-- Average Revenue Per User (ARPU)
+- AAureliage Revenue Per User (ARPU)
 - Free-to-paid conversion rate
 - Expansion revenue (upsells)
 
 **Product**:
-- Average response time
+- AAureliage response time
 - Voice generation success rate
 - Privacy settings enabled (target: >90%)
 - User satisfaction (CSAT score)
@@ -571,20 +571,20 @@ See detailed marketing campaigns below.
 - Highlight speed advantage over human assistants
 
 ### Risk 4: Market Education Required
-**Risk**: Executives don't understand what makes Vera different
+**Risk**: Executives don't understand what makes Aurelia different
 **Likelihood**: High
 **Impact**: High
 **Mitigation**:
 - Invest heavily in content marketing and education
 - Create comparison charts and competitive analyses
 - Offer free trials with guided onboarding
-- Leverage customer testimonials and case studies
+- LeAureliage customer testimonials and case studies
 
 ---
 
 ## Conclusion
 
-Vera AI Advisor has a clear opportunity to capture the underserved market of executives who want AI assistance without the complexity and privacy concerns of generic tools. With a focused go-to-market strategy, strong differentiation, and commitment to privacy-first design, Vera can establish market leadership in the executive AI advisor category.
+Aurelia AI Advisor has a clear opportunity to capture the underserved market of executives who want AI assistance without the complexity and privacy concerns of generic tools. With a focused go-to-market strategy, strong differentiation, and commitment to privacy-first design, Aurelia can establish market leadership in the executive AI advisor category.
 
 **Key Success Factors**:
 1. Unwavering commitment to privacy and transparency
@@ -600,4 +600,4 @@ Vera AI Advisor has a clear opportunity to capture the underserved market of exe
 4. Begin influencer outreach and partnership discussions (Week 5-8)
 5. Launch Phase 1 campaigns and measure initial traction (Week 8-12)
 
-With disciplined execution and customer-centric iteration, Vera AI Advisor can achieve 50,000 active users and $5M ARR within 18 months.
+With disciplined execution and customer-centric iteration, Aurelia AI Advisor can achieve 50,000 active users and $5M ARR within 18 months.

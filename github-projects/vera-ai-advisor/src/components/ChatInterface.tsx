@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import type { Message, ChatSession } from '../types';
-import { SendIcon, VeraIcon, ChevronDownIcon, PlusIcon, PaperclipIcon, PlayCircleIcon, StopCircleIcon, MicIcon, CopyIcon } from './icons.tsx';
+import { SendIcon, AureliaIcon, ChevronDownIcon, PlusIcon, PaperclipIcon, PlayCircleIcon, StopCircleIcon, MicIcon, CopyIcon } from './icons.tsx';
 import { marked } from 'marked';
 import SuggestedPrompts from './SuggestedPrompts.tsx';
 import QuickTips from './QuickTips.tsx';
@@ -54,7 +54,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, onPlayAudio, audioSt
     return (
       <div className="flex items-start gap-3.5 animate-message-in">
         <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white shadow-md">
-          <VeraIcon className="w-8 h-8 text-indigo-600" />
+          <AureliaIcon className="w-8 h-8 text-indigo-600" />
         </div>
         <div className="max-w-3xl w-full p-4 rounded-2xl shadow-md bg-gradient-to-br from-white to-slate-50 dark:from-slate-700 dark:to-slate-800 text-slate-800 dark:text-slate-200 ring-1 ring-slate-200/50 dark:ring-slate-600/50">
           <div 
@@ -338,7 +338,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ session, onSendMessage, o
       <div className="flex-1 flex flex-col items-center justify-center text-center text-slate-500 dark:text-slate-400 p-4 relative">
         <div className="absolute inset-0 aurora-background z-0"></div>
         <div className="relative z-10">
-          <VeraIcon className="w-16 h-16 text-slate-300 dark:text-slate-600 mb-4" />
+          <AureliaIcon className="w-16 h-16 text-slate-300 dark:text-slate-600 mb-4" />
           <h2 className="text-2xl font-semibold text-slate-800 dark:text-slate-200">Welcome to your AI Advisor</h2>
           <p className="max-w-md mt-2">Select a conversation from the left panel or start a new one to get started.</p>
         </div>
@@ -367,7 +367,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ session, onSendMessage, o
           {isLoading && (
               <div className="flex items-start gap-3.5 animate-message-in">
                   <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white">
-                      <VeraIcon className="w-8 h-8" />
+                      <AureliaIcon className="w-8 h-8" />
                   </div>
                   <div className="max-w-xl p-3.5 rounded-2xl bg-white dark:bg-slate-700 ring-1 ring-slate-200/50 dark:ring-slate-600/50">
                     <div className="flex items-center space-x-2">
@@ -401,7 +401,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ session, onSendMessage, o
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         onKeyDown={handleKeyDown}
-                        placeholder="Ask Vera..."
+                        placeholder="Ask Aurelia..."
                         className="w-full pl-10 pr-28 py-2.5 bg-white/70 dark:bg-slate-700/70 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-0 focus:border-slate-400 dark:focus:border-slate-500 transition resize-none text-slate-900 dark:text-white shadow-sm"
                         rows={1}
                         style={{ maxHeight: '120px' }}

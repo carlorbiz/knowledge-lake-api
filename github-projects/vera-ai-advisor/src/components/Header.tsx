@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = (props) => {
                       Executive AI Advisor
                   </h1>
                   <p className="text-sm text-slate-500 dark:text-slate-400 max-w-lg mt-1">
-                      Hello! I'm Vera, your Executive AI Advisor. My priority is helping you find safe and effective productivity solutions through up-to-the-minute information about rapidly-evolving AI solutions. To get us started, please share your preferred name, language and currency so I can tailor my answers accordingly.
+                      Hello! I'm Aurelia, your Executive AI Advisor. My priority is helping you find safe and effective productivity solutions through up-to-the-minute information about rapidly-evolving AI solutions. To get us started, please share your preferred name, language and currency so I can tailor my answers accordingly.
                   </p>
                 </div>
             </div>

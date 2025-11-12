@@ -1,7 +1,7 @@
 import React from 'react';
 
 const tips = [
-  "Tip: To convert Vera's formatting, copy the response, create a Google Doc, and use 'Paste Markdown'.",
+  "Tip: To convert Aurelia's formatting, copy the response, create a Google Doc, and use 'Paste Markdown'.",
   "Tip: Use the ACE framework for expert prompts: 'Act' as a role (e.g., experienced researcher), provide 'Context' (e.g., the Board requires a detailed report), and define 'Expectations' (e.g., draft a 2000-word literature review with 10 APA citations).",
   "Tip: Use 'Deep Thought' mode for complex strategic questions, like building a business case or comparing enterprise solutions."
 ];

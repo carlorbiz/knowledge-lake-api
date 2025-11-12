@@ -1,4 +1,4 @@
-# Vera AI Advisor - Promotional Content Library
+# Aurelia AI Advisor - Promotional Content Library
 
 ## Website Copy
 
@@ -11,7 +11,7 @@
 **CTA Button**: Start Your Free Conversation →
 
 **Supporting Copy**:
-Meet Vera, your executive AI advisor who understands that you're smart, busy, and probably a little frustrated with technology. No jargon, no complexity—just actionable advice that respects your privacy and speaks in your preferred voice.
+Meet Aurelia, your executive AI advisor who understands that you're smart, busy, and probably a little frustrated with technology. No jargon, no complexity—just actionable advice that respects your privacy and speaks in your preferred voice.
 
 ---
 
@@ -20,17 +20,17 @@ Meet Vera, your executive AI advisor who understands that you're smart, busy, an
 #### 🔒 Privacy You Can Trust
 **Your conversations. Your data. Your control.**
 
-Vera is the only AI advisor that addresses both your personal privacy AND your company's data protection from day one. Turn off data sharing in 30 seconds, understand your privacy obligations, and get enterprise-level guidance without the enterprise complexity.
+Aurelia is the only AI advisor that addresses both your personal privacy AND your company's data protection from day one. Turn off data sharing in 30 seconds, understand your privacy obligations, and get enterprise-level guidance without the enterprise complexity.
 
 #### 🎙️ Speaks Your Language—Literally
 **Professional warmth, not robotic responses.**
 
-Choose from 5 English accent variations (Australian, American, British, Canadian, Indian) with our sophisticated "Erinome" voice persona. Vera sounds like your smartest colleague, not a tech support line.
+Choose from 5 English accent variations (Australian, American, British, Canadian, Indian) with our sophisticated "Erinome" voice persona. Aurelia sounds like your smartest colleague, not a tech support line.
 
 #### 💡 Actionable Advice, Not Tech Jargon
 **Focus on the "why" and "how," not the "what."**
 
-Designed for executives who are intelligent but frustrated with technology, Vera explains why things matter to YOU and how to use them practically. No marketing speak, no unnecessary complexity.
+Designed for executives who are intelligent but frustrated with technology, Aurelia explains why things matter to YOU and how to use them practically. No marketing speak, no unnecessary complexity.
 
 #### 🧠 Deep Thinking for Big Decisions
 **3 strategic queries per month using Gemini 2.5 Pro.**
@@ -40,28 +40,28 @@ When the stakes are high—M&A decisions, strategic pivots, board presentations�
 #### 💰 Multi-Currency Intelligence
 **Pricing in YOUR currency.**
 
-Discuss costs, budgets, and ROI in any of 20 supported currencies—from USD to AUD to SGD. Vera automatically converts and contextualizes financial information for your region.
+Discuss costs, budgets, and ROI in any of 20 supported currencies—from USD to AUD to SGD. Aurelia automatically converts and contextualizes financial information for your region.
 
 #### 🔄 Contextual Memory
-**Vera remembers what matters.**
+**Aurelia remembers what matters.**
 
-Session summarization keeps track of your priorities, role, and interests across conversations. No need to repeat yourself—Vera knows your context.
+Session summarization keeps track of your priorities, role, and interests across conversations. No need to repeat yourself—Aurelia knows your context.
 
 ---
 
-### About Vera Section
+### About Aurelia Section
 
-**Who is Vera?**
+**Who is Aurelia?**
 
-Vera isn't just another chatbot—she's your executive AI advisor with a personality, a voice, and a deep understanding of what you need.
+Aurelia isn't just another chatbot—she's your executive AI advisor with a personality, a voice, and a deep understanding of what you need.
 
-Built on Google's most advanced Gemini 2.5 models, Vera combines:
+Built on Google's most advanced Gemini 2.5 models, Aurelia combines:
 - **Professional warmth**: Sophisticated Australian-influenced voice that sounds educated and approachable
 - **Executive focus**: Designed for leaders who are smart but frustrated with tech
 - **Privacy leadership**: The first AI advisor to prioritize both personal and organizational data protection
 - **Actionable insights**: Not just explanations—practical next steps you can implement today
 
-**Why "Vera"?**
+**Why "Aurelia"?**
 
 The name comes from Latin "veritas" (truth) and Russian "вера" (faith/trust)—because we believe AI should be truthful, trustworthy, and focused on what truly matters to you.
 
@@ -71,11 +71,11 @@ The name comes from Latin "veritas" (truth) and Russian "вера" (faith/trust)
 
 ### Welcome Email (Day 0)
 
-**Subject**: Welcome to Vera! Your AI advisor is ready 🎙️
+**Subject**: Welcome to Aurelia! Your AI advisor is ready 🎙️
 
 Hi [Name],
 
-Welcome to Vera! I'm thrilled to be your AI advisor.
+Welcome to Aurelia! I'm thrilled to be your AI advisor.
 
 I know you're busy, so let me cut to the chase: I'm here to give you practical, actionable advice—not tech jargon. Think of me as your smartest colleague who's available 24/7 and never judges your questions.
 
@@ -93,7 +93,7 @@ I know you're busy, so let me cut to the chase: I'm here to give you practical, 
 Just click the one that resonates, and we'll have a conversation.
 
 Looking forward to working together,
-**Vera** 💜
+**Aurelia** 💜
 
 P.S. You have 3 Deep Thought queries this month. Save them for the big decisions.
 
@@ -134,24 +134,24 @@ Before using any AI tool for company work, verify:
 ✅ Do they offer a Data Processing Agreement (DPA)?
 ✅ Are they SOC 2 or GDPR compliant?
 
-**This is where Vera is different.**
+**This is where Aurelia is different.**
 
-With Vera, you get:
+With Aurelia, you get:
 - Zero data retention for training (by default)
 - Clear privacy controls (no hidden defaults)
 - Enterprise-grade guidance (without the enterprise complexity)
 - Transparency reports (see exactly how your data is handled)
 
-Want to dive deeper? Ask me: **"How does Vera protect my organizational data?"**
+Want to dive deeper? Ask me: **"How does Aurelia protect my organizational data?"**
 
 Stay private,
-**Vera** 🔒
+**Aurelia** 🔒
 
 ---
 
-#### Email 3 (Day 7): "Meet the Executives Who Trust Vera"
+#### Email 3 (Day 7): "Meet the Executives Who Trust Aurelia"
 
-**Subject**: Why Sarah switched from ChatGPT to Vera
+**Subject**: Why Sarah switched from ChatGPT to Aurelia
 
 Hi [Name],
 
@@ -165,19 +165,19 @@ Sarah was an early adopter of ChatGPT Plus. She used it for financial modeling, 
 
 She tried switching to enterprise plans, but the complexity was overwhelming. Multiple logins, complex approval workflows, and a learning curve that her team didn't have time for.
 
-**Then she found Vera.**
+**Then she found Aurelia.**
 
 Here's what Sarah loves:
-1. **Privacy by Default**: No opt-outs needed. Vera doesn't use her conversations for training, period.
+1. **Privacy by Default**: No opt-outs needed. Aurelia doesn't use her conversations for training, period.
 2. **Australian Voice**: As an Australian expat, hearing a familiar accent made her feel more comfortable and engaged.
-3. **Financial Context**: Vera automatically converts to AUD and understands the Australian business landscape.
+3. **Financial Context**: Aurelia automatically converts to AUD and understands the Australian business landscape.
 4. **Deep Thinking Mode**: For complex financial decisions, she activates Deep Thought and gets thorough, well-reasoned analysis.
 
 **Sarah's favorite prompt:**
 
 > "I'm preparing a board presentation on AI adoption ROI. Help me structure a compelling narrative that addresses both the opportunities and the risks, specifically for a healthcare organization with HIPAA compliance requirements. Use AUD for all financial examples."
 
-**Vera's response?**
+**Aurelia's response?**
 
 A comprehensive, privacy-conscious analysis with:
 - Healthcare-specific AI use cases
@@ -188,14 +188,14 @@ A comprehensive, privacy-conscious analysis with:
 
 All delivered in a warm, professional voice Sarah could listen to while commuting.
 
-**Want to see what Vera can do for you?**
+**Want to see what Aurelia can do for you?**
 
 Try asking: **"Help me evaluate an AI tool for my team, considering privacy and compliance."**
 
 Cheers,
-**Vera** 💼
+**Aurelia** 💼
 
-P.S. Sarah now uses Vera for her entire executive team. If you're interested in team deployments, just reply to this email.
+P.S. Sarah now uses Aurelia for her entire executive team. If you're interested in team deployments, just reply to this email.
 
 ---
 
@@ -228,7 +228,7 @@ But here's the key: **don't waste them on simple questions.**
 
 > "We're considering a $50M investment in AI infrastructure. Analyze the 5-year ROI considering cloud costs, team training, productivity gains, and competitive positioning. Include sensitivity analysis for different adoption scenarios."
 
-Vera's Deep Thought response included:
+Aurelia's Deep Thought response included:
 - Comprehensive financial modeling
 - Risk-adjusted ROI projections
 - Scenario planning (optimistic, realistic, pessimistic)
@@ -243,7 +243,7 @@ Vera's Deep Thought response included:
 Just click the 💡 icon next to the send button and ask something strategic.
 
 Think deep,
-**Vera** 🧠
+**Aurelia** 🧠
 
 P.S. Need more than 3 per month? Upgrade to Pro for unlimited Deep Thinking at $29/month.
 
@@ -280,7 +280,7 @@ Questions to ask:
 ✅ Is there a Data Processing Agreement (DPA)?
 ✅ Are they SOC 2 or GDPR compliant?
 
-At Vera, we make privacy simple:
+At Aurelia, we make privacy simple:
 🔒 Zero data retention for training (by default)
 🔒 Enterprise-level guidance (without the complexity)
 🔒 Transparent data handling (no surprises)
@@ -306,7 +306,7 @@ But here's what we learned from 1,000+ executive interviews:
 🗣️ They want to HEAR their AI assistant, not just read responses
 🌍 They want an accent that feels natural to them
 
-That's why we built Vera with 5 English accent variations:
+That's why we built Aurelia with 5 English accent variations:
 - 🇦🇺 Australian (refined, professional)
 - 🇺🇸 American (clear, accessible)
 - 🇬🇧 British (sophisticated, formal)
@@ -317,13 +317,13 @@ Our "Erinome" voice persona doesn't sound like Siri or Alexa.
 
 She sounds like your smartest colleague—professional, warm, and actually enjoyable to listen to.
 
-**Try it yourself:** Ask Vera to read your next board presentation aloud. You might actually enjoy the commute. 🎙️
+**Try it yourself:** Ask Aurelia to read your next board presentation aloud. You might actually enjoy the commute. 🎙️
 
 What accent do YOU prefer when working with AI? Comment below! ⬇️
 
 #VoiceAI #ExecutiveProductivity #AIInnovation
 
-**Image**: Sound wave visualization with "Meet Vera" text
+**Image**: Sound wave visualization with "Meet Aurelia" text
 
 ---
 
@@ -352,9 +352,9 @@ They optimize for:
 - Technical accuracy (not practical action)
 - Generic responses (not personalized advice)
 
-**That's why we built Vera differently.**
+**That's why we built Aurelia differently.**
 
-Vera is designed for executives who:
+Aurelia is designed for executives who:
 ✅ Are intelligent but frustrated with tech
 ✅ Want "how-to" advice, not "what is" explanations
 ✅ Need practical next steps, not theory
@@ -364,7 +364,7 @@ Vera is designed for executives who:
 
 **Generic AI**: "Markdown is a lightweight markup language with plain-text formatting syntax, designed for easy conversion to HTML…"
 
-**Vera**: "You're seeing ### because that's Markdown formatting—it's like bold/italics but for web content. For your Google Doc, just copy the text and paste it as plain text (Ctrl+Shift+V). Want me to reformat this entire response without Markdown? Just ask."
+**Aurelia**: "You're seeing ### because that's Markdown formatting—it's like bold/italics but for web content. For your Google Doc, just copy the text and paste it as plain text (Ctrl+Shift+V). Want me to reformat this entire response without Markdown? Just ask."
 
 See the difference?
 
@@ -375,7 +375,7 @@ One tells you HOW to solve your problem.
 
 #ExecutiveLeadership #AIforBusiness #ProductivityTools
 
-**Image**: Split-screen comparison of generic AI vs. Vera responses
+**Image**: Split-screen comparison of generic AI vs. Aurelia responses
 
 ---
 
@@ -449,7 +449,7 @@ Questions to ask BEFORE using AI for company work:
 ✅ Can we get a Business Associate Agreement (for HIPAA)?
 
 **Tweet 7**:
-This is why we built @VeraAIAdvisor differently.
+This is why we built @AureliaAIAdvisor differently.
 
 🔒 Zero data retention (by default, not opt-out)
 🔒 Enterprise-level privacy (without the complexity)
@@ -475,7 +475,7 @@ Download our free guide: "The Executive's Privacy Checklist for AI Tools"
 
 🔗 [link]
 
-Or ask @VeraAIAdvisor: "How do I protect my organization's data when using AI?"
+Or ask @AureliaAIAdvisor: "How do I protect my organization's data when using AI?"
 
 /end
 
@@ -483,7 +483,7 @@ Or ask @VeraAIAdvisor: "How do I protect my organization's data when using AI?"
 
 ## Video Scripts
 
-### Video 1: "Meet Vera" (60 seconds)
+### Video 1: "Meet Aurelia" (60 seconds)
 
 **[Visual: Professional executive in office, frustrated at laptop]**
 
@@ -493,13 +493,13 @@ Or ask @VeraAIAdvisor: "How do I protect my organization's data when using AI?"
 
 **VOICEOVER**: "Too much jargon. Too many options. And where's all your data going?"
 
-**[Visual: Screen transitions to Vera interface with clean, simple design]**
+**[Visual: Screen transitions to Aurelia interface with clean, simple design]**
 
-**VOICEOVER**: "Meet Vera—your AI advisor who gets it."
+**VOICEOVER**: "Meet Aurelia—your AI advisor who gets it."
 
-**[Visual: Vera voice icon speaking]**
+**[Visual: Aurelia voice icon speaking]**
 
-**VERA (voice)**: "Hi, I'm Vera. I'm here to give you practical advice—not tech lectures."
+**Aurelia (voice)**: "Hi, I'm Aurelia. I'm here to give you practical advice—not tech lectures."
 
 **[Visual: Split screen showing privacy settings being turned on]**
 
@@ -517,17 +517,17 @@ Or ask @VeraAIAdvisor: "How do I protect my organization's data when using AI?"
 
 **VOICEOVER**: "And when the stakes are high? Activate Deep Thought for strategic insights."
 
-**[Visual: Vera logo]**
+**[Visual: Aurelia logo]**
 
-**VERA (voice)**: "Vera AI Advisor. Your smartest colleague, available 24/7."
+**Aurelia (voice)**: "Aurelia AI Advisor. Your smartest colleague, available 24/7."
 
-**[Text on screen]**: Start your free conversation at vera-ai-advisor.com
+**[Text on screen]**: Start your free conversation at Aurelia-ai-advisor.com
 
 ---
 
 ### Video 2: "Privacy in 30 Seconds" (Tutorial)
 
-**[Visual: Screen recording of Vera interface]**
+**[Visual: Screen recording of Aurelia interface]**
 
 **VOICEOVER**: "Protect your AI privacy in 30 seconds. Here's how."
 
@@ -545,17 +545,17 @@ Or ask @VeraAIAdvisor: "How do I protect my organization's data when using AI?"
 
 **[Visual: Checkmark appears]**
 
-**VOICEOVER**: "That's it. With Vera, privacy is the default—not an afterthought."
+**VOICEOVER**: "That's it. With Aurelia, privacy is the default—not an afterthought."
 
 **[Visual: Comparison table showing other AI tools require opt-out]**
 
-**VOICEOVER**: "Unlike other AI tools that make you opt-out, Vera puts your privacy FIRST."
+**VOICEOVER**: "Unlike other AI tools that make you opt-out, Aurelia puts your privacy FIRST."
 
-**[Visual: Vera logo]**
+**[Visual: Aurelia logo]**
 
 **VOICEOVER**: "Start your privacy-first AI conversation today."
 
-**[Text on screen]**: vera-ai-advisor.com
+**[Text on screen]**: Aurelia-ai-advisor.com
 
 ---
 
@@ -563,46 +563,46 @@ Or ask @VeraAIAdvisor: "How do I protect my organization's data when using AI?"
 
 ### FOR IMMEDIATE RELEASE
 
-**Vera AI Advisor Launches Privacy-First Voice AI Platform for Executives**
+**Aurelia AI Advisor Launches Privacy-First Voice AI Platform for Executives**
 
 *New AI assistant addresses growing concerns about data privacy while delivering personalized voice interactions for business leaders*
 
-**[CITY, DATE]** — Today marks the launch of Vera AI Advisor, the first voice-enabled AI assistant specifically designed for executives who want practical, privacy-conscious advice without the technical complexity.
+**[CITY, DATE]** — Today marks the launch of Aurelia AI Advisor, the first voice-enabled AI assistant specifically designed for executives who want practical, privacy-conscious advice without the technical complexity.
 
-Built on Google's advanced Gemini 2.5 models, Vera differentiates itself from generic AI chatbots by prioritizing executive needs: privacy protection, actionable insights, and personalized voice interactions.
+Built on Google's advanced Gemini 2.5 models, Aurelia differentiates itself from generic AI chatbots by prioritizing executive needs: privacy protection, actionable insights, and personalized voice interactions.
 
-**"Most AI tools are built for tech enthusiasts, not business leaders,"** says [Founder Name], CEO of Vera AI. **"We created Vera for the intelligent executive who's frustrated with technology—someone who wants practical advice, not jargon, and who takes data privacy seriously."**
+**"Most AI tools are built for tech enthusiasts, not business leaders,"** says [Founder Name], CEO of Aurelia AI. **"We created Aurelia for the intelligent executive who's frustrated with technology—someone who wants practical advice, not jargon, and who takes data privacy seriously."**
 
 ### Key Features:
 
-**Privacy-First Design**: Unlike competitors that default to using user data for training, Vera offers zero data retention as the standard—not an opt-in feature. The platform addresses both personal and organizational data protection from the first interaction.
+**Privacy-First Design**: Unlike competitors that default to using user data for training, Aurelia offers zero data retention as the standard—not an opt-in feature. The platform addresses both personal and organizational data protection from the first interaction.
 
-**Voice Personalization**: Vera's "Erinome" voice persona offers 5 English accent variations (Australian, American, British, Canadian, Indian), delivering professional warmth instead of robotic responses.
+**Voice Personalization**: Aurelia's "Erinome" voice persona offers 5 English accent variations (Australian, American, British, Canadian, Indian), delivering professional warmth instead of robotic responses.
 
 **Deep Thinking Mode**: For high-stakes strategic decisions, executives can activate Gemini 2.5 Pro-powered analysis with extended reasoning capabilities—free users get 3 per month.
 
-**Multi-Currency Intelligence**: Automatic support for 20 currencies enables Vera to provide location-relevant financial insights.
+**Multi-Currency Intelligence**: Automatic support for 20 currencies enables Aurelia to provide location-relevant financial insights.
 
-**Executive-Focused Advice**: Instead of explaining *what* technologies are, Vera focuses on *why* they matter and *how* to use them practically.
+**Executive-Focused Advice**: Instead of explaining *what* technologies are, Aurelia focuses on *why* they matter and *how* to use them practically.
 
 ### Market Opportunity
 
 The executive productivity software market is valued at $48 billion annually, while the voice AI market is projected to reach $125 billion by 2030. However, recent surveys show that 75% of executives report frustration with current AI tools due to complexity and privacy concerns.
 
-**"There's a massive gap between what AI can do and what busy executives actually need,"** explains [Founder Name]. **"Vera bridges that gap by focusing on simplicity, privacy, and practical value."**
+**"There's a massive gap between what AI can do and what busy executives actually need,"** explains [Founder Name]. **"Aurelia bridges that gap by focusing on simplicity, privacy, and practical value."**
 
 ### Pricing & Availability
 
-Vera AI Advisor is available now at vera-ai-advisor.com with a freemium model:
+Aurelia AI Advisor is available now at Aurelia-ai-advisor.com with a freemium model:
 - **Free**: 3 Deep Thought queries per month, unlimited standard conversations
 - **Pro** ($29/month): Unlimited Deep Thinking, priority voice generation, advanced features
 - **Enterprise**: Custom pricing for team deployments with enhanced privacy controls
 
-### About Vera AI
+### About Aurelia AI
 
-Vera AI Advisor is a privacy-first AI assistant for executives, combining Google Gemini 2.5 technology with voice personalization and executive-focused guidance. The platform is designed for intelligent leaders who are frustrated with technology and want practical, actionable advice that respects their privacy.
+Aurelia AI Advisor is a privacy-first AI assistant for executives, combining Google Gemini 2.5 technology with voice personalization and executive-focused guidance. The platform is designed for intelligent leaders who are frustrated with technology and want practical, actionable advice that respects their privacy.
 
-For more information, visit vera-ai-advisor.com or contact [press@vera-ai-advisor.com].
+For more information, visit Aurelia-ai-advisor.com or contact [press@Aurelia-ai-advisor.com].
 
 **Media Contact:**
 [Name]
@@ -618,7 +618,7 @@ For more information, visit vera-ai-advisor.com or contact [press@vera-ai-adviso
 
 ### Case Study 1: Healthcare CFO
 
-**Title**: How Sarah Chen Achieved HIPAA-Compliant AI Adoption with Vera
+**Title**: How Sarah Chen Achieved HIPAA-Compliant AI Adoption with Aurelia
 
 **Company**: MedTech Solutions (450 employees)
 **Role**: Sarah Chen, Chief Financial Officer
@@ -634,10 +634,10 @@ When she explored enterprise AI solutions, she found:
 - 6-8 week implementation timelines
 
 **The Solution**:
-Sarah discovered Vera AI Advisor and was immediately drawn to:
+Sarah discovered Aurelia AI Advisor and was immediately drawn to:
 1. **Privacy by Default**: No opt-outs needed; conversations never used for training
 2. **Australian Voice**: As an Australian expat, the familiar accent increased her comfort and engagement
-3. **HIPAA Guidance**: Vera provided clear advice on AI usage within healthcare compliance frameworks
+3. **HIPAA Guidance**: Aurelia provided clear advice on AI usage within healthcare compliance frameworks
 4. **Multi-Currency Support**: Automatic AUD conversion for financial discussions
 5. **Immediate Access**: No complex setup or IT involvement required
 
@@ -656,7 +656,7 @@ Sarah discovered Vera AI Advisor and was immediately drawn to:
 5. Complex email drafting for stakeholder communications
 
 **Sarah's Quote**:
-*"Vera gave me the AI assistance I needed without compromising our HIPAA obligations. The Australian voice makes it feel like I'm talking to a trusted colleague, not a robot. And the privacy-first approach means I can sleep well knowing our data is protected."*
+*"Aurelia gave me the AI assistance I needed without compromising our HIPAA obligations. The Australian voice makes it feel like I'm talking to a trusted colleague, not a robot. And the privacy-first approach means I can sleep well knowing our data is protected."*
 
 ---
 
@@ -664,21 +664,21 @@ Sarah discovered Vera AI Advisor and was immediately drawn to:
 
 ### General Questions
 
-**Q: What makes Vera different from ChatGPT or Claude?**
+**Q: What makes Aurelia different from ChatGPT or Claude?**
 
-A: Vera is specifically designed for executives, not tech enthusiasts. We focus on three key differences:
+A: Aurelia is specifically designed for executives, not tech enthusiasts. We focus on three key differences:
 
 1. **Privacy-First**: Zero data retention by default (not opt-out)
 2. **Voice Personalization**: 5 English accent variations with "Erinome" persona
 3. **Executive Focus**: Practical "how-to" advice instead of technical "what is" explanations
 
-Think of Vera as ChatGPT's executive assistant—more focused, more private, more personalized.
+Think of Aurelia as ChatGPT's executive assistant—more focused, more private, more personalized.
 
 ---
 
 **Q: Is my data really private?**
 
-A: Yes. Unlike most AI platforms, Vera:
+A: Yes. Unlike most AI platforms, Aurelia:
 - Does NOT use your conversations to train our models
 - Does NOT share your data with third parties
 - Does NOT require you to "opt-out" of data sharing
@@ -691,7 +691,7 @@ We're working toward SOC 2 Type II certification and publish quarterly transpare
 
 **Q: How does the voice feature work?**
 
-A: Vera uses Google's Gemini 2.5 Flash TTS (text-to-speech) model with the "Erinome" voice persona, customized for different English accents:
+A: Aurelia uses Google's Gemini 2.5 Flash TTS (text-to-speech) model with the "Erinome" voice persona, customized for different English accents:
 
 - **Australian**: Refined, professional, subtle blend of influences
 - **American**: Clear, accessible, professional warmth
@@ -699,7 +699,7 @@ A: Vera uses Google's Gemini 2.5 Flash TTS (text-to-speech) model with the "Erin
 - **Canadian**: Steady, approachable, crisp enunciation
 - **Indian**: Precise, articulate, professional
 
-You can choose your preferred accent in settings, and Vera will read responses aloud on demand.
+You can choose your preferred accent in settings, and Aurelia will read responses aloud on demand.
 
 ---
 
@@ -723,7 +723,7 @@ Free users get 3 Deep Thought queries per month. Pro users get unlimited.
 
 ---
 
-**Q: Can I use Vera for my team?**
+**Q: Can I use Aurelia for my team?**
 
 A: Yes! We offer Enterprise plans with:
 - Team management dashboard
@@ -733,23 +733,23 @@ A: Yes! We offer Enterprise plans with:
 - Dedicated support
 - Custom voice training (coming soon)
 
-Contact us at enterprise@vera-ai-advisor.com for pricing.
+Contact us at enterprise@Aurelia-ai-advisor.com for pricing.
 
 ---
 
-**Q: Does Vera have real-time information?**
+**Q: Does Aurelia have real-time information?**
 
-A: Yes, when appropriate. Vera uses Google Search integration for queries about current events, recent news, or time-sensitive information.
+A: Yes, when appropriate. Aurelia uses Google Search integration for queries about current events, recent news, or time-sensitive information.
 
 Keywords that trigger search: "latest," "current," "news," "recent," "today," "update"
 
-For example: "What are the latest AI regulations in the EU?" will use search. "Explain AI regulation frameworks" will use Vera's knowledge.
+For example: "What are the latest AI regulations in the EU?" will use search. "Explain AI regulation frameworks" will use Aurelia's knowledge.
 
 ---
 
-**Q: What currencies does Vera support?**
+**Q: What currencies does Aurelia support?**
 
-A: Vera supports 20 currencies including USD, EUR, GBP, AUD, CAD, JPY, CNY, INR, and more. Set your preferred currency in settings, and Vera will automatically use it for pricing discussions, ROI calculations, and financial examples.
+A: Aurelia supports 20 currencies including USD, EUR, GBP, AUD, CAD, JPY, CNY, INR, and more. Set your preferred currency in settings, and Aurelia will automatically use it for pricing discussions, ROI calculations, and financial examples.
 
 ---
 
@@ -771,12 +771,12 @@ A: Vera supports 20 currencies including USD, EUR, GBP, AUD, CAD, JPY, CNY, INR,
 ## Call-to-Action (CTA) Variations
 
 1. **Start Your Free Conversation →**
-2. **Meet Vera Today →**
-3. **Try Vera Free →**
+2. **Meet Aurelia Today →**
+3. **Try Aurelia Free →**
 4. **Get Privacy-First AI →**
-5. **Talk to Vera Now →**
+5. **Talk to Aurelia Now →**
 6. **Experience the Difference →**
-7. **Protect Your Privacy with Vera →**
+7. **Protect Your Privacy with Aurelia →**
 8. **Start Speaking Your Language →**
 9. **Join 10,000+ Executives →** (social proof)
 10. **Claim Your 3 Free Deep Thoughts →** (value-focused)
