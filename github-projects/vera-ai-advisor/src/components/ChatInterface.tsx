@@ -154,6 +154,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ session, onSendMessage, o
   const [audioState, setAudioState] = useState<AudioState>({ messageId: null, status: 'idle' });
   const [voiceState, setVoiceState] = useState<'idle' | 'recording' | 'transcribing' | 'error'>('idle');
   const [transcribedText, setTranscribedText] = useState('');
+  const [canRecord, setCanRecord] = useState(false);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -169,6 +170,15 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ session, onSendMessage, o
   };
 
   useEffect(scrollToBottom, [session?.messages, isLoading]);
+
+  useEffect(() => {
+    try {
+      const supported = typeof window !== 'undefined' && 'MediaRecorder' in window && !!navigator.mediaDevices?.getUserMedia;
+      setCanRecord(!!supported);
+    } catch {
+      setCanRecord(false);
+    }
+  }, []);
 
   const cleanupVoiceResources = useCallback(async () => {
     if (microphoneStreamRef.current) {
@@ -403,6 +413,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ session, onSendMessage, o
                         <input type="file" ref={fileInputRef} className="hidden" />
                     </div>
                     <div className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                        {canRecord && (
                         <button
                           onMouseDown={handleStartRecording}
                           onMouseUp={handleStopRecording}
@@ -419,6 +430,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ session, onSendMessage, o
                         >
                           <MicIcon className="w-5 h-5" />
                         </button>
+                        )}
                         <button
                         onClick={handleSend}
                         disabled={isLoading || !input.trim()}
@@ -428,6 +440,11 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ session, onSendMessage, o
                         </button>
                     </div>
                 </div>
+                {canRecord && (
+                  <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                    Tip: Press and hold the mic to record; release to transcribe. We’ll insert the transcript here for you to send.
+                  </p>
+                )}
             </div>
             <div className="flex items-center justify-center gap-4 mt-3">
               <label htmlFor="thinking-mode-toggle" className={`flex items-center group ${deepThoughtCount > 0 ? 'cursor-pointer' : 'cursor-not-allowed'}`}>
