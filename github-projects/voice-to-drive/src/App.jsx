@@ -75,8 +75,12 @@ function App() {
       await waitForGapi();
 
       console.log('Step 5: Initializing Google Drive...');
-      const CLIENT_ID = '45424427828-jetga90ek9pspgtoin9uh1ll85ilkofp.apps.googleusercontent.com';
-      const API_KEY = 'AIzaSyCgIJxf23oWA0f-la8Hf1zJ1DZHgD-WUAM';
+      const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+      const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
+
+      if (!CLIENT_ID || !API_KEY) {
+        throw new Error('Missing Google API credentials. Please set VITE_GOOGLE_CLIENT_ID and VITE_GOOGLE_API_KEY in .env file');
+      }
 
       await drive.initialize(CLIENT_ID, API_KEY);
 

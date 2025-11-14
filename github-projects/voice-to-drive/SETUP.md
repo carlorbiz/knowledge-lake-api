@@ -35,15 +35,22 @@ Before running the app, you need to set up Google Drive API access:
 2. Copy the **API Key** that's generated
 3. (Optional) Restrict the key to Google Drive API only
 
-### 2. Configure the App
+### 2. Configure Environment Variables
 
-Edit `src/App.jsx` and replace the placeholder credentials:
+Create a `.env` file in the project root (copy from `.env.example`):
 
-```javascript
-// Around line 52-53
-const CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID'; // Replace with your Client ID
-const API_KEY = 'YOUR_GOOGLE_API_KEY';     // Replace with your API Key
+```bash
+cp .env.example .env
 ```
+
+Then edit `.env` and add your credentials:
+
+```bash
+VITE_GOOGLE_CLIENT_ID=your-client-id-here.apps.googleusercontent.com
+VITE_GOOGLE_API_KEY=your-api-key-here
+```
+
+**⚠️ IMPORTANT**: Never commit your `.env` file to git! It's already in `.gitignore` to prevent accidental commits.
 
 ### 3. Install Dependencies
 
