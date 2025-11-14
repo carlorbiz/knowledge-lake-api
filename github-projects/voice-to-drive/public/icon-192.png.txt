@@ -1,0 +1,29 @@
+PLACEHOLDER - Create a 192x192 icon
+
+To create proper icons for the PWA:
+
+1. Use an online tool like:
+   - https://favicon.io/favicon-generator/
+   - https://www.canva.com/
+   - https://www.figma.com/
+
+2. Design an icon with:
+   - Microphone symbol 🎙️
+   - Or car symbol 🚗
+   - Or combination of both
+   - Background: #667eea (purple/blue gradient)
+
+3. Export as PNG:
+   - 192x192 pixels (required for PWA)
+   - 512x512 pixels (required for PWA)
+
+4. Name the files:
+   - icon-192.png
+   - icon-512.png
+
+5. Place them in the public/ folder
+
+6. Delete this .txt file
+
+For now, the app will work without icons (they're optional).
+The browser will use a default icon placeholder.
