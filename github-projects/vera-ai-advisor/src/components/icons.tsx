@@ -26,8 +26,15 @@ export const AureliaIcon: React.FC<{ className?: string }> = ({ className }) => 
           <stop offset="100%" style={{stopColor: 'rgb(79 70 229)', stopOpacity:1}} />
         </linearGradient>
       </defs>
-      <path fill="url(#aureliaGradient)" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.03 15.41l-3.5-3.5a.75.75 0 0 1 1.06-1.06L11 12.29l4.47-4.47a.75.75 0 1 1 1.06 1.06l-5 5a.75.75 0 0 1-1.06 0z"/>
-      <path d="M18.5 7.5a1 1 0 0 0-1-1h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1zm-4.3.8a1 1 0 0 0-1.4-1.4l-.7.7a1 1 0 1 0 1.4 1.4l.7-.7z"/>
+      {/* Stylized AI advisor avatar - elegant female silhouette with flowing design */}
+      <circle cx="12" cy="12" r="10" fill="url(#aureliaGradient)" opacity="0.15"/>
+      <circle cx="12" cy="9" r="3.5" fill="url(#aureliaGradient)"/>
+      <path fill="url(#aureliaGradient)" d="M12 13.5c-4 0-7 2-7 4.5v1.5c0 .5.5 1 1 1h12c.5 0 1-.5 1-1V18c0-2.5-3-4.5-7-4.5z"/>
+      {/* Decorative sparkle elements for AI/intelligence theme */}
+      <circle cx="7" cy="7" r="1" fill="rgb(129 140 248)" opacity="0.6"/>
+      <circle cx="17" cy="7" r="1" fill="rgb(129 140 248)" opacity="0.6"/>
+      <circle cx="8" cy="16" r="0.7" fill="rgb(79 70 229)" opacity="0.5"/>
+      <circle cx="16" cy="16" r="0.7" fill="rgb(79 70 229)" opacity="0.5"/>
     </svg>
 );
 

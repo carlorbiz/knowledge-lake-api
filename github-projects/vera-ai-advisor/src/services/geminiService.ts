@@ -314,7 +314,7 @@ export const generateSpeech = async (text: string, userLanguage: string | null):
                 responseModalities: [Modality.AUDIO],
                 speechConfig: {
                     voiceConfig: {
-                        prebuiltVoiceConfig: { voiceName: 'Erinome' },
+                        prebuiltVoiceConfig: { voiceName: 'Sulafat' }, // Warm, friendly voice (changed from Erinome which was too pitchy)
                     },
                 },
             },

@@ -1,0 +1,124 @@
+{
+  "shortcuts": [
+    {
+      "Code": "SUMM",
+      "Longhand": "Summarise a meeting now, executive-ready",
+      "Default agent": "fred",
+      "Default persona": "fred",
+      "Template ID": "MTG_SUMMARY_V1",
+      "Description": "Exec summary of recent interaction with Decisions, Actions (Who/When), Risks, Next steps."
+    },
+    {
+      "Code": "BOARD",
+      "Longhand": "Create a board paper",
+      "Default agent": "fredo",
+      "Default persona": "fredo",
+      "Template ID": "BOARD_PAPER_V1",
+      "Description": "Board-ready paper with Purpose, Background, Analysis, Options, Recommendation, Impacts, Appendices."
+    },
+    {
+      "Code": "BID",
+      "Longhand": "Draft a consulting bid / proposal",
+      "Default agent": "claude",
+      "Default persona": "strat",
+      "Template ID": "BID_PROPOSAL_V1",
+      "Description": "Bid/proposal with Exec Summary, Objectives, Methodology, Deliverables, Timeline, Team, Budget, Assumptions."
+    },
+    {
+      "Code": "PLAN",
+      "Longhand": "Spin up a project plan",
+      "Default agent": "fred",
+      "Default persona": "roadmap",
+      "Template ID": "PROJECT_PLAN_V1",
+      "Description": "Project plan with Scope, Milestones, RACI, Dependencies, Risks, Comms cadence."
+    },
+    {
+      "Code": "RESEARCH",
+      "Longhand": "Research synthesis",
+      "Default agent": "gemini",
+      "Default persona": "research",
+      "Template ID": "RESEARCH_SYNTH_V1",
+      "Description": "Research brief with Findings, Evidence table (Source/Claim/Confidence), Gaps, Implications."
+    },
+    {
+      "Code": "COURSE",
+      "Longhand": "Course module from sources",
+      "Default agent": "fredo",
+      "Default persona": "course",
+      "Template ID": "COURSE_MOD_V1",
+      "Description": "Course module with Outcomes, Outline, Activities, Assessment, Resources."
+    },
+    {
+      "Code": "POD",
+      "Longhand": "Blog \u2192 Podcast episode",
+      "Default agent": "fred",
+      "Default persona": "creator",
+      "Template ID": "POD_EP_V1",
+      "Description": "Podcast script with Hook, Intro, Segments with beats, CTA, Outro."
+    },
+    {
+      "Code": "POD_POST",
+      "Longhand": "Podcast post-production pack",
+      "Default agent": "fred",
+      "Default persona": "edit",
+      "Template ID": "POD_POST_V1",
+      "Description": "Post-production pack with Timestamps, Show notes, Links, Keywords/SEO, Social captions."
+    },
+    {
+      "Code": "BLOG_SERIES",
+      "Longhand": "Blog series plan",
+      "Default agent": "fred",
+      "Default persona": "creator",
+      "Template ID": "BLOG_SERIES_V1",
+      "Description": "Blog series arc with Post titles, Angles, CTA plan, Cadence."
+    },
+    {
+      "Code": "MEMOIR",
+      "Longhand": "Memoir interview prompt set / capture",
+      "Default agent": "fredo",
+      "Default persona": "int",
+      "Template ID": "MEMOIR_QSET_V1",
+      "Description": "Memoir Q-set or capture with Theme, Warm-up, Core probes, Reflection prompts, Closing."
+    },
+    {
+      "Code": "STAKE",
+      "Longhand": "Stakeholder report",
+      "Default agent": "claude",
+      "Default persona": "strat",
+      "Template ID": "STAKE_REPORT_V1",
+      "Description": "Stakeholder synthesis with Themes, Representative quotes, Concerns, Suggestions, Implications."
+    },
+    {
+      "Code": "BUDGET",
+      "Longhand": "Grant/bid budget sheet",
+      "Default agent": "fred",
+      "Default persona": "fred",
+      "Template ID": "BUDGET_V1",
+      "Description": "Budget table plus notes, assumptions, cost categories."
+    },
+    {
+      "Code": "ACTION",
+      "Longhand": "Action list from thread",
+      "Default agent": "fred",
+      "Default persona": "fred",
+      "Template ID": "ACTION_V1",
+      "Description": "Action extraction with Who/What/When and optional Notion task creation."
+    },
+    {
+      "Code": "ROUTE",
+      "Longhand": "Route / handoff to another agent/persona",
+      "Default agent": "manus",
+      "Default persona": "sys",
+      "Template ID": "ROUTE_V1",
+      "Description": "Routing instruction for Manus to dispatch work to a specific agent/persona."
+    },
+    {
+      "Code": "LOG",
+      "Longhand": "Log event to Knowledge Lake",
+      "Default agent": "vibesdk/openmemory",
+      "Default persona": "",
+      "Template ID": "LOG_V1",
+      "Description": "Simple log record with event description, tags, timestamp."
+    }
+  ]
+}
