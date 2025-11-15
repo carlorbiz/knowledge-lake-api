@@ -288,7 +288,7 @@ export const startTranscriptionSession = (callbacks: {
 
 export const generateSpeech = async (text: string, userLanguage: string | null): Promise<string | null> => {
     try {
-        const ai = getAi();
+        // const ai = getAi(); // Currently unused - for future implementation
 
         const persona = getPersonaInstruction(userLanguage)
             .replace(/- \*\*Persona\*\*: You are Aurelia, embodying the 'Erinome' persona./, '')
