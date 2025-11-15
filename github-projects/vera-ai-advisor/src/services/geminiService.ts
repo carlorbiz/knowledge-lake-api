@@ -314,7 +314,10 @@ export const generateSpeech = async (text: string, userLanguage: string | null):
                 responseModalities: [Modality.AUDIO],
                 speechConfig: {
                     voiceConfig: {
-                        prebuiltVoiceConfig: { voiceName: 'Sulafat' }, // Warm, friendly voice (changed from Erinome which was too pitchy)
+                        prebuiltVoiceConfig: { voiceName: 'Aoede' }, // Breezy voice
+                    },
+                    audioConfig: {
+                        speakingRate: 1.0, // Normal speaking rate (was incorrectly at 0.08)
                     },
                 },
             },

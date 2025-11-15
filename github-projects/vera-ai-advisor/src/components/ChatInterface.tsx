@@ -402,17 +402,17 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ session, onSendMessage, o
                         onChange={(e) => setInput(e.target.value)}
                         onKeyDown={handleKeyDown}
                         placeholder="Ask Aurelia..."
-                        className="w-full pl-10 pr-28 py-2.5 bg-white/70 dark:bg-slate-700/70 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-0 focus:border-slate-400 dark:focus:border-slate-500 transition resize-none text-slate-900 dark:text-white shadow-sm"
-                        rows={1}
-                        style={{ maxHeight: '120px' }}
+                        className="w-full pl-10 pr-28 py-2.5 bg-white/70 dark:bg-slate-700/70 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-0 focus:border-slate-400 dark:focus:border-slate-500 transition resize-y text-slate-900 dark:text-white shadow-sm"
+                        rows={3}
+                        style={{ minHeight: '80px', maxHeight: '200px' }}
                     />
-                    <div className="absolute left-3 top-1/2 -translate-y-1/2">
+                    <div className="absolute left-3 top-3">
                         <button onClick={handleFileUploadClick} className="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">
                             <PaperclipIcon className="w-5 h-5" />
                         </button>
                         <input type="file" ref={fileInputRef} className="hidden" />
                     </div>
-                    <div className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                    <div className="absolute right-2.5 bottom-2.5 flex items-center gap-2">
                         {canRecord && (
                         <button
                           onMouseDown={handleStartRecording}
