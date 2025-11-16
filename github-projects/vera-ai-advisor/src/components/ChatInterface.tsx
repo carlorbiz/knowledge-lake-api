@@ -440,12 +440,12 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ session, onSendMessage, o
                         </button>
                     </div>
                 </div>
-                {canRecord && (
-                  <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                    Tip: Press and hold the mic to record; release to transcribe. We’ll insert the transcript here for you to send.
-                  </p>
-                )}
             </div>
+            {canRecord && (
+              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 text-center">
+                Tip: Press and hold the mic to record; release to transcribe. We'll insert the transcript here for you to send.
+              </p>
+            )}
             <div className="flex items-center justify-center gap-4 mt-3">
               <label htmlFor="thinking-mode-toggle" className={`flex items-center group ${deepThoughtCount > 0 ? 'cursor-pointer' : 'cursor-not-allowed'}`}>
                   <div className="flex flex-col items-center">
