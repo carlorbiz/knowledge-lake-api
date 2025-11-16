@@ -305,7 +305,7 @@ export const generateSpeech = async (text: string, userLanguage: string | null):
             .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
             .trim();
 
-        const prompt = `${persona}\n\nWith that persona in mind, please read the following text aloud:\n\n"${cleanText}"`;
+        const prompt = `${persona}\n\nWith that persona in mind, please read the following text aloud at a normal, natural pace (not too fast, not too slow):\n\n"${cleanText}"`;
 
         const response = await gen({
             model: "gemini-2.5-flash-preview-tts",
@@ -315,9 +315,6 @@ export const generateSpeech = async (text: string, userLanguage: string | null):
                 speechConfig: {
                     voiceConfig: {
                         prebuiltVoiceConfig: { voiceName: 'Aoede' }, // Breezy voice
-                    },
-                    audioConfig: {
-                        speakingRate: 1.0, // Normal speaking rate (was incorrectly at 0.08)
                     },
                 },
             },
