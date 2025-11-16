@@ -9,6 +9,17 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: true
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      }
+    }
+  },
+  optimizeDeps: {
+    exclude: ['@ricky0123/vad-web']
+  },
+  worker: {
+    format: 'es'
   }
 });

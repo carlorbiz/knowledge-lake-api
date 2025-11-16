@@ -1,0 +1,26 @@
+/*.wasm
+  Content-Type: application/wasm
+  Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Resource-Policy: cross-origin
+
+/*.mjs
+  Content-Type: application/javascript
+  Cross-Origin-Embedder-Policy: require-corp
+
+/*.onnx
+  Content-Type: application/octet-stream
+  Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Resource-Policy: cross-origin
+
+/assets/*.wasm
+  Content-Type: application/wasm
+  Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Resource-Policy: cross-origin
+
+/assets/*.mjs
+  Content-Type: application/javascript
+  Cross-Origin-Embedder-Policy: require-corp
+
+/assets/*worker*
+  Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Opener-Policy: same-origin

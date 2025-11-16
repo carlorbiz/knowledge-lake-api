@@ -1,6 +1,10 @@
 import './StatusIndicator.css';
 
 function StatusIndicator({ recording, syncStatus, online }) {
+  const hasTranscription = syncStatus.untranscribed !== undefined;
+  const transcribing = syncStatus.transcribing || false;
+  const untranscribed = syncStatus.untranscribed || 0;
+
   return (
     <div className="status-indicator">
       <div className="status-grid">
@@ -12,6 +16,19 @@ function StatusIndicator({ recording, syncStatus, online }) {
             {recording ? 'Recording...' : 'Listening'}
           </div>
         </div>
+
+        {hasTranscription && (
+          <div className={`status-card transcription-status ${transcribing ? 'active' : ''}`}>
+            <div className="status-icon">
+              {transcribing ? '✍️' : untranscribed > 0 ? '📝' : '✓'}
+            </div>
+            <div className="status-label">
+              {transcribing && 'Transcribing...'}
+              {!transcribing && untranscribed > 0 && `${untranscribed} to transcribe`}
+              {!transcribing && untranscribed === 0 && 'All transcribed'}
+            </div>
+          </div>
+        )}
 
         <div className={`status-card sync-status ${syncStatus.syncing ? 'active' : ''}`}>
           <div className="status-icon">

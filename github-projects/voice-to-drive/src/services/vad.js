@@ -1,5 +1,4 @@
-// TEMPORARILY DISABLED FOR DEBUGGING
-// import { MicVAD } from '@ricky0123/vad-web';
+import { MicVAD } from '@ricky0123/vad-web';
 
 export class VADService {
   constructor() {
@@ -10,26 +9,26 @@ export class VADService {
   }
 
   async initialize(callbacks) {
-    console.warn('⚠️ VAD temporarily disabled for debugging');
+    console.log('✅ Initializing VAD (Voice Activity Detection)...');
     this.onSpeechStart = callbacks.onSpeechStart;
     this.onSpeechEnd = callbacks.onSpeechEnd;
 
-    // TEMPORARILY DISABLED - VAD library causing module loading errors
-    // this.vad = await MicVAD.new({
-    //   onSpeechStart: () => {
-    //     console.log('Speech detected');
-    //     this.onSpeechStart?.();
-    //   },
-    //   onSpeechEnd: () => {
-    //     console.log('Speech ended');
-    //     this.onSpeechEnd?.();
-    //   },
-    //   positiveSpeechThreshold: 0.8,  // Tunable for car noise
-    //   minSpeechFrames: 3,
-    //   redemptionFrames: 8,  // How long to wait before considering silence
-    // });
+    this.vad = await MicVAD.new({
+      onSpeechStart: () => {
+        console.log('🎤 Speech detected - starting recording');
+        this.onSpeechStart?.();
+      },
+      onSpeechEnd: () => {
+        console.log('🛑 Speech ended - stopping recording');
+        this.onSpeechEnd?.();
+      },
+      positiveSpeechThreshold: 0.8,  // Tunable for car noise
+      minSpeechFrames: 3,
+      redemptionFrames: 8,  // How long to wait before considering silence
+    });
 
     this.isInitialized = true;
+    console.log('✅ VAD initialized successfully');
   }
 
   start() {

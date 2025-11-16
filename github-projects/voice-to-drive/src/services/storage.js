@@ -2,7 +2,7 @@ import { openDB } from 'idb';
 
 const DB_NAME = 'voice-recordings';
 const STORE_NAME = 'recordings';
-const DB_VERSION = 1;
+const DB_VERSION = 2; // Updated for transcription support
 
 export class StorageService {
   constructor() {
@@ -11,14 +11,26 @@ export class StorageService {
 
   async initialize() {
     this.db = await openDB(DB_NAME, DB_VERSION, {
-      upgrade(db) {
+      upgrade(db, oldVersion, newVersion, transaction) {
+        let store;
+
+        // Create store if it doesn't exist (v1)
         if (!db.objectStoreNames.contains(STORE_NAME)) {
-          const store = db.createObjectStore(STORE_NAME, {
+          store = db.createObjectStore(STORE_NAME, {
             keyPath: 'id',
             autoIncrement: true
           });
           store.createIndex('timestamp', 'timestamp');
           store.createIndex('synced', 'synced');
+        } else {
+          store = transaction.objectStore(STORE_NAME);
+        }
+
+        // Add transcription indexes (v2)
+        if (oldVersion < 2) {
+          if (!store.indexNames.contains('transcribed')) {
+            store.createIndex('transcribed', 'transcribed');
+          }
         }
       },
     });
@@ -29,9 +41,13 @@ export class StorageService {
       blob,
       timestamp: new Date().toISOString(),
       synced: false,
+      transcribed: false,
+      transcript: null,
+      transcriptionError: null,
       fileName: metadata.fileName,
       drivePath: metadata.drivePath,
       retryCount: 0,
+      transcriptionRetryCount: 0,
       ...metadata
     };
 
@@ -41,9 +57,15 @@ export class StorageService {
   }
 
   async getUnsyncedRecordings() {
-    const tx = this.db.transaction(STORE_NAME, 'readonly');
-    const index = tx.store.index('synced');
-    return await index.getAll(false);
+    try {
+      const tx = this.db.transaction(STORE_NAME, 'readonly');
+      const index = tx.store.index('synced');
+      const recordings = await index.getAll(IDBKeyRange.only(false));
+      return recordings || [];
+    } catch (error) {
+      console.warn('Error getting unsynced recordings:', error);
+      return [];
+    }
   }
 
   async markAsSynced(id) {
@@ -78,5 +100,52 @@ export class StorageService {
   async getPendingCount() {
     const unsynced = await this.getUnsyncedRecordings();
     return unsynced.length;
+  }
+
+  // Transcription management methods
+
+  async updateTranscript(id, transcript, metadata = {}) {
+    const recording = await this.db.get(STORE_NAME, id);
+    if (recording) {
+      recording.transcribed = true;
+      recording.transcript = transcript;
+      recording.transcriptionError = null;
+      recording.transcribedAt = new Date().toISOString();
+      recording.transcriptionMetadata = metadata;
+      await this.db.put(STORE_NAME, recording);
+      console.log(`Transcript saved for recording ${id}`);
+    }
+  }
+
+  async updateTranscriptionError(id, error) {
+    const recording = await this.db.get(STORE_NAME, id);
+    if (recording) {
+      recording.transcribed = false;
+      recording.transcriptionError = error;
+      recording.transcriptionRetryCount = (recording.transcriptionRetryCount || 0) + 1;
+      recording.lastTranscriptionRetry = new Date().toISOString();
+      await this.db.put(STORE_NAME, recording);
+    }
+  }
+
+  async getUntranscribedRecordings() {
+    try {
+      const tx = this.db.transaction(STORE_NAME, 'readonly');
+      const index = tx.store.index('transcribed');
+      const recordings = await index.getAll(IDBKeyRange.only(false));
+      // Filter out recordings with too many retry attempts
+      return recordings.filter(r => (r.transcriptionRetryCount || 0) < 5);
+    } catch (error) {
+      console.warn('Error getting untranscribed recordings:', error);
+      return [];
+    }
+  }
+
+  async getRecording(id) {
+    return await this.db.get(STORE_NAME, id);
+  }
+
+  async getAllRecordings() {
+    return await this.db.getAll(STORE_NAME);
   }
 }

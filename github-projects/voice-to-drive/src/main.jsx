@@ -6,12 +6,19 @@ import App from './App';
 
 console.log('🔵 React imported successfully');
 
-// Load Google API script
-const script = document.createElement('script');
-script.src = 'https://apis.google.com/js/api.js';
-script.async = true;
-script.defer = true;
-document.head.appendChild(script);
+// Load Google Identity Services (new auth library)
+const gsiScript = document.createElement('script');
+gsiScript.src = 'https://accounts.google.com/gsi/client';
+gsiScript.async = true;
+gsiScript.defer = true;
+document.head.appendChild(gsiScript);
+
+// Load Google API client (for Drive API calls)
+const gapiScript = document.createElement('script');
+gapiScript.src = 'https://apis.google.com/js/api.js';
+gapiScript.async = true;
+gapiScript.defer = true;
+document.head.appendChild(gapiScript);
 
 console.log('🔵 About to render React app...');
 

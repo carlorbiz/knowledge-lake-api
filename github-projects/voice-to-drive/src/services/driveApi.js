@@ -1,58 +1,98 @@
-/* global gapi */
+/* global gapi, google */
 
 export class DriveApiService {
   constructor() {
     this.accessToken = null;
+    this.tokenClient = null;
     this.isInitialized = false;
   }
 
   async initialize(clientId, apiKey) {
     return new Promise((resolve, reject) => {
-      gapi.load('client:auth2', async () => {
-        try {
-          await gapi.client.init({
-            apiKey: apiKey,
-            clientId: clientId,
-            discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
-            scope: 'https://www.googleapis.com/auth/drive.file'
-          });
+      // Wait for both gapi and google.accounts to be available
+      const checkLibraries = setInterval(() => {
+        if (typeof gapi !== 'undefined' && typeof google !== 'undefined' && google.accounts) {
+          clearInterval(checkLibraries);
 
-          this.isInitialized = true;
-          console.log('Google Drive API initialized successfully');
-          resolve();
-        } catch (error) {
-          console.error('Failed to initialize Google Drive API:', error);
-          reject(error);
+          // Initialize gapi client for Drive API
+          gapi.load('client', async () => {
+            try {
+              await gapi.client.init({
+                apiKey: apiKey,
+                discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
+              });
+
+              // Initialize OAuth2 token client (new GIS library)
+              this.tokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: clientId,
+                scope: 'https://www.googleapis.com/auth/drive.file',
+                callback: (response) => {
+                  if (response.error) {
+                    console.error('Token error:', response);
+                    return;
+                  }
+                  this.accessToken = response.access_token;
+                  gapi.client.setToken({ access_token: this.accessToken });
+                  console.log('Access token received');
+                }
+              });
+
+              this.isInitialized = true;
+              console.log('Google Drive API initialized successfully');
+              resolve();
+            } catch (error) {
+              console.error('Failed to initialize Google Drive API:', error);
+              reject(error);
+            }
+          });
         }
-      });
+      }, 100);
+
+      // Timeout after 10 seconds
+      setTimeout(() => {
+        clearInterval(checkLibraries);
+        reject(new Error('Timeout waiting for Google libraries'));
+      }, 10000);
     });
   }
 
   async signIn() {
-    const auth = gapi.auth2.getAuthInstance();
-    if (auth.isSignedIn.get()) {
-      this.accessToken = auth.currentUser.get().getAuthResponse().access_token;
-      return true;
-    }
+    return new Promise((resolve) => {
+      if (!this.tokenClient) {
+        console.error('Token client not initialized');
+        resolve(false);
+        return;
+      }
 
-    try {
-      await auth.signIn();
-      this.accessToken = auth.currentUser.get().getAuthResponse().access_token;
-      return true;
-    } catch (error) {
-      console.error('Sign in failed:', error);
-      return false;
-    }
+      // Check if we already have a valid token
+      const token = gapi.client.getToken();
+      if (token && token.access_token) {
+        this.accessToken = token.access_token;
+        console.log('Already signed in');
+        resolve(true);
+        return;
+      }
+
+      // Request access token
+      this.tokenClient.callback = (response) => {
+        if (response.error) {
+          console.error('Sign in failed:', response);
+          resolve(false);
+          return;
+        }
+        this.accessToken = response.access_token;
+        gapi.client.setToken({ access_token: this.accessToken });
+        console.log('Sign in successful');
+        resolve(true);
+      };
+
+      this.tokenClient.requestAccessToken({ prompt: 'consent' });
+    });
   }
 
   isSignedIn() {
-    try {
-      const auth = gapi.auth2.getAuthInstance();
-      return auth && auth.isSignedIn && auth.isSignedIn.get();
-    } catch (error) {
-      console.error('Error checking sign-in status:', error);
-      return false;
-    }
+    const token = gapi.client.getToken();
+    return token !== null && token.access_token !== null;
   }
 
   async ensureFolderPath(year, month, day) {

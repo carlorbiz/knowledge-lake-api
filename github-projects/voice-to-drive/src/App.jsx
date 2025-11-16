@@ -6,6 +6,7 @@ import { AudioRecorderService } from './services/recorder';
 import { StorageService } from './services/storage';
 import { DriveApiService } from './services/driveApi';
 import { SyncManager } from './services/syncManager';
+import { TranscriptionService } from './services/transcription';
 import './App.css';
 
 /* global gapi */
@@ -97,8 +98,18 @@ function App() {
         console.log('Step 7: Already signed in!');
       }
 
-      console.log('Step 8: Creating sync manager...');
-      const syncManager = new SyncManager(storage, drive);
+      console.log('Step 8: Creating transcription service...');
+      const WORKER_URL = import.meta.env.VITE_TRANSCRIPTION_WORKER_URL;
+      const transcription = WORKER_URL ? new TranscriptionService(WORKER_URL) : null;
+
+      if (transcription && transcription.isAvailable()) {
+        console.log('✓ Transcription service available at:', WORKER_URL);
+      } else {
+        console.warn('⚠ Transcription service not configured. Set VITE_TRANSCRIPTION_WORKER_URL in .env');
+      }
+
+      console.log('Step 9: Creating sync manager...');
+      const syncManager = new SyncManager(storage, drive, transcription);
 
       // Set up sync status callback
       syncManager.setStatusChangeCallback((status) => {
@@ -107,10 +118,16 @@ function App() {
 
       // Initial sync status check
       const pendingCount = await storage.getPendingCount();
-      setSyncStatus({ pending: pendingCount, syncing: false });
+      const untranscribed = transcription ? await storage.getUntranscribedRecordings() : [];
+      setSyncStatus({
+        pending: pendingCount,
+        syncing: false,
+        transcribing: false,
+        untranscribed: untranscribed.length,
+      });
 
-      console.log('Step 9: All initialized successfully!');
-      setServices({ vad, recorder, storage, drive, syncManager });
+      console.log('Step 10: All initialized successfully!');
+      setServices({ vad, recorder, storage, drive, syncManager, transcription });
       setInitialized(true);
     } catch (error) {
       console.error('❌ Initialization error:', error);
