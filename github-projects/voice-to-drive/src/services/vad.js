@@ -25,6 +25,13 @@ export class VADService {
       positiveSpeechThreshold: 0.8,  // Tunable for car noise
       minSpeechFrames: 3,
       redemptionFrames: 8,  // How long to wait before considering silence
+      // Specify paths for WASM/ONNX files
+      modelURL: window.location.origin + '/silero_vad_v5.onnx',
+      workletURL: window.location.origin + '/vad.worklet.bundle.min.js',
+      ortConfig: (ort) => {
+        // Configure ONNX Runtime to find WASM files in root
+        ort.env.wasm.wasmPaths = window.location.origin + '/';
+      }
     });
 
     this.isInitialized = true;

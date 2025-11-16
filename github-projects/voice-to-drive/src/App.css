@@ -130,3 +130,27 @@
 .loading-container small {
   color: #666;
 }
+
+.activity-log {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border-left: 4px solid #667eea;
+}
+
+.activity-log h4 {
+  margin: 0 0 10px 0;
+  color: #667eea;
+  font-size: 16px;
+}
+
+.activity-log p {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.activity-log strong {
+  color: #667eea;
+}

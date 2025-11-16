@@ -9,7 +9,11 @@ export class SyncManager {
     this.syncInterval = null;
     this.transcriptionInterval = null;
     this.onStatusChange = null;
-    this.uploadAudio = false; // Set to true to also upload audio files alongside transcripts
+    this.onError = null; // NEW: Error callback
+    this.lastError = null; // NEW: Track last error
+    // If no transcription service, always upload audio
+    this.uploadAudio = !transcriptionService;
+    console.log(`Audio upload ${this.uploadAudio ? 'ENABLED' : 'disabled'} (transcription: ${transcriptionService ? 'available' : 'not available'})`);
   }
 
   async syncAll() {
@@ -30,19 +34,33 @@ export class SyncManager {
       const unsyncedRecordings = await this.storage.getUnsyncedRecordings();
       console.log(`Found ${unsyncedRecordings.length} recordings to sync`);
 
+      if (unsyncedRecordings.length === 0) {
+        console.log('No recordings to sync');
+        return;
+      }
+
       for (const recording of unsyncedRecordings) {
         try {
           await this.syncRecording(recording);
+          this.lastError = null; // Clear error on success
         } catch (error) {
           console.error(`Failed to sync recording ${recording.id}:`, error);
+          this.lastError = error.message;
+          this.notifyError(`Upload failed: ${error.message}`);
+
           await this.storage.incrementRetryCount(recording.id);
 
           // Give up after 5 retries
           if (recording.retryCount >= 5) {
             console.error(`Recording ${recording.id} failed after 5 retries, keeping in queue`);
+            this.notifyError(`Recording ${recording.id} failed after 5 retries`);
           }
         }
       }
+    } catch (error) {
+      console.error('Sync error:', error);
+      this.lastError = error.message;
+      this.notifyError(`Sync error: ${error.message}`);
     } finally {
       this.isSyncing = false;
       this.notifyStatusChange();
@@ -111,17 +129,26 @@ export class SyncManager {
       const untranscribed = await this.storage.getUntranscribedRecordings();
       console.log(`Found ${untranscribed.length} recordings to transcribe`);
 
+      if (untranscribed.length === 0) {
+        console.log('No recordings to transcribe');
+        return;
+      }
+
       for (const recording of untranscribed) {
         try {
           await this.transcribeRecording(recording);
         } catch (error) {
           console.error(`Failed to transcribe recording ${recording.id}:`, error);
+          this.notifyError(`Transcription failed: ${error.message}`);
           await this.storage.updateTranscriptionError(
             recording.id,
             error.error || error.message || 'Transcription failed'
           );
         }
       }
+    } catch (error) {
+      console.error('Transcription error:', error);
+      this.notifyError(`Transcription error: ${error.message}`);
     } finally {
       this.isTranscribing = false;
       this.notifyStatusChange();
@@ -180,6 +207,17 @@ export class SyncManager {
     this.onStatusChange = callback;
   }
 
+  setErrorCallback(callback) {
+    this.onError = callback;
+  }
+
+  notifyError(errorMessage) {
+    console.error('SyncManager error:', errorMessage);
+    if (this.onError) {
+      this.onError(errorMessage);
+    }
+  }
+
   async notifyStatusChange() {
     if (this.onStatusChange) {
       const pendingCount = await this.storage.getPendingCount();
@@ -192,6 +230,7 @@ export class SyncManager {
         transcribing: this.isTranscribing,
         pending: pendingCount,
         untranscribed: untranscribed.length,
+        lastError: this.lastError,
       });
     }
   }

@@ -99,68 +99,95 @@ export class DriveApiService {
     // Create folder structure: recordings/YYYY/MM/DD
     const rootName = 'recordings';
 
-    let rootId = await this.findOrCreateFolder(rootName, null);
-    let yearId = await this.findOrCreateFolder(year, rootId);
-    let monthId = await this.findOrCreateFolder(month, yearId);
-    let dayId = await this.findOrCreateFolder(day, monthId);
+    try {
+      let rootId = await this.findOrCreateFolder(rootName, null);
+      let yearId = await this.findOrCreateFolder(year, rootId);
+      let monthId = await this.findOrCreateFolder(month, yearId);
+      let dayId = await this.findOrCreateFolder(day, monthId);
 
-    return dayId;
+      return dayId;
+    } catch (error) {
+      console.error('Failed to create folder structure:', error);
+      throw new Error(`Failed to create Drive folders: ${error.message}`);
+    }
   }
 
   async findOrCreateFolder(name, parentId) {
-    // Search for existing folder
-    let query = `name='${name}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;
-    if (parentId) {
-      query += ` and '${parentId}' in parents`;
+    try {
+      // Search for existing folder
+      let query = `name='${name}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;
+      if (parentId) {
+        query += ` and '${parentId}' in parents`;
+      }
+
+      const response = await gapi.client.drive.files.list({
+        q: query,
+        fields: 'files(id, name)',
+        spaces: 'drive'
+      });
+
+      if (response.result.files.length > 0) {
+        console.log(`Found existing folder: ${name} (${response.result.files[0].id})`);
+        return response.result.files[0].id;
+      }
+
+      // Create folder if not found
+      const folderMetadata = {
+        name: name,
+        mimeType: 'application/vnd.google-apps.folder',
+        parents: parentId ? [parentId] : []
+      };
+
+      const folder = await gapi.client.drive.files.create({
+        resource: folderMetadata,
+        fields: 'id'
+      });
+
+      console.log(`Created folder: ${name} (${folder.result.id})`);
+      return folder.result.id;
+    } catch (error) {
+      console.error(`Failed to find/create folder "${name}":`, error);
+      throw new Error(`Drive folder error for "${name}": ${error.message || error.result?.error?.message || 'Unknown error'}`);
     }
-
-    const response = await gapi.client.drive.files.list({
-      q: query,
-      fields: 'files(id, name)',
-      spaces: 'drive'
-    });
-
-    if (response.result.files.length > 0) {
-      return response.result.files[0].id;
-    }
-
-    // Create folder if not found
-    const folderMetadata = {
-      name: name,
-      mimeType: 'application/vnd.google-apps.folder',
-      parents: parentId ? [parentId] : []
-    };
-
-    const folder = await gapi.client.drive.files.create({
-      resource: folderMetadata,
-      fields: 'id'
-    });
-
-    return folder.result.id;
   }
 
   async uploadFile(blob, fileName, folderId) {
-    const metadata = {
-      name: fileName,
-      parents: [folderId]
-    };
+    try {
+      if (!this.accessToken) {
+        throw new Error('Not authenticated - access token missing');
+      }
 
-    const formData = new FormData();
-    formData.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
-    formData.append('file', blob);
+      const metadata = {
+        name: fileName,
+        parents: [folderId]
+      };
 
-    const response = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${this.accessToken}`
-      },
-      body: formData
-    });
+      const formData = new FormData();
+      formData.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+      formData.append('file', blob);
 
-    if (!response.ok) {
-      throw new Error(`Upload failed: ${response.statusText}`);
+      console.log(`Uploading file: ${fileName} (${blob.size} bytes) to folder ${folderId}`);
+
+      const response = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${this.accessToken}`
+        },
+        body: formData
+      });
+
+      if (!response.ok) {
+        const errorBody = await response.text();
+        console.error('Upload failed with status:', response.status, errorBody);
+        throw new Error(`Upload failed (${response.status}): ${response.statusText} - ${errorBody}`);
+      }
+
+      const result = await response.json();
+      console.log(`✅ Upload successful: ${fileName} (${result.id})`);
+      return result;
+    } catch (error) {
+      console.error(`Failed to upload ${fileName}:`, error);
+      throw new Error(`File upload error: ${error.message}`);
     }
-
-    return await response.json();
   }
 }

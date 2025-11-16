@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "ai-orchestration": {
+      "command": "node",
+      "args": [
+        "C:\\Users\\carlo\\Development\\mem0-sync\\mem0\\mcp-ai-orchestration\\dist\\index.js"
+      ]
+    }
+  }
+}
