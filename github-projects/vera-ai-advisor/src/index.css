@@ -49,18 +49,30 @@ body {
 }
 .aurora-background {
   background-image:
+      /* Semi-transparent overlay to ensure conversation area readability */
+      linear-gradient(to right, rgba(248, 250, 252, 0.4) 0%, rgba(248, 250, 252, 0.85) 15%, rgba(248, 250, 252, 0.85) 85%, rgba(248, 250, 252, 0.4) 100%),
       radial-gradient(at 20% 20%, hsla(212, 80%, 70%, 0.15) 0px, transparent 50%),
       radial-gradient(at 80% 20%, hsla(280, 80%, 70%, 0.15) 0px, transparent 50%),
-      radial-gradient(at 50% 80%, hsla(340, 80%, 70%, 0.15) 0px, transparent 50%);
-  background-size: 200% 200%;
+      radial-gradient(at 50% 80%, hsla(340, 80%, 70%, 0.15) 0px, transparent 50%),
+      /* Professional advisor silhouette - positioned on outer edges */
+      url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:rgb(129,140,248);stop-opacity:0.08"/><stop offset="100%" style="stop-color:rgb(79,70,229);stop-opacity:0.12"/></linearGradient></defs><g opacity="0.6"><ellipse cx="150" cy="250" rx="80" ry="85" fill="url(%23g1)"/><ellipse cx="150" cy="370" rx="95" ry="140" fill="url(%23g1)"/><ellipse cx="1050" cy="250" rx="80" ry="85" fill="url(%23g1)"/><ellipse cx="1050" cy="370" rx="95" ry="140" fill="url(%23g1)"/></g></svg>');
+  background-size: cover, 200% 200%, 200% 200%, 200% 200%, cover;
+  background-position: center, 0% 50%, 0% 50%, 0% 50%, center;
+  background-repeat: no-repeat, repeat, repeat, repeat, no-repeat;
   animation: aurora 15s ease infinite alternate;
 }
 .dark .aurora-background {
   background-image:
+    /* Semi-transparent overlay for dark mode */
+    linear-gradient(to right, rgba(23, 23, 34, 0.4) 0%, rgba(23, 23, 34, 0.85) 15%, rgba(23, 23, 34, 0.85) 85%, rgba(23, 23, 34, 0.4) 100%),
     radial-gradient(at 20% 20%, hsla(212, 80%, 70%, 0.2) 0px, transparent 50%),
     radial-gradient(at 80% 20%, hsla(280, 80%, 70%, 0.2) 0px, transparent 50%),
-    radial-gradient(at 50% 80%, hsla(340, 80%, 70%, 0.1) 0px, transparent 50%);
-  background-size: 200% 200%;
+    radial-gradient(at 50% 80%, hsla(340, 80%, 70%, 0.1) 0px, transparent 50%),
+    /* Professional advisor silhouette for dark mode */
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:rgb(129,140,248);stop-opacity:0.12"/><stop offset="100%" style="stop-color:rgb(79,70,229);stop-opacity:0.16"/></linearGradient></defs><g opacity="0.5"><ellipse cx="150" cy="250" rx="80" ry="85" fill="url(%23g1)"/><ellipse cx="150" cy="370" rx="95" ry="140" fill="url(%23g1)"/><ellipse cx="1050" cy="250" rx="80" ry="85" fill="url(%23g1)"/><ellipse cx="1050" cy="370" rx="95" ry="140" fill="url(%23g1)"/></g></svg>');
+  background-size: cover, 200% 200%, 200% 200%, 200% 200%, cover;
+  background-position: center, 0% 50%, 0% 50%, 0% 50%, center;
+  background-repeat: no-repeat, repeat, repeat, repeat, no-repeat;
   animation: aurora 15s ease infinite alternate;
 }
 
