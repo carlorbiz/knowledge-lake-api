@@ -13,6 +13,12 @@ app = Flask(__name__)
 CORS(app)  # Enable cross-origin requests
 memory = Memory()
 
+# DEPLOYMENT VERIFICATION: Print at startup to confirm enhanced version is loaded
+print("=" * 80)
+print("🚀 API_SERVER.PY LOADED - VERSION 2.0.1_enhanced")
+print("📍 Enhanced endpoints: /api/conversations/ingest, /api/entities, /api/aurelia/query")
+print("=" * 80)
+
 # In-memory storage for structured entity/relationship data
 # TODO: Migrate to PostgreSQL/Supabase for production persistence
 conversations_db = []
