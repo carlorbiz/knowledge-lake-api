@@ -46,7 +46,7 @@ def health_check():
     return jsonify({
         'status': 'healthy',
         'service': 'mem0_knowledge_lake',
-        'version': '2.0_enhanced',
+        'version': '2.0.1_enhanced',
         'endpoints': {
             'legacy': ['/knowledge/search', '/knowledge/add', '/knowledge/context'],
             'conversations': ['/api/conversations/ingest', '/api/conversations'],
