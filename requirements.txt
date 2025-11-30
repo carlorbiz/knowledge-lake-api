@@ -4,3 +4,5 @@ mem0ai==0.1.115
 openai>=1.33.0
 requests>=2.31.0
 python-dotenv>=1.0.0
+waitress==3.0.0
+gunicorn==21.2.0
