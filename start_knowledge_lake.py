@@ -6,12 +6,8 @@ Runs on port 5002 locally, or uses Railway's PORT environment variable in produc
 from waitress import serve
 import logging
 import os
-import sys
 
-# Force reload of api_server module to avoid cached imports
-if 'api_server' in sys.modules:
-    del sys.modules['api_server']
-
+# Import app directly - Railway handles fresh deploys
 from api_server import app
 
 # Configure logging
