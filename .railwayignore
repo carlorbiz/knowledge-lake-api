@@ -1,0 +1,30 @@
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Ignore development files
+.env
+.venv
+venv/
+ENV/
+env/
+
+# Ignore IDE files
+.vscode/
+.idea/
+
+# Ignore git
+.git/
+.gitignore
+
+# Ignore test files
+test_*.py
+*_test.py
+tests/
+
+# Ignore documentation (Railway doesn't need these)
+*.md
+!README.md

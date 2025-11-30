@@ -4,9 +4,15 @@ Runs on port 5002 locally, or uses Railway's PORT environment variable in produc
 """
 
 from waitress import serve
-from api_server import app
 import logging
 import os
+import sys
+
+# Force reload of api_server module to avoid cached imports
+if 'api_server' in sys.modules:
+    del sys.modules['api_server']
+
+from api_server import app
 
 # Configure logging
 logging.basicConfig(
