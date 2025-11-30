@@ -58,13 +58,32 @@ export class StorageService {
 
   async getUnsyncedRecordings() {
     try {
-      const tx = this.db.transaction(STORE_NAME, 'readonly');
-      const index = tx.store.index('synced');
-      const recordings = await index.getAll(IDBKeyRange.only(false));
-      return recordings || [];
+      // Try using index first (for properly upgraded databases)
+      if (this.db.objectStoreNames.contains(STORE_NAME)) {
+        const tx = this.db.transaction(STORE_NAME, 'readonly');
+        const store = tx.store;
+
+        // Check if index exists before using it
+        if (store.indexNames.contains('synced')) {
+          const index = store.index('synced');
+          const recordings = await index.getAll(IDBKeyRange.only(false));
+          return recordings || [];
+        }
+      }
+
+      // Fallback: Get all recordings and filter manually
+      // This handles old databases without the 'synced' index
+      console.warn('Index "synced" not found, using manual filter');
+      const allRecordings = await this.getAllRecordings();
+      return allRecordings.filter(r => !r.synced);
     } catch (error) {
-      console.warn('Error getting unsynced recordings:', error);
-      return [];
+      console.error('Error getting unsynced recordings:', error);
+      // Last resort: return all recordings
+      try {
+        return await this.getAllRecordings();
+      } catch (e) {
+        return [];
+      }
     }
   }
 
@@ -130,11 +149,24 @@ export class StorageService {
 
   async getUntranscribedRecordings() {
     try {
-      const tx = this.db.transaction(STORE_NAME, 'readonly');
-      const index = tx.store.index('transcribed');
-      const recordings = await index.getAll(IDBKeyRange.only(false));
-      // Filter out recordings with too many retry attempts
-      return recordings.filter(r => (r.transcriptionRetryCount || 0) < 5);
+      // Try using index first (for properly upgraded databases)
+      if (this.db.objectStoreNames.contains(STORE_NAME)) {
+        const tx = this.db.transaction(STORE_NAME, 'readonly');
+        const store = tx.store;
+
+        // Check if index exists before using it
+        if (store.indexNames.contains('transcribed')) {
+          const index = store.index('transcribed');
+          const recordings = await index.getAll(IDBKeyRange.only(false));
+          // Filter out recordings with too many retry attempts
+          return recordings.filter(r => (r.transcriptionRetryCount || 0) < 5);
+        }
+      }
+
+      // Fallback: Get all recordings and filter manually
+      console.warn('Index "transcribed" not found, using manual filter');
+      const allRecordings = await this.getAllRecordings();
+      return allRecordings.filter(r => !r.transcribed && (r.transcriptionRetryCount || 0) < 5);
     } catch (error) {
       console.warn('Error getting untranscribed recordings:', error);
       return [];
@@ -147,5 +179,16 @@ export class StorageService {
 
   async getAllRecordings() {
     return await this.db.getAll(STORE_NAME);
+  }
+
+  async getTotalCount() {
+    try {
+      const tx = this.db.transaction(STORE_NAME, 'readonly');
+      const count = await tx.store.count();
+      return count;
+    } catch (error) {
+      console.error('Error getting total count:', error);
+      return 0;
+    }
   }
 }

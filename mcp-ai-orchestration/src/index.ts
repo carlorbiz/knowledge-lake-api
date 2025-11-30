@@ -45,6 +45,12 @@ async function initBrowser(): Promise<BrowserContext> {
     viewport: { width: 1280, height: 720 },
     acceptDownloads: false, // Security: no downloads
     bypassCSP: false, // Security: respect CSP
+    args: [
+      '--disable-blink-features=AutomationControlled', // Hide automation
+      '--disable-dev-shm-usage',
+      '--disable-web-security', // Allow cross-origin (needed for some AI sites)
+      '--no-sandbox',
+    ]
   });
 
   // Security: Block requests to non-allowed domains

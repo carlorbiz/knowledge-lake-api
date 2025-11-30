@@ -6,9 +6,9 @@
 export const config = {
   // Browser settings
   browser: {
-    // Use Chrome with existing profile (already authenticated)
+    // Use dedicated Chrome profile for MCP (separate from main Chrome to avoid conflicts)
     userDataDir: process.env.CHROME_PROFILE_PATH ||
-      'C:\\Users\\carlo\\AppData\\Local\\Google\\Chrome\\User Data',
+      'C:\\Users\\carlo\\AppData\\Local\\MCP-Chrome-Profile',
     profileName: process.env.CHROME_PROFILE || 'Default',
     headless: false, // Must be false for persistent context
     channel: 'chrome' as const

@@ -97,11 +97,12 @@ export class SyncManager {
       console.log(`Uploaded audio for recording ${recording.id}`);
     }
 
-    // Mark as synced and delete from local storage
+    // Mark as synced but DON'T delete - keep as backup
     await this.storage.markAsSynced(recording.id);
-    await this.storage.deleteRecording(recording.id);
+    // DISABLED: await this.storage.deleteRecording(recording.id);
+    // Recordings kept in IndexedDB for safety until user manually exports/clears
 
-    console.log(`Successfully synced recording ${recording.id} as ${baseFileName}`);
+    console.log(`Successfully synced recording ${recording.id} as ${baseFileName} (kept in IndexedDB as backup)`);
   }
 
   // Transcription methods

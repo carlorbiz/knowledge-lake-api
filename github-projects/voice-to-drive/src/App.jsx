@@ -21,6 +21,7 @@ function App() {
   const [recordingCount, setRecordingCount] = useState(0);
   const [lastActivity, setLastActivity] = useState('');
   const [lastError, setLastError] = useState('');
+  const [totalRecordingsInDB, setTotalRecordingsInDB] = useState(0);
 
   // Services (initialize once)
   const [services, setServices] = useState(null);
@@ -132,12 +133,17 @@ function App() {
       // Initial sync status check
       const pendingCount = await storage.getPendingCount();
       const untranscribed = transcription ? await storage.getUntranscribedRecordings() : [];
+      const totalCount = await storage.getTotalCount();
+
       setSyncStatus({
         pending: pendingCount,
         syncing: false,
         transcribing: false,
         untranscribed: untranscribed.length,
       });
+
+      setTotalRecordingsInDB(totalCount);
+      console.log(`📊 Database status: ${totalCount} total recordings, ${pendingCount} pending upload`);
 
       console.log('Step 10: All initialized successfully!');
       setServices({ vad, recorder, storage, drive, syncManager, transcription });
@@ -234,6 +240,76 @@ function App() {
     }
   }
 
+  async function exportAllRecordings() {
+    if (!services) return;
+
+    try {
+      setLastActivity('📥 Exporting all recordings...');
+      const { storage } = services;
+      const allRecordings = await storage.getAllRecordings();
+
+      if (allRecordings.length === 0) {
+        setLastActivity('⚠️ No recordings found to export');
+        setTotalRecordingsInDB(0);
+        return;
+      }
+
+      setLastActivity(`📦 Found ${allRecordings.length} recordings, downloading...`);
+
+      for (const recording of allRecordings) {
+        const date = new Date(recording.timestamp);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        const baseFileName = `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
+
+        // Export transcript if available
+        if (recording.transcript) {
+          const textBlob = new Blob([recording.transcript], { type: 'text/plain' });
+          const textUrl = URL.createObjectURL(textBlob);
+          const textLink = document.createElement('a');
+          textLink.href = textUrl;
+          textLink.download = `${baseFileName}.txt`;
+          textLink.click();
+          URL.revokeObjectURL(textUrl);
+        }
+
+        // Export audio
+        if (recording.blob) {
+          const audioUrl = URL.createObjectURL(recording.blob);
+          const audioLink = document.createElement('a');
+          audioLink.href = audioUrl;
+          audioLink.download = `${baseFileName}.webm`;
+          audioLink.click();
+          URL.revokeObjectURL(audioUrl);
+        }
+
+        // Small delay to avoid overwhelming browser
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+
+      setLastActivity(`✅ Exported ${allRecordings.length} recordings! Check your Downloads folder.`);
+      setLastError('');
+    } catch (error) {
+      console.error('Export error:', error);
+      setLastError(`Export failed: ${error.message}`);
+    }
+  }
+
+  async function refreshDatabaseStatus() {
+    if (!services) return;
+    try {
+      const { storage } = services;
+      const totalCount = await storage.getTotalCount();
+      setTotalRecordingsInDB(totalCount);
+    } catch (error) {
+      console.error('Error refreshing database status:', error);
+    }
+  }
+
   if (error) {
     return (
       <div className="app">
@@ -286,7 +362,8 @@ function App() {
             <>
               <div className="activity-log">
                 <h4>📊 Session Summary</h4>
-                <p><strong>Total recordings:</strong> {recordingCount}</p>
+                <p><strong>Total recordings this session:</strong> {recordingCount}</p>
+                <p><strong>Total in database:</strong> {totalRecordingsInDB}</p>
                 <p><strong>Last action:</strong> {lastActivity}</p>
                 {lastError && (
                   <p style={{color: '#e74c3c'}}><strong>{lastError}</strong></p>
@@ -294,6 +371,33 @@ function App() {
                 <p><strong>Pending upload:</strong> {syncStatus.pending || 0}</p>
                 {syncStatus.pending === 0 && recordingCount > 0 && (
                   <p style={{color: '#27ae60'}}><strong>✅ All files uploaded!</strong></p>
+                )}
+                {totalRecordingsInDB > 0 && (
+                  <div style={{marginTop: '15px'}}>
+                    <button
+                      onClick={async () => {
+                        await exportAllRecordings();
+                        await refreshDatabaseStatus();
+                      }}
+                      style={{
+                        background: '#2196f3',
+                        color: 'white',
+                        border: 'none',
+                        padding: '12px 24px',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontSize: '16px',
+                        fontWeight: 'bold',
+                        width: '100%',
+                        maxWidth: '300px'
+                      }}
+                    >
+                      💾 Export All {totalRecordingsInDB} Recordings
+                    </button>
+                    <p style={{fontSize: '12px', color: '#666', marginTop: '8px'}}>
+                      Downloads all recordings as .webm and .txt files
+                    </p>
+                  </div>
                 )}
                 <p style={{fontSize: '12px', color: '#666', marginTop: '10px'}}>
                   Check Drive: recordings/{new Date().getFullYear()}/{String(new Date().getMonth() + 1).padStart(2, '0')}/{String(new Date().getDate()).padStart(2, '0')}/
@@ -311,6 +415,43 @@ function App() {
                 <li>Recordings upload to Google Drive automatically</li>
                 <li>Tap "End Session" when done</li>
               </ol>
+
+              {totalRecordingsInDB > 0 && (
+                <div style={{marginTop: '20px', padding: '15px', background: '#e3f2fd', borderRadius: '5px', border: '1px solid #2196f3'}}>
+                  <h4 style={{margin: '0 0 10px 0', color: '#1976d2'}}>📦 Recordings Available</h4>
+                  <p style={{margin: '0 0 10px 0', color: '#1565c0'}}>
+                    You have <strong>{totalRecordingsInDB} recordings</strong> stored in this browser.
+                  </p>
+                  <button
+                    onClick={async () => {
+                      await exportAllRecordings();
+                      await refreshDatabaseStatus();
+                    }}
+                    style={{
+                      background: '#2196f3',
+                      color: 'white',
+                      border: 'none',
+                      padding: '12px 24px',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      fontSize: '16px',
+                      fontWeight: 'bold',
+                      width: '100%',
+                      maxWidth: '300px'
+                    }}
+                  >
+                    💾 Export All to Device
+                  </button>
+                  <p style={{fontSize: '12px', color: '#1565c0', marginTop: '8px'}}>
+                    Downloads all recordings as .webm and .txt files
+                  </p>
+                  {syncStatus.pending > 0 && (
+                    <p style={{fontSize: '12px', color: '#f57c00', marginTop: '8px', background: '#fff3cd', padding: '8px', borderRadius: '5px'}}>
+                      ⚠️ {syncStatus.pending} recordings haven't uploaded to Google Drive yet
+                    </p>
+                  )}
+                </div>
+              )}
             </>
           )}
           {sessionActive && (
@@ -349,6 +490,100 @@ function App() {
           {online ? '✓ Connected' : '⚠️ Offline mode - recordings will sync when online'}
         </small>
       </footer>
+
+      {/* ALWAYS-VISIBLE DEBUG PANEL */}
+      {initialized && (
+        <div style={{
+          position: 'fixed',
+          bottom: '60px',
+          right: '10px',
+          background: '#2c3e50',
+          color: 'white',
+          padding: '15px',
+          borderRadius: '10px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          fontSize: '13px',
+          maxWidth: '280px',
+          zIndex: 1000
+        }}>
+          <div>DB Total: <strong>{totalRecordingsInDB}</strong></div>
+          <div>This Session: <strong>{recordingCount}</strong></div>
+          <div>Pending: <strong>{syncStatus.pending || 0}</strong></div>
+          <button
+            onClick={async () => {
+              const { storage } = services;
+              const all = await storage.getAllRecordings();
+              console.log('📊 All recordings:', all);
+              alert(`Found ${all.length} recordings in database.\nCheck console for details.`);
+              setTotalRecordingsInDB(all.length);
+            }}
+            style={{
+              background: '#e67e22',
+              color: 'white',
+              border: 'none',
+              padding: '8px 12px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '12px',
+              marginTop: '8px',
+              width: '100%',
+              fontWeight: 'bold'
+            }}
+          >
+            🔍 Inspect DB
+          </button>
+          <button
+            onClick={exportAllRecordings}
+            style={{
+              background: '#27ae60',
+              color: 'white',
+              border: 'none',
+              padding: '8px 12px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '12px',
+              marginTop: '5px',
+              width: '100%',
+              fontWeight: 'bold'
+            }}
+          >
+            💾 Export All
+          </button>
+          {totalRecordingsInDB > 0 && (
+            <button
+              onClick={async () => {
+                if (!confirm(`Delete all ${totalRecordingsInDB} recordings from IndexedDB?\n\nOnly do this after confirming your exports downloaded successfully!`)) {
+                  return;
+                }
+                const { storage } = services;
+                const all = await storage.getAllRecordings();
+                for (const recording of all) {
+                  await storage.deleteRecording(recording.id);
+                }
+                setTotalRecordingsInDB(0);
+                setRecordingCount(0);
+                setSyncStatus({ pending: 0, syncing: false });
+                setLastActivity('🗑️ Database cleared');
+                alert('All recordings deleted from IndexedDB!');
+              }}
+              style={{
+                background: '#e74c3c',
+                color: 'white',
+                border: 'none',
+                padding: '8px 12px',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '12px',
+                marginTop: '5px',
+                width: '100%',
+                fontWeight: 'bold'
+              }}
+            >
+              🗑️ Clear DB
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }

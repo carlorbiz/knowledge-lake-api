@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voice to Drive - Diagnostic Tool</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 { color: #2c3e50; }
+    button {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 5px;
+    }
+    button:hover { background: #2980b9; }
+    button:disabled {
+      background: #95a5a6;
+      cursor: not-allowed;
+    }
+    .danger { background: #e74c3c; }
+    .danger:hover { background: #c0392b; }
+    .success { background: #27ae60; }
+    .success:hover { background: #229954; }
+    #output {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 20px;
+      border-radius: 5px;
+      margin-top: 20px;
+      font-family: 'Courier New', monospace;
+      white-space: pre-wrap;
+      max-height: 500px;
+      overflow-y: auto;
+      font-size: 13px;
+    }
+    .warning {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 15px 0;
+      color: #856404;
+    }
+    .info {
+      background: #d1ecf1;
+      border: 1px solid #17a2b8;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 15px 0;
+      color: #0c5460;
+    }
+    .recording-item {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      background: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔍 Voice to Drive Diagnostic Tool</h1>
+
+    <div class="info">
+      <strong>Purpose:</strong> This tool helps you inspect and recover recordings stuck in IndexedDB that haven't been uploaded to Google Drive.
+    </div>
+
+    <h2>Step 1: Inspect IndexedDB</h2>
+    <button onclick="inspectDatabase()">📊 Check IndexedDB Status</button>
+    <button onclick="listAllRecordings()">📝 List All Recordings</button>
+
+    <h2>Step 2: Export Recordings</h2>
+    <div class="warning">
+      <strong>Warning:</strong> This will download all recordings as separate files. Make sure you have enough disk space.
+    </div>
+    <button onclick="exportAllRecordings()" class="success">💾 Export All Recordings (Audio + Transcripts)</button>
+    <button onclick="exportTranscriptsOnly()" class="success">📄 Export Transcripts Only (Text Files)</button>
+
+    <h2>Step 3: Manual Upload</h2>
+    <button onclick="testDriveConnection()">🔗 Test Google Drive Connection</button>
+    <button onclick="manualSyncAll()">☁️ Force Manual Upload to Drive</button>
+
+    <h2>Step 4: Cleanup (Use After Successful Export)</h2>
+    <div class="warning">
+      <strong>Danger Zone:</strong> Only use this after confirming your recordings are safely backed up!
+    </div>
+    <button onclick="clearDatabase()" class="danger">🗑️ Clear All IndexedDB Records</button>
+
+    <div id="output"></div>
+  </div>
+
+  <script type="module">
+    import { openDB } from 'https://cdn.jsdelivr.net/npm/idb@8/+esm';
+
+    const DB_NAME = 'voice-recordings';
+    const STORE_NAME = 'recordings';
+    const DB_VERSION = 2;
+
+    let output = document.getElementById('output');
+
+    function log(message, type = 'info') {
+      const timestamp = new Date().toLocaleTimeString();
+      const prefix = type === 'error' ? '❌' : type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️';
+      output.textContent += `[${timestamp}] ${prefix} ${message}\n`;
+      output.scrollTop = output.scrollHeight;
+    }
+
+    window.inspectDatabase = async function() {
+      try {
+        log('Opening IndexedDB...', 'info');
+        const db = await openDB(DB_NAME, DB_VERSION);
+
+        const count = await db.count(STORE_NAME);
+        log(`Total recordings in database: ${count}`, 'success');
+
+        const tx = db.transaction(STORE_NAME, 'readonly');
+        const recordings = await tx.store.getAll();
+
+        const unsynced = recordings.filter(r => !r.synced);
+        const untranscribed = recordings.filter(r => !r.transcribed);
+        const synced = recordings.filter(r => r.synced);
+
+        log(`├─ Unsynced (not uploaded): ${unsynced.length}`, 'warning');
+        log(`├─ Untranscribed: ${untranscribed.length}`, 'warning');
+        log(`└─ Synced (should be deleted): ${synced.length}`, synced.length > 0 ? 'warning' : 'success');
+
+        if (unsynced.length > 0) {
+          const totalSize = unsynced.reduce((sum, r) => sum + (r.blob?.size || 0), 0);
+          const sizeMB = (totalSize / 1024 / 1024).toFixed(2);
+          log(`Total size of unsynced recordings: ${sizeMB} MB`, 'info');
+        }
+
+        // Check for errors
+        const withErrors = recordings.filter(r => r.transcriptionError);
+        if (withErrors.length > 0) {
+          log(`\nRecordings with transcription errors: ${withErrors.length}`, 'error');
+          withErrors.forEach(r => {
+            log(`  ID ${r.id}: ${r.transcriptionError}`, 'error');
+          });
+        }
+
+        // Check retry counts
+        const highRetries = recordings.filter(r => (r.retryCount || 0) >= 3);
+        if (highRetries.length > 0) {
+          log(`\nRecordings with high retry counts (upload failures): ${highRetries.length}`, 'error');
+          highRetries.forEach(r => {
+            log(`  ID ${r.id}: ${r.retryCount} retries`, 'error');
+          });
+        }
+
+      } catch (error) {
+        log(`Error inspecting database: ${error.message}`, 'error');
+      }
+    };
+
+    window.listAllRecordings = async function() {
+      try {
+        log('Fetching all recordings...', 'info');
+        const db = await openDB(DB_NAME, DB_VERSION);
+        const recordings = await db.getAll(STORE_NAME);
+
+        log(`\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`, 'info');
+        log(`Found ${recordings.length} recordings:\n`, 'info');
+
+        recordings.forEach((r, idx) => {
+          const date = new Date(r.timestamp);
+          const status = r.synced ? '✅ Synced' : '❌ Not uploaded';
+          const transcription = r.transcribed ? `✅ "${r.transcript?.substring(0, 50)}..."` : '❌ No transcript';
+          const size = r.blob ? `${(r.blob.size / 1024).toFixed(1)} KB` : 'No audio';
+
+          log(`\n[${idx + 1}] ID: ${r.id}`, 'info');
+          log(`    Timestamp: ${date.toLocaleString()}`, 'info');
+          log(`    Status: ${status}`, r.synced ? 'success' : 'warning');
+          log(`    Transcription: ${transcription}`, r.transcribed ? 'success' : 'warning');
+          log(`    Size: ${size}`, 'info');
+          if (r.retryCount > 0) {
+            log(`    Upload retries: ${r.retryCount}`, 'warning');
+          }
+          if (r.transcriptionError) {
+            log(`    Error: ${r.transcriptionError}`, 'error');
+          }
+        });
+
+        log(`\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`, 'info');
+
+      } catch (error) {
+        log(`Error listing recordings: ${error.message}`, 'error');
+      }
+    };
+
+    window.exportAllRecordings = async function() {
+      try {
+        log('Starting export of all recordings...', 'info');
+        const db = await openDB(DB_NAME, DB_VERSION);
+        const recordings = await db.getAll(STORE_NAME);
+
+        log(`Exporting ${recordings.length} recordings...`, 'info');
+
+        for (const recording of recordings) {
+          const date = new Date(recording.timestamp);
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const day = String(date.getDate()).padStart(2, '0');
+          const hours = String(date.getHours()).padStart(2, '0');
+          const minutes = String(date.getMinutes()).padStart(2, '0');
+          const seconds = String(date.getSeconds()).padStart(2, '0');
+          const timeStr = `${hours}-${minutes}-${seconds}`;
+          const baseFileName = `${year}-${month}-${day}_${timeStr}`;
+
+          // Export transcript if available
+          if (recording.transcript) {
+            const textBlob = new Blob([recording.transcript], { type: 'text/plain' });
+            const textUrl = URL.createObjectURL(textBlob);
+            const textLink = document.createElement('a');
+            textLink.href = textUrl;
+            textLink.download = `${baseFileName}.txt`;
+            textLink.click();
+            URL.revokeObjectURL(textUrl);
+            log(`Exported transcript: ${baseFileName}.txt`, 'success');
+          }
+
+          // Export audio
+          if (recording.blob) {
+            const audioUrl = URL.createObjectURL(recording.blob);
+            const audioLink = document.createElement('a');
+            audioLink.href = audioUrl;
+            audioLink.download = `${baseFileName}.webm`;
+            audioLink.click();
+            URL.revokeObjectURL(audioUrl);
+            log(`Exported audio: ${baseFileName}.webm`, 'success');
+          }
+
+          // Small delay to avoid overwhelming the browser
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+
+        log(`\nExport complete! Downloaded ${recordings.length} recordings.`, 'success');
+        log('Check your Downloads folder for the files.', 'info');
+
+      } catch (error) {
+        log(`Error exporting recordings: ${error.message}`, 'error');
+      }
+    };
+
+    window.exportTranscriptsOnly = async function() {
+      try {
+        log('Starting export of transcripts only...', 'info');
+        const db = await openDB(DB_NAME, DB_VERSION);
+        const recordings = await db.getAll(STORE_NAME);
+
+        const withTranscripts = recordings.filter(r => r.transcript);
+        log(`Found ${withTranscripts.length} recordings with transcripts...`, 'info');
+
+        // Create a combined transcript file
+        let combinedText = '# Voice to Drive - Transcript Export\n';
+        combinedText += `# Exported: ${new Date().toLocaleString()}\n`;
+        combinedText += `# Total transcripts: ${withTranscripts.length}\n\n`;
+        combinedText += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
+
+        for (const recording of withTranscripts) {
+          const date = new Date(recording.timestamp);
+          combinedText += `## Recording ${recording.id}\n`;
+          combinedText += `**Date:** ${date.toLocaleString()}\n`;
+          combinedText += `**Transcript:**\n${recording.transcript}\n\n`;
+          combinedText += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
+        }
+
+        const blob = new Blob([combinedText], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `voice-to-drive-transcripts-${new Date().toISOString().split('T')[0]}.txt`;
+        link.click();
+        URL.revokeObjectURL(url);
+
+        log(`Exported combined transcript file with ${withTranscripts.length} transcripts!`, 'success');
+
+      } catch (error) {
+        log(`Error exporting transcripts: ${error.message}`, 'error');
+      }
+    };
+
+    window.testDriveConnection = async function() {
+      try {
+        log('Testing Google Drive connection...', 'info');
+
+        // Check if gapi is loaded
+        if (typeof gapi === 'undefined') {
+          log('Google API library not loaded!', 'error');
+          log('This diagnostic page needs to be served from the main app.', 'warning');
+          return;
+        }
+
+        // Check token
+        const token = gapi.client.getToken();
+        if (!token || !token.access_token) {
+          log('No access token found. User not authenticated.', 'error');
+          log('Please sign in to Google Drive from the main app first.', 'warning');
+          return;
+        }
+
+        log('Access token found: ' + token.access_token.substring(0, 20) + '...', 'success');
+
+        // Try to list files (just one)
+        log('Attempting to list files from Drive...', 'info');
+        const response = await gapi.client.drive.files.list({
+          pageSize: 1,
+          fields: 'files(id, name)'
+        });
+
+        if (response.result.files) {
+          log(`Successfully connected to Google Drive!`, 'success');
+          log(`Sample file: ${response.result.files[0]?.name || 'No files found'}`, 'info');
+        }
+
+      } catch (error) {
+        log(`Drive connection error: ${error.message}`, 'error');
+        if (error.status === 401) {
+          log('Authentication expired. Please sign in again from the main app.', 'warning');
+        }
+      }
+    };
+
+    window.manualSyncAll = async function() {
+      log('Manual sync not yet implemented in diagnostic tool.', 'warning');
+      log('Please use the main app to trigger sync, or deploy the new version with error visibility.', 'info');
+      log('The main app has full sync logic in src/services/syncManager.js', 'info');
+    };
+
+    window.clearDatabase = async function() {
+      if (!confirm('⚠️ WARNING: This will delete ALL recordings from IndexedDB!\n\nMake sure you have exported them first.\n\nContinue?')) {
+        log('Clear operation cancelled.', 'warning');
+        return;
+      }
+
+      if (!confirm('⚠️ FINAL WARNING: Are you ABSOLUTELY SURE?\n\nThis cannot be undone!')) {
+        log('Clear operation cancelled.', 'warning');
+        return;
+      }
+
+      try {
+        log('Clearing database...', 'warning');
+        const db = await openDB(DB_NAME, DB_VERSION);
+        const count = await db.count(STORE_NAME);
+
+        await db.clear(STORE_NAME);
+
+        log(`Successfully deleted ${count} recordings from IndexedDB.`, 'success');
+        log('The database is now empty.', 'info');
+
+      } catch (error) {
+        log(`Error clearing database: ${error.message}`, 'error');
+      }
+    };
+
+    // Auto-run inspection on load
+    window.addEventListener('load', () => {
+      log('Voice to Drive Diagnostic Tool Ready', 'success');
+      log('Click "Check IndexedDB Status" to begin.\n', 'info');
+    });
+  </script>
+</body>
+</html>
