@@ -5,13 +5,22 @@ import os
 from datetime import datetime
 from dotenv import load_dotenv
 from typing import List, Dict, Any, Optional
+from mem0_config import get_mem0_config
 
 # Load environment variables from .env file
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app)  # Enable cross-origin requests
-memory = Memory()
+
+# Initialize mem0 with environment-specific configuration
+try:
+    memory = Memory(config=get_mem0_config())
+    print("✅ Mem0 initialized successfully")
+except Exception as e:
+    print(f"⚠️  Mem0 initialization warning: {e}")
+    # Fallback: Initialize without config for Railway
+    memory = Memory()
 
 # DEPLOYMENT VERIFICATION: Print at startup to confirm enhanced version is loaded
 print("=" * 80)
