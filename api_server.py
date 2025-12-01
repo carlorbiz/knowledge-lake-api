@@ -14,13 +14,19 @@ app = Flask(__name__)
 CORS(app)  # Enable cross-origin requests
 
 # Initialize mem0 with environment-specific configuration
-try:
-    memory = Memory(config=get_mem0_config())
-    print("✅ Mem0 initialized successfully")
-except Exception as e:
-    print(f"⚠️  Mem0 initialization warning: {e}")
-    # Fallback: Initialize without config for Railway
-    memory = Memory()
+# Skip mem0 initialization if OPENAI_API_KEY is missing
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
+if not OPENAI_API_KEY:
+    print("⚠️  OPENAI_API_KEY not set - mem0 features disabled")
+    memory = None
+else:
+    try:
+        memory = Memory(config=get_mem0_config())
+        print("✅ Mem0 initialized successfully")
+    except Exception as e:
+        print(f"⚠️  Mem0 initialization failed: {e}")
+        print("⚠️  Continuing without mem0 - semantic search disabled")
+        memory = None
 
 # DEPLOYMENT VERIFICATION: Print at startup to confirm enhanced version is loaded
 print("=" * 80)
