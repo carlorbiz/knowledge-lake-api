@@ -1,11 +1,9 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from mem0 import Memory
 import os
 from datetime import datetime
 from dotenv import load_dotenv
 from typing import List, Dict, Any, Optional
-from mem0_config import get_mem0_config
 
 # Load environment variables from .env file
 load_dotenv()
@@ -13,25 +11,36 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)  # Enable cross-origin requests
 
-# Initialize mem0 with environment-specific configuration
-# Skip mem0 initialization if OPENAI_API_KEY is missing
-OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
-if not OPENAI_API_KEY:
-    print("⚠️  OPENAI_API_KEY not set - mem0 features disabled")
-    memory = None
-else:
-    try:
-        memory = Memory(config=get_mem0_config())
-        print("✅ Mem0 initialized successfully")
-    except Exception as e:
-        print(f"⚠️  Mem0 initialization failed: {e}")
-        print("⚠️  Continuing without mem0 - semantic search disabled")
+# Try to import mem0 - gracefully handle if not available or dependencies missing
+memory = None
+try:
+    from mem0 import Memory
+    from mem0_config import get_mem0_config
+
+    # Initialize mem0 with environment-specific configuration
+    # Skip mem0 initialization if OPENAI_API_KEY is missing
+    OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
+    if not OPENAI_API_KEY:
+        print("[WARNING] OPENAI_API_KEY not set - mem0 features disabled")
         memory = None
+    else:
+        try:
+            config = get_mem0_config()
+            memory = Memory(**config) if config else Memory()
+            print("[SUCCESS] Mem0 initialized successfully")
+        except Exception as e:
+            print(f"[WARNING] Mem0 initialization failed: {e}")
+            print("[WARNING] Continuing without mem0 - semantic search disabled")
+            memory = None
+except ImportError as e:
+    print(f"[WARNING] Mem0 import failed: {e}")
+    print("[WARNING] Continuing without mem0 - semantic search disabled")
+    memory = None
 
 # DEPLOYMENT VERIFICATION: Print at startup to confirm enhanced version is loaded
 print("=" * 80)
-print("🚀 API_SERVER.PY LOADED - VERSION 2.0.1_enhanced")
-print("📍 Enhanced endpoints: /api/conversations/ingest, /api/entities, /api/aurelia/query")
+print("[STARTUP] API_SERVER.PY LOADED - VERSION 2.0.1_enhanced")
+print("[STARTUP] Enhanced endpoints: /api/conversations/ingest, /api/entities, /api/aurelia/query")
 print("=" * 80)
 
 # In-memory storage for structured entity/relationship data
