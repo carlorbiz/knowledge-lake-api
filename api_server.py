@@ -73,10 +73,20 @@ def get_context(topic):
 
 @app.route('/health', methods=['GET'])
 def health_check():
+    # Check environment variables (safely, without exposing values)
+    openai_key_set = bool(os.environ.get('OPENAI_API_KEY'))
+    railway_env = os.environ.get('RAILWAY_ENVIRONMENT', 'local')
+
     return jsonify({
         'status': 'healthy',
         'service': 'mem0_knowledge_lake',
         'version': '2.0.1_enhanced',
+        'environment': {
+            'railway': railway_env,
+            'openai_key_configured': openai_key_set,
+            'mem0_enabled': memory is not None,
+            'mem0_status': 'initialized' if memory else 'disabled - missing OPENAI_API_KEY'
+        },
         'endpoints': {
             'legacy': ['/knowledge/search', '/knowledge/add', '/knowledge/context'],
             'conversations': ['/api/conversations/ingest', '/api/conversations'],
@@ -141,20 +151,21 @@ def ingest_conversation():
         }
         conversations_db.append(conversation)
 
-        # Also add to mem0 for semantic search
-        memory.add(
-            messages=[{
-                'role': 'user',
-                'content': f"Conversation with {data['agent']} about {conversation['topic']}: {data['content']}"
-            }],
-            user_id=f"user_{data['userId']}",
-            metadata={
-                'conversationId': conversation['id'],
-                'agent': data['agent'],
-                'date': data['date'],
-                'topic': conversation['topic']
-            }
-        )
+        # Also add to mem0 for semantic search (if available)
+        if memory:
+            memory.add(
+                messages=[{
+                    'role': 'user',
+                    'content': f"Conversation with {data['agent']} about {conversation['topic']}: {data['content']}"
+                }],
+                user_id=f"user_{data['userId']}",
+                metadata={
+                    'conversationId': conversation['id'],
+                    'agent': data['agent'],
+                    'date': data['date'],
+                    'topic': conversation['topic']
+                }
+            )
 
         # Store entities
         entities_created = []
@@ -220,6 +231,7 @@ def ingest_conversation():
             },
             'entitiesCreated': len(entities_created),
             'relationshipsCreated': len(relationships_created),
+            'mem0Indexed': memory is not None,
             'timestamp': datetime.now().isoformat()
         }), 201
 
