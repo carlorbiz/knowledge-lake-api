@@ -1,9 +1,17 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
+import logging
 from datetime import datetime
 from dotenv import load_dotenv
 from typing import List, Dict, Any, Optional
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger('api_server')
 
 # Load environment variables from .env file
 load_dotenv()
@@ -21,27 +29,29 @@ try:
     # Skip mem0 initialization if OPENAI_API_KEY is missing
     OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
     if not OPENAI_API_KEY:
-        print("[WARNING] OPENAI_API_KEY not set - mem0 features disabled")
+        logger.warning("OPENAI_API_KEY not set - mem0 features disabled")
         memory = None
     else:
         try:
             config = get_mem0_config()
             memory = Memory(**config) if config else Memory()
-            print("[SUCCESS] Mem0 initialized successfully")
+            logger.info("✅ Mem0 initialized successfully with OPENAI_API_KEY")
         except Exception as e:
-            print(f"[WARNING] Mem0 initialization failed: {e}")
-            print("[WARNING] Continuing without mem0 - semantic search disabled")
+            logger.error(f"❌ Mem0 initialization failed: {e}")
+            logger.warning("Continuing without mem0 - semantic search disabled")
             memory = None
 except ImportError as e:
-    print(f"[WARNING] Mem0 import failed: {e}")
-    print("[WARNING] Continuing without mem0 - semantic search disabled")
+    logger.error(f"Mem0 import failed: {e}")
+    logger.warning("Continuing without mem0 - semantic search disabled")
     memory = None
 
-# DEPLOYMENT VERIFICATION: Print at startup to confirm enhanced version is loaded
-print("=" * 80)
-print("[STARTUP] API_SERVER.PY LOADED - VERSION 2.0.1_enhanced")
-print("[STARTUP] Enhanced endpoints: /api/conversations/ingest, /api/entities, /api/aurelia/query")
-print("=" * 80)
+# DEPLOYMENT VERIFICATION: Log at startup to confirm enhanced version is loaded
+logger.info("=" * 80)
+logger.info("🚀 API_SERVER.PY LOADED - VERSION 2.0.1_enhanced")
+logger.info("📍 Enhanced endpoints: /api/conversations/ingest, /api/entities, /api/aurelia/query")
+logger.info(f"🔑 OPENAI_API_KEY configured: {bool(os.environ.get('OPENAI_API_KEY'))}")
+logger.info(f"💾 Mem0 enabled: {memory is not None}")
+logger.info("=" * 80)
 
 # In-memory storage for structured entity/relationship data
 # TODO: Migrate to PostgreSQL/Supabase for production persistence
@@ -77,6 +87,14 @@ def health_check():
     openai_key_set = bool(os.environ.get('OPENAI_API_KEY'))
     railway_env = os.environ.get('RAILWAY_ENVIRONMENT', 'local')
 
+    # Determine accurate mem0 status
+    if memory is not None:
+        mem0_status = 'initialized'
+    elif not openai_key_set:
+        mem0_status = 'disabled - OPENAI_API_KEY not set'
+    else:
+        mem0_status = 'disabled - initialization failed (check logs)'
+
     return jsonify({
         'status': 'healthy',
         'service': 'mem0_knowledge_lake',
@@ -85,7 +103,7 @@ def health_check():
             'railway': railway_env,
             'openai_key_configured': openai_key_set,
             'mem0_enabled': memory is not None,
-            'mem0_status': 'initialized' if memory else 'disabled - missing OPENAI_API_KEY'
+            'mem0_status': mem0_status
         },
         'endpoints': {
             'legacy': ['/knowledge/search', '/knowledge/add', '/knowledge/context'],
