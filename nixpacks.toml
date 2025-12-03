@@ -6,10 +6,10 @@ cmds = [
   "python3 -m venv /opt/venv",
   "/opt/venv/bin/pip install --upgrade pip",
   "/opt/venv/bin/pip install -r requirements.txt",
-  "find . -type d -name 'numpy' -not -path './opt/*' -exec rm -rf {} + || true",
-  "find . -name '*.egg-info' -exec rm -rf {} + || true",
-  "rm -rf build dist"
+  "mkdir -p /opt/run",
+  "cp *.py /opt/run/",
+  "cp requirements.txt /opt/run/ || true"
 ]
 
 [start]
-cmd = "cd /app && /opt/venv/bin/python3 /app/start_knowledge_lake.py"
+cmd = "cd /opt/run && /opt/venv/bin/python3 start_knowledge_lake.py"
