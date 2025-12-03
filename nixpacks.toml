@@ -11,4 +11,4 @@ cmds = [
 ]
 
 [start]
-cmd = "cd /opt/run && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/opt/run:/opt/venv/lib/python3.11/site-packages /opt/venv/bin/python3 -I start_knowledge_lake.py"
+cmd = "cd /opt/run && PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/opt/run:/opt/venv/lib/python3.11/site-packages /opt/venv/bin/python3 start_knowledge_lake.py"
