@@ -1,0 +1,26 @@
+# Python build artifacts
+build/
+*.egg-info/
+dist/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Numpy source files (causes import conflicts)
+numpy/
+*/numpy/
+
+# Development files
+.git/
+.vscode/
+*.md
+.env
+
+# Test files
+tests/
+*.test.py
+
+# Documentation
+docs/
