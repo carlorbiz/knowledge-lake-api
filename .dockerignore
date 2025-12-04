@@ -1,26 +1,75 @@
-# Python build artifacts
-build/
-*.egg-info/
-dist/
+# Git and version control
+.git/
+.gitignore
+.gitattributes
+
+# Python artifacts
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 .Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
 
-# Numpy source files (causes import conflicts)
-numpy/
-*/numpy/
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
 
-# Development files
-.git/
+# IDE and editor files
 .vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Documentation and markdown
 *.md
-.env
+docs/
 
 # Test files
 tests/
 *.test.py
+pytest.ini
+.pytest_cache/
 
-# Documentation
-docs/
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# Environment files (Railway injects these)
+.env
+.env.*
+
+# Node.js (if any)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Project-specific directories
+github-projects/
+agent-conversations/
+archive_n8n_workflows_*/
+knowledge-lake/
+manus-mcp/
+mcp-ai-orchestration/
+mtmot-unified-mcp/
+
+# Build configs we don't need in container
+nixpacks.toml
+railway.json
+Dockerfile
+.dockerignore
