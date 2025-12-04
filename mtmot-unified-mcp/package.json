@@ -1,0 +1,29 @@
+{
+  "name": "mtmot-unified-mcp",
+  "version": "0.1.0",
+  "description": "MTMOT Unified MCP Server - Integration layer for Notion, Google Drive, Knowledge Lake, and AAE Dashboard",
+  "type": "module",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "start:http": "node dist/http-server.js",
+    "dev": "tsx src/server.ts",
+    "dev:http": "tsx src/http-server.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "@notionhq/client": "^2.2.15",
+    "dotenv": "^17.2.3",
+    "googleapis": "^144.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

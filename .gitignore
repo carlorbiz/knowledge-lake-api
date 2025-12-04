@@ -198,3 +198,6 @@ course_outputs/
 
 # Invalid file (Windows reserved name)
 nul
+
+# Files with secrets
+agent-conversations/claude/conversations.json

@@ -238,7 +238,7 @@ voice-to-drive/
 - **Credentials in `.env`:**
   ```
   VITE_GOOGLE_CLIENT_ID=45424427828-jetga90ek9pspgtoin9uh1ll85ilkofp.apps.googleusercontent.com
-  VITE_GOOGLE_API_KEY=AIzaSyD_kXD6K6dtpOiDyuIa7oECFzW7j9LE9KU
+  VITE_GOOGLE_API_KEY=("add_Google_API_Key_here")
   ```
 
 ### Cloudflare Pages

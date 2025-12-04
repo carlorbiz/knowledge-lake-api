@@ -1,0 +1,17 @@
+# Claude Knowledge Lake MCP Server Dependencies
+# For Carla's AI Automation Ecosystem (AAE)
+
+# MCP SDK
+mcp>=1.0.0
+
+# HTTP client for Knowledge Lake API
+httpx>=0.25.0
+
+# Data validation
+pydantic>=2.0.0
+
+# Environment configuration
+python-dotenv>=1.0.0
+
+# Async support
+anyio>=4.0.0
