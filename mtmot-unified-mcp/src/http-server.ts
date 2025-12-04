@@ -133,11 +133,11 @@ const httpServer = http.createServer(async (req, res) => {
       const transport = new StreamableHTTPServerTransport({
         sessionIdGenerator: () => randomUUID(),
         onsessioninitialized: (id) => {
-          console.error(`[http-mcp] Session initialized: ${id}`);
+          console.log(`[http-mcp] Session initialized: ${id}`);
           transports.set(id, transport);
         },
         onsessionclosed: (id) => {
-          console.error(`[http-mcp] Session closed: ${id}`);
+          console.log(`[http-mcp] Session closed: ${id}`);
           transports.delete(id);
         },
       });
@@ -160,11 +160,11 @@ const httpServer = http.createServer(async (req, res) => {
       const transport = new StreamableHTTPServerTransport({
         sessionIdGenerator: () => randomUUID(),
         onsessioninitialized: (id) => {
-          console.error(`[http-mcp] Session initialized: ${id}`);
+          console.log(`[http-mcp] Session initialized: ${id}`);
           transports.set(id, transport);
         },
         onsessionclosed: (id) => {
-          console.error(`[http-mcp] Session closed: ${id}`);
+          console.log(`[http-mcp] Session closed: ${id}`);
           transports.delete(id);
         },
       });
@@ -197,8 +197,8 @@ const httpServer = http.createServer(async (req, res) => {
 });
 
 httpServer.listen(PORT, () => {
-  console.error(`[http-mcp] MTMOT Unified MCP Server (HTTP) listening on port ${PORT}`);
-  console.error(`[http-mcp] MCP endpoint: http://localhost:${PORT}/mcp`);
-  console.error(`[http-mcp] Health check: http://localhost:${PORT}/health`);
-  console.error(`[http-mcp] Available tools: ${allTools.length}`);
+  console.log(`[http-mcp] MTMOT Unified MCP Server (HTTP) listening on port ${PORT}`);
+  console.log(`[http-mcp] MCP endpoint: http://localhost:${PORT}/mcp`);
+  console.log(`[http-mcp] Health check: http://localhost:${PORT}/health`);
+  console.log(`[http-mcp] Available tools: ${allTools.length}`);
 });
