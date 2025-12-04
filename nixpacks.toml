@@ -4,7 +4,8 @@ nixPkgs = ["python311"]
 [phases.install]
 cmds = [
   "python3 -m venv /opt/venv",
-  "/opt/venv/bin/pip install --upgrade pip",
+  "/opt/venv/bin/pip install --no-cache-dir --upgrade pip",
+  "/opt/venv/bin/pip install --no-cache-dir numpy==1.26.4",
   "/opt/venv/bin/pip install --no-cache-dir -r requirements.txt",
   "mkdir -p /opt/run",
   "cp *.py /opt/run/"
