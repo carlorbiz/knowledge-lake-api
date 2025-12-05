@@ -201,3 +201,6 @@ nul
 
 # Files with secrets
 agent-conversations/claude/conversations.json
+
+# AAE exports with very long file paths (causes Git issues on Windows)
+aae-exports/
