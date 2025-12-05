@@ -1,15 +1,17 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
+import sys
 import logging
 from datetime import datetime
 from dotenv import load_dotenv
 from typing import List, Dict, Any, Optional
 
-# Configure logging
+# Configure logging to use stdout (prevents Railway from showing everything as "error")
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[logging.StreamHandler(sys.stdout)]
 )
 logger = logging.getLogger('api_server')
 

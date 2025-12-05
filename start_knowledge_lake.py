@@ -4,16 +4,18 @@ Runs on port 5002 locally, or uses Railway's PORT environment variable in produc
 """
 
 from waitress import serve
+import sys
 import logging
 import os
 
 # Import app directly - Railway handles fresh deploys
 from api_server import app
 
-# Configure logging
+# Configure logging to use stdout (prevents Railway from showing everything as "error")
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[logging.StreamHandler(sys.stdout)]
 )
 
 logger = logging.getLogger(__name__)
