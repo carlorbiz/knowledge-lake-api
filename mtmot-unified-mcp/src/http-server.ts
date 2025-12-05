@@ -17,6 +17,7 @@ import {
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 
+import { logger } from "./logger.js";
 import { notionTools } from "./tools/notionTools.js";
 import { driveTools } from "./tools/driveTools.js";
 import { knowledgeLakeTools } from "./tools/knowledgeLakeTools.js";
@@ -133,11 +134,11 @@ const httpServer = http.createServer(async (req, res) => {
       const transport = new StreamableHTTPServerTransport({
         sessionIdGenerator: () => randomUUID(),
         onsessioninitialized: (id) => {
-          console.log(`[http-mcp] Session initialized: ${id}`);
+          logger.info(`[http-mcp] Session initialized: ${id}`);
           transports.set(id, transport);
         },
         onsessionclosed: (id) => {
-          console.log(`[http-mcp] Session closed: ${id}`);
+          logger.info(`[http-mcp] Session closed: ${id}`);
           transports.delete(id);
         },
       });
@@ -160,11 +161,11 @@ const httpServer = http.createServer(async (req, res) => {
       const transport = new StreamableHTTPServerTransport({
         sessionIdGenerator: () => randomUUID(),
         onsessioninitialized: (id) => {
-          console.log(`[http-mcp] Session initialized: ${id}`);
+          logger.info(`[http-mcp] Session initialized: ${id}`);
           transports.set(id, transport);
         },
         onsessionclosed: (id) => {
-          console.log(`[http-mcp] Session closed: ${id}`);
+          logger.info(`[http-mcp] Session closed: ${id}`);
           transports.delete(id);
         },
       });
@@ -197,8 +198,8 @@ const httpServer = http.createServer(async (req, res) => {
 });
 
 httpServer.listen(PORT, () => {
-  console.log(`[http-mcp] MTMOT Unified MCP Server (HTTP) listening on port ${PORT}`);
-  console.log(`[http-mcp] MCP endpoint: http://localhost:${PORT}/mcp`);
-  console.log(`[http-mcp] Health check: http://localhost:${PORT}/health`);
-  console.log(`[http-mcp] Available tools: ${allTools.length}`);
+  logger.info(`[http-mcp] MTMOT Unified MCP Server (HTTP) listening on port ${PORT}`);
+  logger.info(`[http-mcp] MCP endpoint: http://localhost:${PORT}/mcp`);
+  logger.info(`[http-mcp] Health check: http://localhost:${PORT}/health`);
+  logger.info(`[http-mcp] Available tools: ${allTools.length}`);
 });

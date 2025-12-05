@@ -1,11 +1,13 @@
 // Knowledge Lake API Client
 // Connects to the Railway-hosted Knowledge Lake API
 
+import { logger } from "../logger.js";
+
 const knowledgeLakeBaseUrl = process.env.KNOWLEDGE_LAKE_URL || process.env.AAE_BASE_URL;
 const knowledgeLakeApiKey = process.env.KNOWLEDGE_LAKE_API_KEY || process.env.AAE_API_KEY;
 
 if (!knowledgeLakeBaseUrl) {
-  console.warn("[mtmot-mcp] KNOWLEDGE_LAKE_URL not set - Knowledge Lake tools will fail.");
+  logger.warn("[mtmot-mcp] KNOWLEDGE_LAKE_URL not set - Knowledge Lake tools will fail.");
 }
 
 // Generic fetch helper

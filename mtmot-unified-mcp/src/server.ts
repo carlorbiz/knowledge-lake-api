@@ -7,6 +7,7 @@ import {
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 
+import { logger } from "./logger.js";
 import { notionTools } from "./tools/notionTools.js";
 import { driveTools } from "./tools/driveTools.js";
 import { knowledgeLakeTools } from "./tools/knowledgeLakeTools.js";
@@ -80,11 +81,11 @@ async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
 
-  console.error("[mtmot-mcp] Server started on stdio.");
-  console.error("[mtmot-mcp] Available tools:", allTools.map((t) => t.name).join(", "));
+  logger.info("[mtmot-mcp] Server started on stdio.");
+  logger.info("[mtmot-mcp] Available tools:", allTools.map((t) => t.name).join(", "));
 }
 
 main().catch((err) => {
-  console.error("[mtmot-mcp] Fatal error:", err);
+  logger.error("[mtmot-mcp] Fatal error:", err);
   process.exit(1);
 });

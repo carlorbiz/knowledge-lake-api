@@ -1,11 +1,12 @@
 import { google } from "googleapis";
+import { logger } from "../logger.js";
 
 const projectId = process.env.GOOGLE_PROJECT_ID;
 const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
 let privateKey = process.env.GOOGLE_PRIVATE_KEY;
 
 if (!clientEmail || !privateKey) {
-  console.warn("[mtmot-mcp] Google service account env vars not fully set.");
+  logger.warn("[mtmot-mcp] Google service account env vars not fully set.");
 }
 
 if (privateKey) {

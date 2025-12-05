@@ -1,8 +1,10 @@
+import { logger } from "../logger.js";
+
 const baseUrl = process.env.AAE_BASE_URL;
 const apiKey = process.env.AAE_API_KEY;
 
 if (!baseUrl) {
-  console.warn("[mtmot-mcp] AAE_BASE_URL not set - AAE tools will fail.");
+  logger.warn("[mtmot-mcp] AAE_BASE_URL not set - AAE tools will fail.");
 }
 
 export async function getAAEDashboardSnapshot(params: {
