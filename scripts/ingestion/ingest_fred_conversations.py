@@ -105,7 +105,7 @@ def transform_conversation(conversation: Dict[str, Any]) -> Dict[str, Any]:
     """Transform Fred conversation to Knowledge Lake format"""
     # Convert Unix timestamp to ISO date
     create_time = conversation.get('create_time', 0)
-    date_str = datetime.fromtimestamp(create_time).strftime('%Y-%m-%d')
+    date_str = datetime.fromtimestamp(create_time).strftime('%Y-%m-%d') if create_time else datetime.now().strftime('%Y-%m-%d')
 
     # Extract full conversation content
     content = extract_conversation_content(conversation)
@@ -132,7 +132,7 @@ def ingest_conversation(payload: Dict[str, Any]) -> Dict[str, Any]:
         response = requests.post(
             f"{KNOWLEDGE_LAKE_URL}/api/conversations/ingest",
             json=payload,
-            timeout=30
+            timeout=120  # Increased from 30s to 120s for mem0 indexing
         )
         response.raise_for_status()
         return response.json()
@@ -181,7 +181,7 @@ def main():
         conv_time = conv.get('create_time', 0)
         conv_date = datetime.fromtimestamp(conv_time).strftime('%Y-%m-%d') if conv_time else 'Unknown'
 
-        print(f"[{idx}/{stats['total']}] {conv_date} - {conv_title}...", end=" ")
+        print(f"[{idx}/{stats['total']}] {conv_date} - {conv_title}...", end=" ", flush=True)
 
         try:
             # Transform to Knowledge Lake format

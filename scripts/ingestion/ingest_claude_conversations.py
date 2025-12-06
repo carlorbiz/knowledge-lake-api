@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-Ingest Claude conversations from AAE Exports to Knowledge Lake API
+Ingest Claude (claude.ai) conversations from AAE Exports to Knowledge Lake API
+Claude exports are simpler - direct JSON array with messages
 """
 
 import json
@@ -11,7 +12,7 @@ import requests
 from datetime import datetime
 
 # Configuration
-AAE_EXPORTS_PATH = Path("C:/Users/carlo/Development/mem0-sync/mem0/aae-exports/JSON-Native")
+AAE_EXPORTS_PATH = Path("C:/Users/carlo/Development/mem0-sync/mem0/aae-exports/JSON-Native/Claude/conversations.json")
 KNOWLEDGE_LAKE_URL = "https://knowledge-lake-api-production.up.railway.app"
 USER_ID = 1  # Carla's user ID
 
@@ -25,30 +26,31 @@ stats = {
 }
 
 def extract_conversation_content(conversation: Dict[str, Any]) -> str:
-    """Extract text content from Claude conversation messages"""
+    """Extract text content from Claude conversation"""
     content_parts = []
 
     # Add conversation header
-    content_parts.append(f"# {conversation['name']}\n")
+    title = conversation.get('name', 'Untitled Conversation')
+    content_parts.append(f"# {title}\n")
 
-    # Add summary if available
-    if conversation.get('summary'):
-        content_parts.append(f"## Summary\n{conversation['summary']}\n")
-
-    # Add conversation messages
-    for msg in conversation.get('chat_messages', []):
-        sender = "Carla" if msg['sender'] == 'human' else "Claude"
+    # Add messages
+    messages = conversation.get('chat_messages', [])
+    for msg in messages:
+        sender = msg.get('sender', 'unknown')
         text = msg.get('text', '')
 
-        # Add message with sender header
-        content_parts.append(f"\n## {sender}:\n{text}\n")
+        # Determine display name
+        display_name = "Carla" if sender == 'human' else "Claude"
+
+        content_parts.append(f"\n## {display_name}:\n{text}\n")
 
     return "\n".join(content_parts)
 
 def transform_conversation(conversation: Dict[str, Any]) -> Dict[str, Any]:
     """Transform Claude conversation to Knowledge Lake format"""
-    created_at = conversation['created_at']
-    date_str = created_at.split('T')[0]  # Extract date portion
+    # Convert ISO timestamp to date
+    created_at = conversation.get('created_at', '')
+    date_str = created_at[:10] if created_at else datetime.now().strftime('%Y-%m-%d')
 
     # Extract full conversation content
     content = extract_conversation_content(conversation)
@@ -58,12 +60,11 @@ def transform_conversation(conversation: Dict[str, Any]) -> Dict[str, Any]:
         'userId': USER_ID,
         'agent': 'Claude',
         'date': date_str,
-        'topic': conversation['name'],
+        'topic': conversation.get('name', 'Untitled Conversation'),
         'content': content,
         'metadata': {
-            'uuid': conversation['uuid'],
-            'created_at': conversation['created_at'],
-            'updated_at': conversation['updated_at'],
+            'uuid': conversation.get('uuid'),
+            'updated_at': conversation.get('updated_at'),
             'message_count': len(conversation.get('chat_messages', []))
         }
     }
@@ -88,21 +89,18 @@ def main():
     print("CLAUDE CONVERSATION INGESTION TO KNOWLEDGE LAKE")
     print("=" * 70)
 
-    # Load conversations.json
-    conversations_file = AAE_EXPORTS_PATH / "Claude" / "conversations.json"
-
-    if not conversations_file.exists():
-        print(f"ERROR: Conversations file not found: {conversations_file}")
+    if not AAE_EXPORTS_PATH.exists():
+        print(f"ERROR: Conversations file not found: {AAE_EXPORTS_PATH}")
         sys.exit(1)
 
-    print(f"\nLoading conversations from: {conversations_file}")
-    with open(conversations_file, 'r', encoding='utf-8') as f:
+    print(f"\nLoading conversations from: {AAE_EXPORTS_PATH.name}")
+    with open(AAE_EXPORTS_PATH, 'r', encoding='utf-8') as f:
         conversations = json.load(f)
 
     stats['total'] = len(conversations)
     print(f"Found {stats['total']} conversations")
 
-    # Sort by date (oldest first)
+    # Sort by creation time (oldest first)
     conversations.sort(key=lambda c: c.get('created_at', ''))
 
     # Process each conversation
@@ -111,10 +109,10 @@ def main():
     print(f"{'-' * 70}\n")
 
     for idx, conv in enumerate(conversations, 1):
-        conv_name = conv['name'][:50]  # Truncate long names
-        conv_date = conv.get('created_at', 'Unknown')[:10]
+        conv_title = conv.get('name', 'Untitled')[:50]  # Truncate long titles
+        conv_date = conv.get('created_at', '')[:10] if conv.get('created_at') else 'Unknown'
 
-        print(f"[{idx}/{stats['total']}] {conv_date} - {conv_name}...", end=" ")
+        print(f"[{idx}/{stats['total']}] {conv_date} - {conv_title}...", end=" ", flush=True)
 
         try:
             # Transform to Knowledge Lake format
@@ -137,7 +135,7 @@ def main():
             stats['failed'] += 1
             error_msg = str(e)[:100]  # Truncate long errors
             stats['errors'].append({
-                'conversation': conv_name,
+                'conversation': conv_title,
                 'date': conv_date,
                 'error': error_msg
             })
