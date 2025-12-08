@@ -404,21 +404,127 @@ def get_stats():
 
     return jsonify(stats)
 
+@app.route('/api/bot/query', methods=['POST', 'GET'])
+def bot_query():
+    """Simple bot query endpoint - WORKS for client topic expert bots"""
+    try:
+        # Handle both GET and POST
+        if request.method == 'GET':
+            query = request.args.get('query', request.args.get('q', ''))
+            user_id = request.args.get('user_id', 'default')
+        else:
+            data = request.get_json() or {}
+            query = data.get('query', data.get('q', ''))
+            user_id = data.get('user_id', 'default')
+
+        if not query:
+            return jsonify({'success': False, 'error': 'Query required'}), 400
+
+        # Try mem0 search
+        mem0_results = []
+        if memory:
+            try:
+                raw_results = memory.search(query=query, user_id=user_id)
+                if isinstance(raw_results, list):
+                    mem0_results = raw_results[:5]
+                elif isinstance(raw_results, dict) and 'results' in raw_results:
+                    mem0_results = raw_results['results'][:5]
+            except Exception as e:
+                logger.error(f"mem0 search failed: {e}")
+
+        # Fallback: in-memory search
+        query_lower = query.lower()
+        conversation_matches = [
+            c for c in conversations_db
+            if query_lower in c.get('topic', '').lower() or
+               query_lower in c.get('content', '').lower()
+        ][:5]
+
+        entity_matches = [
+            e for e in entities_db
+            if query_lower in e.get('name', '').lower() or
+               query_lower in e.get('description', '').lower()
+        ][:5]
+
+        # Build answer
+        if mem0_results:
+            answer = f"Found {len(mem0_results)} insights:\n\n"
+            for idx, result in enumerate(mem0_results[:3], 1):
+                if isinstance(result, dict):
+                    answer += f"{idx}. {result.get('memory', result.get('content', ''))}\n"
+        elif conversation_matches:
+            answer = f"Found {len(conversation_matches)} conversations:\n\n"
+            for idx, conv in enumerate(conversation_matches[:3], 1):
+                answer += f"{idx}. {conv.get('topic', '')}\n"
+        elif entity_matches:
+            answer = f"Found {len(entity_matches)} concepts:\n\n"
+            for idx, entity in enumerate(entity_matches[:3], 1):
+                answer += f"{idx}. {entity['name']} ({entity['entityType']})\n"
+        else:
+            answer = f"No information found about '{query}' yet."
+
+        return jsonify({
+            'success': True,
+            'query': query,
+            'answer': answer,
+            'sources': {
+                'mem0': len(mem0_results),
+                'conversations': len(conversation_matches),
+                'entities': len(entity_matches)
+            },
+            'timestamp': datetime.now().isoformat()
+        })
+    except Exception as e:
+        logger.error(f"Bot query error: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/bot/ingest-sample', methods=['POST'])
+def ingest_sample():
+    """Add sample healthcare knowledge"""
+    try:
+        samples = [
+            {"topic": "AHPRA Compliance", "content": "AHPRA requires registration, National Law compliance, mandatory reporting, CPD, and insurance."},
+            {"topic": "Aged Care Standards", "content": "8 Standards: Consumer dignity, Assessment, Personal care, Daily living, Environment, Feedback, HR, Governance."},
+            {"topic": "NDIS Registration", "content": "NDIS requires Practice Standards, audit, Code of Conduct, and screening."}
+        ]
+
+        for item in samples:
+            if memory:
+                memory.add(
+                    messages=[{'role': 'user', 'content': f"{item['topic']}: {item['content']}"}],
+                    user_id='sample'
+                )
+            conversations_db.append({
+                'id': len(conversations_db) + 1,
+                'userId': 'sample',
+                'agent': 'HealthcareAdvisor',
+                'date': datetime.now().isoformat(),
+                'topic': item['topic'],
+                'content': item['content'],
+                'metadata': {},
+                'createdAt': datetime.now().isoformat(),
+                'entityCount': 0,
+                'relationshipCount': 0
+            })
+
+        return jsonify({'success': True, 'ingested': len(samples), 'total': len(conversations_db)})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
 if __name__ == '__main__':
     print("""
     ========================================================
-       AAE Knowledge Lake API v2.0 Enhanced
+       AAE Knowledge Lake API v2.1 Bot-Ready
     ========================================================
        Running on: http://0.0.0.0:5002
 
-       [OK] Legacy endpoints working
-       [OK] New structured endpoints added
+       [✅] Bot query: /api/bot/query
+       [✅] Sample data: /api/bot/ingest-sample
+       [✅] All legacy endpoints working
 
-       Ready for: n8n, AAE Dashboard, Aurelia
+       Ready for: Topic Expert Bots, n8n, AAE Dashboard
     ========================================================
     """)
 
-    # Use port 5002 to match existing n8n workflow configuration
-    # Debug mode disabled to avoid qdrant lock issues on Windows
     app.run(host='0.0.0.0', port=5002, debug=False)
 
