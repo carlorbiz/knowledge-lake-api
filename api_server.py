@@ -19,7 +19,26 @@ logger = logging.getLogger('api_server')
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)  # Enable cross-origin requests
+
+# Enhanced CORS for bolt.new and production deployments
+CORS(app,
+     resources={
+         r"/api/*": {
+             "origins": [
+                 "http://localhost:*",
+                 "https://*.bolt.new",
+                 "https://*.netlify.app",
+                 "https://*.vercel.app",
+                 "https://*.pages.dev",  # Cloudflare Pages
+                 "*"  # Allow all for development (remove in strict production)
+             ],
+             "methods": ["GET", "POST", "OPTIONS"],
+             "allow_headers": ["Content-Type", "X-API-Key"],
+             "expose_headers": ["Content-Type"],
+             "supports_credentials": False,
+             "max_age": 3600
+         }
+     })
 
 # Try to import mem0 - gracefully handle if not available or dependencies missing
 memory = None
