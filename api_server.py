@@ -5,6 +5,7 @@ import sys
 import logging
 from datetime import datetime
 from dotenv import load_dotenv
+from database import init_database, get_db
 from typing import List, Dict, Any, Optional
 
 # Configure logging to use stdout (prevents Railway from showing everything as "error")
@@ -68,17 +69,26 @@ except ImportError as e:
 
 # DEPLOYMENT VERIFICATION: Log at startup to confirm enhanced version is loaded
 logger.info("=" * 80)
-logger.info("🚀 API_SERVER.PY LOADED - VERSION 2.0.1_enhanced")
+logger.info("🚀 API_SERVER.PY LOADED - VERSION 2.1.0_database_persistence")
 logger.info("📍 Enhanced endpoints: /api/conversations/ingest, /api/entities, /api/aurelia/query")
 logger.info(f"🔑 OPENAI_API_KEY configured: {bool(os.environ.get('OPENAI_API_KEY'))}")
 logger.info(f"💾 Mem0 enabled: {memory is not None}")
 logger.info("=" * 80)
 
-# In-memory storage for structured entity/relationship data
-# TODO: Migrate to PostgreSQL/Supabase for production persistence
+# Initialize PostgreSQL database with fallback to in-memory
+USE_DATABASE = False
 conversations_db = []
 entities_db = []
 relationships_db = []
+
+try:
+    init_database()
+    USE_DATABASE = True
+    logger.info("[OK] PostgreSQL database initialized - persistent storage enabled")
+except Exception as e:
+    logger.error(f"❌ Database initialization failed: {e}")
+    logger.warning("Falling back to in-memory storage (data lost on restart)")
+    logger.warning("Set DATABASE_URL to enable persistence")
 
 @app.route('/knowledge/search', methods=['GET'])
 def search_knowledge():
@@ -176,19 +186,35 @@ def ingest_conversation():
             }), 400
 
         # Create conversation record
-        conversation = {
-            'id': len(conversations_db) + 1,
-            'userId': data['userId'],
-            'agent': data['agent'],
-            'date': data['date'],
-            'topic': data.get('topic', 'General Discussion'),
-            'content': data['content'],
-            'metadata': data.get('metadata', {}),
-            'createdAt': datetime.now().isoformat(),
-            'entityCount': len(data.get('entities', [])),
-            'relationshipCount': len(data.get('relationships', []))
-        }
-        conversations_db.append(conversation)
+        if USE_DATABASE:
+            try:
+                db = get_db()
+                conversation_id = db.create_conversation(
+                    user_id=data['userId'],
+                    agent=data['agent'],
+                    date=data['date'],
+                    topic=data.get('topic', 'General Discussion'),
+                    content=data['content'],
+                    metadata=data.get('metadata', {})
+                )
+                conversation = {'id': conversation_id}
+            except Exception as e:
+                logger.error(f"Database error: {e}")
+                raise
+        else:
+            conversation = {
+                'id': len(conversations_db) + 1,
+                'userId': data['userId'],
+                'agent': data['agent'],
+                'date': data['date'],
+                'topic': data.get('topic', 'General Discussion'),
+                'content': data['content'],
+                'metadata': data.get('metadata', {}),
+                'createdAt': datetime.now().isoformat(),
+                'entityCount': len(data.get('entities', [])),
+                'relationshipCount': len(data.get('relationships', []))
+            }
+            conversations_db.append(conversation)
 
         # Also add to mem0 for semantic search (if available)
         if memory:
@@ -223,20 +249,31 @@ def ingest_conversation():
                 entity_id_map[entity_data['name']] = existing['id']
                 continue
 
-            entity = {
-                'id': len(entities_db) + 1,
-                'userId': data['userId'],
-                'entityType': entity_data['entityType'],
-                'name': entity_data['name'],
-                'description': entity_data.get('description', ''),
-                'semanticState': 'RAW',
-                'confidence': entity_data.get('confidence', 0.5),
-                'sourceContext': entity_data.get('sourceContext', ''),
-                'conversationId': conversation['id'],
-                'createdAt': datetime.now().isoformat()
-            }
-            entities_db.append(entity)
-            entities_created.append(entity)
+            if USE_DATABASE:
+                entity_id = db.create_entity(
+                    conversation_id=conversation['id'],
+                    name=entity_data['name'],
+                    entity_type=entity_data['entityType'],
+                    confidence=entity_data.get('confidence', 0.5),
+                    description=entity_data.get('description', ''),
+                    metadata={'sourceContext': entity_data.get('sourceContext', '')}
+                )
+                entities_created.append({'id': entity_id, 'name': entity_data['name']})
+            else:
+                entity = {
+                    'id': len(entities_db) + 1,
+                    'userId': data['userId'],
+                    'entityType': entity_data['entityType'],
+                    'name': entity_data['name'],
+                    'description': entity_data.get('description', ''),
+                    'semanticState': 'RAW',
+                    'confidence': entity_data.get('confidence', 0.5),
+                    'sourceContext': entity_data.get('sourceContext', ''),
+                    'conversationId': conversation['id'],
+                    'createdAt': datetime.now().isoformat()
+                }
+                entities_db.append(entity)
+                entities_created.append(entity)
             entity_id_map[entity_data['name']] = entity['id']
 
         # Store relationships
