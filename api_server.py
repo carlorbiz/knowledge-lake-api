@@ -129,7 +129,8 @@ def health_check():
     return jsonify({
         'status': 'healthy',
         'service': 'mem0_knowledge_lake',
-        'version': '2.0.1_enhanced',
+        'version': '2.1.0_database_persistence',
+        'database_enabled': USE_DATABASE,
         'environment': {
             'railway': railway_env,
             'openai_key_configured': openai_key_set,
