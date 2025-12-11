@@ -204,3 +204,18 @@ agent-conversations/claude/conversations.json
 
 # AAE exports with very long file paths (causes Git issues on Windows)
 aae-exports/
+
+# Conversation exports with API keys
+agent-conversations/fred/fredconversations.json
+agent-conversations/claude/projects.json
+agent-conversations/claude/memories-*.json
+
+# Ingestion logs
+claude_ingestion_log.txt
+ingestion_log.txt
+
+# Temporary test scripts
+ingest_*.py
+quick_ingest.py
+bot_query_fix.py
+test-*.sh
