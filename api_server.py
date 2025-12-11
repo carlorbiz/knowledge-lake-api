@@ -272,6 +272,7 @@ def ingest_conversation():
                     metadata={'sourceContext': entity_data.get('sourceContext', '')}
                 )
                 entities_created.append({'id': entity_id, 'name': entity_data['name']})
+                entity_id_map[entity_data['name']] = entity_id
             else:
                 entity = {
                     'id': len(entities_db) + 1,
@@ -287,7 +288,7 @@ def ingest_conversation():
                 }
                 entities_db.append(entity)
                 entities_created.append(entity)
-            entity_id_map[entity_data['name']] = entity['id']
+                entity_id_map[entity_data['name']] = entity['id']
 
         # Store relationships
         relationships_created = []
