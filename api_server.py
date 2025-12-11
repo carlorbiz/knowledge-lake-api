@@ -6,6 +6,7 @@ import logging
 from datetime import datetime
 from dotenv import load_dotenv
 from database import init_database, get_db
+from psycopg2.extras import RealDictCursor
 from typing import List, Dict, Any, Optional
 
 # Configure logging to use stdout (prevents Railway from showing everything as "error")
@@ -698,23 +699,51 @@ def get_stats():
     """Get knowledge lake statistics"""
     user_id = request.args.get('userId', type=int)
 
-    stats = {
-        'totalConversations': len(conversations_db),
-        'totalEntities': len(entities_db),
-        'totalRelationships': len(relationships_db)
-    }
+    if USE_DATABASE:
+        try:
+            db = get_db()
+            if user_id:
+                stats = db.get_stats(user_id)
+            else:
+                # Global stats across all users
+                with db.get_connection() as conn:
+                    with conn.cursor() as cur:
+                        cur.execute("SELECT COUNT(*) FROM conversations")
+                        total_conversations = cur.fetchone()[0]
 
-    if user_id:
-        user_entities = [e for e in entities_db if e['userId'] == user_id]
-        entity_types = {}
-        for e in user_entities:
-            entity_types[e['entityType']] = entity_types.get(e['entityType'], 0) + 1
+                        cur.execute("SELECT COUNT(*) FROM entities")
+                        total_entities = cur.fetchone()[0]
 
-        stats.update({
-            'userConversations': len([c for c in conversations_db if c['userId'] == user_id]),
-            'userEntities': len(user_entities),
-            'entityTypeDistribution': entity_types
-        })
+                        cur.execute("SELECT COUNT(*) FROM relationships")
+                        total_relationships = cur.fetchone()[0]
+
+                        stats = {
+                            'totalConversations': total_conversations,
+                            'totalEntities': total_entities,
+                            'totalRelationships': total_relationships
+                        }
+        except Exception as e:
+            logger.error(f"Database stats error: {e}")
+            return jsonify({'error': str(e)}), 500
+    else:
+        # In-memory fallback
+        stats = {
+            'totalConversations': len(conversations_db),
+            'totalEntities': len(entities_db),
+            'totalRelationships': len(relationships_db)
+        }
+
+        if user_id:
+            user_entities = [e for e in entities_db if e['userId'] == user_id]
+            entity_types = {}
+            for e in user_entities:
+                entity_types[e['entityType']] = entity_types.get(e['entityType'], 0) + 1
+
+            stats.update({
+                'userConversations': len([c for c in conversations_db if c['userId'] == user_id]),
+                'userEntities': len(user_entities),
+                'entityTypeDistribution': entity_types
+            })
 
     return jsonify(stats)
 
@@ -784,18 +813,47 @@ def extract_learning():
             return jsonify({'success': False, 'error': 'userId required'}), 400
 
         # Get conversations to process
-        if conversation_ids:
-            conversations = [
-                c for c in conversations_db
-                if c['id'] in conversation_ids and c['userId'] == user_id
-            ]
+        if USE_DATABASE:
+            db = get_db()
+            if conversation_ids:
+                # Get specific conversations by ID
+                conversations = []
+                with db.get_connection() as conn:
+                    with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                        cur.execute("""
+                            SELECT id, user_id, agent, date, topic, content, metadata
+                            FROM conversations
+                            WHERE user_id = %s AND id = ANY(%s)
+                        """, (user_id, conversation_ids))
+                        conversations = [dict(row) for row in cur.fetchall()]
+            else:
+                # Get all unprocessed conversations
+                conversations = db.get_unprocessed_conversations(user_id=user_id)
+                # Fetch full content for processing
+                if conversations:
+                    conv_ids = [c['id'] for c in conversations]
+                    with db.get_connection() as conn:
+                        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                            cur.execute("""
+                                SELECT id, user_id, agent, date, topic, content, metadata
+                                FROM conversations
+                                WHERE id = ANY(%s)
+                            """, (conv_ids,))
+                            conversations = [dict(row) for row in cur.fetchall()]
         else:
-            # Process all unprocessed conversations
-            conversations = [
-                c for c in conversations_db
-                if c['userId'] == user_id
-                and not c.get('metadata', {}).get('processed_for_learning', False)
-            ]
+            # In-memory fallback
+            if conversation_ids:
+                conversations = [
+                    c for c in conversations_db
+                    if c['id'] in conversation_ids and c['userId'] == user_id
+                ]
+            else:
+                # Process all unprocessed conversations
+                conversations = [
+                    c for c in conversations_db
+                    if c['userId'] == user_id
+                    and not c.get('metadata', {}).get('processed_for_learning', False)
+                ]
 
         if not conversations:
             return jsonify({
@@ -922,10 +980,26 @@ CONTENT:
                         total_entities += 1
 
                 # Mark conversation as processed
-                conv['metadata'] = conv.get('metadata', {})
-                conv['metadata']['processed_for_learning'] = True
-                conv['metadata']['processed_at'] = datetime.now().isoformat()
-                conv['metadata']['learnings_count'] = sum(len(items) for items in learnings.values())
+                if USE_DATABASE:
+                    db = get_db()
+                    with db.get_connection() as conn:
+                        with conn.cursor() as cur:
+                            cur.execute("""
+                                UPDATE conversations
+                                SET processed_for_learning = TRUE,
+                                    processed_at = CURRENT_TIMESTAMP,
+                                    metadata = jsonb_set(
+                                        COALESCE(metadata, '{}'::jsonb),
+                                        '{learnings_count}',
+                                        to_jsonb(%s::int)
+                                    )
+                                WHERE id = %s
+                            """, (sum(len(items) for items in learnings.values()), conv['id']))
+                else:
+                    conv['metadata'] = conv.get('metadata', {})
+                    conv['metadata']['processed_for_learning'] = True
+                    conv['metadata']['processed_at'] = datetime.now().isoformat()
+                    conv['metadata']['learnings_count'] = sum(len(items) for items in learnings.values())
 
                 processed_count += 1
 
