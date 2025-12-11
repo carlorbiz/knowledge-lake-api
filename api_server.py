@@ -355,60 +355,107 @@ def query_conversations():
         if not user_id:
             return jsonify({'error': 'userId required'}), 400
 
-        # Filter conversations by user
-        results = [c for c in conversations_db if c['userId'] == user_id]
-
-        # Apply filters
-        if agent_filter:
-            results = [c for c in results if c['agent'].lower() == agent_filter.lower()]
-
-        # Text search across topic and content
-        if query:
-            query_lower = query.lower()
-            results = [
-                c for c in results
-                if query_lower in c.get('topic', '').lower()
-                or query_lower in c.get('content', '').lower()
-            ]
-
-        # Filter by entity type if requested
-        if entity_type_filter:
-            # Get conversation IDs that have entities of this type
-            conv_ids_with_type = set(
-                e['conversationId'] for e in entities_db
-                if e['entityType'] == entity_type_filter
+        if USE_DATABASE:
+            # Query from PostgreSQL
+            db = get_db()
+            results = db.get_conversations(
+                user_id=user_id,
+                query=query,
+                agent_filter=agent_filter,
+                entity_type_filter=entity_type_filter,
+                limit=limit
             )
-            results = [c for c in results if c['id'] in conv_ids_with_type]
 
-        # Sort by date descending (most recent first)
-        results = sorted(results, key=lambda x: x.get('date', ''), reverse=True)
+            # Convert database results to expected format
+            conversations = []
+            for conv in results:
+                # Get entities for this conversation
+                conv_entities = db.get_entities_by_conversation(conv['id'])
 
-        # Limit results
-        results = results[:limit]
+                conversations.append({
+                    'id': conv['id'],
+                    'userId': conv['user_id'],
+                    'agent': conv['agent'],
+                    'date': conv['date'].isoformat() if hasattr(conv['date'], 'isoformat') else str(conv['date']),
+                    'topic': conv.get('topic', ''),
+                    'content': conv.get('content', ''),
+                    'metadata': conv.get('metadata', {}),
+                    'createdAt': conv['created_at'].isoformat() if hasattr(conv['created_at'], 'isoformat') else str(conv['created_at']),
+                    'entities': [
+                        {
+                            'id': e['id'],
+                            'name': e['name'],
+                            'entityType': e['entity_type'],
+                            'confidence': float(e['confidence']) if e['confidence'] else 0.0
+                        }
+                        for e in conv_entities
+                    ]
+                })
 
-        # For each conversation, include related entities
-        for conv in results:
-            conv_entities = [
-                {
-                    'id': e['id'],
-                    'name': e['name'],
-                    'entityType': e['entityType'],
-                    'confidence': e.get('confidence', 0)
+            return jsonify({
+                'conversations': conversations,
+                'total': len(conversations),
+                'query': query,
+                'filters': {
+                    'agent': agent_filter,
+                    'entityType': entity_type_filter
                 }
-                for e in entities_db
-                if e.get('conversationId') == conv['id']
-            ]
-            conv['entities'] = conv_entities
+            })
+        else:
+            # In-memory fallback
+            results = [c for c in conversations_db if c['userId'] == user_id]
 
-        return jsonify({
-            'conversations': results,
-            'total': len(results),
-            'query': query,
-            'filters': {
-                'agent': agent_filter,
-                'entityType': entity_type_filter
-            }
-        })
+            # Apply filters
+            if agent_filter:
+                results = [c for c in results if c['agent'].lower() == agent_filter.lower()]
+
+            # Text search across topic and content
+            if query:
+                query_lower = query.lower()
+                results = [
+                    c for c in results
+                    if query_lower in c.get('topic', '').lower()
+                    or query_lower in c.get('content', '').lower()
+                ]
+
+            # Filter by entity type if requested
+            if entity_type_filter:
+                # Get conversation IDs that have entities of this type
+                conv_ids_with_type = set(
+                    e['conversationId'] for e in entities_db
+                    if e['entityType'] == entity_type_filter
+                )
+                results = [c for c in results if c['id'] in conv_ids_with_type]
+
+            # Sort by date descending (most recent first)
+            results = sorted(results, key=lambda x: x.get('date', ''), reverse=True)
+
+            # Limit results
+            results = results[:limit]
+
+            # For each conversation, include related entities
+            for conv in results:
+                conv_entities = [
+                    {
+                        'id': e['id'],
+                        'name': e['name'],
+                        'entityType': e['entityType'],
+                        'confidence': e.get('confidence', 0)
+                    }
+                    for e in entities_db
+                    if e.get('conversationId') == conv['id']
+                ]
+                conv['entities'] = conv_entities
+
+            return jsonify({
+                'conversations': results,
+                'total': len(results),
+                'query': query,
+                'filters': {
+                    'agent': agent_filter,
+                    'entityType': entity_type_filter
+                }
+            })
 
     except Exception as e:
         logger.error(f"Error querying conversations: {e}")
@@ -443,52 +490,85 @@ def get_unprocessed_conversations():
         if not user_id:
             return jsonify({'error': 'userId required'}), 400
 
-        # Filter conversations
-        results = [c for c in conversations_db if c['userId'] == user_id]
+        if USE_DATABASE:
+            # Query from PostgreSQL using database method
+            db = get_db()
+            results = db.get_unprocessed_conversations(
+                user_id=user_id,
+                agent_filter=agent_filter,
+                date_from=date_from,
+                date_to=date_to,
+                limit=limit
+            )
 
-        # Filter by processed flag (using metadata)
-        results = [
-            c for c in results
-            if not c.get('metadata', {}).get('processed_for_learning', False)
-        ]
+            # Results already in simplified format from database
+            conversations = [
+                {
+                    'id': c['id'],
+                    'topic': c.get('topic', 'Untitled'),
+                    'date': c.get('date').isoformat() if hasattr(c.get('date'), 'isoformat') else str(c.get('date', '')),
+                    'agent': c['agent'],
+                    'summary': c.get('summary', '')
+                }
+                for c in results
+            ]
 
-        # Apply filters
-        if agent_filter:
-            results = [c for c in results if c['agent'].lower() == agent_filter.lower()]
+            return jsonify({
+                'conversations': conversations,
+                'total_unprocessed': len(conversations),
+                'filters': {
+                    'agent': agent_filter,
+                    'dateFrom': date_from,
+                    'dateTo': date_to
+                }
+            })
+        else:
+            # In-memory fallback
+            results = [c for c in conversations_db if c['userId'] == user_id]
 
-        if date_from:
-            results = [c for c in results if c.get('date', '') >= date_from]
+            # Filter by processed flag (using metadata)
+            results = [
+                c for c in results
+                if not c.get('metadata', {}).get('processed_for_learning', False)
+            ]
 
-        if date_to:
-            results = [c for c in results if c.get('date', '') <= date_to]
+            # Apply filters
+            if agent_filter:
+                results = [c for c in results if c['agent'].lower() == agent_filter.lower()]
 
-        # Sort by date ascending (oldest first for processing)
-        results = sorted(results, key=lambda x: x.get('date', ''))
+            if date_from:
+                results = [c for c in results if c.get('date', '') >= date_from]
 
-        # Limit results
-        results = results[:limit]
+            if date_to:
+                results = [c for c in results if c.get('date', '') <= date_to]
 
-        # Return simplified format for processing queue
-        conversations = [
-            {
-                'id': c['id'],
-                'topic': c.get('topic', 'Untitled'),
-                'date': c.get('date'),
-                'agent': c['agent'],
-                'summary': c.get('content', '')[:200] + '...' if len(c.get('content', '')) > 200 else c.get('content', '')
-            }
-            for c in results
-        ]
+            # Sort by date ascending (oldest first for processing)
+            results = sorted(results, key=lambda x: x.get('date', ''))
 
-        return jsonify({
-            'conversations': conversations,
-            'total_unprocessed': len(conversations),
-            'filters': {
-                'agent': agent_filter,
-                'dateFrom': date_from,
-                'dateTo': date_to
-            }
-        })
+            # Limit results
+            results = results[:limit]
+
+            # Return simplified format for processing queue
+            conversations = [
+                {
+                    'id': c['id'],
+                    'topic': c.get('topic', 'Untitled'),
+                    'date': c.get('date'),
+                    'agent': c['agent'],
+                    'summary': c.get('content', '')[:200] + '...' if len(c.get('content', '')) > 200 else c.get('content', '')
+                }
+                for c in results
+            ]
+
+            return jsonify({
+                'conversations': conversations,
+                'total_unprocessed': len(conversations),
+                'filters': {
+                    'agent': agent_filter,
+                    'dateFrom': date_from,
+                    'dateTo': date_to
+                }
+            })
 
     except Exception as e:
         logger.error(f"Error getting unprocessed conversations: {e}")
@@ -533,41 +613,61 @@ def archive_conversations():
                 'error': 'userId and conversationIds required'
             }), 400
 
-        archived_count = 0
         now = datetime.now()
 
-        for conv in conversations_db:
-            if conv['id'] in conversation_ids and conv['userId'] == user_id:
-                if archive_type == 'hard_delete':
-                    # Mark for removal (in production would actually delete)
-                    conv['metadata'] = conv.get('metadata', {})
-                    conv['metadata']['deleted'] = True
-                    conv['metadata']['deleted_at'] = now.isoformat()
-                else:
-                    # Soft delete or compress
-                    conv['metadata'] = conv.get('metadata', {})
-                    conv['metadata']['archived'] = True
-                    conv['metadata']['archived_at'] = now.isoformat()
-                    conv['metadata']['archive_type'] = archive_type
+        if USE_DATABASE:
+            # Use database method
+            db = get_db()
+            archived_count = db.archive_conversations(
+                user_id=user_id,
+                conversation_ids=conversation_ids,
+                archive_type=archive_type,
+                retention_days=retention_days
+            )
 
-                    if archive_type == 'soft_delete':
-                        from datetime import timedelta
-                        delete_after = now + timedelta(days=retention_days)
-                        conv['metadata']['delete_after'] = delete_after.isoformat()
+            return jsonify({
+                'success': True,
+                'archived': archived_count,
+                'archive_type': archive_type,
+                'retention_days': retention_days if archive_type == 'soft_delete' else None,
+                'timestamp': now.isoformat()
+            })
+        else:
+            # In-memory fallback
+            archived_count = 0
 
-                # Mark as processed
-                conv['metadata']['processed_for_learning'] = True
-                conv['metadata']['processed_at'] = now.isoformat()
+            for conv in conversations_db:
+                if conv['id'] in conversation_ids and conv['userId'] == user_id:
+                    if archive_type == 'hard_delete':
+                        # Mark for removal (in production would actually delete)
+                        conv['metadata'] = conv.get('metadata', {})
+                        conv['metadata']['deleted'] = True
+                        conv['metadata']['deleted_at'] = now.isoformat()
+                    else:
+                        # Soft delete or compress
+                        conv['metadata'] = conv.get('metadata', {})
+                        conv['metadata']['archived'] = True
+                        conv['metadata']['archived_at'] = now.isoformat()
+                        conv['metadata']['archive_type'] = archive_type
 
-                archived_count += 1
+                        if archive_type == 'soft_delete':
+                            from datetime import timedelta
+                            delete_after = now + timedelta(days=retention_days)
+                            conv['metadata']['delete_after'] = delete_after.isoformat()
 
-        return jsonify({
-            'success': True,
-            'archived': archived_count,
-            'archive_type': archive_type,
-            'retention_days': retention_days if archive_type == 'soft_delete' else None,
-            'timestamp': now.isoformat()
-        })
+                    # Mark as processed
+                    conv['metadata']['processed_for_learning'] = True
+                    conv['metadata']['processed_at'] = now.isoformat()
+
+                    archived_count += 1
+
+            return jsonify({
+                'success': True,
+                'archived': archived_count,
+                'archive_type': archive_type,
+                'retention_days': retention_days if archive_type == 'soft_delete' else None,
+                'timestamp': now.isoformat()
+            })
 
     except Exception as e:
         logger.error(f"Error archiving conversations: {e}")
