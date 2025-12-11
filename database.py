@@ -48,6 +48,101 @@ class Database:
             logger.error(f"❌ Database connection failed: {e}")
             raise
 
+    def ensure_schema(self):
+        """Create database schema if it doesn't exist."""
+        schema_sql = """
+-- Users table (for multi-tenant support)
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    email VARCHAR(255),
+    name VARCHAR(255)
+);
+
+-- Conversations table
+CREATE TABLE IF NOT EXISTS conversations (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    agent VARCHAR(100) NOT NULL,
+    date DATE NOT NULL,
+    topic TEXT,
+    content TEXT,
+    metadata JSONB DEFAULT '{}',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    processed_for_learning BOOLEAN DEFAULT FALSE,
+    processed_at TIMESTAMP,
+    archived_at TIMESTAMP,
+    archive_type VARCHAR(50),
+    delete_after TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_user_agent ON conversations(user_id, agent);
+CREATE INDEX IF NOT EXISTS idx_date ON conversations(date);
+CREATE INDEX IF NOT EXISTS idx_processed ON conversations(processed_for_learning);
+CREATE INDEX IF NOT EXISTS idx_archived ON conversations(archived_at);
+
+-- Entities table
+CREATE TABLE IF NOT EXISTS entities (
+    id SERIAL PRIMARY KEY,
+    conversation_id INTEGER REFERENCES conversations(id) ON DELETE CASCADE,
+    name VARCHAR(255) NOT NULL,
+    entity_type VARCHAR(100) NOT NULL,
+    confidence DECIMAL(3,2),
+    description TEXT,
+    metadata JSONB DEFAULT '{}',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_conversation ON entities(conversation_id);
+CREATE INDEX IF NOT EXISTS idx_entity_type ON entities(entity_type);
+CREATE INDEX IF NOT EXISTS idx_name ON entities(name);
+
+-- Relationships table
+CREATE TABLE IF NOT EXISTS relationships (
+    id SERIAL PRIMARY KEY,
+    conversation_id INTEGER REFERENCES conversations(id) ON DELETE CASCADE,
+    from_entity VARCHAR(255) NOT NULL,
+    to_entity VARCHAR(255) NOT NULL,
+    relationship_type VARCHAR(100) NOT NULL,
+    confidence DECIMAL(3,2),
+    metadata JSONB DEFAULT '{}',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_conversation_rel ON relationships(conversation_id);
+CREATE INDEX IF NOT EXISTS idx_relationship_type ON relationships(relationship_type);
+CREATE INDEX IF NOT EXISTS idx_from_entity ON relationships(from_entity);
+CREATE INDEX IF NOT EXISTS idx_to_entity ON relationships(to_entity);
+
+-- Insert default user (Carla)
+INSERT INTO users (id, name, email)
+VALUES (1, 'Carla', 'carla@aae.ai')
+ON CONFLICT (id) DO NOTHING;
+
+-- Create updated_at trigger function
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+-- Add trigger to conversations table
+DROP TRIGGER IF EXISTS update_conversations_updated_at ON conversations;
+CREATE TRIGGER update_conversations_updated_at BEFORE UPDATE ON conversations
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+"""
+        try:
+            with self.get_connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute(schema_sql)
+            logger.info("[OK] Database schema created/verified")
+        except Exception as e:
+            logger.error(f"[ERROR] Schema creation failed: {e}")
+            raise
+
     @contextmanager
     def get_connection(self):
         """Context manager for database connections."""
@@ -341,10 +436,11 @@ db: Optional[Database] = None
 
 
 def init_database(database_url: Optional[str] = None) -> Database:
-    """Initialize the global database instance."""
+    """Initialize the global database instance and ensure schema exists."""
     global db
     if db is None:
         db = Database(database_url)
+        db.ensure_schema()
     return db
 
 
