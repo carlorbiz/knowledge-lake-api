@@ -205,9 +205,9 @@ agent-conversations/claude/conversations.json
 # AAE exports with very long file paths (causes Git issues on Windows)
 aae-exports/
 
-# Conversation exports with API keys
-agent-conversations/fred/fredconversations.json
-agent-conversations/claude/projects.json
+# Conversation exports with API keys (keep .gitignore but allow sanitized versions)
+# agent-conversations/fred/fredconversations.json
+# agent-conversations/claude/projects.json (sanitized version committed)
 agent-conversations/claude/memories-*.json
 
 # Ingestion logs
