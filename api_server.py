@@ -70,7 +70,7 @@ except ImportError as e:
 # DEPLOYMENT VERIFICATION: Log at startup to confirm enhanced version is loaded
 logger.info("=" * 80)
 logger.info("🚀 API_SERVER.PY LOADED - VERSION 2.1.0_database_persistence")
-logger.info("📍 Enhanced endpoints: /api/conversations/ingest, /api/entities, /api/aurelia/query")
+logger.info("📍 All 6 conversation endpoints: ingest, query, unprocessed, archive, extract-learning, stats")
 logger.info(f"🔑 OPENAI_API_KEY configured: {bool(os.environ.get('OPENAI_API_KEY'))}")
 logger.info(f"💾 Mem0 enabled: {memory is not None}")
 logger.info("=" * 80)
@@ -139,9 +139,17 @@ def health_check():
         },
         'endpoints': {
             'legacy': ['/knowledge/search', '/knowledge/add', '/knowledge/context'],
-            'conversations': ['/api/conversations/ingest', '/api/conversations'],
+            'conversations': [
+                '/api/conversations/ingest',
+                '/api/conversations',
+                '/api/conversations/unprocessed',
+                '/api/conversations/archive',
+                '/api/conversations/extract-learning'
+            ],
             'entities': ['/api/entities', '/api/relationships'],
-            'aurelia': ['/api/aurelia/query', '/api/aurelia/context']
+            'aurelia': ['/api/aurelia/query', '/api/aurelia/context'],
+            'stats': ['/api/stats'],
+            'bot': ['/api/bot/query', '/api/bot/ingest-sample']
         }
     })
 
@@ -704,6 +712,238 @@ def get_stats():
         })
 
     return jsonify(stats)
+
+@app.route('/api/conversations/extract-learning', methods=['POST'])
+def extract_learning():
+    """
+    Extract 7-dimension learning patterns from conversations using OpenAI
+
+    Request body:
+    {
+        "userId": 1,
+        "conversationIds": [1, 2, 3],  # Optional, if empty processes all unprocessed
+        "dimensions": ["methodology", "decisions", "corrections", "insights",
+                      "values", "prompting", "teaching"]  # Optional, defaults to all 7
+    }
+
+    7 Learning Dimensions:
+    1. Methodology Evolution - How approaches and techniques evolved
+    2. Decision Patterns - Key decision-making processes and criteria
+    3. Correction Patterns - Mistakes made and corrections applied
+    4. Insight Moments - Breakthrough realizations and discoveries
+    5. Value Signals - What matters most (preferences, priorities)
+    6. Prompting Patterns - Effective ways to communicate with AI
+    7. Teaching Potential - Content suitable for teaching others
+
+    Returns:
+    {
+        "success": true,
+        "conversations_processed": 3,
+        "learnings_extracted": {
+            "methodology": 2,
+            "decisions": 5,
+            "corrections": 1,
+            "insights": 3,
+            "values": 2,
+            "prompting": 4,
+            "teaching": 1
+        },
+        "entities_created": 18
+    }
+
+    Used by:
+    - Knowledge Lake MCP after ingestion
+    - AAE Dashboard learning extraction pipeline
+    - Aurelia AI for personalized tutoring
+    """
+    try:
+        # Check if OpenAI is available
+        if not os.environ.get('OPENAI_API_KEY'):
+            return jsonify({
+                'success': False,
+                'error': 'OPENAI_API_KEY not configured - learning extraction requires OpenAI'
+            }), 503
+
+        from openai import OpenAI
+        client = OpenAI(api_key=os.environ.get('OPENAI_API_KEY'))
+
+        data = request.get_json()
+        user_id = data.get('userId')
+        conversation_ids = data.get('conversationIds', [])
+        requested_dimensions = data.get('dimensions', [
+            'methodology', 'decisions', 'corrections', 'insights',
+            'values', 'prompting', 'teaching'
+        ])
+
+        if not user_id:
+            return jsonify({'success': False, 'error': 'userId required'}), 400
+
+        # Get conversations to process
+        if conversation_ids:
+            conversations = [
+                c for c in conversations_db
+                if c['id'] in conversation_ids and c['userId'] == user_id
+            ]
+        else:
+            # Process all unprocessed conversations
+            conversations = [
+                c for c in conversations_db
+                if c['userId'] == user_id
+                and not c.get('metadata', {}).get('processed_for_learning', False)
+            ]
+
+        if not conversations:
+            return jsonify({
+                'success': True,
+                'conversations_processed': 0,
+                'message': 'No conversations to process'
+            })
+
+        # Learning extraction prompt
+        extraction_prompt = """You are an expert learning pattern analyst. Analyze this conversation and extract key learning patterns across 7 dimensions.
+
+For each dimension, identify 1-5 specific, actionable learnings. Be concise but precise.
+
+DIMENSIONS:
+1. **Methodology Evolution**: How did approaches/techniques evolve? What worked better?
+2. **Decision Patterns**: What decision criteria were used? What factors influenced choices?
+3. **Correction Patterns**: What mistakes were made? How were they corrected?
+4. **Insight Moments**: What were the breakthrough realizations or discoveries?
+5. **Value Signals**: What priorities/preferences emerged? What mattered most?
+6. **Prompting Patterns**: What communication styles/patterns were effective?
+7. **Teaching Potential**: What content could teach others valuable skills/knowledge?
+
+Return JSON format:
+{
+  "methodology": ["learning 1", "learning 2"],
+  "decisions": ["learning 1", "learning 2"],
+  "corrections": ["learning 1"],
+  "insights": ["learning 1", "learning 2", "learning 3"],
+  "values": ["learning 1", "learning 2"],
+  "prompting": ["learning 1", "learning 2"],
+  "teaching": ["learning 1"]
+}
+
+Only include dimensions with actual learnings. Skip empty dimensions."""
+
+        learnings_extracted = {dim: 0 for dim in requested_dimensions}
+        total_entities = 0
+        processed_count = 0
+
+        # Process each conversation
+        for conv in conversations:
+            try:
+                # Prepare conversation text
+                conversation_text = f"""
+TOPIC: {conv.get('topic', 'Untitled')}
+DATE: {conv.get('date', 'Unknown')}
+AGENT: {conv.get('agent', 'Unknown')}
+
+CONTENT:
+{conv.get('content', '')[:4000]}
+"""
+
+                # Call OpenAI for learning extraction
+                response = client.chat.completions.create(
+                    model="gpt-4o-mini",
+                    messages=[
+                        {"role": "system", "content": extraction_prompt},
+                        {"role": "user", "content": conversation_text}
+                    ],
+                    response_format={"type": "json_object"},
+                    temperature=0.3,
+                    max_tokens=2000
+                )
+
+                # Parse learnings
+                import json
+                learnings = json.loads(response.choices[0].message.content)
+
+                # Create entities for each learning
+                dimension_map = {
+                    'methodology': 'Learning:Methodology',
+                    'decisions': 'Learning:DecisionPattern',
+                    'corrections': 'Learning:Correction',
+                    'insights': 'Learning:Insight',
+                    'values': 'Learning:ValueSignal',
+                    'prompting': 'Learning:PromptPattern',
+                    'teaching': 'Learning:TeachingContent'
+                }
+
+                for dimension, items in learnings.items():
+                    if dimension not in requested_dimensions:
+                        continue
+
+                    entity_type = dimension_map.get(dimension, f'Learning:{dimension.title()}')
+
+                    for learning_text in items:
+                        if USE_DATABASE:
+                            db = get_db()
+                            entity_id = db.create_entity(
+                                conversation_id=conv['id'],
+                                name=learning_text[:200],  # Truncate for name field
+                                entity_type=entity_type,
+                                confidence=0.85,
+                                description=learning_text,
+                                metadata={
+                                    'dimension': dimension,
+                                    'extracted_at': datetime.now().isoformat(),
+                                    'source_topic': conv.get('topic', ''),
+                                    'source_agent': conv.get('agent', '')
+                                }
+                            )
+                        else:
+                            entity = {
+                                'id': len(entities_db) + 1,
+                                'userId': user_id,
+                                'entityType': entity_type,
+                                'name': learning_text[:200],
+                                'description': learning_text,
+                                'semanticState': 'EXTRACTED',
+                                'confidence': 0.85,
+                                'sourceContext': f"From {conv.get('topic', '')} conversation",
+                                'conversationId': conv['id'],
+                                'createdAt': datetime.now().isoformat(),
+                                'metadata': {
+                                    'dimension': dimension,
+                                    'extracted_at': datetime.now().isoformat(),
+                                    'source_topic': conv.get('topic', ''),
+                                    'source_agent': conv.get('agent', '')
+                                }
+                            }
+                            entities_db.append(entity)
+
+                        learnings_extracted[dimension] += 1
+                        total_entities += 1
+
+                # Mark conversation as processed
+                conv['metadata'] = conv.get('metadata', {})
+                conv['metadata']['processed_for_learning'] = True
+                conv['metadata']['processed_at'] = datetime.now().isoformat()
+                conv['metadata']['learnings_count'] = sum(len(items) for items in learnings.values())
+
+                processed_count += 1
+
+            except Exception as e:
+                logger.error(f"Error extracting learnings from conversation {conv['id']}: {e}")
+                continue
+
+        return jsonify({
+            'success': True,
+            'conversations_processed': processed_count,
+            'learnings_extracted': learnings_extracted,
+            'entities_created': total_entities,
+            'timestamp': datetime.now().isoformat()
+        }), 200
+
+    except ImportError:
+        return jsonify({
+            'success': False,
+            'error': 'OpenAI library not installed'
+        }), 503
+    except Exception as e:
+        logger.error(f"Error in learning extraction: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 @app.route('/api/bot/query', methods=['POST', 'GET'])
 def bot_query():
