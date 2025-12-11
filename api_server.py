@@ -206,7 +206,11 @@ def ingest_conversation():
                     content=data['content'],
                     metadata=data.get('metadata', {})
                 )
-                conversation = {'id': conversation_id}
+                conversation = {
+                    'id': conversation_id,
+                    'agent': data['agent'],
+                    'topic': data.get('topic', 'General Discussion')
+                }
             except Exception as e:
                 logger.error(f"Database error: {e}")
                 raise
