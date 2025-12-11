@@ -277,6 +277,250 @@ def ingest_conversation():
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
 
+@app.route('/api/conversations', methods=['GET'])
+def query_conversations():
+    """
+    Query and search conversations
+
+    Query parameters:
+    - userId: User ID (required)
+    - q: Search query (optional)
+    - agent: Filter by agent name (optional)
+    - entityType: Filter by entity type (optional)
+    - limit: Max results (default: 20)
+
+    Used by:
+    - Knowledge Lake MCP for searching context
+    - AAE Dashboard conversation browser
+    """
+    try:
+        user_id = request.args.get('userId', type=int)
+        query = request.args.get('q', '')
+        agent_filter = request.args.get('agent')
+        entity_type_filter = request.args.get('entityType')
+        limit = request.args.get('limit', 20, type=int)
+
+        if not user_id:
+            return jsonify({'error': 'userId required'}), 400
+
+        # Filter conversations by user
+        results = [c for c in conversations_db if c['userId'] == user_id]
+
+        # Apply filters
+        if agent_filter:
+            results = [c for c in results if c['agent'].lower() == agent_filter.lower()]
+
+        # Text search across topic and content
+        if query:
+            query_lower = query.lower()
+            results = [
+                c for c in results
+                if query_lower in c.get('topic', '').lower()
+                or query_lower in c.get('content', '').lower()
+            ]
+
+        # Filter by entity type if requested
+        if entity_type_filter:
+            # Get conversation IDs that have entities of this type
+            conv_ids_with_type = set(
+                e['conversationId'] for e in entities_db
+                if e['entityType'] == entity_type_filter
+            )
+            results = [c for c in results if c['id'] in conv_ids_with_type]
+
+        # Sort by date descending (most recent first)
+        results = sorted(results, key=lambda x: x.get('date', ''), reverse=True)
+
+        # Limit results
+        results = results[:limit]
+
+        # For each conversation, include related entities
+        for conv in results:
+            conv_entities = [
+                {
+                    'id': e['id'],
+                    'name': e['name'],
+                    'entityType': e['entityType'],
+                    'confidence': e.get('confidence', 0)
+                }
+                for e in entities_db
+                if e.get('conversationId') == conv['id']
+            ]
+            conv['entities'] = conv_entities
+
+        return jsonify({
+            'conversations': results,
+            'total': len(results),
+            'query': query,
+            'filters': {
+                'agent': agent_filter,
+                'entityType': entity_type_filter
+            }
+        })
+
+    except Exception as e:
+        logger.error(f"Error querying conversations: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/conversations/unprocessed', methods=['GET'])
+def get_unprocessed_conversations():
+    """
+    Get conversations that haven't been processed for learning extraction
+
+    Query parameters:
+    - userId: User ID (required)
+    - agent: Filter by agent name (optional)
+    - dateFrom: Start date YYYY-MM-DD (optional)
+    - dateTo: End date YYYY-MM-DD (optional)
+    - limit: Max results (default: 50)
+
+    Used by:
+    - Knowledge Lake MCP learning extraction workflow
+    - AAE Dashboard learning extraction pipeline
+
+    Note: In-memory implementation uses metadata flag.
+    Production would use processed_for_learning DB column.
+    """
+    try:
+        user_id = request.args.get('userId', type=int)
+        agent_filter = request.args.get('agent')
+        date_from = request.args.get('dateFrom')
+        date_to = request.args.get('dateTo')
+        limit = request.args.get('limit', 50, type=int)
+
+        if not user_id:
+            return jsonify({'error': 'userId required'}), 400
+
+        # Filter conversations
+        results = [c for c in conversations_db if c['userId'] == user_id]
+
+        # Filter by processed flag (using metadata)
+        results = [
+            c for c in results
+            if not c.get('metadata', {}).get('processed_for_learning', False)
+        ]
+
+        # Apply filters
+        if agent_filter:
+            results = [c for c in results if c['agent'].lower() == agent_filter.lower()]
+
+        if date_from:
+            results = [c for c in results if c.get('date', '') >= date_from]
+
+        if date_to:
+            results = [c for c in results if c.get('date', '') <= date_to]
+
+        # Sort by date ascending (oldest first for processing)
+        results = sorted(results, key=lambda x: x.get('date', ''))
+
+        # Limit results
+        results = results[:limit]
+
+        # Return simplified format for processing queue
+        conversations = [
+            {
+                'id': c['id'],
+                'topic': c.get('topic', 'Untitled'),
+                'date': c.get('date'),
+                'agent': c['agent'],
+                'summary': c.get('content', '')[:200] + '...' if len(c.get('content', '')) > 200 else c.get('content', '')
+            }
+            for c in results
+        ]
+
+        return jsonify({
+            'conversations': conversations,
+            'total_unprocessed': len(conversations),
+            'filters': {
+                'agent': agent_filter,
+                'dateFrom': date_from,
+                'dateTo': date_to
+            }
+        })
+
+    except Exception as e:
+        logger.error(f"Error getting unprocessed conversations: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/conversations/archive', methods=['POST'])
+def archive_conversations():
+    """
+    Mark conversations as archived/processed for deletion
+
+    Request body:
+    {
+        "userId": 1,
+        "conversationIds": [123, 124],
+        "archiveType": "soft_delete",  // or "hard_delete", "compress"
+        "retentionDays": 30
+    }
+
+    Archive types:
+    - soft_delete: Mark as archived, schedule for deletion
+    - hard_delete: Remove immediately
+    - compress: Mark for compression (future)
+
+    Used by:
+    - Knowledge Lake MCP after learning extraction
+    - AAE Dashboard conversation management
+
+    Note: In-memory implementation sets metadata flags.
+    Production would use archived_at and delete_after DB columns.
+    """
+    try:
+        data = request.get_json()
+
+        user_id = data.get('userId')
+        conversation_ids = data.get('conversationIds', [])
+        archive_type = data.get('archiveType', 'soft_delete')
+        retention_days = data.get('retentionDays', 30)
+
+        if not user_id or not conversation_ids:
+            return jsonify({
+                'success': False,
+                'error': 'userId and conversationIds required'
+            }), 400
+
+        archived_count = 0
+        now = datetime.now()
+
+        for conv in conversations_db:
+            if conv['id'] in conversation_ids and conv['userId'] == user_id:
+                if archive_type == 'hard_delete':
+                    # Mark for removal (in production would actually delete)
+                    conv['metadata'] = conv.get('metadata', {})
+                    conv['metadata']['deleted'] = True
+                    conv['metadata']['deleted_at'] = now.isoformat()
+                else:
+                    # Soft delete or compress
+                    conv['metadata'] = conv.get('metadata', {})
+                    conv['metadata']['archived'] = True
+                    conv['metadata']['archived_at'] = now.isoformat()
+                    conv['metadata']['archive_type'] = archive_type
+
+                    if archive_type == 'soft_delete':
+                        from datetime import timedelta
+                        delete_after = now + timedelta(days=retention_days)
+                        conv['metadata']['delete_after'] = delete_after.isoformat()
+
+                # Mark as processed
+                conv['metadata']['processed_for_learning'] = True
+                conv['metadata']['processed_at'] = now.isoformat()
+
+                archived_count += 1
+
+        return jsonify({
+            'success': True,
+            'archived': archived_count,
+            'archive_type': archive_type,
+            'retention_days': retention_days if archive_type == 'soft_delete' else None,
+            'timestamp': now.isoformat()
+        })
+
+    except Exception as e:
+        logger.error(f"Error archiving conversations: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
 @app.route('/api/entities', methods=['GET'])
 def get_entities():
     """Get entities for a user (for AAE Dashboard visualization)"""
