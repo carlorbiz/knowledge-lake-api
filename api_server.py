@@ -794,6 +794,84 @@ def aurelia_query():
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
 
+@app.route('/api/query', methods=['POST'])
+def query_knowledge():
+    """
+    Query the knowledge lake with semantic search
+    Supports both database and memory mode
+    """
+    try:
+        data = request.get_json()
+
+        if not data.get('query'):
+            return jsonify({'error': 'query parameter required'}), 400
+
+        user_id = data.get('userId', 1)
+        query = data['query']
+        limit = data.get('limit', 10)
+
+        results = []
+
+        # Use mem0 semantic search if available
+        try:
+            mem0_results = memory.search(
+                query=query,
+                user_id=f"user_{user_id}",
+                limit=limit
+            )
+
+            for result in mem0_results:
+                if isinstance(result, dict) and 'memory' in result:
+                    results.append({
+                        'content': result['memory'],
+                        'score': result.get('score', 0.0),
+                        'metadata': result.get('metadata', {})
+                    })
+        except Exception as mem0_error:
+            print(f"[Query] Mem0 search failed: {mem0_error}")
+
+        # Fallback to database search
+        if USE_DATABASE and not results:
+            try:
+                db = get_db()
+                cursor = db.cursor()
+
+                # Search conversations by content
+                cursor.execute("""
+                    SELECT id, agent, topic, content, date, entities
+                    FROM conversations
+                    WHERE userId = ? AND (
+                        topic LIKE ? OR
+                        content LIKE ?
+                    )
+                    ORDER BY date DESC
+                    LIMIT ?
+                """, (user_id, f"%{query}%", f"%{query}%", limit))
+
+                for row in cursor.fetchall():
+                    results.append({
+                        'id': row[0],
+                        'agent': row[1],
+                        'topic': row[2],
+                        'content': row[3],
+                        'date': row[4],
+                        'entities': json.loads(row[5]) if row[5] else []
+                    })
+
+            except Exception as db_error:
+                print(f"[Query] Database search failed: {db_error}")
+
+        return jsonify({
+            'success': True,
+            'query': query,
+            'results': results,
+            'count': len(results),
+            'timestamp': datetime.now().isoformat()
+        })
+
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
 @app.route('/api/stats', methods=['GET'])
 def get_stats():
     """Get knowledge lake statistics"""
