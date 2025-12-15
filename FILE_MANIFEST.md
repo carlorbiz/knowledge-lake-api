@@ -1,8 +1,47 @@
-# Mem0 AI Automation Ecosystem - File Manifest
+\ Mem0 AI Automation Ecosystem - File Manifest
 
-**Last Updated:** December 6, 2025
+**Last Updated:** December 15, 2025
 **Purpose:** Complete directory structure and file inventory for Carla's AAE
 **Maintained by:** Claude Code (iteratively updated - DO NOT create dated versions)
+
+---
+
+## 🎯 CURRENT STATE (Read This First After Context Compaction)
+
+> **AI Agents**: After conversation compaction, READ THIS SECTION to understand current project state. Do not reference superseded plans or old file locations.
+
+### Active Work Streams (December 2025)
+
+| Stream | Status | Key Files | Notes |
+|--------|--------|-----------|-------|
+| Knowledge Graph | IN PROGRESS | `github-projects/aae-dashboard/server/routers/knowledge.ts` | PostgreSQL migration underway |
+| JSONB Migration | IN PROGRESS | `migrations/convert_json_to_jsonb_2025_12_14.sql` | Testing on staging |
+| VS Code Agents | COMPLETE | `.vscode/agents/*.json` | 5 custom agents configured |
+
+### Superseded References (DO NOT USE)
+
+| Old Reference | Superseded By | Date |
+|---------------|---------------|------|
+| D1/SQLite database | PostgreSQL | Dec 2025 |
+| Railway deployment | Hostinger (planned) | Pending |
+| `json()` column type | `jsonb()` column type | Dec 2025 |
+
+### Current Architecture Decisions
+
+- **Database**: PostgreSQL (migrating from Cloudflare D1/SQLite)
+- **Hosting**: Railway (current) → Hostinger (commercial launch)
+- **Graph DB**: PostgreSQL recursive CTEs (not Neo4j/ArangoDB)
+- **Schema**: JSONB for properties fields with GIN indexes
+- **Semantic States**: RAW → DRAFT → COOKED → CANONICAL (only Carla promotes to CANONICAL)
+
+### Key Documents (Authoritative)
+
+| Document | Purpose | Location |
+|----------|---------|----------|
+| Architecture Blueprint | Intelligent Corporate Brain design | `github-projects/aae-dashboard/INTELLIGENT_CORPORATE_BRAIN_ARCHITECTURE.md` |
+| This Manifest | File inventory + current state | `FILE_MANIFEST.md` |
+| Claude Instructions | Agent behavior rules | `CLAUDE.md` |
+| JSONB Examples | PostgreSQL patterns | `github-projects/aae-dashboard/docs/jsonb_drizzle_examples.md` |
 
 ---
 
@@ -176,6 +215,18 @@ Via Docker MCP:
 
 ---
 
+### **VS Code Agents Configuration**
+
+Agent configuration JSON files are stored under `.vscode/agents/`. These define local agent presets used by developer tooling and MCP workflows. Current files include:
+
+- `.vscode/agents/aae-architect.json` — architect agent preset
+- `.vscode/agents/ingestion-pipeline.json` — ingestion pipeline helper
+- `.vscode/agents/knowledge-graph-expert.json` — knowledge graph expert assistant
+- `.vscode/agents/manifest-curator.json` — manifest/curation helper
+- `.vscode/agents/postgres-migration.json` — DB migration helper
+
+Add new agent presets here and keep filenames descriptive; these are consumed by local VS Code tasks and developer tooling.
+
 ## Recent Changes (December 2025)
 
 ### Dec 6: Root Cleanup
@@ -192,8 +243,13 @@ Via Docker MCP:
 
 ### Dec 4: MTMOT Unified MCP Launch
 - Deployed 31-tool MCP server to Railway
+### Dec 15: Agents & DB migration updates
 
----
+- Added `.vscode/agents/` agent presets (developer tooling): see `VS Code Agents Configuration` section.
+- Added migration SQL and docs for converting JSON → JSONB in `github-projects/aae-dashboard/migrations/`.
+- Added `docs/jsonb_drizzle_examples.md` to `github-projects/aae-dashboard/docs/` with jsonb usage examples for Drizzle.
+
+
 
 ## Maintenance Guidelines
 
@@ -205,4 +261,4 @@ Via Docker MCP:
 
 ---
 
-**Last Full Audit:** December 6, 2025
+**Last Full Audit:** December 15, 2025
