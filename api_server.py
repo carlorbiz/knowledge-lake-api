@@ -830,32 +830,25 @@ def query_knowledge():
         except Exception as mem0_error:
             print(f"[Query] Mem0 search failed: {mem0_error}")
 
-        # Fallback to database search
+        # Fallback to database search using Database class method
         if USE_DATABASE and not results:
             try:
                 db = get_db()
-                cursor = db.cursor(cursor_factory=RealDictCursor)
+                conversations = db.get_conversations(
+                    user_id=user_id,
+                    query=query,
+                    limit=limit
+                )
 
-                # Search conversations by content (PostgreSQL syntax)
-                cursor.execute("""
-                    SELECT id, agent, topic, content, date, metadata
-                    FROM conversations
-                    WHERE user_id = %s AND (
-                        topic ILIKE %s OR
-                        content ILIKE %s
-                    )
-                    ORDER BY date DESC
-                    LIMIT %s
-                """, (user_id, f"%{query}%", f"%{query}%", limit))
-
-                for row in cursor.fetchall():
+                for conv in conversations:
                     results.append({
-                        'id': row['id'],
-                        'agent': row['agent'],
-                        'topic': row['topic'],
-                        'content': row['content'],
-                        'date': row['date'].isoformat() if row['date'] else None,
-                        'metadata': row.get('metadata', {})
+                        'id': conv['id'],
+                        'agent': conv['agent'],
+                        'topic': conv.get('topic', ''),
+                        'content': conv.get('content', ''),
+                        'date': conv['date'].isoformat() if hasattr(conv['date'], 'isoformat') else str(conv['date']),
+                        'metadata': conv.get('metadata', {}),
+                        'created_at': conv['created_at'].isoformat() if hasattr(conv['created_at'], 'isoformat') else str(conv['created_at'])
                     })
 
             except Exception as db_error:
