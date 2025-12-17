@@ -834,32 +834,32 @@ def query_knowledge():
         if USE_DATABASE and not results:
             try:
                 db = get_db()
-                cursor = db.cursor()
+                cursor = db.cursor(cursor_factory=RealDictCursor)
 
-                # Search conversations by content
+                # Search conversations by content (PostgreSQL syntax)
                 cursor.execute("""
-                    SELECT id, agent, topic, content, date, entities
+                    SELECT id, agent, topic, content, date, metadata
                     FROM conversations
-                    WHERE userId = ? AND (
-                        topic LIKE ? OR
-                        content LIKE ?
+                    WHERE user_id = %s AND (
+                        topic ILIKE %s OR
+                        content ILIKE %s
                     )
                     ORDER BY date DESC
-                    LIMIT ?
+                    LIMIT %s
                 """, (user_id, f"%{query}%", f"%{query}%", limit))
 
                 for row in cursor.fetchall():
                     results.append({
-                        'id': row[0],
-                        'agent': row[1],
-                        'topic': row[2],
-                        'content': row[3],
-                        'date': row[4],
-                        'entities': json.loads(row[5]) if row[5] else []
+                        'id': row['id'],
+                        'agent': row['agent'],
+                        'topic': row['topic'],
+                        'content': row['content'],
+                        'date': row['date'].isoformat() if row['date'] else None,
+                        'metadata': row.get('metadata', {})
                     })
 
             except Exception as db_error:
-                print(f"[Query] Database search failed: {db_error}")
+                logger.error(f"[Query] Database search failed: {db_error}")
 
         return jsonify({
             'success': True,
