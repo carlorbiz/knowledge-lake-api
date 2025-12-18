@@ -813,24 +813,27 @@ def query_knowledge():
         results = []
 
         # Use mem0 semantic search if available
-        try:
-            mem0_results = memory.search(
-                query=query,
-                user_id=f"user_{user_id}",
-                limit=limit
-            )
+        if memory is not None:
+            try:
+                mem0_results = memory.search(
+                    query=query,
+                    user_id=f"user_{user_id}",
+                    limit=limit
+                )
+                logger.info(f"[Query] Mem0 returned {len(mem0_results) if mem0_results else 0} results")
 
-            for result in mem0_results:
-                if isinstance(result, dict) and 'memory' in result:
-                    results.append({
-                        'content': result['memory'],
-                        'score': result.get('score', 0.0),
-                        'metadata': result.get('metadata', {})
-                    })
-        except Exception as mem0_error:
-            print(f"[Query] Mem0 search failed: {mem0_error}")
+                for result in mem0_results:
+                    if isinstance(result, dict) and 'memory' in result:
+                        results.append({
+                            'content': result['memory'],
+                            'score': result.get('score', 0.0),
+                            'metadata': result.get('metadata', {})
+                        })
+            except Exception as mem0_error:
+                logger.warning(f"[Query] Mem0 search failed: {mem0_error}")
 
         # Fallback to database search using Database class method
+        logger.info(f"[Query] After mem0: USE_DATABASE={USE_DATABASE}, results count={len(results)}")
         if USE_DATABASE and not results:
             try:
                 db = get_db()
@@ -839,6 +842,7 @@ def query_knowledge():
                     query=query,
                     limit=limit
                 )
+                logger.info(f"[Query] Database returned {len(conversations)} conversations")
 
                 for conv in conversations:
                     results.append({
