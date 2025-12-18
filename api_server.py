@@ -869,6 +869,36 @@ def query_knowledge():
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
 
+@app.route('/api/debug/test-db-search', methods=['GET'])
+def debug_test_db_search():
+    """Debug endpoint to test database search directly"""
+    try:
+        query = request.args.get('q', 'ACRRM')
+        user_id = request.args.get('userId', 1, type=int)
+        limit = request.args.get('limit', 5, type=int)
+
+        if not USE_DATABASE:
+            return jsonify({'error': 'Database not enabled'}), 500
+
+        db = get_db()
+        conversations = db.get_conversations(
+            user_id=user_id,
+            query=query,
+            limit=limit
+        )
+
+        return jsonify({
+            'success': True,
+            'query': query,
+            'user_id': user_id,
+            'use_database': USE_DATABASE,
+            'conversations_found': len(conversations),
+            'conversations': conversations
+        })
+    except Exception as e:
+        logger.error(f"Debug endpoint error: {e}")
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/stats', methods=['GET'])
 def get_stats():
     """Get knowledge lake statistics"""
