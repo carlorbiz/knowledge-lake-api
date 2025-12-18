@@ -10,13 +10,15 @@
 
 > **AI Agents**: After conversation compaction, READ THIS SECTION to understand current project state. Do not reference superseded plans or old file locations.
 
-### Active Work Streams (December 2025)
+### Active Work Streams (December 17-18, 2025)
 
 | Stream | Status | Key Files | Notes |
 |--------|--------|-----------|-------|
+| Knowledge Lake /api/query Fix | DEPLOYED | `api_server.py` (ed634328, a196c8f0, 89aad570) | Fixed PostgreSQL syntax, using Database.get_conversations() |
+| VibeSDK BYOK Authorization | DEPLOYED | `worker/api/controllers/modelConfig/byokHelper.ts`, `worker/database/services/SecretsService.ts` (95f1a11) | Fixed dual-naming detection (ai vs byok categories) |
+| MCP Server Integration | ACTIVE | `.vscode/mcp.json` | ai-orchestration, manus-task-manager, knowledge-lake configured |
+| Next.js Security Fix | COMPLETE | `examples/mem0-demo/package.json` (c8c65839) | Upgraded to 15.2.7 (CVE-2025-55183) |
 | Knowledge Graph | IN PROGRESS | `github-projects/aae-dashboard/server/routers/knowledge.ts` | PostgreSQL migration underway |
-| JSONB Migration | IN PROGRESS | `migrations/convert_json_to_jsonb_2025_12_14.sql` | Testing on staging |
-| VS Code Agents | COMPLETE | `.vscode/agents/*.json` | 5 custom agents configured |
 
 ### Superseded References (DO NOT USE)
 
@@ -141,6 +143,9 @@ github-projects/
 ├── executive-ai-advisor/              # Aurelia AI Advisor
 ├── carlorbiz-strategic-tool/          # Strategic planning
 ├── aae-dashboard/                     # AAE central dashboard
+│   └── migrations/                     # DB migration scripts (JSON→JSONB)
+│       ├── convert_json_to_jsonb_2025_12_14.sql  # Convert `json` -> `jsonb`, add GIN indexes
+│       └── rollback_jsonb_to_json_2025_12_14.sql # Revert `jsonb` -> `json` and drop indexes
 └── mtmot-vibesdk-production/          # VibeSDK production
 ```
 
