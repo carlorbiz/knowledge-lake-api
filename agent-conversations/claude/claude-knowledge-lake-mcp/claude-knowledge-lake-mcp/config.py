@@ -9,13 +9,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Knowledge Lake API Configuration
+# Production Railway URL (default)
 KNOWLEDGE_LAKE_BASE_URL = os.getenv(
-    "KNOWLEDGE_LAKE_BASE_URL", 
-    "http://localhost:5002"  # Local development default
+    "KNOWLEDGE_LAKE_BASE_URL",
+    "https://knowledge-lake-api-production.up.railway.app"
 )
 
-# Production Railway URL (update when deployed)
-# KNOWLEDGE_LAKE_BASE_URL = "https://your-knowledge-lake.up.railway.app"
+# Local development override: Set KNOWLEDGE_LAKE_BASE_URL=http://localhost:5002 in .env
 
 # User ID for Carla's account (always 1 as per API spec)
 DEFAULT_USER_ID = 1
