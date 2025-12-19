@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from database import init_database, get_db
 from psycopg2.extras import RealDictCursor
 from typing import List, Dict, Any, Optional
+import threading
 
 # Configure logging to use stdout (prevents Railway from showing everything as "error")
 logging.basicConfig(
@@ -90,6 +91,30 @@ except Exception as e:
     logger.error(f"❌ Database initialization failed: {e}")
     logger.warning("Falling back to in-memory storage (data lost on restart)")
     logger.warning("Set DATABASE_URL to enable persistence")
+
+def index_conversation_in_background(conversation_data: Dict[str, Any], agent: str, topic: str, content: str, user_id: str):
+    """
+    Perform mem0 semantic indexing in a background thread to avoid blocking HTTP responses.
+    This prevents timeout issues when ingesting large conversations.
+    """
+    try:
+        logger.info(f"[Mem0 Background] Starting indexing for conversation {conversation_data.get('id')}")
+        memory.add(
+            messages=[{
+                'role': 'user',
+                'content': f"Conversation with {agent} about {topic}: {content}"
+            }],
+            user_id=user_id,
+            metadata={
+                'conversationId': conversation_data['id'],
+                'agent': agent,
+                'date': conversation_data.get('date'),
+                'topic': topic
+            }
+        )
+        logger.info(f"[Mem0 Background] ✅ Completed indexing for conversation {conversation_data.get('id')}")
+    except Exception as e:
+        logger.error(f"[Mem0 Background] ❌ Indexing failed for conversation {conversation_data.get('id')}: {e}")
 
 @app.route('/knowledge/search', methods=['GET'])
 def search_knowledge():
@@ -231,20 +256,21 @@ def ingest_conversation():
             conversations_db.append(conversation)
 
         # Also add to mem0 for semantic search (if available)
+        # Run in background thread to prevent timeout on large conversations
         if memory:
-            memory.add(
-                messages=[{
-                    'role': 'user',
-                    'content': f"Conversation with {data['agent']} about {conversation['topic']}: {data['content']}"
-                }],
-                user_id=f"user_{data['userId']}",
-                metadata={
-                    'conversationId': conversation['id'],
-                    'agent': data['agent'],
-                    'date': data['date'],
-                    'topic': conversation['topic']
-                }
+            background_thread = threading.Thread(
+                target=index_conversation_in_background,
+                args=(
+                    conversation,
+                    data['agent'],
+                    conversation['topic'],
+                    data['content'],
+                    f"user_{data['userId']}"
+                ),
+                daemon=True
             )
+            background_thread.start()
+            logger.info(f"[Mem0] Background indexing started for conversation {conversation['id']}")
 
         # Store entities
         entities_created = []
@@ -323,6 +349,7 @@ def ingest_conversation():
             'entitiesCreated': len(entities_created),
             'relationshipsCreated': len(relationships_created),
             'mem0Indexed': memory is not None,
+            'mem0IndexingMode': 'background' if memory else 'disabled',
             'timestamp': datetime.now().isoformat()
         }), 201
 
