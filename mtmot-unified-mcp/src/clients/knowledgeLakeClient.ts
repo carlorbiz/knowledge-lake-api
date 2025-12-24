@@ -251,6 +251,57 @@ export async function aureliaQuery(params: AureliaQueryParams): Promise<AureliaQ
   });
 }
 
+// ==================== Learning Extraction ====================
+
+export interface ExtractLearningParams {
+  userId: number;
+  conversationIds?: number[];
+  dimensions?: string[];
+}
+
+export interface ExtractLearningResult {
+  success: boolean;
+  conversationsProcessed: number;
+  learningsCreated: number;
+  learningsByDimension: Record<string, number>;
+  timestamp: string;
+}
+
+export async function extractLearning(
+  params: ExtractLearningParams
+): Promise<ExtractLearningResult> {
+  return klFetch<ExtractLearningResult>("/api/conversations/extract-learning", {
+    method: "POST",
+    body: params,
+  });
+}
+
+// ==================== Archive Operations ====================
+
+export interface ArchiveConversationsParams {
+  userId: number;
+  conversationIds: number[];
+  archiveType?: "soft_delete" | "hard_delete" | "compress";
+  retentionDays?: number;
+}
+
+export interface ArchiveConversationsResult {
+  success: boolean;
+  conversationsArchived: number;
+  archiveType: string;
+  scheduledDeletion?: string;
+  timestamp: string;
+}
+
+export async function archiveConversations(
+  params: ArchiveConversationsParams
+): Promise<ArchiveConversationsResult> {
+  return klFetch<ArchiveConversationsResult>("/api/conversations/archive", {
+    method: "POST",
+    body: params,
+  });
+}
+
 // ==================== Health Check ====================
 
 export interface HealthCheckResult {

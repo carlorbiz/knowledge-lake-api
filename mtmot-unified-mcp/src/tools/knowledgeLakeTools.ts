@@ -7,10 +7,14 @@ import {
   getEntities,
   getRelationships,
   aureliaQuery,
+  extractLearning,
+  archiveConversations,
   healthCheck,
   type IngestConversationParams,
   type ConversationEntity,
   type ConversationRelationship,
+  type ExtractLearningParams,
+  type ArchiveConversationsParams,
 } from "../clients/knowledgeLakeClient.js";
 import { notionClient } from "../clients/notionClient.js";
 import { drive } from "../clients/driveClient.js";
@@ -515,6 +519,141 @@ export const knowledgeLakeTools = [
         includeEntities,
         maxResults,
       });
+
+      return {
+        content: [
+          {
+            type: "text" as const,
+            text: JSON.stringify(result, null, 2),
+          },
+        ],
+      };
+    },
+  },
+
+  // ==================== LEARNING EXTRACTION ====================
+  {
+    name: "kl_extract_learning",
+    description:
+      "Extract 7-dimension learning patterns from conversations using OpenAI. Creates discrete, searchable learning entities from raw conversations. Use this to clean up the Knowledge Lake after ingesting messy conversations.",
+    inputSchema: {
+      type: "object" as const,
+      properties: {
+        userId: {
+          type: "number",
+          description: "User ID (default 1 for Carla).",
+        },
+        conversationIds: {
+          type: "array",
+          items: {
+            type: "number",
+          },
+          description:
+            "Array of conversation IDs to process. If empty, processes all unprocessed conversations.",
+        },
+        dimensions: {
+          type: "array",
+          items: {
+            type: "string",
+          },
+          description:
+            "Learning dimensions to extract. Defaults to all 7: methodology, decisions, corrections, insights, values, prompting, teaching.",
+        },
+      },
+      required: [],
+    },
+    handler: async (input: {
+      userId?: number;
+      conversationIds?: number[];
+      dimensions?: string[];
+    }) => {
+      const {
+        userId = 1,
+        conversationIds = [],
+        dimensions = [
+          "methodology",
+          "decisions",
+          "corrections",
+          "insights",
+          "values",
+          "prompting",
+          "teaching",
+        ],
+      } = input;
+
+      const params: ExtractLearningParams = {
+        userId,
+        conversationIds,
+        dimensions,
+      };
+
+      const result = await extractLearning(params);
+
+      return {
+        content: [
+          {
+            type: "text" as const,
+            text: JSON.stringify(result, null, 2),
+          },
+        ],
+      };
+    },
+  },
+
+  // ==================== ARCHIVE OPERATIONS ====================
+  {
+    name: "kl_archive_conversations",
+    description:
+      "Archive conversations after extracting learnings. Removes raw conversations from queries while preserving extracted learning entities. Use after kl_extract_learning to keep the Knowledge Lake clean and focused.",
+    inputSchema: {
+      type: "object" as const,
+      properties: {
+        userId: {
+          type: "number",
+          description: "User ID (default 1 for Carla).",
+        },
+        conversationIds: {
+          type: "array",
+          items: {
+            type: "number",
+          },
+          description: "Array of conversation IDs to archive.",
+        },
+        archiveType: {
+          type: "string",
+          enum: ["soft_delete", "hard_delete", "compress"],
+          description:
+            "Archive type: soft_delete (scheduled deletion with retention), hard_delete (immediate removal), compress (future feature). Default: soft_delete.",
+        },
+        retentionDays: {
+          type: "number",
+          description:
+            "Days to retain before deletion (soft_delete only). Default: 30.",
+        },
+      },
+      required: ["conversationIds"],
+    },
+    handler: async (input: {
+      userId?: number;
+      conversationIds: number[];
+      archiveType?: "soft_delete" | "hard_delete" | "compress";
+      retentionDays?: number;
+    }) => {
+      const {
+        userId = 1,
+        conversationIds,
+        archiveType = "soft_delete",
+        retentionDays = 30,
+      } = input;
+
+      const params: ArchiveConversationsParams = {
+        userId,
+        conversationIds,
+        archiveType,
+        retentionDays,
+      };
+
+      const result = await archiveConversations(params);
 
       return {
         content: [
