@@ -3,6 +3,7 @@
 **Last Updated:** 2025-12-24
 **Repository:** mem0 (carlorbiz/mem0)
 **Purpose:** Single source of truth for all apps, courses, and deployments
+**Enforcement:** 4-layer automated system (see INVENTORY_ENFORCEMENT.md)
 
 ---
 
@@ -16,6 +17,7 @@
 | **Infrastructure Services** | 2 | ✅ Live (Railway) |
 | **Course Generation Systems** | 1 | ✅ Active |
 | **Example/Demo Projects** | 8 | 📚 Reference |
+| **Enforcement Tools** | 4 | ✅ Active |
 
 ---
 
@@ -251,6 +253,50 @@
 | **Description** | Python script for syncing Claude Code context with Knowledge Lake |
 | **Location** | `/cc-context-sync.py` |
 | **Usage** | `python cc-context-sync.py start` / `python cc-context-sync.py end "summary"` |
+
+---
+
+## 🔒 Inventory Enforcement Tools
+
+### 20. **Git Pre-commit Hook**
+| Detail | Value |
+|--------|-------|
+| **Description** | Blocks commits if project files modified without inventory update |
+| **Status** | ✅ Active |
+| **Location** | `.git/hooks/pre-commit` |
+| **Enforcement** | Layer 1 - Local commits |
+| **Bypassable** | Yes (`git commit --no-verify`) |
+
+### 21. **GitHub Actions - Inventory Check**
+| Detail | Value |
+|--------|-------|
+| **Description** | PR validation workflow for inventory updates |
+| **Status** | ✅ Active |
+| **Location** | `.github/workflows/inventory-check.yml` |
+| **Enforcement** | Layer 2 - All pull requests |
+| **Bypassable** | Admin override only |
+| **Checks** | File modified, format validation, date staleness |
+
+### 22. **CLAUDE.md Protocol**
+| Detail | Value |
+|--------|-------|
+| **Description** | Mandatory instructions for AI agents to update inventory |
+| **Status** | ✅ Active |
+| **Location** | `CLAUDE.md` - Section: "Deployment Inventory Update Protocol" |
+| **Enforcement** | Layer 3 - AI agent compliance |
+| **Scope** | Claude Code, Manus, all AI agents |
+
+### 23. **Inventory Manager MCP Tool (Planned)**
+| Detail | Value |
+|--------|-------|
+| **Description** | Automated inventory management via Model Context Protocol |
+| **Status** | 🔄 Planned (Future) |
+| **Location** | `/mcp-tools/inventory-manager/` |
+| **Enforcement** | Layer 4 - Automated updates |
+| **Tools** | check_status, update_inventory, validate, get_info |
+| **Priority** | Medium (current 3-layer system sufficient) |
+
+**Enforcement Documentation:** See `INVENTORY_ENFORCEMENT.md` for complete system details
 
 ---
 
