@@ -1,8 +1,8 @@
 # Multi-Pass Learning Extraction Report
 
-**Conversation:** Temp 20251224 221243
+**Conversation:** Temp 20251224 233353
 **Word Count:** 44,716
-**Extracted:** 2025-12-24 22:12:43
+**Extracted:** 2025-12-24 23:33:53
 
 ---
 
@@ -425,7 +425,7 @@ Looking at your **top window** (API server), I can see the crucial change:
 - **Thread 4 → Thread 13**
   - Type: `builds_on`
   - Thread 13 references concepts from Thread 4
-  - Evidence: "echo API_KEY=sk-proj-REDACTED..."
+  - Evidence: "echo API_KEY=sk-proj-SkNpmXo77ZI4q-f85UM9lkJ_mxuJl1LmLGOQ4Xl_Yk_bwsR0ewQ6m4mBzQRAkwtY44PiPtx7AZT3BlbkFJJ82CeArY9H2BVzqVkDVSq0KWweFmnxHxRG1rFp6Ul3ak8Be..."
 
 - **Thread 5 → Thread 6**
   - Type: `builds_on`
@@ -465,7 +465,7 @@ Looking at your **top window** (API server), I can see the crucial change:
 - **Thread 5 → Thread 13**
   - Type: `builds_on`
   - Thread 13 references concepts from Thread 5
-  - Evidence: "echo API_KEY=sk-proj-REDACTED..."
+  - Evidence: "echo API_KEY=sk-proj-SkNpmXo77ZI4q-f85UM9lkJ_mxuJl1LmLGOQ4Xl_Yk_bwsR0ewQ6m4mBzQRAkwtY44PiPtx7AZT3BlbkFJJ82CeArY9H2BVzqVkDVSq0KWweFmnxHxRG1rFp6Ul3ak8Be..."
 
 - **Thread 5 → Thread 14**
   - Type: `builds_on`
@@ -540,7 +540,7 @@ Looking at your **top window** (API server), I can see the crucial change:
 - **Thread 6 → Thread 13**
   - Type: `builds_on`
   - Thread 13 references concepts from Thread 6
-  - Evidence: "echo API_KEY=sk-proj-REDACTED..."
+  - Evidence: "echo API_KEY=sk-proj-SkNpmXo77ZI4q-f85UM9lkJ_mxuJl1LmLGOQ4Xl_Yk_bwsR0ewQ6m4mBzQRAkwtY44PiPtx7AZT3BlbkFJJ82CeArY9H2BVzqVkDVSq0KWweFmnxHxRG1rFp6Ul3ak8Be..."
 
 - **Thread 6 → Thread 14**
   - Type: `builds_on`
@@ -725,7 +725,7 @@ Looking at your **top window** (API server), I can see the crucial change:
 - **Thread 9 → Thread 13**
   - Type: `builds_on`
   - Thread 13 references concepts from Thread 9
-  - Evidence: "echo API_KEY=sk-proj-REDACTED..."
+  - Evidence: "echo API_KEY=sk-proj-SkNpmXo77ZI4q-f85UM9lkJ_mxuJl1LmLGOQ4Xl_Yk_bwsR0ewQ6m4mBzQRAkwtY44PiPtx7AZT3BlbkFJJ82CeArY9H2BVzqVkDVSq0KWweFmnxHxRG1rFp6Ul3ak8Be..."
 
 - **Thread 9 → Thread 14**
   - Type: `builds_on`
@@ -780,7 +780,7 @@ Looking at your **top window** (API server), I can see the crucial change:
 - **Thread 10 → Thread 13**
   - Type: `builds_on`
   - Thread 13 references concepts from Thread 10
-  - Evidence: "echo API_KEY=sk-proj-REDACTED..."
+  - Evidence: "echo API_KEY=sk-proj-SkNpmXo77ZI4q-f85UM9lkJ_mxuJl1LmLGOQ4Xl_Yk_bwsR0ewQ6m4mBzQRAkwtY44PiPtx7AZT3BlbkFJJ82CeArY9H2BVzqVkDVSq0KWweFmnxHxRG1rFp6Ul3ak8Be..."
 
 - **Thread 10 → Thread 14**
   - Type: `builds_on`
@@ -830,7 +830,7 @@ Looking at your **top window** (API server), I can see the crucial change:
 - **Thread 11 → Thread 13**
   - Type: `builds_on`
   - Thread 13 references concepts from Thread 11
-  - Evidence: "echo API_KEY=sk-proj-REDACTED..."
+  - Evidence: "echo API_KEY=sk-proj-SkNpmXo77ZI4q-f85UM9lkJ_mxuJl1LmLGOQ4Xl_Yk_bwsR0ewQ6m4mBzQRAkwtY44PiPtx7AZT3BlbkFJJ82CeArY9H2BVzqVkDVSq0KWweFmnxHxRG1rFp6Ul3ak8Be..."
 
 - **Thread 11 → Thread 14**
   - Type: `builds_on`
