@@ -184,6 +184,66 @@ After compacting a conversation, you lose context. ALWAYS:
 
 ---
 
+## 📋 MANDATORY: Deployment Inventory Update Protocol
+
+### When to Update DEPLOYMENT_INVENTORY.md
+
+**YOU MUST update DEPLOYMENT_INVENTORY.md when you:**
+1. Create or modify any project in `github-projects/`
+2. Create or modify any MCP server (`mtmot-unified-mcp/`, `manus-mcp/`, `mcp-ai-orchestration/`)
+3. Deploy or update any CloudFlare Worker/Pages (`cloudflare-deployments/`, `cloudflare-worker/`)
+4. Modify infrastructure services (`mem0/api_server.py`, Railway configs)
+5. Create new apps or change deployment URLs
+6. Change project status (Dev → Production, add new features, deprecate)
+7. Add or modify course generation systems (`Carlorbiz_Course_Apps/`)
+
+### Enforcement Mechanisms
+
+This is enforced via **4 layers**:
+
+1. **Git Pre-commit Hook** - Blocks commits if project files modified without inventory update
+2. **GitHub Actions** - PR check fails if inventory not updated
+3. **This Protocol** - All AI agents must follow this directive
+4. **MCP Tool** - `update_deployment_inventory` tool (when available)
+
+### How to Update
+
+```bash
+# 1. Edit the inventory file
+vim DEPLOYMENT_INVENTORY.md  # or use your editor
+
+# 2. Update relevant sections:
+#    - Quick Stats (if project count changed)
+#    - Add new project entry or update existing
+#    - Update production URLs if changed
+#    - Update status (Dev → Production, etc.)
+#    - Update "Last Updated" date at top
+
+# 3. Stage the inventory file
+git add DEPLOYMENT_INVENTORY.md
+
+# 4. Commit with your project changes
+git commit -m "feat: your changes + update inventory"
+```
+
+### Bypass (Emergency Only)
+
+If you have a legitimate reason to skip (e.g., fixing typo in README):
+```bash
+git commit --no-verify  # Bypasses pre-commit hook
+```
+
+**WARNING:** GitHub Actions will still check PRs. Add justification in PR description.
+
+### For Session End Protocol
+
+When you run `python cc-context-sync.py end`, include inventory updates in your summary:
+```
+"Created new Aurelia AI deployment at aurelia.mtmot.com, updated DEPLOYMENT_INVENTORY.md with production details"
+```
+
+---
+
 ## 📊 Key Endpoints Reference
 
 | Endpoint | Method | Purpose |
