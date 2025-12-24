@@ -442,3 +442,178 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# ============================================================================
+# Knowledge Lake Integration Tools
+# ============================================================================
+
+@mcp.tool()
+async def query_knowledge_lake(query: str = "", limit: int = 10) -> str:
+    """Query conversations from Knowledge Lake API.
+    
+    Search for conversations in the Knowledge Lake database. Use empty query
+    to retrieve all conversations, or provide search terms to filter results.
+    
+    Args:
+        query: Search query (empty string returns all conversations)
+        limit: Maximum number of results to return (default: 10)
+    
+    Returns:
+        JSON string containing conversation results with metadata
+    
+    Example:
+        query_knowledge_lake(query="hybrid architecture", limit=5)
+    """
+    try:
+        client = get_knowledge_lake_client()
+        conversations = client.query_conversations(query=query, limit=limit)
+        
+        return json.dumps({
+            "success": True,
+            "count": len(conversations),
+            "query": query,
+            "conversations": conversations
+        }, indent=2)
+        
+    except Exception as e:
+        logger.error(f"Error querying Knowledge Lake: {e}")
+        return json.dumps({
+            "success": False,
+            "error": str(e)
+        })
+
+
+@mcp.tool()
+async def get_complex_conversations(only_pending: bool = True, limit: int = 50) -> str:
+    """Get complex conversations requiring multi-pass extraction.
+    
+    Retrieve conversations flagged as complex that need multi-pass extraction.
+    Can filter to show only pending (not yet extracted) conversations.
+    
+    Args:
+        only_pending: If True, only return conversations not yet extracted (default: True)
+        limit: Maximum number of results (default: 50)
+    
+    Returns:
+        JSON string containing complex conversations with classification metadata
+    
+    Example:
+        get_complex_conversations(only_pending=True, limit=10)
+    """
+    try:
+        client = get_knowledge_lake_client()
+        conversations = client.get_complex_conversations(
+            only_pending=only_pending,
+            limit=limit
+        )
+        
+        # Add summary statistics
+        total_words = sum(c.get('word_count', 0) for c in conversations)
+        avg_complexity = (
+            sum(c.get('complexity_score', 0) for c in conversations) / len(conversations)
+            if conversations else 0
+        )
+        
+        return json.dumps({
+            "success": True,
+            "count": len(conversations),
+            "only_pending": only_pending,
+            "total_words": total_words,
+            "avg_complexity_score": round(avg_complexity, 2),
+            "conversations": conversations
+        }, indent=2)
+        
+    except Exception as e:
+        logger.error(f"Error getting complex conversations: {e}")
+        return json.dumps({
+            "success": False,
+            "error": str(e)
+        })
+
+
+@mcp.tool()
+async def get_knowledge_lake_stats() -> str:
+    """Get Knowledge Lake API statistics.
+    
+    Retrieve overall statistics about the Knowledge Lake database including
+    total conversations, entities, and classification breakdown.
+    
+    Returns:
+        JSON string containing database statistics
+    
+    Example:
+        get_knowledge_lake_stats()
+    """
+    try:
+        client = get_knowledge_lake_client()
+        
+        # Get stats
+        stats = client.get_stats()
+        
+        # Get all conversations to build classification breakdown
+        all_conversations = client.query_conversations(query="", limit=200)
+        
+        # Count classifications
+        classifications = {}
+        for conv in all_conversations:
+            classification = conv.get('complexity_classification', 'unknown')
+            classifications[classification] = classifications.get(classification, 0) + 1
+        
+        # Count pending multi-pass
+        pending_multipass = sum(
+            1 for c in all_conversations
+            if c.get('requires_multipass') is True
+            and c.get('multipass_extracted') is not True
+        )
+        
+        if stats:
+            stats['classification_breakdown'] = classifications
+            stats['pending_multipass_count'] = pending_multipass
+        
+        return json.dumps({
+            "success": True,
+            "stats": stats,
+            "classification_breakdown": classifications,
+            "pending_multipass": pending_multipass
+        }, indent=2)
+        
+    except Exception as e:
+        logger.error(f"Error getting Knowledge Lake stats: {e}")
+        return json.dumps({
+            "success": False,
+            "error": str(e)
+        })
+
+
+@mcp.tool()
+async def check_knowledge_lake_health() -> str:
+    """Check if Knowledge Lake API is healthy and accessible.
+    
+    Verify connectivity to the Knowledge Lake API endpoint. Useful for
+    troubleshooting and monitoring API availability.
+    
+    Returns:
+        JSON string indicating health status
+    
+    Example:
+        check_knowledge_lake_health()
+    """
+    try:
+        client = get_knowledge_lake_client()
+        is_healthy = client.health_check()
+        
+        return json.dumps({
+            "success": True,
+            "api_url": client.api_url,
+            "healthy": is_healthy,
+            "message": "Knowledge Lake API is healthy" if is_healthy else "Knowledge Lake API is not responding"
+        }, indent=2)
+        
+    except Exception as e:
+        logger.error(f"Error checking Knowledge Lake health: {e}")
+        return json.dumps({
+            "success": False,
+            "error": str(e),
+            "healthy": False
+        })
+
