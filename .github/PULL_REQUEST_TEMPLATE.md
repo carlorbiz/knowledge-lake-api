@@ -34,6 +34,7 @@ Please delete options that are not relevant.
 - [ ] New and existing unit tests pass locally with my changes
 - [ ] Any dependent changes have been merged and published in downstream modules
 - [ ] I have checked my code and corrected any misspellings
+ - [ ] I have updated `FILE_MANIFEST.md` (C:\Users\carlo\Development\mem0-sync\mem0\FILE_MANIFEST.md) for any moved/renamed files and included the PR number in the manifest entry
 
 ## Maintainer Checklist
 

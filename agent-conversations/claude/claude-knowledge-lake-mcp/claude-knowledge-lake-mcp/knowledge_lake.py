@@ -225,12 +225,69 @@ class KnowledgeLakeClient:
     async def get_stats(self) -> Dict[str, Any]:
         """
         Get statistics about the Knowledge Lake.
-        
+
         Returns:
             Dict with total counts, distributions by agent and entity type
         """
         params = {"userId": DEFAULT_USER_ID}
         return await self._make_request("GET", self.stats_endpoint, params=params)
+
+    async def extract_learning(
+        self,
+        conversation_ids: Optional[List[int]] = None,
+        dimensions: Optional[List[str]] = None
+    ) -> Dict[str, Any]:
+        """
+        Extract 7-dimension learning patterns from conversations using OpenAI.
+
+        Args:
+            conversation_ids: List of conversation IDs to process. If empty, processes all unprocessed.
+            dimensions: Learning dimensions to extract. Defaults to all 7:
+                       ["methodology", "decisions", "corrections", "insights",
+                        "values", "prompting", "teaching"]
+
+        Returns:
+            Dict with processing results and learning counts by dimension
+        """
+        payload = {
+            "userId": DEFAULT_USER_ID,
+            "conversationIds": conversation_ids or [],
+            "dimensions": dimensions or [
+                "methodology", "decisions", "corrections", "insights",
+                "values", "prompting", "teaching"
+            ]
+        }
+
+        extract_endpoint = f"{self.base_url}/api/conversations/extract-learning"
+        return await self._make_request("POST", extract_endpoint, json_data=payload)
+
+    async def archive_conversations(
+        self,
+        conversation_ids: List[int],
+        archive_type: str = "soft_delete",
+        retention_days: int = 30
+    ) -> Dict[str, Any]:
+        """
+        Mark conversations as archived/processed for deletion.
+
+        Args:
+            conversation_ids: List of conversation IDs to archive
+            archive_type: "soft_delete" (scheduled deletion), "hard_delete" (immediate),
+                         or "compress" (future feature)
+            retention_days: Days to retain before deletion (soft_delete only)
+
+        Returns:
+            Dict with archive confirmation and timestamp
+        """
+        payload = {
+            "userId": DEFAULT_USER_ID,
+            "conversationIds": conversation_ids,
+            "archiveType": archive_type,
+            "retentionDays": retention_days
+        }
+
+        archive_endpoint = f"{self.base_url}/api/conversations/archive"
+        return await self._make_request("POST", archive_endpoint, json_data=payload)
 
 
 # Formatting helpers for Markdown output

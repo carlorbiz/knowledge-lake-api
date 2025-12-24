@@ -219,3 +219,5 @@ ingest_*.py
 quick_ingest.py
 bot_query_fix.py
 test-*.sh
+conversations/exports/jsonl-exports/
+agent-conversations/fred/
