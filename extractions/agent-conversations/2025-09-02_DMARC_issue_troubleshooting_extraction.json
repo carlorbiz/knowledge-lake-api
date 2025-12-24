@@ -1,0 +1,66 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221416",
+  "word_count": 6193,
+  "extraction_date": "2025-12-24 22:14:17",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "DMARC issue troubleshooting",
+      "start_line": 0,
+      "end_line": 336,
+      "excerpt": "# DMARC issue troubleshooting\n\n**Date:** 2025-09-02\n\n---\n\n**User:** Hey Fred, I've got a question for you. I've had an error come back to me when I've tried to email uh well it's actually I'm trying t",
+      "keywords": [
+        "1",
+        "117186",
+        "118703",
+        "126689",
+        "160858"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2151
+    },
+    {
+      "thread_id": 2,
+      "title": "6. Go back to **Cloudflare DNS**...",
+      "start_line": 336,
+      "end_line": 1483,
+      "excerpt": "6. Go back to **Cloudflare DNS**\n7. Click **Add Record**\n   - Type: `TXT`\n   - Name: `google._domainkey`\n   - TTL: Auto\n   - Value: (paste the full DKIM string)\n8. Click **Save**\n9. Back in Google Adm",
+      "keywords": [
+        "0",
+        "0123415262789A",
+        "0123456782938767663ABCDE",
+        "05",
+        "08a0h"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 4042
+    }
+  ],
+  "connections": [],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "correction",
+      "summary": "Correction: # DMARC issue troubleshooting\n\n**Date:** 2025-09-02\n\n---\n\n**User:** Hey Fred, I've got a question fo",
+      "details": "# DMARC issue troubleshooting\n\n**Date:** 2025-09-02\n\n---\n\n**User:** Hey Fred, I've got a question for you. au email address um and of course it's probably coming up as spoofing because I've got a Carla at gpsa email um but it's it's saying that I've got demark I've got problems with my demark settings but I can't change them in GoDaddy anymore. Would you have any suggestions Fred because this is going to be a big problem as now I'm starting to get business",
+      "evidence": "# DMARC issue troubleshooting\n\n**Date:** 2025-09-02\n\n---\n\n**User:** Hey Fred, I've got a question for you",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 2,
+      "category": "correction",
+      "summary": "Correction: net;\n```\n\nThat\u2019s strong \u2014 but risky **until SPF and DKIM are fixed**",
+      "details": "net;\n```\n\nThat\u2019s strong \u2014 but risky **until SPF and DKIM are fixed**. `)\n\n\u2705 You only need **one SPF record** \u2014 the corrected one:\n```\nv=spf1 include:_spf. ### \u2705 Your DNS Auth Recap (as of now):\n\n| Record | Status | Notes |\n|--------|--------|-------|\n| **SPF** | \u2705 Corrected: `v=spf1 include:_spf",
+      "evidence": "net;\n```\n\nThat\u2019s strong \u2014 but risky **until SPF and DKIM are fixed**",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

@@ -1,0 +1,244 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221517",
+  "word_count": 10400,
+  "extraction_date": "2025-12-24 22:15:18",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Web app development update",
+      "start_line": 0,
+      "end_line": 934,
+      "excerpt": "# Web app development update\n\n**Date:** 2025-08-08\n\n---\n\n**User:** Hi Fred! I've attached the chat thread from our previous brainstorming sessions about the Make The Most of Today wellness and self-im",
+      "keywords": [
+        "1",
+        "10",
+        "100",
+        "1020",
+        "13"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 3464
+    },
+    {
+      "thread_id": 2,
+      "title": "\ud83d\udd01 4. Return Feedback to Glide...",
+      "start_line": 934,
+      "end_line": 1084,
+      "excerpt": "\ud83d\udd01 4. Return Feedback to Glide\n\nAfter Make processes the new calendar entries, it can:\n\nSend a webhook back to Glide to update the original user row (CalendarGenerated = true)\n\n\nTrigger a Glide notific",
+      "keywords": [
+        "1",
+        "2",
+        "20mg",
+        "30",
+        "4"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 353
+    },
+    {
+      "thread_id": 3,
+      "title": "Links back to the Medications table (for tracking)...",
+      "start_line": 1084,
+      "end_line": 2457,
+      "excerpt": "Links back to the Medications table (for tracking)\n\n\ud83d\udc49 Create this now in your existing Google Sheet (same file you're using for prompts/mood, or separate if you prefer). Let me know once you\u2019re done a",
+      "keywords": [
+        "1",
+        "10",
+        "12",
+        "1522",
+        "1523"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2603
+    },
+    {
+      "thread_id": 4,
+      "title": "\u201cHi Fred, please create the JSON content for...",
+      "start_line": 2457,
+      "end_line": 2533,
+      "excerpt": "\u201cHi Fred, please create the JSON content for me for make.com per this thread. Also, can you please provide me with a step-by-step of how a web app created in Glide is integrated, embedded into, say, a",
+      "keywords": [
+        "0029",
+        "1",
+        "100",
+        "2",
+        "800px"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 258
+    },
+    {
+      "thread_id": 5,
+      "title": "\u201cFred, just regarding the iframe, I'm used to...",
+      "start_line": 2533,
+      "end_line": 2618,
+      "excerpt": "\u201cFred, just regarding the iframe, I'm used to iframes that are static like PDFs. Is it going to have all of the functionality of the interactive components of the app?\u201d\n\n00:14\n\nChatGPT said:\n\nAbsolute",
+      "keywords": [
+        "0014",
+        "0800",
+        "1",
+        "13",
+        "2"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 899
+    },
+    {
+      "thread_id": 6,
+      "title": "<?php",
+      "start_line": 2618,
+      "end_line": 3947,
+      "excerpt": "Also, in my unrecorded monologue before, I mentioned (to myself hahaha) a Community app I created in React and wondered if you could take a look at this to see if it can be incorporated or even tie in",
+      "keywords": [
+        "0",
+        "1",
+        "10",
+        "100",
+        "1000"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2823
+    }
+  ],
+  "connections": [
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 3,
+      "connection_type": "builds_on",
+      "explanation": "Thread 3 builds on Thread 1",
+      "evidence": "Cell In[1], line 5"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 references concepts from Thread 1",
+      "evidence": "\ud83d\udfe2 Part 1: Make.com Scenario JSON"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 1",
+      "evidence": "* Version: 1.0.0"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 3,
+      "connection_type": "builds_on",
+      "explanation": "Thread 3 builds on Thread 2",
+      "evidence": "\ud83d\udd35 Step 2: Set Up Glide Table Connection"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 references concepts from Thread 2",
+      "evidence": "00:29"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 references concepts from Thread 2",
+      "evidence": "00:14"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 2",
+      "evidence": "* Version: 1.0.0"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 references concepts from Thread 3",
+      "evidence": "\ud83d\udfe2 Part 1: Make.com Scenario JSON"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 3",
+      "evidence": "* Version: 1.0.0"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 references concepts from Thread 4",
+      "evidence": "00:14"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 4",
+      "evidence": "* Version: 1.0.0"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 5",
+      "evidence": "* Version: 1.0.0"
+    }
+  ],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "decision",
+      "summary": "Decision: After our first discussions about the app for Make The Most of Today, I've decided to make this trul",
+      "details": "After our first discussions about the app for Make The Most of Today, I've decided to make this truly value-add for my target market, it needs to be expanded beyond the journaling and mood tracking app we scoped",
+      "evidence": "After our first discussions about the app for Make The Most of Today, I've decided to make this truly value-add for my target market, it needs to be expanded beyond the journaling and mood tracking app we scoped",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 1,
+      "category": "correction",
+      "summary": "Correction: Please draw on your expertise to help me plan this app to be more of a tool for people going through",
+      "details": "Please draw on your expertise to help me plan this app to be more of a tool for people going through adversity or trying to juggle a \"new normal\", whether as a result of a significant health issue like cancer, a natural disaster, a business closure, a death in the family",
+      "evidence": "Please draw on your expertise to help me plan this app to be more of a tool for people going through adversity or trying to juggle a \"new normal\", whether as a result of a significant health issue like cancer, a natural disaster, a business closure, a death in the family",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: Community Forum\n\nApproach: Cohort-specific private discussion areas\n\nGroup 1: Thrivers (health-based",
+      "details": "Community Forum\n\nApproach: Cohort-specific private discussion areas\n\nGroup 1: Thrivers (health-based challenge)\n\n\nGroup 2: Carers\n\n\nGroup 3: Life Disrupted (natural disaster, grief, etc. ics as a \u201cDownload Calendar\u201d button inside Glide for now\n Best for Scale? Full user-authorised Google Calendar sync (but that\u2019s outside Glide\u2019s no-code capabilities \u2014 requires custom app or Firebase setup)\n\n\n\n\u2705 Q3: Can the app show a pop-up or prompt to review calendar for changes?\n\nYes \u2014 there are multiple ways to do this within Glide:\n\nOptions:\n\nMethod\n\nHow It Works\n\n\ud83d\udfe2 Popup modal\n\nUse a \u201cShow Notification\u201d or \u201cShow Detail View\u201d action when key changes occur (e",
+      "evidence": "Community Forum\n\nApproach: Cohort-specific private discussion areas\n\nGroup 1: Thrivers (health-based challenge)\n\n\nGroup 2: Carers\n\n\nGroup 3: Life Disrupted (natural disaster, grief, etc",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 6,
+      "category": "methodology",
+      "summary": "Methodology: js',\n\n                array('react', 'react-dom'),\n\n                FCCP_VERSION,\n\n                t",
+      "details": "js',\n\n                array('react', 'react-dom'),\n\n                FCCP_VERSION,\n\n                true\n\n            );\n\n            \n\n            // Localize script with API data\n\n            wp_localize_script('community-portal', 'communityPortalData', array(\n\n                'apiUrl' => rest_url('community-portal/v1/'),\n\n                'nonce' => wp_create_nonce('wp_rest'),\n\n                'currentUser' => $this->get_current_user_data(),\n\n                'fluentCrmApiUrl' => rest_url('fluent-crm/v2/'),\n\n                'isUserLoggedIn' => is_user_logged_in()\n\n            ));\n\n        }\n\n    }\n\n    \n\n    /**\n\n     * Get current user data with FluentCRM contact info\n\n     */\n\n    private function get_current_user_data() {\n\n        if (!is_user_logged_in()) {\n\n            return null;\n\n        }\n\n        \n\n        $user = wp_get_current_user();\n\n        $contact = null;\n\n        \n\n        // Try to get FluentCRM contact\n\n        if ($this->is_fluent_crm_active()) {\n\n            $contact = \\FluentCrm\\App\\Models\\Subscriber::where('email', $user->user_email)->first();\n\n        }\n\n        \n\n        return array(\n\n            'id' => $user->ID,\n\n            'name' => $user->display_name,\n\n            'email' => $user->user_email,\n\n            'avatar' => get_avatar_url($user->ID),\n\n            'fluentcrm_contact_id' => $contact ? $contact->id : null,\n\n            'custom_fields' => $contact ? $contact->custom_fields() : array()\n\n        );\n\n    }\n\n    \n\n    /**\n\n     * Register REST API routes\n\n     */\n\n    public function register_api_routes() {\n\n        register_rest_route('community-portal/v1', '/posts', array(\n\n            'methods' => 'GET',\n\n            'callback' => array($this, 'get_community_posts'),\n\n            'permission_callback' => '__return_true'\n\n        ));\n\n        \n\n        register_rest_route('community-portal/v1', '/posts', array(\n\n            'methods' => 'POST',\n\n            'callback' => array($this, 'create_community_post'),\n\n            'permission_callback' => array($this, 'check_create_permission')\n\n        ));\n\n        \n\n        register_rest_route('community-portal/v1', '/members', array(\n\n            'methods' => 'GET',\n\n            'callback' => array($this, 'get_community_members'),\n\n            'permission_callback' => '__return_true'\n\n        ));\n\n        \n\n        register_rest_route('community-portal/v1', '/stats', array(\n\n            'methods' => 'GET',\n\n            'callback' => array($this, 'get_community_stats'),\n\n            'permission_callback' => '__return_true'\n\n        ));\n\n        \n\n        register_rest_route('community-portal/v1', '/posts/(?P<id>\\d+)/like', array(\n\n            'methods' => 'POST',\n\n            'callback' => array($this, 'like_post'),\n\n            'permission_callback' => array($this, 'check_like_permission')\n\n        ));\n\n    }\n\n    \n\n    /**\n\n     * Get community posts\n\n     */\n\n    public function get_community_posts($request) {\n\n        $page = $request->get_param('page') ?: 1;\n\n        $per_page = $request->get_param('per_page') ?: 10;\n\n        $category = $request->get_param('category');\n\n        $type = $request->get_param('type');\n\n        \n\n        $args = array(\n\n            'post_type' => 'community_post',\n\n            'post_status' => 'publish',\n\n            'posts_per_page' => $per_page,\n\n            'paged' => $page,\n\n            'meta_query' => array()\n\n        );\n\n        \n\n        if ($type) {\n\n            $args['meta_query'][] = array(\n\n                'key' => 'community_post_type',\n\n                'value' => $type,\n\n                'compare' => '='\n\n            );\n\n        }\n\n        \n\n        if ($category && $category !== 'all') {\n\n            $args['tax_query'] = array(\n\n                array(\n\n                    'taxonomy' => 'community_category',\n\n                    'field' => 'slug',\n\n                    'terms' => $category\n\n                )\n\n            );\n\n        }\n\n        \n\n        $posts = get_posts($args);\n\n        $formatted_posts = array();\n\n        \n\n        foreach ($posts as $post) {\n\n            $author_id = get_post_meta($post->ID, 'fluent_crm_contact_id', true);\n\n            $author_data = $this->get_contact_data($author_id);\n\n            \n\n            $formatted_posts[] = array(\n\n                'id' => $post->ID,\n\n                'title' => $post->post_title,\n\n                'content' => $post->post_content,\n\n                'excerpt' => wp_trim_words($post->post_content, 30),\n\n                'type' => get_post_meta($post->ID, 'community_post_type', true) ?: 'discussion',\n\n                'author' => $author_data,\n\n                'date' => $post->post_date,\n\n                'stats' => array(\n\n                    'likes' => (int) get_post_meta($post->ID, 'community_likes', true),\n\n                    'views' => (int) get_post_meta($post->ID, 'community_views', true),\n\n                    'comments' => wp_count_comments($post->ID)->approved\n\n                ),\n\n                'featured' => get_post_meta($post->ID, 'community_featured', true) === 'true',\n\n                'solved' => get_post_meta($post->ID, 'community_solved', true) === 'true'\n\n            );\n\n        }\n\n        \n\n        return rest_ensure_response($formatted_posts);\n\n    }\n\n    \n\n    /**\n\n     * Create community post\n\n     */\n\n    public function create_community_post($request) {\n\n        $title = sanitize_text_field($request->get_param('title'));\n\n        $content = wp_kses_post($request->get_param('content'));\n\n        $type = sanitize_text_field($request->get_param('type'));\n\n        $category = sanitize_text_field($request->get_param('category'));\n\n        \n\n        $user_data = $this->get_current_user_data();\n\n        \n\n        $post_id = wp_insert_post(array(\n\n            'post_title' => $title,\n\n            'post_content' => $content,\n\n            'post_type' => 'community_post',\n\n            'post_status' => 'publish',\n\n            'post_author' => get_current_user_id()\n\n        ));\n\n        \n\n        if ($post_id) {\n\n            // Add meta data\n\n            update_post_meta($post_id, 'community_post_type', $type);\n\n            update_post_meta($post_id, 'community_likes', 0);\n\n            update_post_meta($post_id, 'community_views', 1);\n\n            update_post_meta($post_id, 'fluent_crm_contact_id', $user_data['fluentcrm_contact_id']);\n\n            \n\n            // Set category\n\n            if ($category) {\n\n                wp_set_object_terms($post_id, $category, 'community_category');\n\n            }\n\n            \n\n            // Update user's post count in FluentCRM\n\n            $this->update_user_post_count($user_data['fluentcrm_contact_id']);\n\n            \n\n            return rest_ensure_response(array('success' => true, 'post_id' => $post_id));\n\n        }\n\n        \n\n        return new WP_Error('create_failed', 'Failed to create post', array('status' => 500));\n\n    }\n\n    \n\n    /**\n\n     * Get community members from FluentCRM\n\n     */\n\n    public function get_community_members($request) {\n\n        if (!$this->is_fluent_crm_active()) {\n\n            return rest_ensure_response(array());\n\n        }\n\n        \n\n        $page = $request->get_param('page') ?: 1;\n\n        $per_page = $request->get_param('per_page') ?: 12;\n\n        \n\n        $contacts = \\FluentCrm\\App\\Models\\Subscriber::where('status', 'subscribed')\n\n            ->skip(($page - 1) * $per_page)\n\n            ->take($per_page)\n\n            ->get();\n\n        \n\n        $members = array();\n\n        foreach ($contacts as $contact) {\n\n            $custom_fields = $contact->custom_fields();\n\n            $members[] = array(\n\n                'id' => $contact->id,\n\n                'name' => $contact->full_name,\n\n                'email' => $contact->email,\n\n                'avatar' => $contact->avatar ?: get_avatar_url($contact->email),\n\n                'title' => $custom_fields['job_title'] ?? 'Community Member',\n\n                'location' => $custom_fields['location'] ?? '',\n\n                'website' => $custom_fields['website'] ?? '',\n\n                'joined' => $contact->created_at->format('M Y'),\n\n                'stats' => array(\n\n                    'posts' => (int) ($custom_fields['community_posts'] ?? 0),\n\n                    'reputation' => (int) ($custom_fields['community_reputation'] ?? 100),\n\n                    'answers' => (int) ($custom_fields['community_answers'] ?? 0)\n\n                ),\n\n                'badges' => $this->get_member_badges($contact),\n\n                'specialties' => $contact->tags->pluck('title')->toArray()\n\n            );\n\n        }\n\n        \n\n        return rest_ensure_response($members);\n\n    }\n\n    \n\n    /**\n\n     * Get community statistics\n\n     */\n\n    public function get_community_stats($request) {\n\n        $stats = array(\n\n            'total_members' => 0,\n\n            'posts_this_week' => 0,\n\n            'questions_answered' => 0,\n\n            'active_now' => rand(10, 50)\n\n        );\n\n        \n\n        if ($this->is_fluent_crm_active()) {\n\n            $stats['total_members'] = \\FluentCrm\\App\\Models\\Subscriber::where('status', 'subscribed')->count();\n\n        }\n\n        \n\n        // Posts this week\n\n        $week_ago = date('Y-m-d H:i:s', strtotime('-1 week'));\n\n        $stats['posts_this_week'] = wp_count_posts('community_post')->publish;\n\n        \n\n        // Questions answered (posts marked as solved)\n\n        $stats['questions_answered'] = get_posts(array(\n\n            'post_type' => 'community_post',\n\n            'meta_key' => 'community_solved',\n\n            'meta_value' => 'true',\n\n            'numberposts' => -1,\n\n            'fields' => 'ids'\n\n        ));\n\n        $stats['questions_answered'] = count($stats['questions_answered']);\n\n        \n\n        return rest_ensure_response($stats);\n\n    }\n\n    \n\n    /**\n\n     * Like a post\n\n     */\n\n    public function like_post($request) {\n\n        $post_id = (int) $request->get_param('id');\n\n        \n\n        if (!get_post($post_id) || get_post_type($post_id) !== 'community_post') {\n\n            return new WP_Error('invalid_post', 'Invalid post ID', array('status' => 404));\n\n        }\n\n        \n\n        $current_likes = (int) get_post_meta($post_id, 'community_likes', true);\n\n        $new_likes = $current_likes + 1;\n\n        \n\n        update_post_meta($post_id, 'community_likes', $new_likes);\n\n        \n\n        return rest_ensure_response(array('success' => true, 'likes' => $new_likes));\n\n    }\n\n    \n\n    /**\n\n     * Helper functions\n\n     */\n\n    private function get_contact_data($contact_id) {\n\n        if (!$contact_id || !$this->is_fluent_crm_active()) {\n\n            return array(\n\n                'name' => 'Anonymous',\n\n                'avatar' => get_avatar_url(''),\n\n                'title' => 'Community Member',\n\n                'badges' => array('Member')\n\n            );\n\n        }\n\n        \n\n        $contact = \\FluentCrm\\App\\Models\\Subscriber::find($contact_id);\n\n        if (!$contact) {\n\n            return array(\n\n                'name' => 'Anonymous',\n\n                'avatar' => get_avatar_url(''),\n\n                'title' => 'Community Member',\n\n                'badges' => array('Member')\n\n            );\n\n        }\n\n        \n\n        $custom_fields = $contact->custom_fields();\n\n        \n\n        return array(\n\n            'name' => $contact->full_name,\n\n            'avatar' => $contact->avatar ?: get_avatar_url($contact->email),\n\n            'title' => $custom_fields['job_title'] ?? 'Community Member',\n\n            'badges' => $this->get_member_badges($contact),\n\n            'reputation' => (int) ($custom_fields['community_reputation'] ?? 100)\n\n        );\n\n    }\n\n    \n\n    private function get_member_badges($contact) {\n\n        $badges = array('Member');\n\n        $custom_fields = $contact->custom_fields();\n\n        $tags = $contact->tags->pluck('title')->toArray();\n\n        \n\n        $reputation = (int) ($custom_fields['community_reputation'] ?? 0);\n\n        $posts = (int) ($custom_fields['community_posts'] ?? 0);\n\n        \n\n        if (in_array('moderator', $tags)) $badges[] = 'Moderator';\n\n        if (in_array('expert', $tags)) $badges[] = 'Expert';\n\n        if ($reputation > 1000) $badges[] = 'Top Contributor';\n\n        if ($posts > 50) $badges[] = 'Prolific Writer';\n\n        if ($custom_fields['verified'] === 'true') $badges[] = 'Verified';\n\n        \n\n        return $badges;\n\n    }\n\n    \n\n    private function update_user_post_count($contact_id) {\n\n        if (!$contact_id || !$this->is_fluent_crm_active()) {\n\n            return;\n\n        }\n\n        \n\n        $contact = \\FluentCrm\\App\\Models\\Subscriber::find($contact_id);\n\n        if ($contact) {\n\n            $custom_fields = $contact->custom_fields();\n\n            $current_posts = (int) ($custom_fields['community_posts'] ?? 0);\n\n            $contact->updateCustomField('community_posts', $current_posts + 1);\n\n        }\n\n    }\n\n    \n\n    public function check_create_permission() {\n\n        return is_user_logged_in();\n\n    }\n\n    \n\n    public function check_like_permission() {\n\n        return is_user_logged_in();\n\n    }\n\n    \n\n    /**\n\n     * Handle query vars\n\n     */\n\n    public function add_query_vars($vars) {\n\n        $vars[] = 'community_portal';\n\n        $vars[] = 'community_view';\n\n        return $vars;\n\n    }\n\n    \n\n    /**\n\n     * Handle template redirect\n\n     */\n\n    public function template_redirect() {\n\n        if (get_query_var('community_portal')) {\n\n            include FCCP_PLUGIN_PATH",
+      "evidence": "js',\n\n                array('react', 'react-dom'),\n\n                FCCP_VERSION,\n\n                true\n\n            );\n\n            \n\n            // Localize script with API data\n\n            wp_localize_script('community-portal', 'communityPortalData', array(\n\n                'apiUrl' => rest_url('community-portal/v1/'),\n\n                'nonce' => wp_create_nonce('wp_rest'),\n\n                'currentUser' => $this->get_current_user_data(),\n\n                'fluentCrmApiUrl' => rest_url('fluent-crm/v2/'),\n\n                'isUserLoggedIn' => is_user_logged_in()\n\n            ));\n\n        }\n\n    }\n\n    \n\n    /**\n\n     * Get current user data with FluentCRM contact info\n\n     */\n\n    private function get_current_user_data() {\n\n        if (!is_user_logged_in()) {\n\n            return null;\n\n        }\n\n        \n\n        $user = wp_get_current_user();\n\n        $contact = null;\n\n        \n\n        // Try to get FluentCRM contact\n\n        if ($this->is_fluent_crm_active()) {\n\n            $contact = \\FluentCrm\\App\\Models\\Subscriber::where('email', $user->user_email)->first();\n\n        }\n\n        \n\n        return array(\n\n            'id' => $user->ID,\n\n            'name' => $user->display_name,\n\n            'email' => $user->user_email,\n\n            'avatar' => get_avatar_url($user->ID),\n\n            'fluentcrm_contact_id' => $contact ? $contact->id : null,\n\n            'custom_fields' => $contact ? $contact->custom_fields() : array()\n\n        );\n\n    }\n\n    \n\n    /**\n\n     * Register REST API routes\n\n     */\n\n    public function register_api_routes() {\n\n        register_rest_route('community-portal/v1', '/posts', array(\n\n            'methods' => 'GET',\n\n            'callback' => array($this, 'get_community_posts'),\n\n            'permission_callback' => '__return_true'\n\n        ));\n\n        \n\n        register_rest_route('community-portal/v1', '/posts', array(\n\n            'methods' => 'POST',\n\n            'callback' => array($this, 'create_community_post'),\n\n            'permission_callback' => array($this, 'check_create_permission')\n\n        ));\n\n        \n\n        register_rest_route('community-portal/v1', '/members', array(\n\n            'methods' => 'GET',\n\n            'callback' => array($this, 'get_community_members'),\n\n            'permission_callback' => '__return_true'\n\n        ));\n\n        \n\n        register_rest_route('community-portal/v1', '/stats', array(\n\n            'methods' => 'GET',\n\n            'callback' => array($this, 'get_community_stats'),\n\n            'permission_callback' => '__return_true'\n\n        ));\n\n        \n\n        register_rest_route('community-portal/v1', '/posts/(?P<id>\\d+)/like', array(\n\n            'methods' => 'POST',\n\n            'callback' => array($this, 'like_post'),\n\n            'permission_callback' => array($this, 'check_like_permission')\n\n        ));\n\n    }\n\n    \n\n    /**\n\n     * Get community posts\n\n     */\n\n    public function get_community_posts($request) {\n\n        $page = $request->get_param('page') ?: 1;\n\n        $per_page = $request->get_param('per_page') ?: 10;\n\n        $category = $request->get_param('category');\n\n        $type = $request->get_param('type');\n\n        \n\n        $args = array(\n\n            'post_type' => 'community_post',\n\n            'post_status' => 'publish',\n\n            'posts_per_page' => $per_page,\n\n            'paged' => $page,\n\n            'meta_query' => array()\n\n        );\n\n        \n\n        if ($type) {\n\n            $args['meta_query'][] = array(\n\n                'key' => 'community_post_type',\n\n                'value' => $type,\n\n                'compare' => '='\n\n            );\n\n        }\n\n        \n\n        if ($category && $category !== 'all') {\n\n            $args['tax_query'] = array(\n\n                array(\n\n                    'taxonomy' => 'community_category',\n\n                    'field' => 'slug',\n\n                    'terms' => $category\n\n                )\n\n            );\n\n        }\n\n        \n\n        $posts = get_posts($args);\n\n        $formatted_posts = array();\n\n        \n\n        foreach ($posts as $post) {\n\n            $author_id = get_post_meta($post->ID, 'fluent_crm_contact_id', true);\n\n            $author_data = $this->get_contact_data($author_id);\n\n            \n\n            $formatted_posts[] = array(\n\n                'id' => $post->ID,\n\n                'title' => $post->post_title,\n\n                'content' => $post->post_content,\n\n                'excerpt' => wp_trim_words($post->post_content, 30),\n\n                'type' => get_post_meta($post->ID, 'community_post_type', true) ?: 'discussion',\n\n                'author' => $author_data,\n\n                'date' => $post->post_date,\n\n                'stats' => array(\n\n                    'likes' => (int) get_post_meta($post->ID, 'community_likes', true),\n\n                    'views' => (int) get_post_meta($post->ID, 'community_views', true),\n\n                    'comments' => wp_count_comments($post->ID)->approved\n\n                ),\n\n                'featured' => get_post_meta($post->ID, 'community_featured', true) === 'true',\n\n                'solved' => get_post_meta($post->ID, 'community_solved', true) === 'true'\n\n            );\n\n        }\n\n        \n\n        return rest_ensure_response($formatted_posts);\n\n    }\n\n    \n\n    /**\n\n     * Create community post\n\n     */\n\n    public function create_community_post($request) {\n\n        $title = sanitize_text_field($request->get_param('title'));\n\n        $content = wp_kses_post($request->get_param('content'));\n\n        $type = sanitize_text_field($request->get_param('type'));\n\n        $category = sanitize_text_field($request->get_param('category'));\n\n        \n\n        $user_data = $this->get_current_user_data();\n\n        \n\n        $post_id = wp_insert_post(array(\n\n            'post_title' => $title,\n\n            'post_content' => $content,\n\n            'post_type' => 'community_post',\n\n            'post_status' => 'publish',\n\n            'post_author' => get_current_user_id()\n\n        ));\n\n        \n\n        if ($post_id) {\n\n            // Add meta data\n\n            update_post_meta($post_id, 'community_post_type', $type);\n\n            update_post_meta($post_id, 'community_likes', 0);\n\n            update_post_meta($post_id, 'community_views', 1);\n\n            update_post_meta($post_id, 'fluent_crm_contact_id', $user_data['fluentcrm_contact_id']);\n\n            \n\n            // Set category\n\n            if ($category) {\n\n                wp_set_object_terms($post_id, $category, 'community_category');\n\n            }\n\n            \n\n            // Update user's post count in FluentCRM\n\n            $this->update_user_post_count($user_data['fluentcrm_contact_id']);\n\n            \n\n            return rest_ensure_response(array('success' => true, 'post_id' => $post_id));\n\n        }\n\n        \n\n        return new WP_Error('create_failed', 'Failed to create post', array('status' => 500));\n\n    }\n\n    \n\n    /**\n\n     * Get community members from FluentCRM\n\n     */\n\n    public function get_community_members($request) {\n\n        if (!$this->is_fluent_crm_active()) {\n\n            return rest_ensure_response(array());\n\n        }\n\n        \n\n        $page = $request->get_param('page') ?: 1;\n\n        $per_page = $request->get_param('per_page') ?: 12;\n\n        \n\n        $contacts = \\FluentCrm\\App\\Models\\Subscriber::where('status', 'subscribed')\n\n            ->skip(($page - 1) * $per_page)\n\n            ->take($per_page)\n\n            ->get();\n\n        \n\n        $members = array();\n\n        foreach ($contacts as $contact) {\n\n            $custom_fields = $contact->custom_fields();\n\n            $members[] = array(\n\n                'id' => $contact->id,\n\n                'name' => $contact->full_name,\n\n                'email' => $contact->email,\n\n                'avatar' => $contact->avatar ?: get_avatar_url($contact->email),\n\n                'title' => $custom_fields['job_title'] ?? 'Community Member',\n\n                'location' => $custom_fields['location'] ?? '',\n\n                'website' => $custom_fields['website'] ?? '',\n\n                'joined' => $contact->created_at->format('M Y'),\n\n                'stats' => array(\n\n                    'posts' => (int) ($custom_fields['community_posts'] ?? 0),\n\n                    'reputation' => (int) ($custom_fields['community_reputation'] ?? 100),\n\n                    'answers' => (int) ($custom_fields['community_answers'] ?? 0)\n\n                ),\n\n                'badges' => $this->get_member_badges($contact),\n\n                'specialties' => $contact->tags->pluck('title')->toArray()\n\n            );\n\n        }\n\n        \n\n        return rest_ensure_response($members);\n\n    }\n\n    \n\n    /**\n\n     * Get community statistics\n\n     */\n\n    public function get_community_stats($request) {\n\n        $stats = array(\n\n            'total_members' => 0,\n\n            'posts_this_week' => 0,\n\n            'questions_answered' => 0,\n\n            'active_now' => rand(10, 50)\n\n        );\n\n        \n\n        if ($this->is_fluent_crm_active()) {\n\n            $stats['total_members'] = \\FluentCrm\\App\\Models\\Subscriber::where('status', 'subscribed')->count();\n\n        }\n\n        \n\n        // Posts this week\n\n        $week_ago = date('Y-m-d H:i:s', strtotime('-1 week'));\n\n        $stats['posts_this_week'] = wp_count_posts('community_post')->publish;\n\n        \n\n        // Questions answered (posts marked as solved)\n\n        $stats['questions_answered'] = get_posts(array(\n\n            'post_type' => 'community_post',\n\n            'meta_key' => 'community_solved',\n\n            'meta_value' => 'true',\n\n            'numberposts' => -1,\n\n            'fields' => 'ids'\n\n        ));\n\n        $stats['questions_answered'] = count($stats['questions_answered']);\n\n        \n\n        return rest_ensure_response($stats);\n\n    }\n\n    \n\n    /**\n\n     * Like a post\n\n     */\n\n    public function like_post($request) {\n\n        $post_id = (int) $request->get_param('id');\n\n        \n\n        if (!get_post($post_id) || get_post_type($post_id) !== 'community_post') {\n\n            return new WP_Error('invalid_post', 'Invalid post ID', array('status' => 404));\n\n        }\n\n        \n\n        $current_likes = (int) get_post_meta($post_id, 'community_likes', true);\n\n        $new_likes = $current_likes + 1;\n\n        \n\n        update_post_meta($post_id, 'community_likes', $new_likes);\n\n        \n\n        return rest_ensure_response(array('success' => true, 'likes' => $new_likes));\n\n    }\n\n    \n\n    /**\n\n     * Helper functions\n\n     */\n\n    private function get_contact_data($contact_id) {\n\n        if (!$contact_id || !$this->is_fluent_crm_active()) {\n\n            return array(\n\n                'name' => 'Anonymous',\n\n                'avatar' => get_avatar_url(''),\n\n                'title' => 'Community Member',\n\n                'badges' => array('Member')\n\n            );\n\n        }\n\n        \n\n        $contact = \\FluentCrm\\App\\Models\\Subscriber::find($contact_id);\n\n        if (!$contact) {\n\n            return array(\n\n                'name' => 'Anonymous',\n\n                'avatar' => get_avatar_url(''),\n\n                'title' => 'Community Member',\n\n                'badges' => array('Member')\n\n            );\n\n        }\n\n        \n\n        $custom_fields = $contact->custom_fields();\n\n        \n\n        return array(\n\n            'name' => $contact->full_name,\n\n            'avatar' => $contact->avatar ?: get_avatar_url($contact->email),\n\n            'title' => $custom_fields['job_title'] ?? 'Community Member',\n\n            'badges' => $this->get_member_badges($contact),\n\n            'reputation' => (int) ($custom_fields['community_reputation'] ?? 100)\n\n        );\n\n    }\n\n    \n\n    private function get_member_badges($contact) {\n\n        $badges = array('Member');\n\n        $custom_fields = $contact->custom_fields();\n\n        $tags = $contact->tags->pluck('title')->toArray();\n\n        \n\n        $reputation = (int) ($custom_fields['community_reputation'] ?? 0);\n\n        $posts = (int) ($custom_fields['community_posts'] ?? 0);\n\n        \n\n        if (in_array('moderator', $tags)) $badges[] = 'Moderator';\n\n        if (in_array('expert', $tags)) $badges[] = 'Expert';\n\n        if ($reputation > 1000) $badges[] = 'Top Contributor';\n\n        if ($posts > 50) $badges[] = 'Prolific Writer';\n\n        if ($custom_fields['verified'] === 'true') $badges[] = 'Verified';\n\n        \n\n        return $badges;\n\n    }\n\n    \n\n    private function update_user_post_count($contact_id) {\n\n        if (!$contact_id || !$this->is_fluent_crm_active()) {\n\n            return;\n\n        }\n\n        \n\n        $contact = \\FluentCrm\\App\\Models\\Subscriber::find($contact_id);\n\n        if ($contact) {\n\n            $custom_fields = $contact->custom_fields();\n\n            $current_posts = (int) ($custom_fields['community_posts'] ?? 0);\n\n            $contact->updateCustomField('community_posts', $current_posts + 1);\n\n        }\n\n    }\n\n    \n\n    public function check_create_permission() {\n\n        return is_user_logged_in();\n\n    }\n\n    \n\n    public function check_like_permission() {\n\n        return is_user_logged_in();\n\n    }\n\n    \n\n    /**\n\n     * Handle query vars\n\n     */\n\n    public function add_query_vars($vars) {\n\n        $vars[] = 'community_portal';\n\n        $vars[] = 'community_view';\n\n        return $vars;\n\n    }\n\n    \n\n    /**\n\n     * Handle template redirect\n\n     */\n\n    public function template_redirect() {\n\n        if (get_query_var('community_portal')) {\n\n            include FCCP_PLUGIN_PATH",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [
+    {
+      "involved_threads": [
+        1,
+        3,
+        4,
+        5,
+        6
+      ],
+      "insight_type": "evolution",
+      "description": "Topic evolution across 5 threads",
+      "significance": "Shows progressive refinement of understanding"
+    }
+  ],
+  "thinking_patterns": {
+    "flow": "Associative - wide-ranging exploration",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

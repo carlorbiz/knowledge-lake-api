@@ -1,0 +1,125 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221445",
+  "word_count": 15212,
+  "extraction_date": "2025-12-24 22:14:45",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Notion automation",
+      "start_line": 0,
+      "end_line": 738,
+      "excerpt": "# Notion automation\n\n**Date:** 2025-08-02\n\n---\n\n**User:** {'content_type': 'audio_transcription', 'text': 'Hey, Fred!', 'direction': 'in', 'decoding_id': None}\n{'expiry_datetime': '2026-01-29T05:06:52",
+      "keywords": [
+        "00",
+        "071",
+        "08052025",
+        "09",
+        "09082025"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 7365
+    },
+    {
+      "thread_id": 2,
+      "title": "\ud83d\udee0\ufe0f Option A: Reset That Module (Easiest Way)",
+      "start_line": 738,
+      "end_line": 1606,
+      "excerpt": "**User:** That \"Choose where to start\" screen disappeared when I went back to try again...\n\n**Assistant:** Got it! Since the \u201cChoose where to start\u201d prompt only shows up the first time you set up a tr",
+      "keywords": [
+        "08082025",
+        "09082025",
+        "1",
+        "100",
+        "11"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 5780
+    },
+    {
+      "thread_id": 3,
+      "title": "## \ud83d\udc40 Side Note: Want to Future-Proof",
+      "start_line": 1606,
+      "end_line": 1909,
+      "excerpt": "1. In Notion, go back to your `Fred Tasks` DB\n2. In the `Areas` column, try manually linking one of the updated pages\n3. If it links \u2014 perfect. That UUID is now usable in Make.\n\n---\n\n## \ud83d\udc40 Side Note: W",
+      "keywords": [
+        "1",
+        "15",
+        "2",
+        "20250808",
+        "2379440556f7812cb90ff696e8326e88"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2067
+    }
+  ],
+  "connections": [
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 2,
+      "connection_type": "builds_on",
+      "explanation": "Thread 2 references concepts from Thread 1",
+      "evidence": "| Write onboarding email for new MTMOT subscribers | Not started | 09/08/2025 | High     | Copywriting | Write welcome email using Carla\u2019s tone and MT"
+    }
+  ],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: **\ud83e\udde0 Strategy & Knowledge**\n- Merge \u201cTopics of Interest\u201d and \u201cLearning Logs\u201d from Headquarters\n- Incl",
+      "details": "**\ud83e\udde0 Strategy & Knowledge**\n- Merge \u201cTopics of Interest\u201d and \u201cLearning Logs\u201d from Headquarters\n- Includes:\n  - Personal development (upskill notes, reflections)\n  - Conference takeaways\n  - Health system policy updates\n\n---\n\n### 6. csv` + HTMLs | Yes \u2013 if not already in Carlorbiz OS | Add into `Strategy & Knowledge` DB |\n| \ud83d\udeab My Life Buckets | \u201cOutsource. Here\u2019s how to approach it toddler-style:\n\n---\n\n## \ud83e\udde9 Option A: Keep it All Inside One Page (Simplest)\n\nThis is ideal while you're sorting through everything",
+      "evidence": "**\ud83e\udde0 Strategy & Knowledge**\n- Merge \u201cTopics of Interest\u201d and \u201cLearning Logs\u201d from Headquarters\n- Includes:\n  - Personal development (upskill notes, reflections)\n  - Conference takeaways\n  - Health system policy updates\n\n---\n\n### 6",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 2,
+      "category": "correction",
+      "summary": "Correction: ---\n\n## \ud83d\udca5 The Problem:\n\n> **[404] Could not find database with ID**\n\nThis happens because Make",
+      "details": "---\n\n## \ud83d\udca5 The Problem:\n\n> **[404] Could not find database with ID**\n\nThis happens because Make. I believe there should be an id on those individual pages I suppose from the areas database, could you step me through finding those and applying those for use in the google sheets to resolve this huge issue because it's one little flaw that's left. I have resolved the UUID issue and the issue was we shouldn't have included ID colon dah dah dah",
+      "evidence": "---\n\n## \ud83d\udca5 The Problem:\n\n> **[404] Could not find database with ID**\n\nThis happens because Make",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 2,
+      "category": "methodology",
+      "summary": "Methodology: com\n\n---\n\n## \ud83e\udde0 Optional Simpler Method (less precise):\n\nIf you don\u2019t want to use IDs:\n- You can use ",
+      "details": "com\n\n---\n\n## \ud83e\udde0 Optional Simpler Method (less precise):\n\nIf you don\u2019t want to use IDs:\n- You can use the **exact title** of the relation page (e. The ID method is rock-solid. ---\n\n## \ud83c\udfaf Your Two Paths\n\n### \u2705 Option 1: Use UUIDs (like `Areas`)\n\u2714\ufe0f Consistent  \n\u2714\ufe0f Works for auto-mapping  \n\u274c Requires manual ID matching if the project doesn\u2019t exist yet  \n\u274c Can\u2019t create new projects directly from the sheet\n\n### \u2705 Option 2: Use Text Input \u2192 Staged in a `Comment` Field (Your Idea)\n\u2714\ufe0f Easy to enter  \n\u2714\ufe0f Keeps your spreadsheet light and human  \n\u2714\ufe0f Gives you flexibility to review and link new projects yourself  \n\u2705 **This is the safest and smartest approach right now**\n\n---\n\n## \ud83e\ude84 Here\u2019s How to Do It\n\n### \ud83e\uddfe In Your Google Sheet\n\n| Column H (`Projects`) | Column K (`Project Notes`)              |\n|------------------------|------------------------------------------|\n|                        | Subscription Funnel \u2013 add to Projects DB |\n|                        | New advisory series \u2013 Notion project?    |\n\n\u27a1\ufe0f You keep the official `Projects` relation column **empty** or populated only with valid IDs  \n\u27a1\ufe0f I (Fred) log what we talk about in `Project Notes`\n\n---\n\n### \ud83d\udd01 In Make",
+      "evidence": "com\n\n---\n\n## \ud83e\udde0 Optional Simpler Method (less precise):\n\nIf you don\u2019t want to use IDs:\n- You can use the **exact title** of the relation page (e",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 3,
+      "category": "correction",
+      "summary": "Correction: com that won't involve endless hours of working through issues - the output being 1) a new item in a",
+      "details": "com that won't involve endless hours of working through issues - the output being 1) a new item in a defined database (avoiding the complicated mapping of Relations fields) and 2) a reminder to update the Relations fields manually after the initial integration creates the new entry\n\n**Assistant:** Here you go, Carla \u2014 your task, simplified and stripped of relation mapping madness, now works beautifully with your Make",
+      "evidence": "com that won't involve endless hours of working through issues - the output being 1) a new item in a defined database (avoiding the complicated mapping of Relations fields) and 2) a reminder to update the Relations fields manually after the initial integration creates the new entry\n\n**Assistant:** Here you go, Carla \u2014 your task, simplified and stripped of relation mapping madness, now works beautifully with your Make",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 3,
+      "category": "methodology",
+      "summary": "Methodology: Want me to generate a fresh test task row based on this simplified method? I\u2019ll queue it up in secon",
+      "details": "Want me to generate a fresh test task row based on this simplified method? I\u2019ll queue it up in seconds",
+      "evidence": "Want me to generate a fresh test task row based on this simplified method? I\u2019ll queue it up in seconds",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [
+    {
+      "involved_threads": [
+        1,
+        2,
+        3
+      ],
+      "insight_type": "emergent_pattern",
+      "description": "Repeated methodology learnings across conversation",
+      "significance": "Strong focus on methodology throughout discussion"
+    }
+  ],
+  "thinking_patterns": {
+    "flow": "Branching - multiple related topics",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

@@ -1,0 +1,140 @@
+# Multi-Pass Learning Extraction Report
+
+**Conversation:** Temp 20251224 221049
+**Word Count:** 5,438
+**Extracted:** 2025-12-24 22:10:50
+
+---
+
+## Pass 1: Topic Segmentation
+
+**Found 2 topic threads:**
+
+### Thread 1: Prompt management strategy
+- **Lines:** 0-532
+- **Word Count:** 3,903
+- **Keywords:** 0, 1, 11074, 1KB, 2
+- **Breakthroughs:** 1
+  - "A key breakthrough occurred when the user corrected field mapping issues, noting that "Email Address" should be "User Email" and questioning why "Universal" appeared as a target audience option when it wasn't relevant to their user form context"
+
+### Thread 2: **Benefits of This Approach:**
+- **Lines:** 532-736
+- **Word Count:** 1,535
+- **Keywords:** 1, 2, 24b9440556f7808197a8c7df27812a02, 2779440556f780f5b21bfbe8c345c761, 2789440556f7813fa2f5f4c60ca140c2
+
+---
+
+## Pass 2: Thread Connections
+
+**Identified 1 connections:**
+
+- **Thread 1 → Thread 2**
+  - Type: `builds_on`
+  - Thread 2 references concepts from Thread 1
+  - Evidence: "1. **Native Notion Logic**: Relations work automatically within Notion's interface..."
+
+---
+
+## Pass 3: Per-Thread Learnings
+
+**Extracted 5 learnings:**
+
+### Correction
+
+**Thread 1:** Correction: # Prompt management strategy
+
+**Summary:** **Conversation Overview**
+
+The user is working on transfo
+- Details: # Prompt management strategy
+
+**Summary:** **Conversation Overview**
+
+The user is working on transforming their N8N workflow architecture from a problematic Vercel-based system to an intelligent Notion-based prompt management system. They had been experiencing significant issues with their existing setup where N8N was downloading a 70KB prompts. js bundle from Vercel for each AI agent call, using only 2-3KB of content while wasting 97% of bandwidth and encountering truncation problems that caused incomplete prompts
+- Confidence: medium
+
+**Thread 2:** Correction: ## **Corrected Architecture:**
+
+**Course Concepts Database** (user form input)
+- Target Audience (se
+- Details: ## **Corrected Architecture:**
+
+**Course Concepts Database** (user form input)
+- Target Audience (select property - user choice)
+- Voice Choice (select property - user choice)
+- Course Concept, Source URLs, User Email, etc. Looking back at our conversation, your Smart Prompt Selection code is working perfectly:
+
+- It correctly identified your form data: "Healthcare Clinical" audience
+- It mapped this to the lookup key: "course_recommendation_healthcare_clinical"  
+- It selected the correct page ID: `2789440556f7813fa2f5f4c60ca140c2`
+
+The issue wasn't with your prompt selection logic - that's working exactly as intended. The problem was that your Notion node couldn't access the page content because:
+
+1
+- Confidence: medium
+
+### Insight
+
+**Thread 1:** Breakthrough in Prompt management strategy
+- Details: A key breakthrough occurred when the user corrected field mapping issues, noting that "Email Address" should be "User Email" and questioning why "Universal" appeared as a target audience option when it wasn't relevant to their user form context
+- Confidence: high
+
+### Methodology
+
+**Thread 1:** Methodology: # Prompt management strategy
+
+**Summary:** **Conversation Overview**
+
+The user is working on transfo
+- Details: # Prompt management strategy
+
+**Summary:** **Conversation Overview**
+
+The user is working on transforming their N8N workflow architecture from a problematic Vercel-based system to an intelligent Notion-based prompt management system. Can I just ask if it would have any merit to separate the prompts out into audience and voice choice etc and use those choice parameters in alignment with the main course db properties? Sorry if this is unclear, I guess I am wondering the best way to ensure the correct prompt is being used - will the bundled approach in Notion be as valuable as it was meant o tbe in vercel?
+
+**Claude:**  I'd be happy to help you continue from your last conversation, but I'll need to search for the previous chat content to understand the full context of your project and the prompts. ** Looking at your current structure:
+
+## **Current Bundled Approach Analysis:**
+
+Your prompts
+- Confidence: medium
+
+**Thread 2:** Methodology: - Direct relation back to courses
+
+## **Benefits of This Approach:**
+
+1
+- Details: - Direct relation back to courses
+
+## **Benefits of This Approach:**
+
+1. **Better Scalability**: Add new prompts and they're immediately available for relation
+
+## **Implementation Strategy:**
+
+1. **Auto-Populate Relation**: N8N finds matching prompt and creates the relation
+
+This approach leverages Notion's strengths instead of working around its limitations
+- Confidence: medium
+
+---
+
+## Pass 4: Cross-Thread Insights
+
+**Discovered 0 insights:**
+
+---
+
+## Pass 5: Thinking Patterns
+
+**Flow:** Linear - single focused topic
+
+**Problem Solving:** Deliberate - builds systematically
+
+**Exploration Style:** Deep dive - thorough exploration of topics
+
+**Innovation:** Moderate breakthroughs - productive exploration
+
+---
+
+*Generated by Multi-Pass Learning Extraction Tool*

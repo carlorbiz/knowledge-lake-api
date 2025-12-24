@@ -1,0 +1,60 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221459",
+  "word_count": 9240,
+  "extraction_date": "2025-12-24 22:14:59",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Rewrite strategic questions",
+      "start_line": 0,
+      "end_line": 2718,
+      "excerpt": "# Rewrite strategic questions\n\n**Date:** 2025-08-13\n\n---\n\n**User:** Fred, please make these questions sound more like me - I've attached the RWAV project plan for context, noting these questions need",
+      "keywords": [
+        "0417585363",
+        "1",
+        "10",
+        "100",
+        "1024"
+      ],
+      "breakthrough_moments": [
+        "They should make the Directors slightly uncomfortable - which is exactly where breakthrough strategic thinking begins"
+      ],
+      "word_count": 9240
+    }
+  ],
+  "connections": [],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "correction",
+      "summary": "Correction: 2 Communication Framework\n\nStakeholder \n\nGroup Communication Method Frequency Purpose\n\nProject Lead ",
+      "details": "2 Communication Framework\n\nStakeholder \n\nGroup Communication Method Frequency Purpose\n\nProject Lead \n\n(Kate Temby) MS Teams meeting Weekly (Fridays, 2pm)\n\nProject updates, milestone \n\nreviews, issue resolution\n\nRWAV Executive MS Teams meeting Fortnightly Strategic guidance, alignment \n\nwith organisational priorities\n\nRWAV Board Board papers & \n\npresentations\n\nAt designated \n\nmilestones\n\nStrategic direction, \n\ngovernance oversight\n\nRWAV Staff MS Teams workshops & \n\nSharePoint updates\n\nAs per project \n\ntimeline\n\nInput gathering, co-design, \n\nimplementation planning\n\nExternal \n\nStakeholders\n\nMS Forms surveys & \n\ntargeted consultations\n\nAs per \n\nengagement \n\nplan\n\nNeeds assessment, \n\npartnership opportunities\n\n2. 5 hours\n\nWeek 5 (1 - 5 September 2025)\n\nActivities:\n\n- Continue stakeholder interviews and engagement sessions\n\n- Monitor survey response rates and issue reminders\n\n- Begin collation of qualitative feedback themes\n\n- Conduct targeted consultations with hotspot communities\n\n- Mid-point check-in with CEO and Board Chair\n\nDeliverables:\n\n- Interim consultation summary\n\n- Survey response update\n\n- Emerging themes document\n\n- Weekly progress report (Friday, 2pm)\n\nHours Allocation: 22. 5 Technical Contingency Planning\n\no Document Backup \u2013 Daily backup of all project materials to secure cloud storage\n\no Format Compatibility \u2013 Testing of all specialist tool outputs in Microsoft environment before \n\nwider distribution\n\no Alternative Access Methods \u2013 Provision of PDF versions of all documents for stakeholders \n\nexperiencing technical difficulties\n\no Technical Support Coordination \u2013 Established protocol for engaging RWAV IT support when \n\nintegration issues arise\n<PARSED TEXT FOR PAGE: 11 / 21>\nPage 11 of 21\n\nwww",
+      "evidence": "2 Communication Framework\n\nStakeholder \n\nGroup Communication Method Frequency Purpose\n\nProject Lead \n\n(Kate Temby) MS Teams meeting Weekly (Fridays, 2pm)\n\nProject updates, milestone \n\nreviews, issue resolution\n\nRWAV Executive MS Teams meeting Fortnightly Strategic guidance, alignment \n\nwith organisational priorities\n\nRWAV Board Board papers & \n\npresentations\n\nAt designated \n\nmilestones\n\nStrategic direction, \n\ngovernance oversight\n\nRWAV Staff MS Teams workshops & \n\nSharePoint updates\n\nAs per project \n\ntimeline\n\nInput gathering, co-design, \n\nimplementation planning\n\nExternal \n\nStakeholders\n\nMS Forms surveys & \n\ntargeted consultations\n\nAs per \n\nengagement \n\nplan\n\nNeeds assessment, \n\npartnership opportunities\n\n2",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 1,
+      "category": "insight",
+      "summary": "Breakthrough in Rewrite strategic questions",
+      "details": "They should make the Directors slightly uncomfortable - which is exactly where breakthrough strategic thinking begins",
+      "evidence": "They should make the Directors slightly uncomfortable - which is exactly where breakthrough strategic thinking begins",
+      "confidence": "high"
+    },
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: The Rural Health Ecosystem Disruption Question:**\n\n\"If we accept that the traditional model of recru",
+      "details": "The Rural Health Ecosystem Disruption Question:**\n\n\"If we accept that the traditional model of recruiting individual health professionals to fill vacant rural positions is fundamentally unsustainable, what entirely new ecosystem approach could RWAV pioneer that transforms how rural communities access, develop, and retain their health workforce?\"\n\n\n\n**2. 1 Purpose and Scope\n\nThis project plan outlines the methodology, timeline, and deliverables for the development of RWAV\u2019s \n\n2026-2030 Strategic Plan. The process has been designed to:\n\n- Build on RWAV\u2019s demonstrated success in placing health professionals in rural communities\n\n- Address critical workforce challenges identified in hotspot regions\n\n- Incorporate innovative approaches to service delivery and workforce development\n\n- Strengthen First Nations partnerships and culturally safe practices\n\n- Position RWAV for continued leadership in rural health workforce development\n\n1",
+      "evidence": "The Rural Health Ecosystem Disruption Question:**\n\n\"If we accept that the traditional model of recruiting individual health professionals to fill vacant rural positions is fundamentally unsustainable, what entirely new ecosystem approach could RWAV pioneer that transforms how rural communities access, develop, and retain their health workforce?\"\n\n\n\n**2",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Moderate breakthroughs - productive exploration"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221329",
+  "word_count": 4168,
+  "extraction_date": "2025-12-24 22:13:29",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Notion automation setup",
+      "start_line": 0,
+      "end_line": 1428,
+      "excerpt": "# Notion automation setup\n\n**Date:** 2025-10-03\n\n---\n\n**User:** Fred, I need a better way to use Notion as my project management / central life hub tool. I set these fabulous databases up for projects",
+      "keywords": [
+        "0",
+        "02",
+        "05",
+        "06",
+        "1"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 3970
+    },
+    {
+      "thread_id": 2,
+      "title": "Option A (preferred if you want me to map it automatically)",
+      "start_line": 1428,
+      "end_line": 1451,
+      "excerpt": "Also, remember to use `source_specific_search_parameters` when applicable.\n\n**Assistant:** It looks like I wasn\u2019t able to pull up your Notion databases directly through the connector \u2014 the search didn",
+      "keywords": [
+        "1",
+        "2",
+        "Also",
+        "Assistant",
+        "CSV"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 198
+    }
+  ],
+  "connections": [],
+  "learnings": [],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

@@ -1,0 +1,258 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221455",
+  "word_count": 24100,
+  "extraction_date": "2025-12-24 22:14:55",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Meetings database setup",
+      "start_line": 0,
+      "end_line": 89,
+      "excerpt": "# Meetings database setup\n\n**Date:** 2025-08-12\n\n---\n\n**User:** Fred, can you please help me map a new \"Meetings\" Database into my Notion HQ so that I can 1) store all meeting agendas, papers, minutes",
+      "keywords": [
+        "1",
+        "2",
+        "20250812",
+        "3",
+        "7"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 850
+    },
+    {
+      "thread_id": 2,
+      "title": "2) Recording & transcription (now vs later)",
+      "start_line": 89,
+      "end_line": 103,
+      "excerpt": "- Parse subject for **title + date** (fallback to email date).  \n- Heuristics: If body contains \u201cAgenda\u201d \u2192 Agenda; attachments \u2192 Papers; \u201cMinutes\u201d \u2192 Minutes.  \n- Extract participants from headers \u2192 At",
+      "keywords": [
+        "2",
+        "3",
+        "AND",
+        "API",
+        "Actionitems"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 166
+    },
+    {
+      "thread_id": 3,
+      "title": "4) Calendar sync (optional but handy)",
+      "start_line": 103,
+      "end_line": 136,
+      "excerpt": "- Upsert into **Tasks**; relate back to **Meeting** and **Project**; set Area by inheritance (Meeting\u2192Area).  \n  - Idempotency key: hash(meetingUID + task text).  \n- Optional: add a **Notion Button*",
+      "keywords": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "API"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 207
+    },
+    {
+      "thread_id": 4,
+      "title": "It includes:",
+      "start_line": 136,
+      "end_line": 1115,
+      "excerpt": "- **Decision register**: add a simple Decisions DB; MCP can append decisions parsed from Minutes (\u201cDecided: \u2026\u201d) with a relation back to Meeting & Project.  \n- **Compliance snapshot**: a rollup in Proj",
+      "keywords": [
+        "1",
+        "15",
+        "2",
+        "2025",
+        "20250815T1000001000"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2013
+    },
+    {
+      "thread_id": 5,
+      "title": "6) Import `postman_collection.json` and hit **Ingest Email** \u2192...",
+      "start_line": 1115,
+      "end_line": 1592,
+      "excerpt": "6) Import `postman_collection.json` and hit **Ingest Email** \u2192 **Ingest Transcript**. You\u2019ll see tasks generated and linked back to the meeting.\n\nHow this maps to your vision:\n- Central Meetings hub a",
+      "keywords": [
+        "0000",
+        "1",
+        "100",
+        "11",
+        "12"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2719
+    },
+    {
+      "thread_id": 6,
+      "title": "Quick test (takes 10 seconds)",
+      "start_line": 1592,
+      "end_line": 5161,
+      "excerpt": "> Rollback safety: if anything feels off, just restart the container again and put the value back to `ceo`. Nothing on your PC is harmed.\n\n---\n\n## Quick test (takes 10 seconds)\nOpen your browser and t",
+      "keywords": [
+        "0",
+        "1",
+        "10",
+        "100",
+        "1015"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 18145
+    }
+  ],
+  "connections": [
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 2,
+      "connection_type": "builds_on",
+      "explanation": "Thread 2 references concepts from Thread 1",
+      "evidence": "## 2) Recording & transcription (now vs later)"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 3,
+      "connection_type": "builds_on",
+      "explanation": "Thread 3 references concepts from Thread 1",
+      "evidence": "1) Create **Meetings** DB at Carla\u2019s HQ (properties above)."
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 references concepts from Thread 1",
+      "evidence": "- **Weekly Ops review** view: filter last 7 days Completed with linked Actions."
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 references concepts from Thread 1",
+      "evidence": "**User:** Fred, I might have stumbled upon a secondary cause of our issues... I opened the OpenMemory Dashboard (localhost:3000) and all the links con"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 6,
+      "connection_type": "parallels",
+      "explanation": "Thread 6 parallels Thread 1",
+      "evidence": "## Quick test (takes 10 seconds)"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 3,
+      "connection_type": "builds_on",
+      "explanation": "Thread 3 references concepts from Thread 2",
+      "evidence": "- Upsert into **Tasks**; relate back to **Meeting** and **Project**; set Area by inheritance (Meeting\u2192Area)."
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 references concepts from Thread 2",
+      "evidence": "- a **Notion API `createDatabase` payload** for Meetings (ready to paste), and"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 references concepts from Thread 2",
+      "evidence": "6) Import `postman_collection.json` and hit **Ingest Email** \u2192 **Ingest Transcript**. You\u2019ll see tasks generated and linked back to the meeting."
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 6,
+      "connection_type": "parallels",
+      "explanation": "Thread 6 parallels Thread 2",
+      "evidence": "> Rollback safety: if anything feels off, just restart the container again and put the value back to `ceo`. Nothing on your PC is harmed."
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 references concepts from Thread 3",
+      "evidence": "- a **Notion API `createDatabase` payload** for Meetings (ready to paste), and"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 references concepts from Thread 3",
+      "evidence": "**User:** Fred, I might have stumbled upon a secondary cause of our issues... I opened the OpenMemory Dashboard (localhost:3000) and all the links con"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 6,
+      "connection_type": "parallels",
+      "explanation": "Thread 6 parallels Thread 3",
+      "evidence": "## Quick test (takes 10 seconds)"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 references concepts from Thread 4",
+      "evidence": "1) Hit the base SSE without the slug:"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 6,
+      "connection_type": "parallels",
+      "explanation": "Thread 6 parallels Thread 4",
+      "evidence": "## Quick test (takes 10 seconds)"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 6,
+      "connection_type": "parallels",
+      "explanation": "Thread 6 parallels Thread 5",
+      "evidence": "## Quick test (takes 10 seconds)"
+    }
+  ],
+  "learnings": [
+    {
+      "thread_id": 4,
+      "category": "methodology",
+      "summary": "Methodology: pdf\"}\n\n  ],\n\n  \"area_hint\": \"CARLORBIZ\",\n\n  \"project_hint\": \"RWAV 2026\u20132030 Strategy\"\n\n}\n\n```\n\n\n\nThe",
+      "details": "pdf\"}\n\n  ],\n\n  \"area_hint\": \"CARLORBIZ\",\n\n  \"project_hint\": \"RWAV 2026\u20132030 Strategy\"\n\n}\n\n```\n\n\n\nThe server will upsert a **Meeting** (by `uid`) and link Area/Project when possible. json\"\n\n  },\n\n  \"item\": [\n\n    {\n\n      \"name\": \"Ingest Email\",\n\n      \"request\": {\n\n        \"method\": \"POST\",\n\n        \"header\": [{\"key\": \"Content-Type\", \"value\": \"application/json\"}],\n\n        \"url\": {\"raw\": \"http://localhost:8787/ingest/email\", \"host\": [\"http://localhost:8787\"], \"path\": [\"ingest\", \"email\"]},\n\n        \"body\": {\n\n          \"mode\": \"raw\",\n\n          \"raw\": json. pdf\"}],\n\n            \"area_hint\": \"CARLORBIZ\",\n\n            \"project_hint\": \"RWAV 2026\u20132030 Strategy\"\n\n          }, indent=2)\n\n        }\n\n      }\n\n    },\n\n    {\n\n      \"name\": \"Ingest Transcript\",\n\n      \"request\": {\n\n        \"method\": \"POST\",\n\n        \"header\": [{\"key\": \"Content-Type\", \"value\": \"application/json\"}],\n\n        \"url\": {\"raw\": \"http://localhost:8787/ingest/transcript\", \"host\": [\"http://localhost:8787\"], \"path\": [\"ingest\", \"transcript\"]},\n\n        \"body\": {\n\n          \"mode\": \"raw\",\n\n          \"raw\": json",
+      "evidence": "pdf\"}\n\n  ],\n\n  \"area_hint\": \"CARLORBIZ\",\n\n  \"project_hint\": \"RWAV 2026\u20132030 Strategy\"\n\n}\n\n```\n\n\n\nThe server will upsert a **Meeting** (by `uid`) and link Area/Project when possible",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 6,
+      "category": "correction",
+      "summary": "Correction: 1:8765/mcp/openmemory/sse\n```\n- If it now shows a \u201cping\u201d stream (a wall of lines every ~15 seconds),",
+      "details": "1:8765/mcp/openmemory/sse\n```\n- If it now shows a \u201cping\u201d stream (a wall of lines every ~15 seconds), you\u2019re fixed. - Once the mount is fixed, the container will always read/write to C:// going forward. I can then give you **exact before/after lines** so you fix the drive letter and the `/ceo` issue in one go",
+      "evidence": "1:8765/mcp/openmemory/sse\n```\n- If it now shows a \u201cping\u201d stream (a wall of lines every ~15 seconds), you\u2019re fixed",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 6,
+      "category": "methodology",
+      "summary": "Methodology: ---\n\n## How to move it from H:// to C:// (safe method)\n\n### 1",
+      "details": "---\n\n## How to move it from H:// to C:// (safe method)\n\n### 1. ---\n\nOnce you locate it:\n- Open that file in VS Code or Notepad (using the same method you just did)",
+      "evidence": "---\n\n## How to move it from H:// to C:// (safe method)\n\n### 1",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [
+    {
+      "involved_threads": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "insight_type": "evolution",
+      "description": "Topic evolution across 6 threads",
+      "significance": "Shows progressive refinement of understanding"
+    }
+  ],
+  "thinking_patterns": {
+    "flow": "Associative - wide-ranging exploration",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

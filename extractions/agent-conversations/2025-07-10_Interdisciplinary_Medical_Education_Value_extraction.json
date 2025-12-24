@@ -1,0 +1,42 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221549",
+  "word_count": 6300,
+  "extraction_date": "2025-12-24 22:15:49",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Interdisciplinary Medical Education Value",
+      "start_line": 0,
+      "end_line": 67,
+      "excerpt": "# Interdisciplinary Medical Education Value\n\n**Date:** 2025-07-10\n\n---\n\n**User:** Please draft a 500 word blog post in a human voice that\u2019s professional but conversational, using Australian spelling a",
+      "keywords": [
+        "1",
+        "10",
+        "110n",
+        "111",
+        "12"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 6300
+    }
+  ],
+  "connections": [],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: **Tool:** {\"items\":[{\"paper_title\":\"Evaluating the Impact of Continuing Medical Education in the Int",
+      "details": "**Tool:** {\"items\":[{\"paper_title\":\"Evaluating the Impact of Continuing Medical Education in the Interdisciplinary Team: A Novel, Targeted Approach\",\"abstract\":\"ABSTRACT In order to maximise the learning potential of medical education programmes aimed at interdisciplinary or multidisciplinary teams, it is important to understand how the effectiveness of these programmes can vary between healthcare professionals from different specialities. In this analysis, we report on a new approach to measuring change in knowledge and competence among learners from different physician specialities. \\n \\n \\n \\n The aim of the study was to determine the scope of published scientific literature on the training of undergraduate medical students in \u201cgeneral medical practice\u201d and \u201cprimary health care,\u201d exploring how these two concepts are understood, the pedagogical approaches employed by the trainers, the training platforms and the challenges encountered during the training",
+      "evidence": "**Tool:** {\"items\":[{\"paper_title\":\"Evaluating the Impact of Continuing Medical Education in the Interdisciplinary Team: A Novel, Targeted Approach\",\"abstract\":\"ABSTRACT In order to maximise the learning potential of medical education programmes aimed at interdisciplinary or multidisciplinary teams, it is important to understand how the effectiveness of these programmes can vary between healthcare professionals from different specialities",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

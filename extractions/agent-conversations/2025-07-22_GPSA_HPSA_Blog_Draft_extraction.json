@@ -1,0 +1,42 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221548",
+  "word_count": 2352,
+  "extraction_date": "2025-12-24 22:15:48",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "GPSA HPSA Blog Draft",
+      "start_line": 0,
+      "end_line": 191,
+      "excerpt": "# GPSA HPSA Blog Draft\n\n**Date:** 2025-07-22\n\n---\n\n**User:** Hi Fred, I need you to draw on our combined memory of all things module creation and HPSA (Health Professional Supervision Australasia) to",
+      "keywords": [
+        "1",
+        "10",
+        "2",
+        "2023",
+        "2023httpsconsensusapppapersevaluatingtheimpactofcontinuingmedicaleducationinjenkinslesterb07a075f67b55721b6b0f49028219927utm_sourcechatgpt"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2352
+    }
+  ],
+  "connections": [],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: app/papers/interdisciplinary-training-for-the-family-approach-in-marchetti-toso/e42c6b3a84e45b8387fa",
+      "details": "app/papers/interdisciplinary-training-for-the-family-approach-in-marchetti-toso/e42c6b3a84e45b8387fad228c3cd1cf4/?utm_source=chatgpt)",
+      "evidence": "app/papers/interdisciplinary-training-for-the-family-approach-in-marchetti-toso/e42c6b3a84e45b8387fad228c3cd1cf4/?utm_source=chatgpt)",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

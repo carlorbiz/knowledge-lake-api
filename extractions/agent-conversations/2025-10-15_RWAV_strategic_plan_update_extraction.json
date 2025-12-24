@@ -1,0 +1,1712 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221314",
+  "word_count": 77515,
+  "extraction_date": "2025-12-24 22:13:14",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "RWAV strategic plan update",
+      "start_line": 0,
+      "end_line": 2289,
+      "excerpt": "# RWAV strategic plan update\n\n**Date:** 2025-10-15\n\n---\n\n**User:** hey fred, you are my chief operating officer - a corporate superstar who shares my passion for perfection and powerful communication",
+      "keywords": [
+        "0",
+        "01",
+        "06",
+        "1",
+        "10"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 12887
+    },
+    {
+      "thread_id": 2,
+      "title": "Next Step for You",
+      "start_line": 2289,
+      "end_line": 2345,
+      "excerpt": "- **Theme mapping:** Consultation + survey findings will be cross-walked against the **Doers / Drivers / Enablers** framework, so every recommendation can be traced back to stakeholder voice and quant",
+      "keywords": [
+        "1",
+        "18",
+        "2",
+        "23",
+        "3"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 610
+    },
+    {
+      "thread_id": 3,
+      "title": "\ud83d\udd39 Roles & Responsibilities",
+      "start_line": 2345,
+      "end_line": 2403,
+      "excerpt": "**Assistant:** Excellent \u2014 I\u2019ll take full COO oversight of this workflow and make sure the chain runs smoothly, with each agent pulling their weight. Here\u2019s the **delivery chain** I\u2019m setting up, and",
+      "keywords": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 392
+    },
+    {
+      "thread_id": 4,
+      "title": "\ud83d\udd39 Communication Back to You",
+      "start_line": 2403,
+      "end_line": 4087,
+      "excerpt": "## \ud83d\udd39 Communication Back to You\nYou\u2019ll get short COO-style updates like:  \n- \u201cAppendix template complete \u2014 moving to survey coding.\u201d  \n- \u201cConsultations fully synthesised \u2014 policy scan underway.\u201d  \n- \u201cD",
+      "keywords": [
+        "1",
+        "1159pm",
+        "1500",
+        "250",
+        "500"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 8778
+    },
+    {
+      "thread_id": 5,
+      "title": "Potential for commercial agencies to lobby government regarding...",
+      "start_line": 4087,
+      "end_line": 4396,
+      "excerpt": "Potential for commercial agencies to lobby government regarding RWAV's competitive positioning and market disruption activities\n\nTraining Policy Reform and Professional Relationship Navigation\n\nComple",
+      "keywords": [
+        "12",
+        "18",
+        "30",
+        "5",
+        "90"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2766
+    },
+    {
+      "thread_id": 6,
+      "title": "How are you? Good morning. I'm very well. I'm just looking a bit scruffy.",
+      "start_line": 4396,
+      "end_line": 4640,
+      "excerpt": "Here we go. Okay, let's see how this goes. This is my meeting with R-Wave director Jane Poletti regarding the R-Wave ultimate strategic toolkit and the 2026-2030 strategic planning project.\n\n\n\nI note",
+      "keywords": [
+        "10",
+        "100",
+        "15",
+        "1500",
+        "19"
+      ],
+      "breakthrough_moments": [
+        "You get on, you just go, oh my god, it's a disaster"
+      ],
+      "word_count": 2039
+    },
+    {
+      "thread_id": 7,
+      "title": "But I've been told I've got two good...",
+      "start_line": 4640,
+      "end_line": 4656,
+      "excerpt": "But I've been told I've got two good years till I'm likely having to go back to the drawing board when things represent. So I'm like, two good years means I don't want to be doing a hundred hours a we",
+      "keywords": [
+        "And",
+        "But",
+        "CEO",
+        "GPSA",
+        "God"
+      ],
+      "breakthrough_moments": [
+        "So I haven't really had any downtime because I've been busy building things myself, because I'm like, oh my God, the possibilities"
+      ],
+      "word_count": 214
+    },
+    {
+      "thread_id": 8,
+      "title": "I also, my day job, I work two...",
+      "start_line": 4656,
+      "end_line": 4943,
+      "excerpt": "I also, my day job, I work two and a half days a week for a company called ID Consulting. So ID, have a look at them online, id.com.au. They are actually population forecasters, demographers. They hav",
+      "keywords": [
+        "10500",
+        "18",
+        "25",
+        "50",
+        "52"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2488
+    },
+    {
+      "thread_id": 9,
+      "title": "So the way that I like to look...",
+      "start_line": 4943,
+      "end_line": 5186,
+      "excerpt": "So the way that I like to look at it, and I've done a lot of strategic planning in the past, is that you develop a set of KPIs. So this is all part of that evaluation, so that it's one thing to have a",
+      "keywords": [
+        "10",
+        "12",
+        "15",
+        "20",
+        "247"
+      ],
+      "breakthrough_moments": [
+        "It's like, oh my God, there's water here for the horses"
+      ],
+      "word_count": 2758
+    },
+    {
+      "thread_id": 10,
+      "title": "It's more of a matrix that we need...",
+      "start_line": 5186,
+      "end_line": 6095,
+      "excerpt": "It's more of a matrix that we need to look at. We're looking at the whole ecosystem of roles, responsibilities, what we want to do. But again, it comes back to that key question of actually what's the",
+      "keywords": [
+        "1",
+        "10",
+        "10week",
+        "1200",
+        "15000"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 9460
+    },
+    {
+      "thread_id": 11,
+      "title": "Be that. Be that navigator. Give them the...",
+      "start_line": 6095,
+      "end_line": 6123,
+      "excerpt": "Be that. Be that navigator. Give them the upfront and then that builds the trust for them to come back to you.\n\n\n\nAnd maybe there is a comeback service that you can charge them for if them, they would",
+      "keywords": [
+        "18",
+        "And",
+        "CIA",
+        "Get",
+        "Give"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 287
+    },
+    {
+      "thread_id": 12,
+      "title": "Who's he Bob from? Mildura. Who's he Bob...",
+      "start_line": 6123,
+      "end_line": 6135,
+      "excerpt": "Who's he Bob from? Mildura. Who's he Bob from? You know, that ties back to Bendigo for some reason. And you know, you bring all those people together and then you've got a system, a structure that tha",
+      "keywords": [
+        "And",
+        "Bendigo",
+        "Bob",
+        "Hes",
+        "Mildura"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 122
+    },
+    {
+      "thread_id": 13,
+      "title": "So it doesn't mean you've had to restructure...",
+      "start_line": 6135,
+      "end_line": 6155,
+      "excerpt": "So it doesn't mean you've had to restructure your entire organisation. You've got some people on the ground doing that connection at the outset, maintaining those connections. And then you've got the",
+      "keywords": [
+        "And",
+        "Australia",
+        "Borland",
+        "But",
+        "Erin"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 276
+    },
+    {
+      "thread_id": 14,
+      "title": "So that meant that mum essentially had to...",
+      "start_line": 6155,
+      "end_line": 6335,
+      "excerpt": "So that meant that mum essentially had to contribute three hours back to the pool at some time. And we had lots of different women come and look after us. That's what I was going to say, mum ran it al",
+      "keywords": [
+        "12",
+        "247",
+        "38",
+        "Advocacy",
+        "All"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1917
+    },
+    {
+      "thread_id": 15,
+      "title": "This strategic consultation with Marlene Drysdale provided critical...",
+      "start_line": 6335,
+      "end_line": 7614,
+      "excerpt": "This strategic consultation with Marlene Drysdale provided critical insights into rural health workforce challenges, particularly regarding Indigenous health services, registrar support systems, and o",
+      "keywords": [
+        "01",
+        "0433",
+        "0438",
+        "066",
+        "068"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 7586
+    },
+    {
+      "thread_id": 16,
+      "title": "So, we're looking future, we're looking at how...",
+      "start_line": 7614,
+      "end_line": 7686,
+      "excerpt": "So, we're looking future, we're looking at how you can reshape what you're doing today into creating some really great social impact for rural Victoria, or maybe for wider spaces beyond that, through",
+      "keywords": [
+        "1975",
+        "3000",
+        "And",
+        "Apple",
+        "Because"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1099
+    },
+    {
+      "thread_id": 17,
+      "title": "The change that was happening in society was...",
+      "start_line": 7686,
+      "end_line": 7737,
+      "excerpt": "The change that was happening in society was actually an impetus. And that's sort of, it seems like it's unrelated, but it's not. If you think about what our wave delivers for society, for those commu",
+      "keywords": [
+        "1",
+        "20",
+        "Amazon",
+        "And",
+        "Because"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 543
+    },
+    {
+      "thread_id": 18,
+      "title": "No. No? Come on. Back to the Victorian style, reality.",
+      "start_line": 7737,
+      "end_line": 7825,
+      "excerpt": "No. No? Come on. Back to the Victorian style, reality.\n\n\n\nThis is it. I must say, it took probably twice as long to get into town because people had forgotten how to drive in the rain. That's so true,",
+      "keywords": [
+        "10",
+        "12",
+        "And",
+        "Anywhere",
+        "Are"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 562
+    },
+    {
+      "thread_id": 19,
+      "title": "It's just lots of different ways for you...",
+      "start_line": 7825,
+      "end_line": 8340,
+      "excerpt": "It's just lots of different ways for you to contribute. So if you've got, you know, ideas for LID, for communities and the like, you just tap through and just add your bits in. There's lots there for",
+      "keywords": [
+        "10",
+        "100",
+        "12",
+        "175hour",
+        "25"
+      ],
+      "breakthrough_moments": [
+        "Oh my god, like a virgin"
+      ],
+      "word_count": 3795
+    },
+    {
+      "thread_id": 20,
+      "title": "And they can speak about, you know, their...",
+      "start_line": 8340,
+      "end_line": 8554,
+      "excerpt": "And they can speak about, you know, their experiences about coming from a rural town or community town, you know, regional town. And they might go back to their high school and speak to, you know, the",
+      "keywords": [
+        "0826",
+        "0902",
+        "10",
+        "10week",
+        "11s"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2520
+    },
+    {
+      "thread_id": 21,
+      "title": "Because then it's more about progressing it rather...",
+      "start_line": 8554,
+      "end_line": 8622,
+      "excerpt": "Because then it's more about progressing it rather than the starting point. Because what we need to sort of focus on is the timing around the stakeholder contacts that I'll start to do as soon as the",
+      "keywords": [
+        "10",
+        "12",
+        "19th",
+        "20",
+        "3Ts"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 896
+    },
+    {
+      "thread_id": 22,
+      "title": "Well, all right, so extend that out a...",
+      "start_line": 8622,
+      "end_line": 10266,
+      "excerpt": "Well, all right, so extend that out a bit and let's go back to that, maybe, you know, maybe not in the next five years, maybe beyond that\nThe file is too long and its contents have been truncated.\n\n\n*",
+      "keywords": [
+        "06",
+        "0826",
+        "0902",
+        "0923",
+        "1"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 15520
+    }
+  ],
+  "connections": [
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 2,
+      "connection_type": "builds_on",
+      "explanation": "Thread 2 references concepts from Thread 1",
+      "evidence": "- **Weighting:** Where the last 7 consultations or extra 50 survey responses materially shift emphasis (e.g. stronger calls for retention-first, or ne"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 builds on Thread 1",
+      "evidence": "type /Zapier MCP/link_68ed1361daa08191b8fd029f766f6b56/add_tools = () => any;"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 builds on Thread 1",
+      "evidence": "But that whole piece, we did quite a lot of work about who came to us and the circumstances under which they came at VLA and did quite a lot of work a"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 1",
+      "evidence": "Here we go. Okay, let's see how this goes. This is my meeting with R-Wave director Jane Poletti regarding the R-Wave ultimate strategic toolkit and th"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 builds on Thread 1",
+      "evidence": "There are lots of acronyms. I think it took me 18 months and I had the list that I kept growing. And, you know, the Commonwealth."
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 builds on Thread 1",
+      "evidence": "Sorry, I'm not very complimentary. We just had a meeting the other day, and this is very relevant because it's the specialist training program, which "
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 builds on Thread 1",
+      "evidence": "- What you\u2019ve uploaded is perfect: the survey file plus nine consultation summaries (Anita Munoz\u301062\u2020Anita Munoz\u3011, Belinda O\u2019Sullivan\u301063\u2020Belinda O\u2019Sull"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 1",
+      "evidence": "High reliance on expensive locum services ($3,500 per day plus accommodation and travel costs)"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 1",
+      "evidence": "Now, Apple didn't necessarily come onto the scene with a great strategy about having this product that was going to be updated every three weeks and y"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 1",
+      "evidence": "And one that's probably the closest to home for anybody in the current era, we think about what happened in COVID. Now, you might have been the person"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 1",
+      "evidence": "So it's your flex by ISPT is what you're looking for. And the password is F, capitals, F1, lowercase by, B1, uppercase ISPT. Tell you what, this is it"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 builds on Thread 1",
+      "evidence": "So, there's lots of different elements to this, right? There's lots of different elements to what you need to be thinking, how I could be doing today."
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 builds on Thread 1",
+      "evidence": "And they can speak about, you know, their experiences about coming from a rural town or community town, you know, regional town. And they might go bac"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 1",
+      "evidence": "She wants to... Because, yeah, I really do want to get... If I get through 20, that'd be great. But I also want to go... When I'm heading out west to."
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 22,
+      "connection_type": "parallels",
+      "explanation": "Thread 22 parallels Thread 1",
+      "evidence": "Weekly 0923"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 3,
+      "connection_type": "builds_on",
+      "explanation": "Thread 3 references concepts from Thread 2",
+      "evidence": "1. **Appendix Template (Fred)**"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 builds on Thread 2",
+      "evidence": "type /Zapier MCP/link_68ed1361daa08191b8fd029f766f6b56/add_tools = () => any;"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 builds on Thread 2",
+      "evidence": "But that whole piece, we did quite a lot of work about who came to us and the circumstances under which they came at VLA and did quite a lot of work a"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 2",
+      "evidence": "Here we go. Okay, let's see how this goes. This is my meeting with R-Wave director Jane Poletti regarding the R-Wave ultimate strategic toolkit and th"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 builds on Thread 2",
+      "evidence": "And we were acquired, it was 25 years, where it basically, there was a founder, and they grew it, and it was very organic. And it was very, you know, "
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 builds on Thread 2",
+      "evidence": "And you accrue data from a whole lot of different angles to give it a 3D look. That's exciting. So that was interesting to move in that direction."
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 builds on Thread 2",
+      "evidence": "- What you\u2019ve uploaded is perfect: the survey file plus nine consultation summaries (Anita Munoz\u301062\u2020Anita Munoz\u3011, Belinda O\u2019Sullivan\u301063\u2020Belinda O\u2019Sull"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 references concepts from Thread 2",
+      "evidence": "So you know how you're going to walk in at a run-up start. You're not going to be taking 18 months to understand the language and the nuances. So you "
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 14,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 14 triggered by Thread 2",
+      "evidence": "She had the filing system and she ran it for, oh God, she ran it for 38 years. And she would have kept going, but she was getting to, you know, she go"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 2",
+      "evidence": "High reliance on expensive locum services ($3,500 per day plus accommodation and travel costs)"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 2",
+      "evidence": "Now, Apple didn't necessarily come onto the scene with a great strategy about having this product that was going to be updated every three weeks and y"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 2",
+      "evidence": "And one that's probably the closest to home for anybody in the current era, we think about what happened in COVID. Now, you might have been the person"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 2",
+      "evidence": "So it's your flex by ISPT is what you're looking for. And the password is F, capitals, F1, lowercase by, B1, uppercase ISPT. Tell you what, this is it"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 builds on Thread 2",
+      "evidence": "Yeah. Is that on Thursday? Is that what? 26th? Oh, am I looking at the right one? It looks airless. Yes."
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 builds on Thread 2",
+      "evidence": "And they can speak about, you know, their experiences about coming from a rural town or community town, you know, regional town. And they might go bac"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 2",
+      "evidence": "She wants to... Because, yeah, I really do want to get... If I get through 20, that'd be great. But I also want to go... When I'm heading out west to."
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 22,
+      "connection_type": "parallels",
+      "explanation": "Thread 22 parallels Thread 2",
+      "evidence": "Weekly 0923"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 builds on Thread 3",
+      "evidence": "type /Zapier MCP/link_68ed1361daa08191b8fd029f766f6b56/add_tools = () => any;"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 builds on Thread 3",
+      "evidence": "But that whole piece, we did quite a lot of work about who came to us and the circumstances under which they came at VLA and did quite a lot of work a"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 3",
+      "evidence": "Here we go. Okay, let's see how this goes. This is my meeting with R-Wave director Jane Poletti regarding the R-Wave ultimate strategic toolkit and th"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 builds on Thread 3",
+      "evidence": "And we were acquired, it was 25 years, where it basically, there was a founder, and they grew it, and it was very organic. And it was very, you know, "
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 builds on Thread 3",
+      "evidence": "And you accrue data from a whole lot of different angles to give it a 3D look. That's exciting. So that was interesting to move in that direction."
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 builds on Thread 3",
+      "evidence": "This strategic consultation with Cath Lees provided exceptional insights into community-centred approaches to rural health workforce development throu"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 14,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 14 triggered by Thread 3",
+      "evidence": "She had the filing system and she ran it for, oh God, she ran it for 38 years. And she would have kept going, but she was getting to, you know, she go"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 3",
+      "evidence": "High reliance on expensive locum services ($3,500 per day plus accommodation and travel costs)"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 3",
+      "evidence": "Now, Apple didn't necessarily come onto the scene with a great strategy about having this product that was going to be updated every three weeks and y"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 3",
+      "evidence": "And one that's probably the closest to home for anybody in the current era, we think about what happened in COVID. Now, you might have been the person"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 3",
+      "evidence": "So it's your flex by ISPT is what you're looking for. And the password is F, capitals, F1, lowercase by, B1, uppercase ISPT. Tell you what, this is it"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 builds on Thread 3",
+      "evidence": "Yeah. Is that on Thursday? Is that what? 26th? Oh, am I looking at the right one? It looks airless. Yes."
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 builds on Thread 3",
+      "evidence": "And they can speak about, you know, their experiences about coming from a rural town or community town, you know, regional town. And they might go bac"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 3",
+      "evidence": "She wants to... Because, yeah, I really do want to get... If I get through 20, that'd be great. But I also want to go... When I'm heading out west to."
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 22,
+      "connection_type": "parallels",
+      "explanation": "Thread 22 parallels Thread 3",
+      "evidence": "Weekly 0923"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 4",
+      "evidence": "Anyway, the weather here at the moment is divine. Well, I think we're heading for a top of seven today. So, yes, I can just say, yes, it would be divi"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 builds on Thread 4",
+      "evidence": "There are lots of acronyms. I think it took me 18 months and I had the list that I kept growing. And, you know, the Commonwealth."
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 4",
+      "evidence": "High reliance on expensive locum services ($3,500 per day plus accommodation and travel costs)"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 22,
+      "connection_type": "parallels",
+      "explanation": "Thread 22 parallels Thread 4",
+      "evidence": "- **18 stakeholder consultations** (spanning Board, CEO, PHNs, RVTS, SARRAH, AAPM, RFDS, universities, RACGP, practice managers, and more)."
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 5",
+      "evidence": "Here we go. Okay, let's see how this goes. This is my meeting with R-Wave director Jane Poletti regarding the R-Wave ultimate strategic toolkit and th"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 builds on Thread 5",
+      "evidence": "And we were acquired, it was 25 years, where it basically, there was a founder, and they grew it, and it was very organic. And it was very, you know, "
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 builds on Thread 5",
+      "evidence": "Sorry, I'm not very complimentary. We just had a meeting the other day, and this is very relevant because it's the specialist training program, which "
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 builds on Thread 5",
+      "evidence": "- What you\u2019ve uploaded is perfect: the survey file plus nine consultation summaries (Anita Munoz\u301062\u2020Anita Munoz\u3011, Belinda O\u2019Sullivan\u301063\u2020Belinda O\u2019Sull"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 14,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 14 triggered by Thread 5",
+      "evidence": "Okay. You've got five minutes for your 12 o'clock appointment, which I'm sure you have coming up. All good."
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 5",
+      "evidence": "High reliance on expensive locum services ($3,500 per day plus accommodation and travel costs)"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 builds on Thread 5",
+      "evidence": "So, there's lots of different elements to this, right? There's lots of different elements to what you need to be thinking, how I could be doing today."
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 builds on Thread 5",
+      "evidence": "And they can speak about, you know, their experiences about coming from a rural town or community town, you know, regional town. And they might go bac"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 22,
+      "connection_type": "parallels",
+      "explanation": "Thread 22 parallels Thread 5",
+      "evidence": "So I think there's something in it. And the other person I spoke to at length was Margaard, Dr Margaret Gaard. She's down in Portland and that's why I"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 builds on Thread 6",
+      "evidence": "Sorry, I'm not very complimentary. We just had a meeting the other day, and this is very relevant because it's the specialist training program, which "
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 builds on Thread 6",
+      "evidence": "Can you feel the wind on the 15th floor? Oh, yeah. Yeah. I don't know how good these windows are."
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 builds on Thread 6",
+      "evidence": "So, there's lots of different elements to this, right? There's lots of different elements to what you need to be thinking, how I could be doing today."
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 builds on Thread 6",
+      "evidence": "Can you feel the wind on the 15th floor? Oh, yeah. Yeah. I don't know how good these windows are."
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 6",
+      "evidence": "Because once you get the words right, the nomenclature actually drives a lot of the activity. And that's what I'd love to use that meeting on the 19th"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 22,
+      "connection_type": "parallels",
+      "explanation": "Thread 22 parallels Thread 6",
+      "evidence": "- **3 team/board workshops** (online, WS#1, WS#2)\u3010119\u2020source\u3011\u3010120\u2020source\u3011\u3010121\u2020source\u3011."
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 builds on Thread 7",
+      "evidence": "I also, my day job, I work two and a half days a week for a company called ID Consulting. So ID, have a look at them online, id.com.au. They are actua"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 builds on Thread 7",
+      "evidence": "So the way that I like to look at it, and I've done a lot of strategic planning in the past, is that you develop a set of KPIs. So this is all part of"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 builds on Thread 7",
+      "evidence": "It's more of a matrix that we need to look at. We're looking at the whole ecosystem of roles, responsibilities, what we want to do. But again, it come"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 references concepts from Thread 7",
+      "evidence": "Be that. Be that navigator. Give them the upfront and then that builds the trust for them to come back to you."
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 references concepts from Thread 7",
+      "evidence": "So it doesn't mean you've had to restructure your entire organisation. You've got some people on the ground doing that connection at the outset, maint"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 14,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 14 triggered by Thread 7",
+      "evidence": "So that meant that mum essentially had to contribute three hours back to the pool at some time. And we had lots of different women come and look after"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 7",
+      "evidence": "This strategic consultation with Marlene Drysdale provided critical insights into rural health workforce challenges, particularly regarding Indigenous"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 7",
+      "evidence": "So, we're looking future, we're looking at how you can reshape what you're doing today into creating some really great social impact for rural Victori"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 7",
+      "evidence": "The change that was happening in society was actually an impetus. And that's sort of, it seems like it's unrelated, but it's not. If you think about w"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 7",
+      "evidence": "Yeah, same time every year. Unlike the grand final, which was a strange date this year. No, the show."
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 builds on Thread 7",
+      "evidence": "It's just lots of different ways for you to contribute. So if you've got, you know, ideas for LID, for communities and the like, you just tap through "
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 builds on Thread 7",
+      "evidence": "And they can speak about, you know, their experiences about coming from a rural town or community town, you know, regional town. And they might go bac"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 7",
+      "evidence": "Because then it's more about progressing it rather than the starting point. Because what we need to sort of focus on is the timing around the stakehol"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 22,
+      "connection_type": "parallels",
+      "explanation": "Thread 22 parallels Thread 7",
+      "evidence": "Well, all right, so extend that out a bit and let's go back to that, maybe, you know, maybe not in the next five years, maybe beyond that"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 8",
+      "evidence": "High reliance on expensive locum services ($3,500 per day plus accommodation and travel costs)"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 builds on Thread 8",
+      "evidence": "Um, ideally just, I think 25, so no, just on the sides, thank you. And we'll keep two spares. Okay."
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 22,
+      "connection_type": "parallels",
+      "explanation": "Thread 22 parallels Thread 8",
+      "evidence": "- **18 stakeholder consultations** (spanning Board, CEO, PHNs, RVTS, SARRAH, AAPM, RFDS, universities, RACGP, practice managers, and more)."
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 builds on Thread 9",
+      "evidence": "Can you feel the wind on the 15th floor? Oh, yeah. Yeah. I don't know how good these windows are."
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 9",
+      "evidence": "Katrina Vassola (ACRRM State Manager): 0438 310 068"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 9",
+      "evidence": "We're doing this the human way. Can I just gather 10 minutes, excuse me. I left my phone at home, my son is bringing it down."
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 builds on Thread 9",
+      "evidence": "So, there's lots of different elements to this, right? There's lots of different elements to what you need to be thinking, how I could be doing today."
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 builds on Thread 9",
+      "evidence": "And they can speak about, you know, their experiences about coming from a rural town or community town, you know, regional town. And they might go bac"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 9",
+      "evidence": "She wants to... Because, yeah, I really do want to get... If I get through 20, that'd be great. But I also want to go... When I'm heading out west to."
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 22,
+      "connection_type": "parallels",
+      "explanation": "Thread 22 parallels Thread 9",
+      "evidence": "- **3 team/board workshops** (online, WS#1, WS#2)\u3010119\u2020source\u3011\u3010120\u2020source\u3011\u3010121\u2020source\u3011."
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 10",
+      "evidence": "Julie Rogalski (Rural Health Coordination): 0433 818 066"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 10",
+      "evidence": "So it's your flex by ISPT is what you're looking for. And the password is F, capitals, F1, lowercase by, B1, uppercase ISPT. Tell you what, this is it"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 builds on Thread 10",
+      "evidence": "So, there's lots of different elements to this, right? There's lots of different elements to what you need to be thinking, how I could be doing today."
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 builds on Thread 10",
+      "evidence": "And they can speak about, you know, their experiences about coming from a rural town or community town, you know, regional town. And they might go bac"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 10",
+      "evidence": "Because once you get the words right, the nomenclature actually drives a lot of the activity. And that's what I'd love to use that meeting on the 19th"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 22,
+      "connection_type": "parallels",
+      "explanation": "Thread 22 parallels Thread 10",
+      "evidence": "- **18 stakeholder consultations** (spanning Board, CEO, PHNs, RVTS, SARRAH, AAPM, RFDS, universities, RACGP, practice managers, and more)."
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 12,
+      "connection_type": "builds_on",
+      "explanation": "Thread 12 references concepts from Thread 11",
+      "evidence": "Who's he Bob from? Mildura. Who's he Bob from? You know, that ties back to Bendigo for some reason. And you know, you bring all those people together "
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 references concepts from Thread 11",
+      "evidence": "So it doesn't mean you've had to restructure your entire organisation. You've got some people on the ground doing that connection at the outset, maint"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 14,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 14 triggered by Thread 11",
+      "evidence": "So that meant that mum essentially had to contribute three hours back to the pool at some time. And we had lots of different women come and look after"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 11",
+      "evidence": "This strategic consultation with Marlene Drysdale provided critical insights into rural health workforce challenges, particularly regarding Indigenous"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 11",
+      "evidence": "So, we're looking future, we're looking at how you can reshape what you're doing today into creating some really great social impact for rural Victori"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 11",
+      "evidence": "The change that was happening in society was actually an impetus. And that's sort of, it seems like it's unrelated, but it's not. If you think about w"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 11",
+      "evidence": "This is it. I must say, it took probably twice as long to get into town because people had forgotten how to drive in the rain. That's so true, when th"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 builds on Thread 11",
+      "evidence": "It's just lots of different ways for you to contribute. So if you've got, you know, ideas for LID, for communities and the like, you just tap through "
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 builds on Thread 11",
+      "evidence": "And they can speak about, you know, their experiences about coming from a rural town or community town, you know, regional town. And they might go bac"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 11",
+      "evidence": "Because then it's more about progressing it rather than the starting point. Because what we need to sort of focus on is the timing around the stakehol"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 22,
+      "connection_type": "parallels",
+      "explanation": "Thread 22 parallels Thread 11",
+      "evidence": "Well, all right, so extend that out a bit and let's go back to that, maybe, you know, maybe not in the next five years, maybe beyond that"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 14,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 14 triggered by Thread 12",
+      "evidence": "So that meant that mum essentially had to contribute three hours back to the pool at some time. And we had lots of different women come and look after"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 12",
+      "evidence": "This strategic consultation with Marlene Drysdale provided critical insights into rural health workforce challenges, particularly regarding Indigenous"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 12",
+      "evidence": "So, we're looking future, we're looking at how you can reshape what you're doing today into creating some really great social impact for rural Victori"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 12",
+      "evidence": "The change that was happening in society was actually an impetus. And that's sort of, it seems like it's unrelated, but it's not. If you think about w"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 builds on Thread 12",
+      "evidence": "It's just lots of different ways for you to contribute. So if you've got, you know, ideas for LID, for communities and the like, you just tap through "
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 builds on Thread 12",
+      "evidence": "And they can speak about, you know, their experiences about coming from a rural town or community town, you know, regional town. And they might go bac"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 22,
+      "connection_type": "parallels",
+      "explanation": "Thread 22 parallels Thread 12",
+      "evidence": "Well, all right, so extend that out a bit and let's go back to that, maybe, you know, maybe not in the next five years, maybe beyond that"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 14,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 14 triggered by Thread 13",
+      "evidence": "So that meant that mum essentially had to contribute three hours back to the pool at some time. And we had lots of different women come and look after"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 13",
+      "evidence": "This strategic consultation with Marlene Drysdale provided critical insights into rural health workforce challenges, particularly regarding Indigenous"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 13",
+      "evidence": "So, we're looking future, we're looking at how you can reshape what you're doing today into creating some really great social impact for rural Victori"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 13",
+      "evidence": "The change that was happening in society was actually an impetus. And that's sort of, it seems like it's unrelated, but it's not. If you think about w"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 13",
+      "evidence": "Yeah, same time every year. Unlike the grand final, which was a strange date this year. No, the show."
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 builds on Thread 13",
+      "evidence": "It's just lots of different ways for you to contribute. So if you've got, you know, ideas for LID, for communities and the like, you just tap through "
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 builds on Thread 13",
+      "evidence": "And they can speak about, you know, their experiences about coming from a rural town or community town, you know, regional town. And they might go bac"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 13",
+      "evidence": "Because then it's more about progressing it rather than the starting point. Because what we need to sort of focus on is the timing around the stakehol"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 22,
+      "connection_type": "parallels",
+      "explanation": "Thread 22 parallels Thread 13",
+      "evidence": "Well, all right, so extend that out a bit and let's go back to that, maybe, you know, maybe not in the next five years, maybe beyond that"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 14",
+      "evidence": "This strategic consultation with Marlene Drysdale provided critical insights into rural health workforce challenges, particularly regarding Indigenous"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 14",
+      "evidence": "So, we're looking future, we're looking at how you can reshape what you're doing today into creating some really great social impact for rural Victori"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 14",
+      "evidence": "So he's going to call me, so I'll quickly just grab it, is that alright? You do you. Yes, absolutely. Thank you for being here."
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 builds on Thread 14",
+      "evidence": "And individually, as Swat and Alison... Yeah. We're going to have a look at those things today. Yeah, OK."
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 builds on Thread 14",
+      "evidence": "And they can speak about, you know, their experiences about coming from a rural town or community town, you know, regional town. And they might go bac"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 14",
+      "evidence": "Yep. We've got that list now of all the ex-members and their contact details. Great."
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 22,
+      "connection_type": "parallels",
+      "explanation": "Thread 22 parallels Thread 14",
+      "evidence": "Well, all right, so extend that out a bit and let's go back to that, maybe, you know, maybe not in the next five years, maybe beyond that"
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 16",
+      "evidence": "The change that was happening in society was actually an impetus. And that's sort of, it seems like it's unrelated, but it's not. If you think about w"
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 16",
+      "evidence": "This is it. I must say, it took probably twice as long to get into town because people had forgotten how to drive in the rain. That's so true, when th"
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 builds on Thread 16",
+      "evidence": "It's just lots of different ways for you to contribute. So if you've got, you know, ideas for LID, for communities and the like, you just tap through "
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 builds on Thread 16",
+      "evidence": "And they can speak about, you know, their experiences about coming from a rural town or community town, you know, regional town. And they might go bac"
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 16",
+      "evidence": "Because then it's more about progressing it rather than the starting point. Because what we need to sort of focus on is the timing around the stakehol"
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 22,
+      "connection_type": "parallels",
+      "explanation": "Thread 22 parallels Thread 16",
+      "evidence": "Well, all right, so extend that out a bit and let's go back to that, maybe, you know, maybe not in the next five years, maybe beyond that"
+    },
+    {
+      "from_thread_id": 17,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 17",
+      "evidence": "This is it. I must say, it took probably twice as long to get into town because people had forgotten how to drive in the rain. That's so true, when th"
+    },
+    {
+      "from_thread_id": 17,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 builds on Thread 17",
+      "evidence": "It's just lots of different ways for you to contribute. So if you've got, you know, ideas for LID, for communities and the like, you just tap through "
+    },
+    {
+      "from_thread_id": 17,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 builds on Thread 17",
+      "evidence": "And they can speak about, you know, their experiences about coming from a rural town or community town, you know, regional town. And they might go bac"
+    },
+    {
+      "from_thread_id": 17,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 17",
+      "evidence": "Because then it's more about progressing it rather than the starting point. Because what we need to sort of focus on is the timing around the stakehol"
+    },
+    {
+      "from_thread_id": 17,
+      "to_thread_id": 22,
+      "connection_type": "parallels",
+      "explanation": "Thread 22 parallels Thread 17",
+      "evidence": "Well, all right, so extend that out a bit and let's go back to that, maybe, you know, maybe not in the next five years, maybe beyond that"
+    },
+    {
+      "from_thread_id": 18,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 builds on Thread 18",
+      "evidence": "It's just lots of different ways for you to contribute. So if you've got, you know, ideas for LID, for communities and the like, you just tap through "
+    },
+    {
+      "from_thread_id": 18,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 builds on Thread 18",
+      "evidence": "And they can speak about, you know, their experiences about coming from a rural town or community town, you know, regional town. And they might go bac"
+    },
+    {
+      "from_thread_id": 18,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 18",
+      "evidence": "Because then it's more about progressing it rather than the starting point. Because what we need to sort of focus on is the timing around the stakehol"
+    },
+    {
+      "from_thread_id": 18,
+      "to_thread_id": 22,
+      "connection_type": "parallels",
+      "explanation": "Thread 22 parallels Thread 18",
+      "evidence": "Well, all right, so extend that out a bit and let's go back to that, maybe, you know, maybe not in the next five years, maybe beyond that"
+    },
+    {
+      "from_thread_id": 19,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 builds on Thread 19",
+      "evidence": "And they can speak about, you know, their experiences about coming from a rural town or community town, you know, regional town. And they might go bac"
+    },
+    {
+      "from_thread_id": 19,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 19",
+      "evidence": "And I'll still be on meetings until that seven. But I just, I thought that was a really powerful discussion. And reframing everything around, you know"
+    },
+    {
+      "from_thread_id": 19,
+      "to_thread_id": 22,
+      "connection_type": "parallels",
+      "explanation": "Thread 22 parallels Thread 19",
+      "evidence": "- **3 team/board workshops** (online, WS#1, WS#2)\u3010119\u2020source\u3011\u3010120\u2020source\u3011\u3010121\u2020source\u3011."
+    },
+    {
+      "from_thread_id": 20,
+      "to_thread_id": 22,
+      "connection_type": "parallels",
+      "explanation": "Thread 22 parallels Thread 20",
+      "evidence": "- **Weekly synthesis sessions** (0826, 0902, 0923) that show how the Board + exec framed pillars, risks, and big-picture ambition\u3010122\u2020source\u3011\u3010123\u2020sour"
+    },
+    {
+      "from_thread_id": 21,
+      "to_thread_id": 22,
+      "connection_type": "parallels",
+      "explanation": "Thread 22 parallels Thread 21",
+      "evidence": "- **3 team/board workshops** (online, WS#1, WS#2)\u3010119\u2020source\u3011\u3010120\u2020source\u3011\u3010121\u2020source\u3011."
+    }
+  ],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "correction",
+      "summary": "Correction: type /SharePoint/link_689b1f5c6fd88191a2feb569ea269874/search = (_: {\nquery: string,\ntopn?: number, ",
+      "details": "type /SharePoint/link_689b1f5c6fd88191a2feb569ea269874/search = (_: {\nquery: string,\ntopn?: number, // default: 20\nrecency_days?: number | null,\n}) => any;\n// Create a top-level PR Conversation comment (Issue comment). type /GitHub/link_6899870bc2808191bc5dd722dbab3dff/add_comment_to_issue = (_: {\nrepo_full_name: string,\npr_number: number,\ncomment: string,\n}) => any;\n// Add a reaction to an issue comment. type /GitHub/link_6899870bc2808191bc5dd722dbab3dff/add_reaction_to_issue_comment = (_: {\nrepo_full_name: string,\ncomment_id: number,\nreaction: string,\n}) => any;\n// Add a reaction to a GitHub pull request",
+      "evidence": "type /SharePoint/link_689b1f5c6fd88191a2feb569ea269874/search = (_: {\nquery: string,\ntopn?: number, // default: 20\nrecency_days?: number | null,\n}) => any;\n// Create a top-level PR Conversation comment (Issue comment)",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: \ue2026:9\ue205Draft PDF briefing document setting out the RWAV 2026\u20132030 strategy",
+      "details": "\ue2026:9\ue205Draft PDF briefing document setting out the RWAV 2026\u20132030 strategy. \ue2026:10\ue205Word document version of the draft v1 RWAV 2026\u20132030 strategy. instructions: string,\n// URL\nurl?: string,\n// Body\nbody?: string,\n// HTTP Method\nmethod?: string,\n// Additional request headers\nheaders?: string,\n// Query string parameters\nquerystring?: string,\n// Stop on error\nfail_on_errors?: string,\n}) => any;\n// This action retrieves a database in Notion using the ID of the database",
+      "evidence": "\ue2026:9\ue205Draft PDF briefing document setting out the RWAV 2026\u20132030 strategy",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 2,
+      "category": "methodology",
+      "summary": "Methodology: - **Transparency:** The appendix will contain the methodology, coding framework, and sample quotes/d",
+      "details": "- **Transparency:** The appendix will contain the methodology, coding framework, and sample quotes/data slices so RWAV\u2019s stakeholders can see their fingerprints on the plan. ---\n\n\u2705 End result:  \nA **big, bold main strategy** that reads cleanly, and a **robust evidence appendix** that shows the breadth and depth of engagement \u2014 transparent, methodical, and consistent in style",
+      "evidence": "- **Transparency:** The appendix will contain the methodology, coding framework, and sample quotes/data slices so RWAV\u2019s stakeholders can see their fingerprints on the plan",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 4,
+      "category": "methodology",
+      "summary": "Methodology: - I\u2019ll stitch everything into the final appendix + strategy narrative",
+      "details": "- I\u2019ll stitch everything into the final appendix + strategy narrative. instructions: string,\n// URL\nurl?: string,\n// Body\nbody?: string,\n// HTTP Method\nmethod?: string,\n// Additional request headers\nheaders?: string,\n// Query string parameters\nquerystring?: string,\n// Stop on error\nfail_on_errors?: string,\n}) => any;\n// This action retrieves a database in Notion using the ID of the database. instructions: string,\n// URL\nurl?: string,\n// Body\nbody?: string,\n// HTTP Method\nmethod?: string,\n// Additional request headers\nheaders?: string,\n// Query string parameters\nquerystring?: string,\n// Stop on error\nfail_on_errors?: string,\n}) => any;\n// Finds a specific event by its ID in your calendar",
+      "evidence": "- I\u2019ll stitch everything into the final appendix + strategy narrative",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 5,
+      "category": "methodology",
+      "summary": "Methodology: Potential for commercial agencies to lobby government regarding RWAV's competitive positioning and m",
+      "details": "Potential for commercial agencies to lobby government regarding RWAV's competitive positioning and market disruption activities\n\nTraining Policy Reform and Professional Relationship Navigation\n\nComplex relationships between RACGP, training colleges, and government requiring careful coordination for effective advocacy\n\nRisk of training policy advocacy being perceived as interference in established professional education structures\n\nNeed for evidence-based advocacy supporting training innovation without undermining professional standards or safety requirements\n\nChallenge of coordinating advocacy across multiple professional organisations with potentially competing priorities\n\nAction Items and Strategic Recommendations\n\nMarket-Disrupting Recruitment Platform Development\n\nDevelop aggressive marketing strategy highlighting conversion fee elimination as primary competitive advantage\n\nCreate targeted service offerings facilitating locum-to-permanent conversion and portfolio career coordination\n\nDesign market disruption campaign positioning RWAV as preferred alternative to traditional commercial recruitment agencies\n\nEstablish measurement frameworks demonstrating market impact and practice cost savings through RWAV recruitment services\n\nComprehensive Workforce Intelligence System Implementation\n\nDevelop systematic qualitative data collection protocols for recruitment conversation documentation and analysis\n\nCreate predictive analytics framework identifying practices approaching workforce crisis enabling proactive intervention\n\nEstablish comprehensive workforce intelligence platform integrating multiple data sources for community-level sustainability assessment\n\nDesign early warning system alerting stakeholders to emerging workforce challenges before crisis development\n\n\nThe file is too long and its contents have been truncated",
+      "evidence": "Potential for commercial agencies to lobby government regarding RWAV's competitive positioning and market disruption activities\n\nTraining Policy Reform and Professional Relationship Navigation\n\nComplex relationships between RACGP, training colleges, and government requiring careful coordination for effective advocacy\n\nRisk of training policy advocacy being perceived as interference in established professional education structures\n\nNeed for evidence-based advocacy supporting training innovation without undermining professional standards or safety requirements\n\nChallenge of coordinating advocacy across multiple professional organisations with potentially competing priorities\n\nAction Items and Strategic Recommendations\n\nMarket-Disrupting Recruitment Platform Development\n\nDevelop aggressive marketing strategy highlighting conversion fee elimination as primary competitive advantage\n\nCreate targeted service offerings facilitating locum-to-permanent conversion and portfolio career coordination\n\nDesign market disruption campaign positioning RWAV as preferred alternative to traditional commercial recruitment agencies\n\nEstablish measurement frameworks demonstrating market impact and practice cost savings through RWAV recruitment services\n\nComprehensive Workforce Intelligence System Implementation\n\nDevelop systematic qualitative data collection protocols for recruitment conversation documentation and analysis\n\nCreate predictive analytics framework identifying practices approaching workforce crisis enabling proactive intervention\n\nEstablish comprehensive workforce intelligence platform integrating multiple data sources for community-level sustainability assessment\n\nDesign early warning system alerting stakeholders to emerging workforce challenges before crisis development\n\n\nThe file is too long and its contents have been truncated",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 6,
+      "category": "decision",
+      "summary": "Decision: And one of the first things that I've decided to work on while our medical educator has been taking ",
+      "details": "And one of the first things that I've decided to work on while our medical educator has been taking lots of holidays is AI scribes",
+      "evidence": "And one of the first things that I've decided to work on while our medical educator has been taking lots of holidays is AI scribes",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 6,
+      "category": "insight",
+      "summary": "Breakthrough in How are you? Good morning. I'm very well. I'm just looking a bit scruffy.",
+      "details": "You get on, you just go, oh my god, it's a disaster",
+      "evidence": "You get on, you just go, oh my god, it's a disaster",
+      "confidence": "high"
+    },
+    {
+      "thread_id": 7,
+      "category": "insight",
+      "summary": "Breakthrough in But I've been told I've got two good...",
+      "details": "So I haven't really had any downtime because I've been busy building things myself, because I'm like, oh my God, the possibilities",
+      "evidence": "So I haven't really had any downtime because I've been busy building things myself, because I'm like, oh my God, the possibilities",
+      "confidence": "high"
+    },
+    {
+      "thread_id": 8,
+      "category": "methodology",
+      "summary": "Methodology: Yeah, but that's what Grant's given me, that mandate, that this is going to be a big, bold strategy ",
+      "details": "Yeah, but that's what Grant's given me, that mandate, that this is going to be a big, bold strategy into the next. No, it's the digital strategy change at the time. I mean, are we making an impact? And I remember asking this question probably last year when we refreshed the strategy",
+      "evidence": "Yeah, but that's what Grant's given me, that mandate, that this is going to be a big, bold strategy into the next",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 9,
+      "category": "correction",
+      "summary": "Correction: Health beyond just GPs, which is broader, and when we're talking about workforce issues in the healt",
+      "details": "Health beyond just GPs, which is broader, and when we're talking about workforce issues in the health space, it's not just focusing on the workforce issue, which is the recruitment, which is where we've traditionally been focused. They're two separate issues. But if we flip the equation from actually needing more resources to actually distributing it better, we get to that whole issue of equity, of justice, of fairness and how we actually start to target that without necessarily impacting on the bottom line from a fiscal perspective and government perspective as well",
+      "evidence": "Health beyond just GPs, which is broader, and when we're talking about workforce issues in the health space, it's not just focusing on the workforce issue, which is the recruitment, which is where we've traditionally been focused",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 9,
+      "category": "insight",
+      "summary": "Breakthrough in So the way that I like to look...",
+      "details": "It's like, oh my God, there's water here for the horses",
+      "evidence": "It's like, oh my God, there's water here for the horses",
+      "confidence": "high"
+    },
+    {
+      "thread_id": 9,
+      "category": "methodology",
+      "summary": "Methodology: So this is all part of that evaluation, so that it's one thing to have a strategy, and then if you'v",
+      "details": "So this is all part of that evaluation, so that it's one thing to have a strategy, and then if you've got your business plan attached to that, but then it's understanding whether, in fact, you're achieving what you want to achieve. So what are we doing? What are we here for? How do we know if we're achieving what we set out to achieve? So in very simple terms, I mean, I remember doing this when I was at the Coliseum in Eastern, so we actually looked at some really key KPIs at a strategic level, at an operational level, that were all linked to the strategy, and then worked out, okay, what information or data do we need to understand whether we've hit that mark, whether we've met our outcome or target? Because you can have a hierarchy of targets as well, in terms of outcome measures and then inputs and so forth. So the data follows the need, the drive of the strategy",
+      "evidence": "So this is all part of that evaluation, so that it's one thing to have a strategy, and then if you've got your business plan attached to that, but then it's understanding whether, in fact, you're achieving what you want to achieve",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 10,
+      "category": "correction",
+      "summary": "Correction: But again, it comes back to that key question of actually what's the social impact? What's the commu",
+      "details": "But again, it comes back to that key question of actually what's the social impact? What's the community impact we're trying to achieve? If we're seeking social outcome measures and social impact, then we can break it down into those issues and those segments and then work out who's going to be responsible for each of those as well, which is going to be some of the key players we need to engage from that perspective. Data for Advocacy: A key opportunity is for RWAV to use its data not just for reporting requirements, but to build evidence-based cases for advocacy and influence policy on issues like NDIS pricing and funding inconsistencies. Leverage Cross-System Thinking: Encourage RWAV to understand the interconnectedness of funding streams (Primary Care, Aged Care, NDIS) and advocate for issues that impact the overall financial viability of rural practices",
+      "evidence": "But again, it comes back to that key question of actually what's the social impact? What's the community impact we're trying to achieve? If we're seeking social outcome measures and social impact, then we can break it down into those issues and those segments and then work out who's going to be responsible for each of those as well, which is going to be some of the key players we need to engage from that perspective",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 10,
+      "category": "methodology",
+      "summary": "Methodology: **Tool:** Make sure to include `\u3010message_idx\u2020source\u3011` markers to provide citations based on this fil",
+      "details": "**Tool:** Make sure to include `\u3010message_idx\u2020source\u3011` markers to provide citations based on this file, where [message_idx] is provided at the beginning of this message\nCath Lees\n\nExecutive Summary\n\nThis strategic consultation with Cath Lees provided exceptional insights into community-centred approaches to rural health workforce development through her leadership of the Committee for Echuca Moama (C4EM). The discussion explored practical approaches to community connection, grow-your-own workforce strategies, and the critical role of authentic community integration in healthcare professional retention. Key Strategic Discussion Points\n\n\n\nCommunity-Centred Workforce Development Model\n\nCommittee for Echuca Moama represents innovative member-funded approach to community development addressing workforce challenges across multiple sectors\n\nStructured subcommittee model includes workforce development, young professionals (Next Gen Connect), Women in Business, and tourism initiatives\n\nRecognition that healthcare professionals require community connection first, professional identity second for successful rural integration\n\nEmphasis on creating governance structures and support systems that welcome and integrate new community members\n\nComprehensive Community Integration Framework\n\nIdentification of diverse community stakeholders beyond healthcare including sports clubs, SES, women's networks, business chambers, and wine clubs\n\nUnderstanding that rural workforce challenges extend beyond healthcare to include education, policing, and business sectors\n\nRecognition that healthcare professionals need to see themselves as community members rather than transient service providers\n\nIntegration of arts and cultural activities as essential elements of community attractiveness and professional retention\n\nStrategic Partnership and Connection Opportunities\n\nRWAV positioned as ideal connector and data provider for community development initiatives\n\nOpportunity to leverage C4EM model across other Victorian communities through RWAV facilitation and support\n\nRecognition of RWAV's unique position to coordinate information and partnerships that no single organisation possesses\n\nPotential for RWAV to facilitate university partnerships and educational pathway development in rural communities\n\nGrow-Your-Own Workforce Development\n\nCritical importance of early career pathway development starting from high school level\n\nSystemic challenges with career counsellors discouraging rural students from pursuing healthcare careers\n\nNeed for coordinated approach to work experience, pathway mapping, and local role model visibility\n\nIntegration of university presence and branding in rural communities to demonstrate educational accessibility\n\nStrategic Opportunities Identified\n\n\n\nCommunity Development Leadership and Facilitation\n\nPosition RWAV as facilitator for establishing Committee for models in rural communities lacking comprehensive community development structures\n\nProvide governance frameworks, resources, and coordination support for community-led workforce development initiatives\n\nLeverage RWAV's neutral position to convene diverse stakeholders and facilitate collaborative approaches\n\nCreate sustainable community engagement models that outlast individual leadership changes\n\nUniversity Partnership Coordination\n\nFacilitate multi-university partnerships for rural education hubs utilising existing infrastructure like the Bendigo TAFE facility in Echuca\n\nCoordinate co-branding and shared resource arrangements between universities for rural presence and student support\n\nDevelop accommodation partnerships supporting university student placements in rural communities\n\nCreate pathways connecting rural students to university opportunities through visible local presence\n\nData Integration and Community Intelligence Platform\n\nEstablish RWAV as comprehensive source of community workforce and development intelligence\n\nIntegrate healthcare workforce data with broader community development indicators and needs assessment\n\nProvide evidence base supporting community development initiatives and partnership negotiations\n\nCreate decision-making tools for healthcare professionals considering rural opportunities\n\nProfessional Pathway Development and Support\n\nDesign comprehensive career pathway mapping from high school through professional development\n\nCoordinate work experience programmes and early exposure initiatives for rural students\n\nDevelop local role model programmes featuring successful rural healthcare professionals\n\nCreate financial and logistical support systems for rural students pursuing healthcare careers\n\nChallenges and Considerations\n\n\n\nSystemic Barriers to Rural Career Development\n\nHigh school career counsellors actively discouraging rural students from pursuing healthcare careers\n\nLack of visible university presence in rural communities limiting educational aspiration and pathway awareness\n\nAllied health pathway development competing more effectively for rural students than medicine and nursing\n\nFinancial barriers preventing rural students from accessing work experience and educational opportunities\n\nCommunity Development Sustainability\n\nMember-based funding model requires continuous value proposition demonstration and community engagement\n\nLeadership succession challenges in volunteer-driven community organisations\n\nRisk of community development initiatives losing momentum without sustained coordination and support\n\nNeed for professional coordination support to maintain community development effectiveness\n\nAccommodation and Infrastructure Limitations\n\nPersistent accommodation shortages affecting all professional recruitment, not limited to healthcare\n\nNeed for innovative funding models and partnerships to address rural housing challenges\n\nInfrastructure limitations including internet connectivity affecting professional and educational opportunities\n\nCompetition between different professional sectors for limited accommodation and community resources\n\nPolitical and Regulatory Navigation\n\nCross-border community challenges requiring coordination between different state jurisdictions\n\nGovernment funding programme access challenges for communities that do not meet specific criteria\n\nNeed for advocacy coordination across multiple government levels and departments\n\nRisk of political sensitivities affecting community development and partnership initiatives\n\nAction Items and Strategic Recommendations\n\nCommunity Development Model Replication Programme\n\nDevelop framework for establishing Committee for models in rural communities throughout Victoria\n\nCreate toolkit providing governance structures, subcommittee models, and coordination resources\n\nEstablish RWAV as facilitator and coordinator for community-led workforce development initiatives\n\nDesign sustainability framework ensuring community ownership and ongoing effectiveness\n\nUniversity Partnership Facilitation Initiative\n\nCoordinate multi-university partnerships for rural education hubs and student support services\n\nDevelop co-branding and resource-sharing arrangements utilising existing rural infrastructure\n\nCreate accommodation partnership framework supporting student placements and professional development\n\nEstablish pathway programmes connecting rural students to university opportunities\n\nComprehensive Rural Workforce Intelligence Platform\n\nIntegrate healthcare workforce data with broader community development indicators and needs assessment\n\nDevelop community profiling tools supporting professional decision-making and community development planning\n\nCreate partnership coordination platform connecting community organisations, educational institutions, and workforce development initiatives\n\nEstablish\nThe file is too long and its contents have been truncated",
+      "evidence": "**Tool:** Make sure to include `\u3010message_idx\u2020source\u3011` markers to provide citations based on this file, where [message_idx] is provided at the beginning of this message\nCath Lees\n\nExecutive Summary\n\nThis strategic consultation with Cath Lees provided exceptional insights into community-centred approaches to rural health workforce development through her leadership of the Committee for Echuca Moama (C4EM)",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 14,
+      "category": "methodology",
+      "summary": "Methodology: But if I think about thinking around different approaches, do you do it as WAIF or do you do it as a",
+      "details": "But if I think about thinking around different approaches, do you do it as WAIF or do you do it as a new, under a new business name? Because still keeping our way, but essentially a new brand. So that's, that's my methodology is like my madness, I suppose",
+      "evidence": "But if I think about thinking around different approaches, do you do it as WAIF or do you do it as a new, under a new business name? Because still keeping our way, but essentially a new brand",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 15,
+      "category": "methodology",
+      "summary": "Methodology: Key Strategic Discussion Points\n\nRural Health Workforce Crisis\n\nChronic doctor shortages across rura",
+      "details": "Key Strategic Discussion Points\n\nRural Health Workforce Crisis\n\nChronic doctor shortages across rural Victoria, particularly in Sale, Gippsland region\n\nHigh reliance on expensive locum services ($3,500 per day plus accommodation and travel costs)\n\nLocal health services pursuing independent recruitment solutions, including international partnerships with Dubai-based agencies\n\nRegistrars treating rural placements as temporary requirements rather than career pathways\n\nCommunity trust and continuity of care compromised by transient workforce model\n\nCultural Mentoring and Indigenous Health Services\n\nCritical gaps in onboarding, training, and support systems for registrars in Aboriginal Medical Services\n\nLack of coordinated, universal educational supports for supervisors working in AMS settings\n\nHigh incidence of bullying between registrars and supervisors with inadequate reporting mechanisms\n\nNeed for comprehensive cultural safety training and log/checklist systems for registrar requirements\n\nParticular challenges for overseas-trained doctors from diverse cultural backgrounds entering Indigenous health settings\n\nOrganisational Effectiveness Concerns\n\nJCTS criticised as \"top-heavy\" with excessive management layers and travel expenses\n\nRecruitment challenges for qualified cultural educators due to uncompetitive salary offerings\n\nInconsistent HR practices and insufficient recruitment standards\n\nLeadership frequently absent due to extensive travel commitments\n\nOrganisation expanding beyond original scope without maintaining focus and coordination\n\nBest Practice Models\n\nRVTS identified as exemplary model for registrar and supervisor support\n\nStrong cultural mentorship programs with one-to-one support and designated medical educators\n\nPersonal relationship-building and responsive care systems\n\nRespected cultural educators with direct access and appreciation\n\nSuccessful boot camp programs and webinar series\n\nCommunity-Driven Solutions\n\nInnovative proposals for social integration including community balls and dating apps for regional doctors\n\nEmphasis on engaging local councils, business councils, and community organisations in workforce attraction\n\nHistorical success of community involvement in hooking up medical professionals with local partners\n\nNeed to shift from external funding dependency to community-driven initiatives\n\nStrategic Opportunities\n\n\n\nEnhanced Coordination Role for RWAV\n\nPotential to serve as primary coordinator for Victorian rural health workforce initiatives\n\nOpportunity to leverage community and sector partnerships more effectively\n\nCapability to organise cultural awareness training with qualified Indigenous educators\n\nPlatform to facilitate better integration between training organisations\n\nCultural Safety and Training Innovation\n\nDevelopment of comprehensive onboarding systems for registrars entering AMS settings\n\nCreation of universal educational supports for supervisors\n\nImplementation of mobile app technology for cultural safety training delivery\n\nEstablishment of mentorship programs modelled on RVTS successes\n\nCommunity Engagement Strategies\n\nSupport for locally-driven workforce retention initiatives\n\nFacilitation of social and professional integration events\n\nPartnership development with councils and business communities\n\nPromotion of community ownership in workforce solutions\n\nSector Integration and Best Practice Adoption\n\nDocumentation and scaling of RVTS support models\n\nCoordination between colleges and training organisations\n\nStandardisation of quality supports across all training pathways\n\nDevelopment of responsive, relationship-based support systems\n\nChallenges and Considerations\n\n\n\nOrganisational Dysfunction\n\nJCTS operational issues creating barriers to effective service delivery\n\nNepotism and poor HR practices affecting recruitment quality\n\nExcessive bureaucracy and lack of responsiveness compared to effective models\n\nFinancial inefficiency in management structures\n\nWorkforce Sustainability\n\nDifficulty recruiting and retaining qualified cultural educators\n\nCompetitive salary pressures from other organisations\n\nLimited pool of experienced Indigenous health professionals\n\nGeographic isolation affecting recruitment prospects\n\nSystemic Coordination Gaps\n\nLack of universal standards for registrar onboarding and support\n\nPoor communication between training organisations and placement sites\n\nAbsence of coordinated approach to cultural safety training\n\nInadequate support mechanisms for addressing workplace issues\n\nCommunity Integration Barriers\n\nShift away from community-based workforce retention strategies\n\nOver-reliance on external funding rather than local initiative\n\nLoss of historical community engagement practices\n\nLimited understanding of holistic community needs beyond health services\n\nAction Items\n\n\n\nImmediate Actions:\n\nConnect with Julie Rogalski (former EVGPT CEO) for rural health coordination insights\n\nEstablish contact with Katrina Vassola (ACRRM State Manager, Bairnsdale office)\n\nReview and analyse cultural safety training materials provided by Marlene\n\nInvestigate RVTS support models for potential sector-wide application\n\nStrategic Development:\n\nExplore RWAV's potential enhanced coordination role in Victorian rural health workforce\n\nDevelop mobile app prototype for cultural safety training content delivery\n\nMap existing services and supports for doctors, registrars, and supervisors in AMS settings\n\nIdentify gaps in current support systems and develop remediation strategies\n\nPartnership Building:\n\nFacilitate connections between effective training models and struggling organisations\n\nEngage community stakeholders in workforce retention initiatives\n\nDevelop relationships with local councils and business communities\n\nStrengthen ties with Indigenous health service providers\n\nFollow-up Activities:\n\nAttend RWAV board presentation in Morwell and coordinate potential meeting\n\nProvide comprehensive report on rural workforce challenges and coordination opportunities\n\nDevelop recommendations for RWAV's strategic positioning in sector coordination\n\nReview uploaded materials and develop online resource platform\n\nIntegration with Strategic Vision\n\n\n\nThis consultation reinforces RWAV's strategic positioning as a coordination hub rather than a direct service provider. The emphasis on community-driven solutions and the potential for innovative technology applications aligns well with contemporary approaches to rural workforce development while respecting the fundamental importance of cultural safety and Indigenous self-determination in health service delivery. \u201d\n\n\n\nHe suggested RWAV and PHNs replicate this approach statewide through structured community partnership frameworks and micro-innovation grants",
+      "evidence": "Key Strategic Discussion Points\n\nRural Health Workforce Crisis\n\nChronic doctor shortages across rural Victoria, particularly in Sale, Gippsland region\n\nHigh reliance on expensive locum services ($3,500 per day plus accommodation and travel costs)\n\nLocal health services pursuing independent recruitment solutions, including international partnerships with Dubai-based agencies\n\nRegistrars treating rural placements as temporary requirements rather than career pathways\n\nCommunity trust and continuity of care compromised by transient workforce model\n\nCultural Mentoring and Indigenous Health Services\n\nCritical gaps in onboarding, training, and support systems for registrars in Aboriginal Medical Services\n\nLack of coordinated, universal educational supports for supervisors working in AMS settings\n\nHigh incidence of bullying between registrars and supervisors with inadequate reporting mechanisms\n\nNeed for comprehensive cultural safety training and log/checklist systems for registrar requirements\n\nParticular challenges for overseas-trained doctors from diverse cultural backgrounds entering Indigenous health settings\n\nOrganisational Effectiveness Concerns\n\nJCTS criticised as \"top-heavy\" with excessive management layers and travel expenses\n\nRecruitment challenges for qualified cultural educators due to uncompetitive salary offerings\n\nInconsistent HR practices and insufficient recruitment standards\n\nLeadership frequently absent due to extensive travel commitments\n\nOrganisation expanding beyond original scope without maintaining focus and coordination\n\nBest Practice Models\n\nRVTS identified as exemplary model for registrar and supervisor support\n\nStrong cultural mentorship programs with one-to-one support and designated medical educators\n\nPersonal relationship-building and responsive care systems\n\nRespected cultural educators with direct access and appreciation\n\nSuccessful boot camp programs and webinar series\n\nCommunity-Driven Solutions\n\nInnovative proposals for social integration including community balls and dating apps for regional doctors\n\nEmphasis on engaging local councils, business councils, and community organisations in workforce attraction\n\nHistorical success of community involvement in hooking up medical professionals with local partners\n\nNeed to shift from external funding dependency to community-driven initiatives\n\nStrategic Opportunities\n\n\n\nEnhanced Coordination Role for RWAV\n\nPotential to serve as primary coordinator for Victorian rural health workforce initiatives\n\nOpportunity to leverage community and sector partnerships more effectively\n\nCapability to organise cultural awareness training with qualified Indigenous educators\n\nPlatform to facilitate better integration between training organisations\n\nCultural Safety and Training Innovation\n\nDevelopment of comprehensive onboarding systems for registrars entering AMS settings\n\nCreation of universal educational supports for supervisors\n\nImplementation of mobile app technology for cultural safety training delivery\n\nEstablishment of mentorship programs modelled on RVTS successes\n\nCommunity Engagement Strategies\n\nSupport for locally-driven workforce retention initiatives\n\nFacilitation of social and professional integration events\n\nPartnership development with councils and business communities\n\nPromotion of community ownership in workforce solutions\n\nSector Integration and Best Practice Adoption\n\nDocumentation and scaling of RVTS support models\n\nCoordination between colleges and training organisations\n\nStandardisation of quality supports across all training pathways\n\nDevelopment of responsive, relationship-based support systems\n\nChallenges and Considerations\n\n\n\nOrganisational Dysfunction\n\nJCTS operational issues creating barriers to effective service delivery\n\nNepotism and poor HR practices affecting recruitment quality\n\nExcessive bureaucracy and lack of responsiveness compared to effective models\n\nFinancial inefficiency in management structures\n\nWorkforce Sustainability\n\nDifficulty recruiting and retaining qualified cultural educators\n\nCompetitive salary pressures from other organisations\n\nLimited pool of experienced Indigenous health professionals\n\nGeographic isolation affecting recruitment prospects\n\nSystemic Coordination Gaps\n\nLack of universal standards for registrar onboarding and support\n\nPoor communication between training organisations and placement sites\n\nAbsence of coordinated approach to cultural safety training\n\nInadequate support mechanisms for addressing workplace issues\n\nCommunity Integration Barriers\n\nShift away from community-based workforce retention strategies\n\nOver-reliance on external funding rather than local initiative\n\nLoss of historical community engagement practices\n\nLimited understanding of holistic community needs beyond health services\n\nAction Items\n\n\n\nImmediate Actions:\n\nConnect with Julie Rogalski (former EVGPT CEO) for rural health coordination insights\n\nEstablish contact with Katrina Vassola (ACRRM State Manager, Bairnsdale office)\n\nReview and analyse cultural safety training materials provided by Marlene\n\nInvestigate RVTS support models for potential sector-wide application\n\nStrategic Development:\n\nExplore RWAV's potential enhanced coordination role in Victorian rural health workforce\n\nDevelop mobile app prototype for cultural safety training content delivery\n\nMap existing services and supports for doctors, registrars, and supervisors in AMS settings\n\nIdentify gaps in current support systems and develop remediation strategies\n\nPartnership Building:\n\nFacilitate connections between effective training models and struggling organisations\n\nEngage community stakeholders in workforce retention initiatives\n\nDevelop relationships with local councils and business communities\n\nStrengthen ties with Indigenous health service providers\n\nFollow-up Activities:\n\nAttend RWAV board presentation in Morwell and coordinate potential meeting\n\nProvide comprehensive report on rural workforce challenges and coordination opportunities\n\nDevelop recommendations for RWAV's strategic positioning in sector coordination\n\nReview uploaded materials and develop online resource platform\n\nIntegration with Strategic Vision\n\n\n\nThis consultation reinforces RWAV's strategic positioning as a coordination hub rather than a direct service provider",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 16,
+      "category": "methodology",
+      "summary": "Methodology: We want to actually look at how does strategy turn into success? How does it go beyond the implement",
+      "details": "We want to actually look at how does strategy turn into success? How does it go beyond the implementation to actually being something that self-perpetuates and propels into the future? And that's where you guys come into it. So, what I want to run through is why it's important to get the rhythm of delivering strategy right. So, rhythm and cadence in terms of strategy",
+      "evidence": "We want to actually look at how does strategy turn into success? How does it go beyond the implementation to actually being something that self-perpetuates and propels into the future? And that's where you guys come into it",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 17,
+      "category": "methodology",
+      "summary": "Methodology: That's probably one of the great ways to highlight what is a great strategy paired with the right rh",
+      "details": "That's probably one of the great ways to highlight what is a great strategy paired with the right rhythm. It's knowing where you fit in the team, in the bigger picture, in that big picture of the R-Wave strategy and the information flow",
+      "evidence": "That's probably one of the great ways to highlight what is a great strategy paired with the right rhythm",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 19,
+      "category": "correction",
+      "summary": "Correction: So Friday, Kate sent through because there was some persistence problems or the data wasn't saving",
+      "details": "So Friday, Kate sent through because there was some persistence problems or the data wasn't saving. Yeah, I can see that this could be a problem, though. Like, we are all fixed on devices",
+      "evidence": "So Friday, Kate sent through because there was some persistence problems or the data wasn't saving",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 19,
+      "category": "insight",
+      "summary": "Breakthrough in It's just lots of different ways for you...",
+      "details": "Oh my god, like a virgin",
+      "evidence": "Oh my god, like a virgin",
+      "confidence": "high"
+    },
+    {
+      "thread_id": 19,
+      "category": "methodology",
+      "summary": "Methodology: Your board can come out with some great ideas, but they kind of fall over if they're not implemented",
+      "details": "Your board can come out with some great ideas, but they kind of fall over if they're not implemented at your level. Are there some really great conversations that as soon as you've had a busy day, it's been lost? These are the things that feeding into a system makes strategy come together",
+      "evidence": "Your board can come out with some great ideas, but they kind of fall over if they're not implemented at your level",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 20,
+      "category": "correction",
+      "summary": "Correction: So what's happened there is we've got some connecting dots because there are things out there that a",
+      "details": "So what's happened there is we've got some connecting dots because there are things out there that are problems that you might not actually connect to the fact you have solutions already in place",
+      "evidence": "So what's happened there is we've got some connecting dots because there are things out there that are problems that you might not actually connect to the fact you have solutions already in place",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 20,
+      "category": "methodology",
+      "summary": "Methodology: So I need to be able to buy in $40,000 worth of a new strategy relating to, well let's, you know, la",
+      "details": "So I need to be able to buy in $40,000 worth of a new strategy relating to, well let's, you know, last week I told you we were talking to Belinda around IMGs, but instead of us actually developing the IMG strategy ourselves, actually buying it in",
+      "evidence": "So I need to be able to buy in $40,000 worth of a new strategy relating to, well let's, you know, last week I told you we were talking to Belinda around IMGs, but instead of us actually developing the IMG strategy ourselves, actually buying it in",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 21,
+      "category": "correction",
+      "summary": "Correction: So that what we're actually going to do isn't going to be a bandaid that are fixed",
+      "details": "So that what we're actually going to do isn't going to be a bandaid that are fixed",
+      "evidence": "So that what we're actually going to do isn't going to be a bandaid that are fixed",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 22,
+      "category": "correction",
+      "summary": "Correction: Melbourne's got problems too, don't get it wrong, but that's not in your gambit",
+      "details": "Melbourne's got problems too, don't get it wrong, but that's not in your gambit. \u201cIt has to be built from the patient experience\u2026 everyone shares the problem and the prioritisation. She proposed co-branded regional evenings (RWAV + AAPM + PHNs) to surface issues and solutions in real time",
+      "evidence": "Melbourne's got problems too, don't get it wrong, but that's not in your gambit",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 22,
+      "category": "methodology",
+      "summary": "Methodology: \\\\n\\\\n**Five big shifts anchor the strategy:**\\\\n1",
+      "details": "\\\\n\\\\n**Five big shifts anchor the strategy:**\\\\n1. \\\\n\\\\n---\\\\n\\\\n## Appendix B \u2013 Pulse Survey (Sophisticated Summary)\\\\n**Method:** 120 respondents, mix of cohorts and locations. \\n'\n                '\\n'\n                '**Five big shifts anchor the strategy:**\\n'\n                '1",
+      "evidence": "\\\\n\\\\n**Five big shifts anchor the strategy:**\\\\n1",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [
+    {
+      "involved_threads": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        9,
+        10,
+        15,
+        18,
+        19,
+        20,
+        22,
+        21,
+        8,
+        5,
+        14,
+        16,
+        17,
+        11,
+        12,
+        13
+      ],
+      "insight_type": "evolution",
+      "description": "Topic evolution across 21 threads",
+      "significance": "Shows progressive refinement of understanding"
+    },
+    {
+      "involved_threads": [
+        1,
+        9,
+        10,
+        19,
+        20,
+        21,
+        22
+      ],
+      "insight_type": "emergent_pattern",
+      "description": "Repeated correction learnings across conversation",
+      "significance": "Strong focus on correction throughout discussion"
+    },
+    {
+      "involved_threads": [
+        1,
+        2,
+        4,
+        5,
+        8,
+        9,
+        10,
+        14,
+        15,
+        16,
+        17,
+        19,
+        20,
+        22
+      ],
+      "insight_type": "emergent_pattern",
+      "description": "Repeated methodology learnings across conversation",
+      "significance": "Strong focus on methodology throughout discussion"
+    },
+    {
+      "involved_threads": [
+        9,
+        19,
+        6,
+        7
+      ],
+      "insight_type": "emergent_pattern",
+      "description": "Repeated insight learnings across conversation",
+      "significance": "Strong focus on insight throughout discussion"
+    }
+  ],
+  "thinking_patterns": {
+    "flow": "Associative - wide-ranging exploration",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "High breakthrough frequency - generative conversation"
+  }
+}

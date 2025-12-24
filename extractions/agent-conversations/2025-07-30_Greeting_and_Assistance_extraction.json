@@ -1,0 +1,50 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221530",
+  "word_count": 4451,
+  "extraction_date": "2025-12-24 22:15:30",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Greeting and Assistance",
+      "start_line": 0,
+      "end_line": 962,
+      "excerpt": "# Greeting and Assistance\n\n**Date:** 2025-07-30\n\n---\n\n**User:** {'content_type': 'audio_transcription', 'text': 'Hi Fred!', 'direction': 'in', 'decoding_id': None}\n{'expiry_datetime': '2026-01-25T22:1",
+      "keywords": [
+        "0",
+        "00",
+        "0073aa",
+        "011",
+        "01887903A5"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 4451
+    }
+  ],
+  "connections": [],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "correction",
+      "summary": "Correction: created_at DESC \n                 LIMIT 10\"\n            );\n            ?>\n            <table class=\"",
+      "details": "created_at DESC \n                 LIMIT 10\"\n            );\n            ?>\n            <table class=\"wp-list-table widefat fixed striped\">\n                <thead>\n                    <tr>\n                        <th>User</th>\n                        <th>Email</th>\n                        <th>Status</th>\n                        <th>Created</th>\n                        <th>Expires</th>\n                        <th>Amount</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <?php foreach ($recent_subs as $sub): ?>\n                    <tr>\n                        <td><?php echo esc_html($sub->user_login); ?></td>\n                        <td><?php echo esc_html($sub->user_email); ?></td>\n                        <td><?php echo esc_html($sub->status); ?></td>\n                        <td><?php echo esc_html($sub->created_at); ?></td>\n                        <td><?php echo esc_html($sub->expires_at); ?></td>\n                        <td>$<?php echo esc_html($sub->amount); ?></td>\n                    </tr>\n                    <?php endforeach; ?>\n                </tbody>\n            </table>\n        </div>\n        \n        <style>. **Testing & Logging**\nAdd error logging for:\n- Subscription errors (`create_subscription`)\n- Conversion issues\nUse `error_log()` or a custom logger:\n```php\nif (WP_DEBUG === true) {\n    error_log('[MWC Plugin] Error: Subscription creation failed. - Use Elementor\u2019s **site settings** and **admin tools** for debugging and monitoring",
+      "evidence": "created_at DESC \n                 LIMIT 10\"\n            );\n            ?>\n            <table class=\"wp-list-table widefat fixed striped\">\n                <thead>\n                    <tr>\n                        <th>User</th>\n                        <th>Email</th>\n                        <th>Status</th>\n                        <th>Created</th>\n                        <th>Expires</th>\n                        <th>Amount</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <?php foreach ($recent_subs as $sub): ?>\n                    <tr>\n                        <td><?php echo esc_html($sub->user_login); ?></td>\n                        <td><?php echo esc_html($sub->user_email); ?></td>\n                        <td><?php echo esc_html($sub->status); ?></td>\n                        <td><?php echo esc_html($sub->created_at); ?></td>\n                        <td><?php echo esc_html($sub->expires_at); ?></td>\n                        <td>$<?php echo esc_html($sub->amount); ?></td>\n                    </tr>\n                    <?php endforeach; ?>\n                </tbody>\n            </table>\n        </div>\n        \n        <style>",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: 'mwc_subscriptions';\n        $total_subscribers = $wpdb->get_var(\"SELECT COUNT(*) FROM $table_name W",
+      "details": "'mwc_subscriptions';\n        $total_subscribers = $wpdb->get_var(\"SELECT COUNT(*) FROM $table_name WHERE status = 'active'\");\n        $total_revenue = $wpdb->get_var(\"SELECT SUM(amount) FROM $table_name WHERE status = 'active'\");\n        ?>\n        <div class=\"wrap\">\n            <h1>Markdown Converter Pro Settings</h1>\n            \n            <div class=\"mwc-admin-stats\">\n                <div class=\"mwc-stat-box\">\n                    <h3>Active Subscribers</h3>\n                    <p class=\"mwc-stat-number\"><?php echo $total_subscribers; ?></p>\n                </div>\n                <div class=\"mwc-stat-box\">\n                    <h3>Annual Revenue</h3>\n                    <p class=\"mwc-stat-number\">$<?php echo number_format($total_revenue, 2); ?></p>\n                </div>\n            </div>\n            \n            <form method=\"post\" action=\"options. **Clean Plugin Architecture**\n- Logical separation of methods",
+      "evidence": "'mwc_subscriptions';\n        $total_subscribers = $wpdb->get_var(\"SELECT COUNT(*) FROM $table_name WHERE status = 'active'\");\n        $total_revenue = $wpdb->get_var(\"SELECT SUM(amount) FROM $table_name WHERE status = 'active'\");\n        ?>\n        <div class=\"wrap\">\n            <h1>Markdown Converter Pro Settings</h1>\n            \n            <div class=\"mwc-admin-stats\">\n                <div class=\"mwc-stat-box\">\n                    <h3>Active Subscribers</h3>\n                    <p class=\"mwc-stat-number\"><?php echo $total_subscribers; ?></p>\n                </div>\n                <div class=\"mwc-stat-box\">\n                    <h3>Annual Revenue</h3>\n                    <p class=\"mwc-stat-number\">$<?php echo number_format($total_revenue, 2); ?></p>\n                </div>\n            </div>\n            \n            <form method=\"post\" action=\"options",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221308",
+  "word_count": 3620,
+  "extraction_date": "2025-12-24 22:13:08",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Cross-referenced insights summary",
+      "start_line": 0,
+      "end_line": 460,
+      "excerpt": "# Cross-referenced insights summary\n\n**Date:** 2025-10-19\n\n---\n\n**User:** Please give me cross referenced insights summarised using AU spelling, plus charts and word clouds for inclusion in a strategi",
+      "keywords": [
+        "0",
+        "00_coverpng",
+        "010",
+        "01_scaled_item_meanspng",
+        "045"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 855
+    },
+    {
+      "thread_id": 2,
+      "title": "Fallback to frequency bar chart",
+      "start_line": 460,
+      "end_line": 1881,
+      "excerpt": "# Fallback to frequency bar chart\n\n        freq_df = fallback_freq_words(series, top_k=40)\n\n        fig = make_portrait_fig()\n\n        plt.barh(range(len(freq_df)), freq_df['count'].values)",
+      "keywords": [
+        "0",
+        "00_coverpng",
+        "00_coverpngsandboxmntdataoutputs_portrait_fallbackcharts00_coverpng",
+        "01_scaled_item_meanspng",
+        "01_scaled_item_meanspngsandboxmntdataoutputs_portrait_fallbackcharts01_scaled_item_meanspng"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2765
+    }
+  ],
+  "connections": [],
+  "learnings": [],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

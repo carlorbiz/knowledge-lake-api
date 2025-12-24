@@ -1,0 +1,143 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221559",
+  "word_count": 6885,
+  "extraction_date": "2025-12-24 22:16:00",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "App Expansion for Adversity",
+      "start_line": 0,
+      "end_line": 475,
+      "excerpt": "# App Expansion for Adversity\n\n**Date:** 2025-07-13\n\n---\n\n**User:** Hi Fred. I'm talking to you as my app designer and architect. You have more than 2 decades' experience building web and mobile apps",
+      "keywords": [
+        "1",
+        "10",
+        "100",
+        "1020",
+        "13"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 3704
+    },
+    {
+      "thread_id": 2,
+      "title": "\ud83d\udd01 **4. Return Feedback to Glide**",
+      "start_line": 475,
+      "end_line": 548,
+      "excerpt": "### \ud83d\udd01 **4. Return Feedback to Glide**\n\nAfter Make processes the new calendar entries, it can:\n\n- Send a webhook back to Glide to update the original user row (`CalendarGenerated = true`)\n- Trigger a G",
+      "keywords": [
+        "1",
+        "2",
+        "20mg",
+        "3",
+        "30"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 428
+    },
+    {
+      "thread_id": 3,
+      "title": "\ud83d\udd35 Step 2: Set Up Glide Table Connection",
+      "start_line": 548,
+      "end_line": 910,
+      "excerpt": "| Linked ID | Links back to the Medications table (for tracking) |\n\n\ud83d\udc49 **Create this now** in your existing Google Sheet (same file you're using for prompts/mood, or separate if you prefer). Let me kno",
+      "keywords": [
+        "1",
+        "12",
+        "1520",
+        "2",
+        "3"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1937
+    },
+    {
+      "thread_id": 4,
+      "title": "**User:** {'content_type': 'audio_transcription', 'text': 'Hi Fred, please create...",
+      "start_line": 910,
+      "end_line": 935,
+      "excerpt": "**User:** {'content_type': 'audio_transcription', 'text': 'Hi Fred, please create the JSON content for me for make.com per this thread. Also, can you please provide me with a step-by-step of how a web",
+      "keywords": [
+        "00",
+        "1",
+        "100",
+        "101838",
+        "11961529607605189"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 816
+    }
+  ],
+  "connections": [
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 references concepts from Thread 1",
+      "evidence": "{'expiry_datetime': '2026-01-09T15:13:39.425267+00:00', 'content_type': 'real_time_user_audio_video_asset_pointer', 'frames_asset_pointers': [], 'vide"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 3,
+      "connection_type": "builds_on",
+      "explanation": "Thread 3 builds on Thread 2",
+      "evidence": "## \ud83d\udd35 Step 2: Set Up Glide Table Connection"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 references concepts from Thread 2",
+      "evidence": "{'expiry_datetime': '2026-01-09T15:13:39.425267+00:00', 'content_type': 'real_time_user_audio_video_asset_pointer', 'frames_asset_pointers': [], 'vide"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 references concepts from Thread 3",
+      "evidence": "{'expiry_datetime': '2026-01-09T15:13:39.425267+00:00', 'content_type': 'real_time_user_audio_video_asset_pointer', 'frames_asset_pointers': [], 'vide"
+    }
+  ],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "decision",
+      "summary": "Decision: After our first discussions about the app for Make The Most of Today, I've decided to make this trul",
+      "details": "After our first discussions about the app for Make The Most of Today, I've decided to make this truly value-add for my target market, it needs to be expanded beyond the journaling and mood tracking app we scoped",
+      "evidence": "After our first discussions about the app for Make The Most of Today, I've decided to make this truly value-add for my target market, it needs to be expanded beyond the journaling and mood tracking app we scoped",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 1,
+      "category": "correction",
+      "summary": "Correction: Please draw on your expertise to help me plan this app to be more of a tool for people going through",
+      "details": "Please draw on your expertise to help me plan this app to be more of a tool for people going through adversity or trying to juggle a \"new normal\", whether as a result of a significant health issue like cancer, a natural disaster, a business closure, a death in the family",
+      "evidence": "Please draw on your expertise to help me plan this app to be more of a tool for people going through adversity or trying to juggle a \"new normal\", whether as a result of a significant health issue like cancer, a natural disaster, a business closure, a death in the family",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: **Community Forum**\n\n**Approach:** Cohort-specific private discussion areas  \n- Group 1: Thrivers (h",
+      "details": "**Community Forum**\n\n**Approach:** Cohort-specific private discussion areas  \n- Group 1: Thrivers (health-based challenge)\n- Group 2: Carers\n- Group 3: Life Disrupted (natural disaster, grief, etc. ics` as a \u201cDownload Calendar\u201d button inside Glide for now  \n**Best for Scale?** Full user-authorised Google Calendar sync (but that\u2019s outside Glide\u2019s no-code capabilities \u2014 requires custom app or Firebase setup)\n\n---\n\n## \u2705 Q3: Can the app show a pop-up or prompt to review calendar for changes?\n\nYes \u2014 there are multiple ways to do this **within Glide**:\n\n### Options:\n\n| Method | How It Works |\n|--------|--------------|\n| \ud83d\udfe2 **Popup modal** | Use a **\u201cShow Notification\u201d** or \u201cShow Detail View\u201d action when key changes occur (e. They are comfortable with Make being part of the integration strategy and may need help setting up the connection between Glide and Make",
+      "evidence": "**Community Forum**\n\n**Approach:** Cohort-specific private discussion areas  \n- Group 1: Thrivers (health-based challenge)\n- Group 2: Carers\n- Group 3: Life Disrupted (natural disaster, grief, etc",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 3,
+      "category": "methodology",
+      "summary": "Methodology: Here\u2019s exactly how to approach it:\n\n---\n\n## \u2705 Best Practice for All Sheet Tabs in Glide\n\n1",
+      "details": "Here\u2019s exactly how to approach it:\n\n---\n\n## \u2705 Best Practice for All Sheet Tabs in Glide\n\n1",
+      "evidence": "Here\u2019s exactly how to approach it:\n\n---\n\n## \u2705 Best Practice for All Sheet Tabs in Glide\n\n1",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Branching - multiple related topics",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

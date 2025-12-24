@@ -1,0 +1,221 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221258",
+  "word_count": 2097,
+  "extraction_date": "2025-12-24 22:12:58",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Notion 3.0 update",
+      "start_line": 0,
+      "end_line": 28,
+      "excerpt": "# Notion 3.0 update\n\n**Date:** 2025-11-08\n\n---\n\n**User:** Hey Fred, notion 3.0 update sounds like a winner for the AAE architecture. Here\u2019s Noris\u2019 take on how the new updates will help Here\u2019s the shor",
+      "keywords": [
+        "20251108",
+        "30",
+        "AAE",
+        "ABC2",
+        "APIs"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 408
+    },
+    {
+      "thread_id": 2,
+      "title": "The correct architectural shift",
+      "start_line": 28,
+      "end_line": 71,
+      "excerpt": "If you want, say the word and I\u2019ll map one of your existing workflows to an Agent\u2011first version, with clear hand\u2011offs back to n8n for anything external.\n\n\n**Assistant:** Carla \u2014 yes.  \nThis is the mis",
+      "keywords": [
+        "100",
+        "30",
+        "AAE",
+        "ANY",
+        "API"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 274
+    },
+    {
+      "thread_id": 3,
+      "title": "To move forward next:",
+      "start_line": 71,
+      "end_line": 93,
+      "excerpt": "ANYTHING external \u2192 hand off back to n8n or to Fred / Claude / Penny / Pete\n```\n\nThat preserves safety.\nAnd stops chaos.\n\n### To move forward next:\n\nTell me which of these two workflows you want mappe",
+      "keywords": [
+        "5",
+        "ANYTHING",
+        "Agent",
+        "Agentfirst",
+        "And"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 99
+    },
+    {
+      "thread_id": 4,
+      "title": "> A",
+      "start_line": 93,
+      "end_line": 117,
+      "excerpt": "- links them back to Areas/Projects\n\nWhich one do you want me to map into the new 3.0 \u201cAgent-first\u201d pattern first?\n\nJust reply with:\n\n> A\n\nor\n\n> B\n\n---\n\nAnd one more-line clarifier because this is i",
+      "keywords": [
+        "30",
+        "Agentfirst",
+        "And",
+        "AreasProjects",
+        "Assistant"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 75
+    },
+    {
+      "thread_id": 5,
+      "title": "Goal",
+      "start_line": 117,
+      "end_line": 247,
+      "excerpt": "Here\u2019s a tight, ready-to-run playbook you can hand the Notion Agent 3.0 today, with clear boundaries back to n8n for anything external.\n\n# Goal\nType a single-sentence idea \u2192 the **Notion Agent**:\n1) d",
+      "keywords": [
+        "0",
+        "1",
+        "2",
+        "26",
+        "3"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 854
+    },
+    {
+      "thread_id": 6,
+      "title": "5) Handoffs back to n8n (only if needed later)",
+      "start_line": 247,
+      "end_line": 281,
+      "excerpt": "# 5) Handoffs back to n8n (only if needed later)\nWhen the Project moves beyond Notion-only work, n8n resumes. Create a **checkbox** property on **Projects** called **\u201cExternal Orchestration Required\u201d*",
+      "keywords": [
+        "1",
+        "10",
+        "2",
+        "3",
+        "4"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 264
+    },
+    {
+      "thread_id": 7,
+      "title": "9) Metrics (what \u201cgood\u201d looks like)",
+      "start_line": 281,
+      "end_line": 297,
+      "excerpt": "- If anything looks off, set the Project back to `Status = Proposed` and move the Idea row to `Maturity = Seed`.  \n- Because we never delete/rename properties automatically, rolling back is just chang",
+      "keywords": [
+        "0",
+        "1",
+        "2",
+        "9",
+        "Agent"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 123
+    }
+  ],
+  "connections": [
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 references concepts from Thread 1",
+      "evidence": "- Create (or confirm) a **folder/page** called **\u201cIdea Intake (MTMOT/AAE)\u201d** where you will drop new ideas via Quick Note or mobile."
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 references concepts from Thread 2",
+      "evidence": "Here\u2019s a tight, ready-to-run playbook you can hand the Notion Agent 3.0 today, with clear boundaries back to n8n for anything external."
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 2",
+      "evidence": "- Post results back to the Project via Notion API and attach links."
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 references concepts from Thread 3",
+      "evidence": "Which one do you want me to map into the new 3.0 \u201cAgent-first\u201d pattern first?"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 references concepts from Thread 3",
+      "evidence": "Here\u2019s a tight, ready-to-run playbook you can hand the Notion Agent 3.0 today, with clear boundaries back to n8n for anything external."
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 3",
+      "evidence": "# 5) Handoffs back to n8n (only if needed later)"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 7,
+      "connection_type": "builds_on",
+      "explanation": "Thread 7 references concepts from Thread 3",
+      "evidence": "- If anything looks off, set the Project back to `Status = Proposed` and move the Idea row to `Maturity = Seed`."
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 5",
+      "evidence": "*(None of this runs in the POC; we keep Phase 1 strictly Agent-only.)*"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 7,
+      "connection_type": "builds_on",
+      "explanation": "Thread 7 references concepts from Thread 5",
+      "evidence": "- **TTV (time to value):** < 2 minutes from idea to linked Project scaffolding."
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 7,
+      "connection_type": "builds_on",
+      "explanation": "Thread 7 references concepts from Thread 6",
+      "evidence": "- **TTV (time to value):** < 2 minutes from idea to linked Project scaffolding."
+    }
+  ],
+  "learnings": [
+    {
+      "thread_id": 5,
+      "category": "correction",
+      "summary": "Correction: ### DB Template: \u201cSeed \u2192 Project\u201d\n- Creates a linked **Project Seed** in Projects with:\n  - `Project",
+      "details": "### DB Template: \u201cSeed \u2192 Project\u201d\n- Creates a linked **Project Seed** in Projects with:\n  - `Project` = auto-title from Idea\n  - `Area` = inferred from Audience/Tags\n  - `Status` = \u201cProposed\u201d\n  - Starter subpages:\n    - \u201cProblem & Outcome\u201d\n    - \u201cUsers & Jobs-to-be-done\u201d\n    - \u201cScope v1 (MVP)\u201d\n    - \u201cRisks & Assumptions\u201d\n    - \u201cMetrics & Definition of Done\u201d\n\n## B. 5) Generate starter pages\n   - Under the Project, create subpages:\n     \u2022 Problem & Outcome\n     \u2022 Users & Jobs-to-be-done\n     \u2022 Scope v1 (MVP)\n     \u2022 Risks & Assumptions\n     \u2022 Metrics & Definition of Done\n   - Populate each with concise scaffolding paragraphs and bullet checklists",
+      "evidence": "### DB Template: \u201cSeed \u2192 Project\u201d\n- Creates a linked **Project Seed** in Projects with:\n  - `Project` = auto-title from Idea\n  - `Area` = inferred from Audience/Tags\n  - `Status` = \u201cProposed\u201d\n  - Starter subpages:\n    - \u201cProblem & Outcome\u201d\n    - \u201cUsers & Jobs-to-be-done\u201d\n    - \u201cScope v1 (MVP)\u201d\n    - \u201cRisks & Assumptions\u201d\n    - \u201cMetrics & Definition of Done\u201d\n\n## B",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [
+    {
+      "involved_threads": [
+        1,
+        5,
+        6,
+        7
+      ],
+      "insight_type": "evolution",
+      "description": "Topic evolution across 4 threads",
+      "significance": "Shows progressive refinement of understanding"
+    }
+  ],
+  "thinking_patterns": {
+    "flow": "Associative - wide-ranging exploration",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Survey - covering multiple topics quickly",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

@@ -1,0 +1,162 @@
+# Multi-Pass Learning Extraction Report
+
+**Conversation:** Temp 20251224 221608
+**Word Count:** 3,551
+**Extracted:** 2025-12-24 22:16:08
+
+---
+
+## Pass 1: Topic Segmentation
+
+**Found 1 topic threads:**
+
+### Thread 1: Chat Recovery Help
+- **Lines:** 0-598
+- **Word Count:** 3,551
+- **Keywords:** 000000, 1, 10pt, 11pt, 14pt
+
+---
+
+## Pass 2: Thread Connections
+
+**Identified 0 connections:**
+
+---
+
+## Pass 3: Per-Thread Learnings
+
+**Extracted 3 learnings:**
+
+### Decision
+
+**Thread 1:** Decision: ---
+
+##### Section 2: Key Concepts  
+- Reciprocal vulnerability accelerates relationships  
+- Authen
+- Details: ---
+
+##### Section 2: Key Concepts  
+- Reciprocal vulnerability accelerates relationships  
+- Authentic disclosure fosters deeper trust  
+- Leaders who integrate adversity into their professional identity can empower teams  
+
+---
+
+##### Section 3: Reflection Activity  
+*Prompt:* Think of a time when you chose to share (or not share) a personal challenge at work
+- Confidence: medium
+
+### Correction
+
+**Thread 1:** Correction: Let’s get you back on track!
+
+**User:** Problem solved - chat still live on my laptop sorry
+
+**Assis
+- Details: Let’s get you back on track!
+
+**User:** Problem solved - chat still live on my laptop sorry
+
+**Assistant:** No need to apologise at all, Carla — I’m glad to hear the chat is still live on your laptop! That’s a relief. ---
+
+## 🛠 **Here’s the corrected blank template (inline + downloadable):**
+
+```
+Carlorbiz Consulting — [Title of Document / Module / Workbook]  
+Author: Carla Taylor  
+Email: carla@carlorbiz. au  
+```
+
+👉 **[Download the corrected file:]**
+[Download Carlorbiz_Workbook_BlankTemplate_Corrected
+- Confidence: medium
+
+### Methodology
+
+**Thread 1:** Methodology: I know Google Docs have improved in their visual aesthetics recently but I'm yet to explore this for
+- Details: I know Google Docs have improved in their visual aesthetics recently but I'm yet to explore this for myself
+
+**Assistant:** That’s a *fantastic* approach, Carla — you’ll love how much more flexible Google Docs has become for professional-looking outputs! Let’s break this down into:
+
+---
+
+## 📝 **Blank template you can paste into Word / Google Docs / Notion / Obsidian**
+
+---
+
+### Carlrobiz Consulting — [Title of Document / Module / Workbook]
+**Author:** Carla Taylor  
+**Email:** carla@carlorbiz. Let’s level up with some more distinctive, polished font pairings that stay clean, easy to read, and professional — but with a bit more personality!  
+
+---
+
+## 🌟 **Font pairings for your workbook / templates**
+These combinations are all Google Docs / Microsoft Word-friendly or easily substituted:
+
+---
+
+### 1️⃣ **Lato (Headings) + Source Sans Pro (Body)**  
+✅ *Why:* Lato is clean but has character; Source Sans Pro is balanced, warm, and legible  
+✅ *Vibe:* Modern, approachable, polished  
+
+---
+
+### 2️⃣ **Merriweather (Headings) + Open Sans (Body)**  
+✅ *Why:* Merriweather gives a subtle, contemporary serif contrast; Open Sans is friendly and neutral  
+✅ *Vibe:* A bit more formal, great for a blend of tradition + modern  
+
+---
+
+### 3️⃣ **Nunito (Headings) + Quicksand (Body)**  
+✅ *Why:* Both have soft rounded forms; very approachable, easy on the eye  
+✅ *Vibe:* Fresh, human, inviting — ideal for coaching / consulting materials  
+
+---
+
+### 4️⃣ **Raleway (Headings) + Roboto (Body)**  
+✅ *Why:* Raleway has elegance and spacing; Roboto is super-readable at small sizes  
+✅ *Vibe:* Sleek, stylish, still accessible  
+
+---
+
+### 5️⃣ **Poppins (Headings) + Lora (Body)**  
+✅ *Why:* Poppins geometric sans pops for titles; Lora gives a gentle, literary feel to body text  
+✅ *Vibe:* Contemporary, with a creative twist  
+
+---
+
+## ✨ **Bonus tip:** 
+- Keep heading fonts at least 2pt larger than body text for clear hierarchy  
+- If you use colour for headings (e. DOCX` template using one of these font pairs?  
+✅ Provide Google Docs style setup instructions for your chosen pair?  
+✅ Or both?  
+
+Let me know which pairing appeals most to you — or I can mock up a sample if you'd like to see how one looks!
+
+**User:** Both please! I'm just quickly searching some of these fonts I haven't used before! I'll come back with an answer on which pairing to use very soon!
+
+**Assistant:** Perfect, Carla — take your time exploring the fonts! I love how thoughtfully you’re approaching this — it’ll really pay off in a unique, polished look for your materials
+- Confidence: medium
+
+---
+
+## Pass 4: Cross-Thread Insights
+
+**Discovered 0 insights:**
+
+---
+
+## Pass 5: Thinking Patterns
+
+**Flow:** Linear - single focused topic
+
+**Problem Solving:** Deliberate - builds systematically
+
+**Exploration Style:** Deep dive - thorough exploration of topics
+
+**Innovation:** Incremental progress - steady advancement
+
+---
+
+*Generated by Multi-Pass Learning Extraction Tool*

@@ -1,0 +1,66 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221257",
+  "word_count": 3169,
+  "extraction_date": "2025-12-24 22:12:57",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Visual workflow diagram",
+      "start_line": 0,
+      "end_line": 209,
+      "excerpt": "# Visual workflow diagram\n\n**Date:** 2025-11-02\n\n---\n\n**User:** fred, please turn this into a visual file I can readily refer to on my desktop: \nimport json, datetime, os, textwrap\n\n\n\nworkflow = {",
+      "keywords": [
+        "10",
+        "20251102",
+        "Alex",
+        "Analyst",
+        "Architect"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 416
+    },
+    {
+      "thread_id": 2,
+      "title": "\"Artifacts relate back to Projects via 'Project Key'...",
+      "start_line": 209,
+      "end_line": 685,
+      "excerpt": "\"Artifacts relate back to Projects via 'Project Key' for search and rollups.\"\n\n      ]\n\n    },\n\n    {\n\n      \"name\": \"Recall & Reuse\",\n\n      \"steps\": [\n\n        \"From Slack, open the Notion A",
+      "keywords": [
+        "1",
+        "10",
+        "12001500",
+        "13",
+        "13th"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2732
+    }
+  ],
+  "connections": [
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 2,
+      "connection_type": "builds_on",
+      "explanation": "Thread 2 references concepts from Thread 1",
+      "evidence": "{\"role\": \"Fred\", \"prompt\": \"Fred \u2014 explore angles on [topic] and list 10 bold ideas.\"},"
+    }
+  ],
+  "learnings": [
+    {
+      "thread_id": 2,
+      "category": "correction",
+      "summary": "Correction: \"\n\n      ]\n\n    }\n\n  ],\n\n  \"graph\": {\n\n    \"nodes\": [\n\n      {\"id\": \"slack\", \"label\": \"Slack\", \"type",
+      "details": "\"\n\n      ]\n\n    }\n\n  ],\n\n  \"graph\": {\n\n    \"nodes\": [\n\n      {\"id\": \"slack\", \"label\": \"Slack\", \"type\": \"ui\"},\n\n      {\"id\": \"fredcast\", \"label\": \"Fred & Friends\", \"type\": \"assistant\"},\n\n      {\"id\": \"notion\", \"label\": \"Notion (Artifacts/Threads/Projects)\", \"type\": \"storage\"},\n\n      {\"id\": \"n8n\", \"label\": \"n8n (optional)\", \"type\": \"automation\"}\n\n    ],\n\n    \"edges\": [\n\n      {\"from\": \"slack\", \"to\": \"fredcast\", \"label\": \"Messages (role-prefixed)\"},\n\n      {\"from\": \"fredcast\", \"to\": \"slack\", \"label\": \"Responses in role\"},\n\n      {\"from\": \"slack\", \"to\": \"n8n\", \"label\": \"\u2b50 reaction events\"},\n\n      {\"from\": \"n8n\", \"to\": \"notion\", \"label\": \"Create Artifact record\"},\n\n      {\"from\": \"notion\", \"to\": \"slack\", \"label\": \"Backlink to thread/permalink\"}\n\n    ]\n\n  },\n\n  \"macros\": {\n\n    \"examples\": [\n\n      {\"role\": \"Fred\", \"prompt\": \"Fred \u2014 explore angles on [topic] and list 10 bold ideas",
+      "evidence": "\"\n\n      ]\n\n    }\n\n  ],\n\n  \"graph\": {\n\n    \"nodes\": [\n\n      {\"id\": \"slack\", \"label\": \"Slack\", \"type\": \"ui\"},\n\n      {\"id\": \"fredcast\", \"label\": \"Fred & Friends\", \"type\": \"assistant\"},\n\n      {\"id\": \"notion\", \"label\": \"Notion (Artifacts/Threads/Projects)\", \"type\": \"storage\"},\n\n      {\"id\": \"n8n\", \"label\": \"n8n (optional)\", \"type\": \"automation\"}\n\n    ],\n\n    \"edges\": [\n\n      {\"from\": \"slack\", \"to\": \"fredcast\", \"label\": \"Messages (role-prefixed)\"},\n\n      {\"from\": \"fredcast\", \"to\": \"slack\", \"label\": \"Responses in role\"},\n\n      {\"from\": \"slack\", \"to\": \"n8n\", \"label\": \"\u2b50 reaction events\"},\n\n      {\"from\": \"n8n\", \"to\": \"notion\", \"label\": \"Create Artifact record\"},\n\n      {\"from\": \"notion\", \"to\": \"slack\", \"label\": \"Backlink to thread/permalink\"}\n\n    ]\n\n  },\n\n  \"macros\": {\n\n    \"examples\": [\n\n      {\"role\": \"Fred\", \"prompt\": \"Fred \u2014 explore angles on [topic] and list 10 bold ideas",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

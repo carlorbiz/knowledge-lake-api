@@ -1,0 +1,58 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221608",
+  "word_count": 3551,
+  "extraction_date": "2025-12-24 22:16:08",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Chat Recovery Help",
+      "start_line": 0,
+      "end_line": 598,
+      "excerpt": "# Chat Recovery Help\n\n**Date:** 2025-07-05\n\n---\n\n**User:** Can this chat be recovered? I had internet interruptions and now our interaction seems to have been corrupted\n\n**Assistant:** Thanks for lett",
+      "keywords": [
+        "000000",
+        "1",
+        "10pt",
+        "11pt",
+        "14pt"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 3551
+    }
+  ],
+  "connections": [],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "decision",
+      "summary": "Decision: ---\n\n##### Section 2: Key Concepts  \n- Reciprocal vulnerability accelerates relationships  \n- Authen",
+      "details": "---\n\n##### Section 2: Key Concepts  \n- Reciprocal vulnerability accelerates relationships  \n- Authentic disclosure fosters deeper trust  \n- Leaders who integrate adversity into their professional identity can empower teams  \n\n---\n\n##### Section 3: Reflection Activity  \n*Prompt:* Think of a time when you chose to share (or not share) a personal challenge at work",
+      "evidence": "---\n\n##### Section 2: Key Concepts  \n- Reciprocal vulnerability accelerates relationships  \n- Authentic disclosure fosters deeper trust  \n- Leaders who integrate adversity into their professional identity can empower teams  \n\n---\n\n##### Section 3: Reflection Activity  \n*Prompt:* Think of a time when you chose to share (or not share) a personal challenge at work",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 1,
+      "category": "correction",
+      "summary": "Correction: Let\u2019s get you back on track!\n\n**User:** Problem solved - chat still live on my laptop sorry\n\n**Assis",
+      "details": "Let\u2019s get you back on track!\n\n**User:** Problem solved - chat still live on my laptop sorry\n\n**Assistant:** No need to apologise at all, Carla \u2014 I\u2019m glad to hear the chat is still live on your laptop! That\u2019s a relief. ---\n\n## \ud83d\udee0 **Here\u2019s the corrected blank template (inline + downloadable):**\n\n```\nCarlorbiz Consulting \u2014 [Title of Document / Module / Workbook]  \nAuthor: Carla Taylor  \nEmail: carla@carlorbiz. au  \n```\n\n\ud83d\udc49 **[Download the corrected file:]**\n[Download Carlorbiz_Workbook_BlankTemplate_Corrected",
+      "evidence": "Let\u2019s get you back on track!\n\n**User:** Problem solved - chat still live on my laptop sorry\n\n**Assistant:** No need to apologise at all, Carla \u2014 I\u2019m glad to hear the chat is still live on your laptop! That\u2019s a relief",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: I know Google Docs have improved in their visual aesthetics recently but I'm yet to explore this for",
+      "details": "I know Google Docs have improved in their visual aesthetics recently but I'm yet to explore this for myself\n\n**Assistant:** That\u2019s a *fantastic* approach, Carla \u2014 you\u2019ll love how much more flexible Google Docs has become for professional-looking outputs! Let\u2019s break this down into:\n\n---\n\n## \ud83d\udcdd **Blank template you can paste into Word / Google Docs / Notion / Obsidian**\n\n---\n\n### Carlrobiz Consulting \u2014 [Title of Document / Module / Workbook]\n**Author:** Carla Taylor  \n**Email:** carla@carlorbiz. Let\u2019s level up with some more distinctive, polished font pairings that stay clean, easy to read, and professional \u2014 but with a bit more personality!  \n\n---\n\n## \ud83c\udf1f **Font pairings for your workbook / templates**\nThese combinations are all Google Docs / Microsoft Word-friendly or easily substituted:\n\n---\n\n### 1\ufe0f\u20e3 **Lato (Headings) + Source Sans Pro (Body)**  \n\u2705 *Why:* Lato is clean but has character; Source Sans Pro is balanced, warm, and legible  \n\u2705 *Vibe:* Modern, approachable, polished  \n\n---\n\n### 2\ufe0f\u20e3 **Merriweather (Headings) + Open Sans (Body)**  \n\u2705 *Why:* Merriweather gives a subtle, contemporary serif contrast; Open Sans is friendly and neutral  \n\u2705 *Vibe:* A bit more formal, great for a blend of tradition + modern  \n\n---\n\n### 3\ufe0f\u20e3 **Nunito (Headings) + Quicksand (Body)**  \n\u2705 *Why:* Both have soft rounded forms; very approachable, easy on the eye  \n\u2705 *Vibe:* Fresh, human, inviting \u2014 ideal for coaching / consulting materials  \n\n---\n\n### 4\ufe0f\u20e3 **Raleway (Headings) + Roboto (Body)**  \n\u2705 *Why:* Raleway has elegance and spacing; Roboto is super-readable at small sizes  \n\u2705 *Vibe:* Sleek, stylish, still accessible  \n\n---\n\n### 5\ufe0f\u20e3 **Poppins (Headings) + Lora (Body)**  \n\u2705 *Why:* Poppins geometric sans pops for titles; Lora gives a gentle, literary feel to body text  \n\u2705 *Vibe:* Contemporary, with a creative twist  \n\n---\n\n## \u2728 **Bonus tip:** \n- Keep heading fonts at least 2pt larger than body text for clear hierarchy  \n- If you use colour for headings (e. DOCX` template using one of these font pairs?  \n\u2705 Provide Google Docs style setup instructions for your chosen pair?  \n\u2705 Or both?  \n\nLet me know which pairing appeals most to you \u2014 or I can mock up a sample if you'd like to see how one looks!\n\n**User:** Both please! I'm just quickly searching some of these fonts I haven't used before! I'll come back with an answer on which pairing to use very soon!\n\n**Assistant:** Perfect, Carla \u2014 take your time exploring the fonts! I love how thoughtfully you\u2019re approaching this \u2014 it\u2019ll really pay off in a unique, polished look for your materials",
+      "evidence": "I know Google Docs have improved in their visual aesthetics recently but I'm yet to explore this for myself\n\n**Assistant:** That\u2019s a *fantastic* approach, Carla \u2014 you\u2019ll love how much more flexible Google Docs has become for professional-looking outputs! Let\u2019s break this down into:\n\n---\n\n## \ud83d\udcdd **Blank template you can paste into Word / Google Docs / Notion / Obsidian**\n\n---\n\n### Carlrobiz Consulting \u2014 [Title of Document / Module / Workbook]\n**Author:** Carla Taylor  \n**Email:** carla@carlorbiz",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

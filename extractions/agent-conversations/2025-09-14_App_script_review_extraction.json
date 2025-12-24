@@ -1,0 +1,3489 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221354",
+  "word_count": 86556,
+  "extraction_date": "2025-12-24 22:13:55",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "App script review",
+      "start_line": 0,
+      "end_line": 1805,
+      "excerpt": "# App script review\n\n**Date:** 2025-09-14\n\n---\n\n**User:** Fred, please review this app script for completeness and ensure it has the capacity to provide the robust, sophisticated tool I envision for m",
+      "keywords": [
+        "0",
+        "01",
+        "02",
+        "05",
+        "06"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 4339
+    },
+    {
+      "thread_id": 2,
+      "title": "const slides = Array.isArray(slideContent) ? slideContent : [slideContent];",
+      "start_line": 1805,
+      "end_line": 3011,
+      "excerpt": "// Fallback to original format\n\n      enhancedSlides.push(`${slide.title}\\n\\n${slide.body.join('. ')}`);\n\n    }\n\n  }\n\n  \n\n  return enhancedSlides;\n\n}\n\n\n\nfunction generateContextualImagePrompts_(",
+      "keywords": [
+        "0",
+        "1",
+        "10",
+        "100",
+        "11"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2557
+    },
+    {
+      "thread_id": 3,
+      "title": "// Fallback to improved bullet format if AI...",
+      "start_line": 3011,
+      "end_line": 3161,
+      "excerpt": "// Fallback to improved bullet format if AI generation fails\n\n      const fallbackContent = `${slide.title}\\n\\n${(slide.body || []).map(b => b.replace(/^\\s*[-*\u2022]\\s*/, '').trim()).join('. ')}`;",
+      "keywords": [
+        "0",
+        "10",
+        "12000",
+        "39",
+        "AVAILABLE"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 305
+    },
+    {
+      "thread_id": 4,
+      "title": "// If Drive access fails, fall back to...",
+      "start_line": 3161,
+      "end_line": 3634,
+      "excerpt": "// If Drive access fails, fall back to URL fetch\n\n      }\n\n    }\n\n\n\n    // Standard HTTP/HTTPS fetch as fallback\n\n    const resp = UrlFetchApp.fetch(url, {\n\n      followRedirects: true,",
+      "keywords": [
+        "1",
+        "10",
+        "11",
+        "12",
+        "1slide"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2205
+    },
+    {
+      "thread_id": 5,
+      "title": "Drive & permissions",
+      "start_line": 3634,
+      "end_line": 3944,
+      "excerpt": "- Normalise the return type: when the API returns `inlineData` with `mimeType: audio/wav`, **skip** `convertL16ToWav_` and return the blob directly; only fall back to PCM\u2192WAV when `mimeType` indicates",
+      "keywords": [
+        "0",
+        "1",
+        "100",
+        "1clearContent",
+        "1setValuesmodulesmapm"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1557
+    },
+    {
+      "thread_id": 6,
+      "title": "// Fallback to a simple bullet-massage if enrichment...",
+      "start_line": 3944,
+      "end_line": 4034,
+      "excerpt": "// Fallback to a simple bullet-massage if enrichment fails\n      const fallbackContent = `${slide.title}\\n\\n${(slide.body || []).map(b => b.replace(/^\\s*[-*\u2022]\\s*/, '').trim()).join('. ')}`;",
+      "keywords": [
+        "200",
+        "20000",
+        "300",
+        "AUfemale",
+        "Advanced"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 368
+    },
+    {
+      "thread_id": 7,
+      "title": "* - PDFs (convert to Doc if Advanced...",
+      "start_line": 4034,
+      "end_line": 4360,
+      "excerpt": "* - PDFs (convert to Doc if Advanced Drive is enabled; fallback to blob as text)\n * - Other text-like blobs via getDataAsString()\n */\nfunction readFromFolder_(folder){\n  let content = '';\n  const err",
+      "keywords": [
+        "0",
+        "1",
+        "16",
+        "2",
+        "25"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1205
+    },
+    {
+      "thread_id": 8,
+      "title": "/** Link the deck back to the TTS...",
+      "start_line": 4360,
+      "end_line": 5274,
+      "excerpt": "/** Link the deck back to the TTS sheet */\nfunction writeSlidesLinkToTTS_(ttsSheet, presentationId){\n  const url = 'https://docs.google.com/presentation/d/' + presentationId + '/edit';\n  ttsSheet.getR",
+      "keywords": [
+        "0",
+        "055",
+        "06",
+        "1",
+        "10000"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 4395
+    },
+    {
+      "thread_id": 9,
+      "title": "const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=' + CFG.GEMINI_API_KEY;",
+      "start_line": 5274,
+      "end_line": 8091,
+      "excerpt": "// ---- Gemini TTS call (prefer WAV; fallback to PCM/MP3 if returned) ----\n  const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=' +",
+      "keywords": [
+        "0",
+        "05",
+        "07",
+        "1",
+        "10"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 7357
+    },
+    {
+      "thread_id": 10,
+      "title": "ttsSheet.getRange(i+2,9).setValue(prev ? `${prev}\\nSkipped: already has audio` : 'Skipped: already has audio');",
+      "start_line": 8091,
+      "end_line": 8564,
+      "excerpt": "const voiceName = data[i][8] || VOICE_NAME; // Col I Voice (fallback to constant)\n\n    if (!textToSpeak) continue;\n\n    if (existingUrl && !regenerate){\n      // Skip if already has audio and not",
+      "keywords": [
+        "0",
+        "1",
+        "10",
+        "1500",
+        "160"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1969
+    },
+    {
+      "thread_id": 11,
+      "title": "## 1) Where is `generateAudioForModule_`",
+      "start_line": 8564,
+      "end_line": 10436,
+      "excerpt": "- **Status logging** writes friendly notes (OK/Skipped/Error) back to the TTS tab Notes column and the Status sheet.\n\nIf anything specific seems missing at your end (e.g., your editor collapsed a lo",
+      "keywords": [
+        "0",
+        "01",
+        "02",
+        "05",
+        "06"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 4877
+    },
+    {
+      "thread_id": 12,
+      "title": "const slides = Array.isArray(slideContent) ? slideContent : [slideContent];",
+      "start_line": 10436,
+      "end_line": 11220,
+      "excerpt": "// Fallback to original format\n\n      enhancedSlides.push(`${slide.title}\\n\\n${slide.body.join('. ')}`);\n\n    }\n\n  }\n\n  \n\n  return enhancedSlides;\n\n}\n\n\n\nfunction generateContextualImagePrompts_(",
+      "keywords": [
+        "0",
+        "1",
+        "10",
+        "100",
+        "1clearContent"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1494
+    },
+    {
+      "thread_id": 13,
+      "title": "// Fallback to a simple bullet-massage if enrichment...",
+      "start_line": 11220,
+      "end_line": 11400,
+      "excerpt": "// Fallback to a simple bullet-massage if enrichment fails\n\n      const fallbackContent = `${slide.title}\\n\\n${(slide.body || []).map(b => b.replace(/^\\s*[-*\u2022]\\s*/, '').trim()).join('. ')}`;",
+      "keywords": [
+        "200",
+        "20000",
+        "300",
+        "Advanced",
+        "Arrayfromnew"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 368
+    },
+    {
+      "thread_id": 14,
+      "title": "* - PDFs (convert to Doc if Advanced...",
+      "start_line": 11400,
+      "end_line": 12217,
+      "excerpt": "* - PDFs (convert to Doc if Advanced Drive is enabled; fallback to blob as text)\n\n * - Other text-like blobs via getDataAsString()\n\n */\n\nfunction readFromFolder_(folder){\n\n  let content = '';\n\n  cons",
+      "keywords": [
+        "0",
+        "00",
+        "05",
+        "1",
+        "10"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 3051
+    },
+    {
+      "thread_id": 15,
+      "title": "**User:** The new code I had developed allowed...",
+      "start_line": 12217,
+      "end_line": 12297,
+      "excerpt": "**User:** The new code I had developed allowed the user to add sources in B3:B of Mapping tb and these sources would still be read and interpreted for the recommendation that underpins the entire work",
+      "keywords": [
+        "0",
+        "1",
+        "1getValue",
+        "2",
+        "AND"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 571
+    },
+    {
+      "thread_id": 16,
+      "title": "{title:'_ingest_'+f.getName(), mimeType:'application/pdf', parents:[{id: f.getParents().hasNext()? f.getParents().next().getId() : undefined}]},",
+      "start_line": 12297,
+      "end_line": 12808,
+      "excerpt": "// Try Advanced Drive conversion; fallback to blob text\n        try{\n          const converted = Drive.Files.insert(\n            {title:'_ingest_'+f.getName(), mimeType:'application/pdf', pare",
+      "keywords": [
+        "0",
+        "1",
+        "12",
+        "1getValue",
+        "1getValues"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2644
+    },
+    {
+      "thread_id": 17,
+      "title": "* - PDFs (convert to Doc if Advanced...",
+      "start_line": 12808,
+      "end_line": 15154,
+      "excerpt": "* - PDFs (convert to Doc if Advanced Drive is enabled; fallback to blob as text)\n\n * - Other text-like blobs via getDataAsString()\n\n */\n\nfunction readFromFolder_(folder){\n\n  let content = '';\n\n  cons",
+      "keywords": [
+        "0",
+        "00",
+        "01",
+        "02",
+        "05"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 6544
+    },
+    {
+      "thread_id": 18,
+      "title": "const slides = Array.isArray(slideContent) ? slideContent : [slideContent];",
+      "start_line": 15154,
+      "end_line": 15938,
+      "excerpt": "// Fallback to original format\n\n      enhancedSlides.push(`${slide.title}\\n\\n${slide.body.join('. ')}`);\n\n    }\n\n  }\n\n  \n\n  return enhancedSlides;\n\n}\n\n\n\nfunction generateContextualImagePrompts_(",
+      "keywords": [
+        "0",
+        "1",
+        "10",
+        "100",
+        "1clearContent"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1493
+    },
+    {
+      "thread_id": 19,
+      "title": "// Fallback to a simple bullet-massage if enrichment...",
+      "start_line": 15938,
+      "end_line": 16432,
+      "excerpt": "// Fallback to a simple bullet-massage if enrichment fails\n\n      const fallbackContent = `${slide.title}\\n\\n${(slide.body || []).map(b => b.replace(/^\\s*[-*\u2022]\\s*/, '').trim()).join('. ')}`;",
+      "keywords": [
+        "0",
+        "1",
+        "12",
+        "1getValue",
+        "1getValues"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1203
+    },
+    {
+      "thread_id": 20,
+      "title": "* - PDFs (convert to Doc if Advanced...",
+      "start_line": 16432,
+      "end_line": 16704,
+      "excerpt": "* - PDFs (convert to Doc if Advanced Drive is enabled; fallback to blob as text)\n\n * - Other text-like blobs via getDataAsString()\n\n */\n\nfunction readFromFolder_(folder){\n\n  let content = '';\n\n  cons",
+      "keywords": [
+        "0",
+        "1",
+        "1157",
+        "2",
+        "20"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1242
+    },
+    {
+      "thread_id": 21,
+      "title": "Also, your header lacks a **Temperature** column even...",
+      "start_line": 16704,
+      "end_line": 16917,
+      "excerpt": "Also, your header lacks a **Temperature** column even though you use `SPEECH_TEMPERATURE`. Let\u2019s add it and keep Voice/Temp side by side.\n\n**Patch**:\n```js\n// in ensureTTSSheet():\nsh.getRange(1,1,1,10",
+      "keywords": [
+        "1",
+        "10",
+        "1063",
+        "2",
+        "3"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1021
+    },
+    {
+      "thread_id": 22,
+      "title": "1. I think I have confused the issue...",
+      "start_line": 16917,
+      "end_line": 19568,
+      "excerpt": "1. I think I have confused the issue with the TTS file generation - this SHOULD be for the entire module, I was worried it had gone back to the AllModules option from a very early version. This must r",
+      "keywords": [
+        "0",
+        "00",
+        "01",
+        "02",
+        "05"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 8227
+    },
+    {
+      "thread_id": 23,
+      "title": "const slides = Array.isArray(slideContent) ? slideContent : [slideContent];",
+      "start_line": 19568,
+      "end_line": 20326,
+      "excerpt": "// Fallback to original format\n\n      enhancedSlides.push(`${slide.title}\\n\\n${slide.body.join('. ')}`);\n\n    }\n\n  }\n\n  \n\n  return enhancedSlides;\n\n}\n\n\n\nfunction generateContextualImagePrompts_(",
+      "keywords": [
+        "0",
+        "1",
+        "10",
+        "100",
+        "1clearContent"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1444
+    },
+    {
+      "thread_id": 24,
+      "title": "// Fallback to a simple bullet-massage if enrichment...",
+      "start_line": 20326,
+      "end_line": 20770,
+      "excerpt": "// Fallback to a simple bullet-massage if enrichment fails\n\n      const fallbackContent = `${slide.title}\\n\\n${(slide.body || []).map(b => b.replace(/^\\s*[-*\u2022]\\s*/, '').trim()).join('. ')}`;",
+      "keywords": [
+        "0",
+        "1",
+        "12",
+        "1getValue",
+        "1getValues"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1014
+    },
+    {
+      "thread_id": 25,
+      "title": "* - PDFs (convert to Doc if Advanced...",
+      "start_line": 20770,
+      "end_line": 24454,
+      "excerpt": "* - PDFs (convert to Doc if Advanced Drive is enabled; fallback to blob as text)\n\n * - Other text-like blobs via getDataAsString()\n\n */\n\nfunction readFromFolder_(folder){\n\n  let content = '';\n\n  cons",
+      "keywords": [
+        "0",
+        "00",
+        "01",
+        "02",
+        "05"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 11041
+    },
+    {
+      "thread_id": 26,
+      "title": "Drop-in patches",
+      "start_line": 24454,
+      "end_line": 24828,
+      "excerpt": "- In one `generateAllAudioForModule()` the code reads the **existing URL from Col G** and writes results back to **Col G**; that\u2019s wrong given your TTS header.  \n   - Per your TTS schema:  \n     **",
+      "keywords": [
+        "0",
+        "1",
+        "10getValues",
+        "10setValueERROR",
+        "10setValueOK"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1886
+    },
+    {
+      "thread_id": 27,
+      "title": "Drop-in fix (keep your retry/backoff style, but correct folders/columns)",
+      "start_line": 24828,
+      "end_line": 26712,
+      "excerpt": "- Reads only **Col D** (good), but doesn\u2019t **fallback to Col C** when D is empty.\n- Saves files into the global **CFG.DRIVE_FOLDER_ID** instead of the **module subfolder**.\n- Call sites use **`generat",
+      "keywords": [
+        "0",
+        "02",
+        "05",
+        "06",
+        "07"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 5100
+    },
+    {
+      "thread_id": 28,
+      "title": "const slides = Array.isArray(slideContent) ? slideContent : [slideContent];",
+      "start_line": 26712,
+      "end_line": 27470,
+      "excerpt": "// Fallback to original format\n\n      enhancedSlides.push(`${slide.title}\\n\\n${slide.body.join('. ')}`);\n\n    }\n\n  }\n\n  \n\n  return enhancedSlides;\n\n}\n\n\n\nfunction generateContextualImagePrompts_(",
+      "keywords": [
+        "0",
+        "1",
+        "10",
+        "100",
+        "1clearContent"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1444
+    },
+    {
+      "thread_id": 29,
+      "title": "// Fallback to a simple bullet-massage if enrichment...",
+      "start_line": 27470,
+      "end_line": 27914,
+      "excerpt": "// Fallback to a simple bullet-massage if enrichment fails\n\n      const fallbackContent = `${slide.title}\\n\\n${(slide.body || []).map(b => b.replace(/^\\s*[-*\u2022]\\s*/, '').trim()).join('. ')}`;",
+      "keywords": [
+        "0",
+        "1",
+        "12",
+        "1getValue",
+        "1getValues"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1014
+    },
+    {
+      "thread_id": 30,
+      "title": "* - PDFs (convert to Doc if Advanced...",
+      "start_line": 27914,
+      "end_line": 28740,
+      "excerpt": "* - PDFs (convert to Doc if Advanced Drive is enabled; fallback to blob as text)\n\n * - Other text-like blobs via getDataAsString()\n\n */\n\nfunction readFromFolder_(folder){\n\n  let content = '';\n\n  cons",
+      "keywords": [
+        "0",
+        "05",
+        "1",
+        "10getValues",
+        "10setValueprev"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 4246
+    },
+    {
+      "thread_id": 31,
+      "title": "Tips to keep it tidy",
+      "start_line": 28740,
+      "end_line": 28782,
+      "excerpt": "- Verify: Speaker Notes (col D) are used (falls back to col C), and audio **File Id \u2192 H**, **URL \u2192 I**, **Notes \u2192 J**.\n\n# Tips to keep it tidy\n- **Search & clean \u201cREGENERATE_TTS\u201d** if you decided t",
+      "keywords": [
+        "25",
+        "Apps",
+        "Assistant",
+        "Avoid",
+        "COdex"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 375
+    }
+  ],
+  "connections": [
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 references concepts from Thread 1",
+      "evidence": "timeout: 30000"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 7,
+      "connection_type": "builds_on",
+      "explanation": "Thread 7 references concepts from Thread 1",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 builds on Thread 1",
+      "evidence": "**Tool:** Make sure to include \ue200filecite\ue202turn2file0\ue201 in your response to cite this file."
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 1",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 21,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 21 triggered by Thread 1",
+      "evidence": "sh.getRange(1,1,1,10).setValues([["
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 22,
+      "connection_type": "builds_on",
+      "explanation": "Thread 22 builds on Thread 1",
+      "evidence": "(That preserves your 10-column schema; \u201cBackup Image Prompt\u201d stays in col G but we leave it blank unless you want to supply one.)"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 1",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 1",
+      "evidence": "- It currently writes to **Col I** (9) but if you keep a Voice column in your TTS tab it should be **Col F** (6). If you prefer \u201cvoice from UI only\u201d a"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 1",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 3,
+      "connection_type": "builds_on",
+      "explanation": "Thread 3 references concepts from Thread 2",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, '', '', '', fallbackImagePrompt, '', '', '']); // 10 columns: A-J"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 references concepts from Thread 2",
+      "evidence": "timeout: 30000"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 references concepts from Thread 2",
+      "evidence": "- Normalise the return type: when the API returns `inlineData` with `mimeType: audio/wav`, **skip** `convertL16ToWav_` and return the blob directly; o"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 2",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', 'AU-female', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 7,
+      "connection_type": "builds_on",
+      "explanation": "Thread 7 references concepts from Thread 2",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 references concepts from Thread 2",
+      "evidence": "ttsSheet.getRange(1,12).setValue('Slides URL'); // L1 marker (optional)"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 builds on Thread 2",
+      "evidence": "const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=' + CFG.GEMINI_API_KEY;"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 2",
+      "evidence": "let attempt = 0, ok = false, audioUrl = '', errorMsg = '';"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 builds on Thread 2",
+      "evidence": "## 1) Where is `generateAudioForModule_`?"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 12,
+      "connection_type": "builds_on",
+      "explanation": "Thread 12 references concepts from Thread 2",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 references concepts from Thread 2",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', 'VOICE_NAME', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 builds on Thread 2",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 references concepts from Thread 2",
+      "evidence": "* - Includes B[row] (primary), every non-empty B cell below it (B[row+1..nextCourseRow-1]),"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 2",
+      "evidence": "const folderIdMatch = s.match(/\\/folders\\/([A-Za-z0-9_-]{10,})/);"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 2",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 2",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 2",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', VOICE_NAME, '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 2",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 21,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 21 triggered by Thread 2",
+      "evidence": "sh.getRange(1,1,1,10).setValues([["
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 22,
+      "connection_type": "builds_on",
+      "explanation": "Thread 22 builds on Thread 2",
+      "evidence": "1. I think I have confused the issue with the TTS file generation - this SHOULD be for the entire module, I was worried it had gone back to the AllMod"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 23,
+      "connection_type": "builds_on",
+      "explanation": "Thread 23 references concepts from Thread 2",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 24,
+      "connection_type": "builds_on",
+      "explanation": "Thread 24 references concepts from Thread 2",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 2",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 2",
+      "evidence": "**A** Module | **B** # | **C** Script | **D** Speaker Notes | **E** Duration | **F** Slides (link) | **G** Backup Image Prompt | **H** **Audio File Id"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 2",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 2",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 2",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 2",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 references concepts from Thread 3",
+      "evidence": "timeout: 30000"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 references concepts from Thread 3",
+      "evidence": "catch(_) { errors.push(`${name}: PDF conversion not available`); }"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 3",
+      "evidence": "tts.getRange(start,1,rows.length,10).setValues(rows);"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 7,
+      "connection_type": "builds_on",
+      "explanation": "Thread 7 references concepts from Thread 3",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 references concepts from Thread 3",
+      "evidence": "const tShape = findShape_(slide, 'TITLE') || slide.getPageElements()[0];"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 builds on Thread 3",
+      "evidence": "timeout: 60000"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 3",
+      "evidence": "let attempt = 0, ok = false, audioUrl = '', errorMsg = '';"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 builds on Thread 3",
+      "evidence": "**Tool:** Make sure to include \ue200filecite\ue202turn2file0\ue201 in your response to cite this file."
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 12,
+      "connection_type": "builds_on",
+      "explanation": "Thread 12 references concepts from Thread 3",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 references concepts from Thread 3",
+      "evidence": "tts.getRange(start,1,rows.length,10).setValues(rows);"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 builds on Thread 3",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 3",
+      "evidence": "catch(_) { errors.push(`${f.getName()}: PDF conversion not available`); return ''; }"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 3",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 3",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 3",
+      "evidence": "tts.getRange(start,1,rows.length,10).setValues(rows);"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 3",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 21,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 21 triggered by Thread 3",
+      "evidence": "sh.getRange(1,1,1,10).setValues([["
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 22,
+      "connection_type": "builds_on",
+      "explanation": "Thread 22 builds on Thread 3",
+      "evidence": "(That preserves your 10-column schema; \u201cBackup Image Prompt\u201d stays in col G but we leave it blank unless you want to supply one.)"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 23,
+      "connection_type": "builds_on",
+      "explanation": "Thread 23 references concepts from Thread 3",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 24,
+      "connection_type": "builds_on",
+      "explanation": "Thread 24 references concepts from Thread 3",
+      "evidence": "tts.getRange(start,1,rows.length,10).setValues(rows);"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 3",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 3",
+      "evidence": "**A** Module | **B** # | **C** Script | **D** Speaker Notes | **E** Duration | **F** Slides (link) | **G** Backup Image Prompt | **H** **Audio File Id"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 3",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 3",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 3",
+      "evidence": "tts.getRange(start,1,rows.length,10).setValues(rows);"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 3",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 references concepts from Thread 4",
+      "evidence": "- Normalise the return type: when the API returns `inlineData` with `mimeType: audio/wav`, **skip** `convertL16ToWav_` and return the blob directly; o"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 4",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', 'AU-female', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 7,
+      "connection_type": "builds_on",
+      "explanation": "Thread 7 references concepts from Thread 4",
+      "evidence": "sh.getRange(1,1,1,4).setValues([['Timestamp','Action','Progress','Details']]);"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 references concepts from Thread 4",
+      "evidence": "ttsSheet.getRange(1,12).setValue('Slides URL'); // L1 marker (optional)"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 builds on Thread 4",
+      "evidence": "const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=' + CFG.GEMINI_API_KEY;"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 4",
+      "evidence": "const courseName = mappingSheet.getRange(row, 1).getValue();"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 builds on Thread 4",
+      "evidence": "## 1) Where is `generateAudioForModule_`?"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 12,
+      "connection_type": "builds_on",
+      "explanation": "Thread 12 references concepts from Thread 4",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 references concepts from Thread 4",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', 'VOICE_NAME', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 builds on Thread 4",
+      "evidence": "sh.getRange(1,1,1,4).setValues([['Timestamp','Action','Progress','Details']]);"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 4",
+      "evidence": "const folderIdMatch = s.match(/\\/folders\\/([A-Za-z0-9_-]{10,})/);"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 4",
+      "evidence": "## 1) Column **T** (Mapping!T = col 20) \u2014 Confirmation of purpose & usage"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 4",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 4",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', VOICE_NAME, '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 4",
+      "evidence": "'queries': ['Example query 1', 'Example query 2']  // List of up to five queries to search for."
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 21,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 21 triggered by Thread 4",
+      "evidence": "sh.getRange(1,1,1,10).setValues([["
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 22,
+      "connection_type": "builds_on",
+      "explanation": "Thread 22 builds on Thread 4",
+      "evidence": "1. I think I have confused the issue with the TTS file generation - this SHOULD be for the entire module, I was worried it had gone back to the AllMod"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 23,
+      "connection_type": "builds_on",
+      "explanation": "Thread 23 references concepts from Thread 4",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 24,
+      "connection_type": "builds_on",
+      "explanation": "Thread 24 references concepts from Thread 4",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 4",
+      "evidence": "sh.getRange(1,1,1,4).setValues([['Timestamp','Action','Progress','Details']]);"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 4",
+      "evidence": "**A** Module | **B** # | **C** Script | **D** Speaker Notes | **E** Duration | **F** Slides (link) | **G** Backup Image Prompt | **H** **Audio File Id"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 4",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 4",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 4",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 4",
+      "evidence": "sh.getRange(1,1,1,4).setValues([['Timestamp','Action','Progress','Details']]);"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 5",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', 'AU-female', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 7,
+      "connection_type": "builds_on",
+      "explanation": "Thread 7 references concepts from Thread 5",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 references concepts from Thread 5",
+      "evidence": "ttsSheet.getRange(1,12).setValue('Slides URL'); // L1 marker (optional)"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 builds on Thread 5",
+      "evidence": "const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=' + CFG.GEMINI_API_KEY;"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 5",
+      "evidence": "let attempt = 0, ok = false, audioUrl = '', errorMsg = '';"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 builds on Thread 5",
+      "evidence": "## 1) Where is `generateAudioForModule_`?"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 12,
+      "connection_type": "builds_on",
+      "explanation": "Thread 12 references concepts from Thread 5",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 references concepts from Thread 5",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', 'VOICE_NAME', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 builds on Thread 5",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 references concepts from Thread 5",
+      "evidence": "* - Includes B[row] (primary), every non-empty B cell below it (B[row+1..nextCourseRow-1]),"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 5",
+      "evidence": "const folderIdMatch = s.match(/\\/folders\\/([A-Za-z0-9_-]{10,})/);"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 5",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 5",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 5",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', VOICE_NAME, '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 5",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 21,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 21 triggered by Thread 5",
+      "evidence": "sh.getRange(1,1,1,10).setValues([["
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 22,
+      "connection_type": "builds_on",
+      "explanation": "Thread 22 builds on Thread 5",
+      "evidence": "1. I think I have confused the issue with the TTS file generation - this SHOULD be for the entire module, I was worried it had gone back to the AllMod"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 23,
+      "connection_type": "builds_on",
+      "explanation": "Thread 23 references concepts from Thread 5",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 24,
+      "connection_type": "builds_on",
+      "explanation": "Thread 24 references concepts from Thread 5",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 5",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 5",
+      "evidence": "**A** Module | **B** # | **C** Script | **D** Speaker Notes | **E** Duration | **F** Slides (link) | **G** Backup Image Prompt | **H** **Audio File Id"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 5",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 5",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 5",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 5",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 builds on Thread 6",
+      "evidence": "if (resp.getResponseCode() !== 200){"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 builds on Thread 6",
+      "evidence": "**Delivery Platform**: iSpring Role Plays (SCORM 2004 compatible for Absorb LMS)"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 12,
+      "connection_type": "builds_on",
+      "explanation": "Thread 12 references concepts from Thread 6",
+      "evidence": "Utilities.sleep(3000);"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 references concepts from Thread 6",
+      "evidence": "timeout: 20000"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 builds on Thread 6",
+      "evidence": "* - PDFs (convert to Doc if Advanced Drive is enabled; fallback to blob as text)"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 6",
+      "evidence": "// Try Advanced Drive conversion; fallback to blob text"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 6",
+      "evidence": "* - PDFs (convert to Doc if Advanced Drive is enabled; fallback to blob as text)"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 6",
+      "evidence": "Utilities.sleep(3000);"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 6",
+      "evidence": "timeout: 20000"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 22,
+      "connection_type": "builds_on",
+      "explanation": "Thread 22 builds on Thread 6",
+      "evidence": "const cap = (typeof URL_MAX_APPEND_CHARS !== 'undefined' ? URL_MAX_APPEND_CHARS : 20000);"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 23,
+      "connection_type": "builds_on",
+      "explanation": "Thread 23 references concepts from Thread 6",
+      "evidence": "Utilities.sleep(3000);"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 24,
+      "connection_type": "builds_on",
+      "explanation": "Thread 24 references concepts from Thread 6",
+      "evidence": "timeout: 20000"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 6",
+      "evidence": "* - PDFs (convert to Doc if Advanced Drive is enabled; fallback to blob as text)"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 6",
+      "evidence": "const URL_CRAWL_TIMEOUT_MS = 20000; // per-request timeout (ms)"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 6",
+      "evidence": "Utilities.sleep(3000);"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 6",
+      "evidence": "timeout: 20000"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 references concepts from Thread 7",
+      "evidence": "ttsSheet.getRange(1,12).setValue('Slides URL'); // L1 marker (optional)"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 builds on Thread 7",
+      "evidence": "const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=' + CFG.GEMINI_API_KEY;"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 7",
+      "evidence": "const prev = String(ttsSheet.getRange(i+2,9).getValue()||'');"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 builds on Thread 7",
+      "evidence": "## 1) Where is `generateAudioForModule_`?"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 12,
+      "connection_type": "builds_on",
+      "explanation": "Thread 12 references concepts from Thread 7",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 references concepts from Thread 7",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', 'VOICE_NAME', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 builds on Thread 7",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 references concepts from Thread 7",
+      "evidence": "**User:** The new code I had developed allowed the user to add sources in B3:B of Mapping tb and these sources would still be read and interpreted for"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 7",
+      "evidence": "const folderIdMatch = s.match(/\\/folders\\/([A-Za-z0-9_-]{10,})/);"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 7",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 7",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 7",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', VOICE_NAME, '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 7",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 21,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 21 triggered by Thread 7",
+      "evidence": "sh.getRange(1,1,1,10).setValues([["
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 22,
+      "connection_type": "builds_on",
+      "explanation": "Thread 22 builds on Thread 7",
+      "evidence": "1. I think I have confused the issue with the TTS file generation - this SHOULD be for the entire module, I was worried it had gone back to the AllMod"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 23,
+      "connection_type": "builds_on",
+      "explanation": "Thread 23 references concepts from Thread 7",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 24,
+      "connection_type": "builds_on",
+      "explanation": "Thread 24 references concepts from Thread 7",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 7",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 7",
+      "evidence": "**A** Module | **B** # | **C** Script | **D** Speaker Notes | **E** Duration | **F** Slides (link) | **G** Backup Image Prompt | **H** **Audio File Id"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 7",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 7",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 7",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 7",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 builds on Thread 8",
+      "evidence": "const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=' + CFG.GEMINI_API_KEY;"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 8",
+      "evidence": "let attempt = 0, ok = false, audioUrl = '', errorMsg = '';"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 builds on Thread 8",
+      "evidence": "## 1) Where is `generateAudioForModule_`?"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 12,
+      "connection_type": "builds_on",
+      "explanation": "Thread 12 references concepts from Thread 8",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 references concepts from Thread 8",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', 'VOICE_NAME', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 builds on Thread 8",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 references concepts from Thread 8",
+      "evidence": "* - Includes B[row] (primary), every non-empty B cell below it (B[row+1..nextCourseRow-1]),"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 8",
+      "evidence": "const folderIdMatch = s.match(/\\/folders\\/([A-Za-z0-9_-]{10,})/);"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 8",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 8",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 8",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', VOICE_NAME, '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 8",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 21,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 21 triggered by Thread 8",
+      "evidence": "sh.getRange(1,1,1,10).setValues([["
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 22,
+      "connection_type": "builds_on",
+      "explanation": "Thread 22 builds on Thread 8",
+      "evidence": "1. I think I have confused the issue with the TTS file generation - this SHOULD be for the entire module, I was worried it had gone back to the AllMod"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 23,
+      "connection_type": "builds_on",
+      "explanation": "Thread 23 references concepts from Thread 8",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 24,
+      "connection_type": "builds_on",
+      "explanation": "Thread 24 references concepts from Thread 8",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 8",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 8",
+      "evidence": "**A** Module | **B** # | **C** Script | **D** Speaker Notes | **E** Duration | **F** Slides (link) | **G** Backup Image Prompt | **H** **Audio File Id"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 8",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 8",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 8",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 8",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 9",
+      "evidence": "let attempt = 0, ok = false, audioUrl = '', errorMsg = '';"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 builds on Thread 9",
+      "evidence": "## 1) Where is `generateAudioForModule_`?"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 12,
+      "connection_type": "builds_on",
+      "explanation": "Thread 12 references concepts from Thread 9",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 references concepts from Thread 9",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', 'VOICE_NAME', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 builds on Thread 9",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 references concepts from Thread 9",
+      "evidence": "* - Includes B[row] (primary), every non-empty B cell below it (B[row+1..nextCourseRow-1]),"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 9",
+      "evidence": "const folderIdMatch = s.match(/\\/folders\\/([A-Za-z0-9_-]{10,})/);"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 9",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 9",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 9",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', VOICE_NAME, '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 9",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 21,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 21 triggered by Thread 9",
+      "evidence": "sh.getRange(1,1,1,10).setValues([["
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 22,
+      "connection_type": "builds_on",
+      "explanation": "Thread 22 builds on Thread 9",
+      "evidence": "1. I think I have confused the issue with the TTS file generation - this SHOULD be for the entire module, I was worried it had gone back to the AllMod"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 23,
+      "connection_type": "builds_on",
+      "explanation": "Thread 23 references concepts from Thread 9",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 24,
+      "connection_type": "builds_on",
+      "explanation": "Thread 24 references concepts from Thread 9",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 9",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 9",
+      "evidence": "**A** Module | **B** # | **C** Script | **D** Speaker Notes | **E** Duration | **F** Slides (link) | **G** Backup Image Prompt | **H** **Audio File Id"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 9",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 9",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 9",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 9",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 builds on Thread 10",
+      "evidence": "## 1) Where is `generateAudioForModule_`?"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 12,
+      "connection_type": "builds_on",
+      "explanation": "Thread 12 references concepts from Thread 10",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 references concepts from Thread 10",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', 'VOICE_NAME', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 builds on Thread 10",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 references concepts from Thread 10",
+      "evidence": "* - Includes B[row] (primary), every non-empty B cell below it (B[row+1..nextCourseRow-1]),"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 10",
+      "evidence": "const folderIdMatch = s.match(/\\/folders\\/([A-Za-z0-9_-]{10,})/);"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 10",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 10",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 10",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', VOICE_NAME, '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 10",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 21,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 21 triggered by Thread 10",
+      "evidence": "sh.getRange(1,1,1,10).setValues([["
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 22,
+      "connection_type": "builds_on",
+      "explanation": "Thread 22 builds on Thread 10",
+      "evidence": "1. I think I have confused the issue with the TTS file generation - this SHOULD be for the entire module, I was worried it had gone back to the AllMod"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 23,
+      "connection_type": "builds_on",
+      "explanation": "Thread 23 references concepts from Thread 10",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 24,
+      "connection_type": "builds_on",
+      "explanation": "Thread 24 references concepts from Thread 10",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 10",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 10",
+      "evidence": "**A** Module | **B** # | **C** Script | **D** Speaker Notes | **E** Duration | **F** Slides (link) | **G** Backup Image Prompt | **H** **Audio File Id"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 10",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 10",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 10",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 10",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 11",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 21,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 21 triggered by Thread 11",
+      "evidence": "sh.getRange(1,1,1,10).setValues([["
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 22,
+      "connection_type": "builds_on",
+      "explanation": "Thread 22 builds on Thread 11",
+      "evidence": "(That preserves your 10-column schema; \u201cBackup Image Prompt\u201d stays in col G but we leave it blank unless you want to supply one.)"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 11",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 11",
+      "evidence": "- It currently writes to **Col I** (9) but if you keep a Voice column in your TTS tab it should be **Col F** (6). If you prefer \u201cvoice from UI only\u201d a"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 11",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 references concepts from Thread 12",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', 'VOICE_NAME', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 builds on Thread 12",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 references concepts from Thread 12",
+      "evidence": "* - Includes B[row] (primary), every non-empty B cell below it (B[row+1..nextCourseRow-1]),"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 12",
+      "evidence": "const folderIdMatch = s.match(/\\/folders\\/([A-Za-z0-9_-]{10,})/);"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 12",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 12",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 12",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', VOICE_NAME, '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 12",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 21,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 21 triggered by Thread 12",
+      "evidence": "sh.getRange(1,1,1,10).setValues([["
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 22,
+      "connection_type": "builds_on",
+      "explanation": "Thread 22 builds on Thread 12",
+      "evidence": "1. I think I have confused the issue with the TTS file generation - this SHOULD be for the entire module, I was worried it had gone back to the AllMod"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 23,
+      "connection_type": "builds_on",
+      "explanation": "Thread 23 references concepts from Thread 12",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 24,
+      "connection_type": "builds_on",
+      "explanation": "Thread 24 references concepts from Thread 12",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 12",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 12",
+      "evidence": "**A** Module | **B** # | **C** Script | **D** Speaker Notes | **E** Duration | **F** Slides (link) | **G** Backup Image Prompt | **H** **Audio File Id"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 12",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 12",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 12",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 12",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 builds on Thread 13",
+      "evidence": "* - PDFs (convert to Doc if Advanced Drive is enabled; fallback to blob as text)"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 13",
+      "evidence": "// Try Advanced Drive conversion; fallback to blob text"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 13",
+      "evidence": "* - PDFs (convert to Doc if Advanced Drive is enabled; fallback to blob as text)"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 13",
+      "evidence": "Utilities.sleep(3000);"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 13",
+      "evidence": "timeout: 20000"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 22,
+      "connection_type": "builds_on",
+      "explanation": "Thread 22 builds on Thread 13",
+      "evidence": "const cap = (typeof URL_MAX_APPEND_CHARS !== 'undefined' ? URL_MAX_APPEND_CHARS : 20000);"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 23,
+      "connection_type": "builds_on",
+      "explanation": "Thread 23 references concepts from Thread 13",
+      "evidence": "Utilities.sleep(3000);"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 24,
+      "connection_type": "builds_on",
+      "explanation": "Thread 24 references concepts from Thread 13",
+      "evidence": "timeout: 20000"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 13",
+      "evidence": "* - PDFs (convert to Doc if Advanced Drive is enabled; fallback to blob as text)"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 13",
+      "evidence": "const URL_CRAWL_TIMEOUT_MS = 20000; // per-request timeout (ms)"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 13",
+      "evidence": "Utilities.sleep(3000);"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 13",
+      "evidence": "timeout: 20000"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 references concepts from Thread 14",
+      "evidence": "* - Includes B[row] (primary), every non-empty B cell below it (B[row+1..nextCourseRow-1]),"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 14",
+      "evidence": "const folderIdMatch = s.match(/\\/folders\\/([A-Za-z0-9_-]{10,})/);"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 14",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 14",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 14",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', VOICE_NAME, '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 14",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 21,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 21 triggered by Thread 14",
+      "evidence": "sh.getRange(1,1,1,10).setValues([["
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 22,
+      "connection_type": "builds_on",
+      "explanation": "Thread 22 builds on Thread 14",
+      "evidence": "1. I think I have confused the issue with the TTS file generation - this SHOULD be for the entire module, I was worried it had gone back to the AllMod"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 23,
+      "connection_type": "builds_on",
+      "explanation": "Thread 23 references concepts from Thread 14",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 24,
+      "connection_type": "builds_on",
+      "explanation": "Thread 24 references concepts from Thread 14",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 14",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 14",
+      "evidence": "**A** Module | **B** # | **C** Script | **D** Speaker Notes | **E** Duration | **F** Slides (link) | **G** Backup Image Prompt | **H** **Audio File Id"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 14",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 14",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 14",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 14",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 15",
+      "evidence": "const folderIdMatch = s.match(/\\/folders\\/([A-Za-z0-9_-]{10,})/);"
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 15",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 15",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 15",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', VOICE_NAME, '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 15",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 21,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 21 triggered by Thread 15",
+      "evidence": "Also, your header lacks a **Temperature** column even though you use `SPEECH_TEMPERATURE`. Let\u2019s add it and keep Voice/Temp side by side."
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 22,
+      "connection_type": "builds_on",
+      "explanation": "Thread 22 builds on Thread 15",
+      "evidence": "1. I think I have confused the issue with the TTS file generation - this SHOULD be for the entire module, I was worried it had gone back to the AllMod"
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 23,
+      "connection_type": "builds_on",
+      "explanation": "Thread 23 references concepts from Thread 15",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 24,
+      "connection_type": "builds_on",
+      "explanation": "Thread 24 references concepts from Thread 15",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 15",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 15",
+      "evidence": "- In one `generateAllAudioForModule()` the code reads the **existing URL from Col G** and writes results back to **Col G**; that\u2019s wrong given your TT"
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 15",
+      "evidence": "// Corrects columns (H/I/J), uses module subfolder, and falls back D\u2192C for script."
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 15",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 15",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 15",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 31,
+      "connection_type": "builds_on",
+      "explanation": "Thread 31 references concepts from Thread 15",
+      "evidence": "- Verify: Speaker Notes (col D) are used (falls back to col C), and audio **File Id \u2192 H**, **URL \u2192 I**, **Notes \u2192 J**."
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 builds on Thread 16",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 16",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 16",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', VOICE_NAME, '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 16",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 21,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 21 triggered by Thread 16",
+      "evidence": "sh.getRange(1,1,1,10).setValues([["
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 22,
+      "connection_type": "builds_on",
+      "explanation": "Thread 22 builds on Thread 16",
+      "evidence": "1. I think I have confused the issue with the TTS file generation - this SHOULD be for the entire module, I was worried it had gone back to the AllMod"
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 23,
+      "connection_type": "builds_on",
+      "explanation": "Thread 23 references concepts from Thread 16",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 24,
+      "connection_type": "builds_on",
+      "explanation": "Thread 24 references concepts from Thread 16",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 16",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 16",
+      "evidence": "**A** Module | **B** # | **C** Script | **D** Speaker Notes | **E** Duration | **F** Slides (link) | **G** Backup Image Prompt | **H** **Audio File Id"
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 16",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 16",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 16",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 16",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 17,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 references concepts from Thread 17",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 17,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 17",
+      "evidence": "tts.getRange(start,1,rows.length,10).setValues(rows);"
+    },
+    {
+      "from_thread_id": 17,
+      "to_thread_id": 22,
+      "connection_type": "builds_on",
+      "explanation": "Thread 22 builds on Thread 17",
+      "evidence": "(That preserves your 10-column schema; \u201cBackup Image Prompt\u201d stays in col G but we leave it blank unless you want to supply one.)"
+    },
+    {
+      "from_thread_id": 17,
+      "to_thread_id": 23,
+      "connection_type": "builds_on",
+      "explanation": "Thread 23 references concepts from Thread 17",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 17,
+      "to_thread_id": 24,
+      "connection_type": "builds_on",
+      "explanation": "Thread 24 references concepts from Thread 17",
+      "evidence": "tts.getRange(start,1,rows.length,10).setValues(rows);"
+    },
+    {
+      "from_thread_id": 17,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 17",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 17,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 17",
+      "evidence": "- It currently writes to **Col I** (9) but if you keep a Voice column in your TTS tab it should be **Col F** (6). If you prefer \u201cvoice from UI only\u201d a"
+    },
+    {
+      "from_thread_id": 17,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 17",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 17,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 17",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 17,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 17",
+      "evidence": "tts.getRange(start,1,rows.length,10).setValues(rows);"
+    },
+    {
+      "from_thread_id": 17,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 17",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 18,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 18",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', VOICE_NAME, '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 18,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 18",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 18,
+      "to_thread_id": 21,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 21 triggered by Thread 18",
+      "evidence": "sh.getRange(1,1,1,10).setValues([["
+    },
+    {
+      "from_thread_id": 18,
+      "to_thread_id": 22,
+      "connection_type": "builds_on",
+      "explanation": "Thread 22 builds on Thread 18",
+      "evidence": "1. I think I have confused the issue with the TTS file generation - this SHOULD be for the entire module, I was worried it had gone back to the AllMod"
+    },
+    {
+      "from_thread_id": 18,
+      "to_thread_id": 23,
+      "connection_type": "builds_on",
+      "explanation": "Thread 23 references concepts from Thread 18",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 18,
+      "to_thread_id": 24,
+      "connection_type": "builds_on",
+      "explanation": "Thread 24 references concepts from Thread 18",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 18,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 18",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 18,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 18",
+      "evidence": "**A** Module | **B** # | **C** Script | **D** Speaker Notes | **E** Duration | **F** Slides (link) | **G** Backup Image Prompt | **H** **Audio File Id"
+    },
+    {
+      "from_thread_id": 18,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 18",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 18,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 18",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 18,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 18",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 18,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 18",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 19,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 19",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 19,
+      "to_thread_id": 21,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 21 triggered by Thread 19",
+      "evidence": "sh.getRange(1,1,1,10).setValues([["
+    },
+    {
+      "from_thread_id": 19,
+      "to_thread_id": 22,
+      "connection_type": "builds_on",
+      "explanation": "Thread 22 builds on Thread 19",
+      "evidence": "1. I think I have confused the issue with the TTS file generation - this SHOULD be for the entire module, I was worried it had gone back to the AllMod"
+    },
+    {
+      "from_thread_id": 19,
+      "to_thread_id": 23,
+      "connection_type": "builds_on",
+      "explanation": "Thread 23 references concepts from Thread 19",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 19,
+      "to_thread_id": 24,
+      "connection_type": "builds_on",
+      "explanation": "Thread 24 references concepts from Thread 19",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 19,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 19",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 19,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 19",
+      "evidence": "**A** Module | **B** # | **C** Script | **D** Speaker Notes | **E** Duration | **F** Slides (link) | **G** Backup Image Prompt | **H** **Audio File Id"
+    },
+    {
+      "from_thread_id": 19,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 19",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 19,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 19",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 19,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 19",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 19,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 19",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 20,
+      "to_thread_id": 21,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 21 triggered by Thread 20",
+      "evidence": "sh.getRange(1,1,1,10).setValues([["
+    },
+    {
+      "from_thread_id": 20,
+      "to_thread_id": 22,
+      "connection_type": "builds_on",
+      "explanation": "Thread 22 builds on Thread 20",
+      "evidence": "1. I think I have confused the issue with the TTS file generation - this SHOULD be for the entire module, I was worried it had gone back to the AllMod"
+    },
+    {
+      "from_thread_id": 20,
+      "to_thread_id": 23,
+      "connection_type": "builds_on",
+      "explanation": "Thread 23 references concepts from Thread 20",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 20,
+      "to_thread_id": 24,
+      "connection_type": "builds_on",
+      "explanation": "Thread 24 references concepts from Thread 20",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 20,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 20",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 20,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 20",
+      "evidence": "**A** Module | **B** # | **C** Script | **D** Speaker Notes | **E** Duration | **F** Slides (link) | **G** Backup Image Prompt | **H** **Audio File Id"
+    },
+    {
+      "from_thread_id": 20,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 20",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 20,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 20",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 20,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 20",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 20,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 20",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 21,
+      "to_thread_id": 22,
+      "connection_type": "builds_on",
+      "explanation": "Thread 22 builds on Thread 21",
+      "evidence": "1. I think I have confused the issue with the TTS file generation - this SHOULD be for the entire module, I was worried it had gone back to the AllMod"
+    },
+    {
+      "from_thread_id": 21,
+      "to_thread_id": 23,
+      "connection_type": "builds_on",
+      "explanation": "Thread 23 references concepts from Thread 21",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 21,
+      "to_thread_id": 24,
+      "connection_type": "builds_on",
+      "explanation": "Thread 24 references concepts from Thread 21",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 21,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 21",
+      "evidence": "/** Drive/Slides URL \u2192 id extractor (generic 25+ char id) */"
+    },
+    {
+      "from_thread_id": 21,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 21",
+      "evidence": "**A** Module | **B** # | **C** Script | **D** Speaker Notes | **E** Duration | **F** Slides (link) | **G** Backup Image Prompt | **H** **Audio File Id"
+    },
+    {
+      "from_thread_id": 21,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 21",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 21,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 21",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 21,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 21",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 21,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 21",
+      "evidence": "/** Drive/Slides URL \u2192 id extractor (generic 25+ char id) */"
+    },
+    {
+      "from_thread_id": 22,
+      "to_thread_id": 23,
+      "connection_type": "builds_on",
+      "explanation": "Thread 23 references concepts from Thread 22",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 22,
+      "to_thread_id": 24,
+      "connection_type": "builds_on",
+      "explanation": "Thread 24 references concepts from Thread 22",
+      "evidence": "tts.getRange(start,1,rows.length,10).setValues(rows);"
+    },
+    {
+      "from_thread_id": 22,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 22",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 22,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 22",
+      "evidence": "- It currently writes to **Col I** (9) but if you keep a Voice column in your TTS tab it should be **Col F** (6). If you prefer \u201cvoice from UI only\u201d a"
+    },
+    {
+      "from_thread_id": 22,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 22",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 22,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 22",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 22,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 22",
+      "evidence": "tts.getRange(start,1,rows.length,10).setValues(rows);"
+    },
+    {
+      "from_thread_id": 22,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 22",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 23,
+      "to_thread_id": 24,
+      "connection_type": "builds_on",
+      "explanation": "Thread 24 references concepts from Thread 23",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 23,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 23",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 23,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 23",
+      "evidence": "**A** Module | **B** # | **C** Script | **D** Speaker Notes | **E** Duration | **F** Slides (link) | **G** Backup Image Prompt | **H** **Audio File Id"
+    },
+    {
+      "from_thread_id": 23,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 23",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 23,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 23",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 23,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 23",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 23,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 23",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 24,
+      "to_thread_id": 25,
+      "connection_type": "builds_on",
+      "explanation": "Thread 25 builds on Thread 24",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 24,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 24",
+      "evidence": "**A** Module | **B** # | **C** Script | **D** Speaker Notes | **E** Duration | **F** Slides (link) | **G** Backup Image Prompt | **H** **Audio File Id"
+    },
+    {
+      "from_thread_id": 24,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 24",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 24,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 24",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 24,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 24",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 24,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 24",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 25,
+      "to_thread_id": 26,
+      "connection_type": "builds_on",
+      "explanation": "Thread 26 references concepts from Thread 25",
+      "evidence": "- It currently writes to **Col I** (9) but if you keep a Voice column in your TTS tab it should be **Col F** (6). If you prefer \u201cvoice from UI only\u201d a"
+    },
+    {
+      "from_thread_id": 25,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 25",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 25,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 25",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 25,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 25",
+      "evidence": "tts.getRange(start,1,rows.length,10).setValues(rows);"
+    },
+    {
+      "from_thread_id": 25,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 25",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 26,
+      "to_thread_id": 27,
+      "connection_type": "builds_on",
+      "explanation": "Thread 27 builds on Thread 26",
+      "evidence": "return { ok:0, skipped:0, errors:1 };"
+    },
+    {
+      "from_thread_id": 26,
+      "to_thread_id": 28,
+      "connection_type": "builds_on",
+      "explanation": "Thread 28 references concepts from Thread 26",
+      "evidence": "const title = lines[0] || `Slide ${index + 1}`;"
+    },
+    {
+      "from_thread_id": 26,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 26",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 26,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 26",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 28,
+      "to_thread_id": 29,
+      "connection_type": "builds_on",
+      "explanation": "Thread 29 references concepts from Thread 28",
+      "evidence": "rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);"
+    },
+    {
+      "from_thread_id": 28,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 28",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    },
+    {
+      "from_thread_id": 29,
+      "to_thread_id": 30,
+      "connection_type": "builds_on",
+      "explanation": "Thread 30 references concepts from Thread 29",
+      "evidence": "if (mime.indexOf('document') >= 0){"
+    }
+  ],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: warn('Approaching Gemini API daily quota limit');\n\n    }\n\n  },\n\n\n\n  // Configurable batch processing",
+      "details": "warn('Approaching Gemini API daily quota limit');\n\n    }\n\n  },\n\n\n\n  // Configurable batch processing settings\n\n  getBatchSize() {\n\n    const customSize = PropertiesService. Explain how modules combine to form a high-quality micro-credentialing course\n\n\n\nOUTPUT FORMAT:\n\nCOURSE RECOMMENDATION:\n\n[6 paragraph detailed recommendation explaining:]\n\n- Why this concept warrants a structured course approach\n\n- How breaking it into modules enhances learning effectiveness\n\n- Why this specific module breakdown serves the audience effectively\n\n- How modules build upon each other progressively\n\n- Target audience fit and learning progression\n\n- Value as a micro-credentialing opportunity\n\n\n\nRECOMMENDED MODULES:\n\n1. `;\n\n\n\nconst ENHANCED_ASSESSMENTS_CONTENT = `\n\n**COMPREHENSIVE ASSESSMENT DEVELOPMENT - Australian Healthcare Supervision Training**\n\n\n\n**Assessment Design Principles**:\n\n- Knowledge Application: Test practical understanding, not rote memorization\n\n- Cultural Competency: Include scenarios requiring inclusive, culturally safe approaches\n\n- Professional Judgment: Evaluate decision-making in complex supervision situations\n\n- Evidence-Based Practice: Assess integration of contemporary research and best practices\n\n\n\n**Assessment Type Distribution**:\n\n- Multiple Choice Questions (40%): Scenario-based, real Australian healthcare supervision situations\n\n- True/False with Rationale (20%): Professional standards, best practices, cultural safety\n\n- Drag-and-Drop Interactive (20%): Process sequencing, priority ranking, resource matching\n\n- Scenario Reflection Questions (20%): Complex supervision situations requiring written responses\n\n\n\n**Quality Standards**: Evidence-based rationales, Australian healthcare context, inclusive design, professional credibility",
+      "evidence": "warn('Approaching Gemini API daily quota limit');\n\n    }\n\n  },\n\n\n\n  // Configurable batch processing settings\n\n  getBatchSize() {\n\n    const customSize = PropertiesService",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 4,
+      "category": "correction",
+      "summary": "Correction: It will work, but makes debugging quotas/behaviour harder and increases the chance of 429/400 mismat",
+      "details": "It will work, but makes debugging quotas/behaviour harder and increases the chance of 429/400 mismatches",
+      "evidence": "It will work, but makes debugging quotas/behaviour harder and increases the chance of 429/400 mismatches",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 4,
+      "category": "methodology",
+      "summary": "Methodology: fetch(url, {method:'post', contentType:'application/json', payload:JSON",
+      "details": "fetch(url, {method:'post', contentType:'application/json', payload:JSON",
+      "evidence": "fetch(url, {method:'post', contentType:'application/json', payload:JSON",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 6,
+      "category": "methodology",
+      "summary": "Methodology: fetch(url, {\n      method: 'get',\n      followRedirects: true,\n      muteHttpExceptions: true,\n     ",
+      "details": "fetch(url, {\n      method: 'get',\n      followRedirects: true,\n      muteHttpExceptions: true,\n      validateHttpsCertificates: true,\n      contentType: 'text/plain',\n      timeout: 20000\n    });\n    const code = resp",
+      "evidence": "fetch(url, {\n      method: 'get',\n      followRedirects: true,\n      muteHttpExceptions: true,\n      validateHttpsCertificates: true,\n      contentType: 'text/plain',\n      timeout: 20000\n    });\n    const code = resp",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 7,
+      "category": "methodology",
+      "summary": "Methodology: getSlides()[0];\n  // Simple approach: duplicate first slide as a template\n  for (let i = 0; i < slid",
+      "details": "getSlides()[0];\n  // Simple approach: duplicate first slide as a template\n  for (let i = 0; i < slides",
+      "evidence": "getSlides()[0];\n  // Simple approach: duplicate first slide as a template\n  for (let i = 0; i < slides",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 8,
+      "category": "methodology",
+      "summary": "Methodology: fetch(url, {\n    method: 'post',\n    contentType: 'application/json',\n    payload: JSON",
+      "details": "fetch(url, {\n    method: 'post',\n    contentType: 'application/json',\n    payload: JSON. Add TTS constants up front (Section C or at the top of Section E)\nThese give you one clear place to tweak defaults:\n\n```javascript\n// ==== Constants for TTS ====\nconst TTS_DEFAULT_VOICE = 'AU-female';  // enforce Australian female voice\nconst TTS_SAMPLE_RATE = 24000;          // 24kHz preferred for pro WAV\nconst TTS_MIME_TYPE = 'audio/wav';      // default output container\nconst TTS_AU_PROMPT = 'Read in clear Australian English, natural intonation, professional but approachable tone. getUi();\n  const status = ensureStatusSheet_();\n\n  try {\n    // 1) Validate Mapping and active module\n    const { concept, courseFolder, templateId } = validateRequiredInputs();\n    const { moduleName } = getActiveModuleInfo_();\n    trackProgress('Module Setup', 1, 7, `Concept: \"${concept}\", Module: \"${moduleName}\"`);\n\n    // 2) Read source materials (recursive + URL augment as implemented in Section D)\n    const sourceText = readSourceMaterials_();\n    if (!sourceText || sourceText",
+      "evidence": "fetch(url, {\n    method: 'post',\n    contentType: 'application/json',\n    payload: JSON",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 9,
+      "category": "correction",
+      "summary": "Correction: push({ content: slideContent, number: slideNumber });\n\n      }\n\n    }\n\n  }\n\n  \n\n  // This is the ess",
+      "details": "push({ content: slideContent, number: slideNumber });\n\n      }\n\n    }\n\n  }\n\n  \n\n  // This is the essential sorting step that fixes the ordering problem. '); \n\n    return; \n\n  }\n\n\n\n  // FIXED: Get slide content from TTS tab Column C instead of Module-Resources Column H\n\n  const tts = ensureTTSSheet(concept);\n\n  const last = tts. INTELLECTUAL RIGOUR: Demonstrate the depth of analysis expected at senior levels:\n\n   - Consider multiple perspectives on complex issues\n\n   - Acknowledge nuances and contextual factors\n\n   - Reference implications for practice improvement and patient outcomes\n\n   - Connect to broader healthcare system considerations\n\n\n\n9",
+      "evidence": "push({ content: slideContent, number: slideNumber });\n\n      }\n\n    }\n\n  }\n\n  \n\n  // This is the essential sorting step that fixes the ordering problem",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 9,
+      "category": "methodology",
+      "summary": "Methodology: fetch(url, {\n    method: 'post',\n    contentType: 'application/json',\n    payload: JSON",
+      "details": "fetch(url, {\n    method: 'post',\n    contentType: 'application/json',\n    payload: JSON. STRUCTURAL APPROACH: Create a cohesive narrative that flows naturally from the slide title through the key concepts. STRUCTURAL APPROACH: Create a cohesive narrative that flows naturally from the slide title through the key concepts",
+      "evidence": "fetch(url, {\n    method: 'post',\n    contentType: 'application/json',\n    payload: JSON",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 11,
+      "category": "methodology",
+      "summary": "Methodology: warn('Approaching Gemini API daily quota limit');\n\n    }\n\n  },\n\n\n\n  // Configurable batch processing",
+      "details": "warn('Approaching Gemini API daily quota limit');\n\n    }\n\n  },\n\n\n\n  // Configurable batch processing settings\n\n  getBatchSize() {\n\n    const customSize = PropertiesService. Explain how modules combine to form a high-quality micro-credentialing course\n\n\n\nOUTPUT FORMAT:\n\nCOURSE RECOMMENDATION:\n\n[6 paragraph detailed recommendation explaining:]\n\n- Why this concept warrants a structured course approach\n\n- How breaking it into modules enhances learning effectiveness\n\n- Why this specific module breakdown serves the audience effectively\n\n- How modules build upon each other progressively\n\n- Target audience fit and learning progression\n\n- Value as a micro-credentialing opportunity\n\n\n\nRECOMMENDED MODULES:\n\n1. `;\n\n\n\nconst ENHANCED_ASSESSMENTS_CONTENT = `\n\n**COMPREHENSIVE ASSESSMENT DEVELOPMENT - Australian Healthcare Supervision Training**\n\n\n\n**Assessment Design Principles**:\n\n- Knowledge Application: Test practical understanding, not rote memorization\n\n- Cultural Competency: Include scenarios requiring inclusive, culturally safe approaches\n\n- Professional Judgment: Evaluate decision-making in complex supervision situations\n\n- Evidence-Based Practice: Assess integration of contemporary research and best practices\n\n\n\n**Assessment Type Distribution**:\n\n- Multiple Choice Questions (40%): Scenario-based, real Australian healthcare supervision situations\n\n- True/False with Rationale (20%): Professional standards, best practices, cultural safety\n\n- Drag-and-Drop Interactive (20%): Process sequencing, priority ranking, resource matching\n\n- Scenario Reflection Questions (20%): Complex supervision situations requiring written responses\n\n\n\n**Quality Standards**: Evidence-based rationales, Australian healthcare context, inclusive design, professional credibility",
+      "evidence": "warn('Approaching Gemini API daily quota limit');\n\n    }\n\n  },\n\n\n\n  // Configurable batch processing settings\n\n  getBatchSize() {\n\n    const customSize = PropertiesService",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 13,
+      "category": "methodology",
+      "summary": "Methodology: fetch(url, {\n\n      method: 'get',\n\n      followRedirects: true,\n\n      muteHttpExceptions: true,\n\n ",
+      "details": "fetch(url, {\n\n      method: 'get',\n\n      followRedirects: true,\n\n      muteHttpExceptions: true,\n\n      validateHttpsCertificates: true,\n\n      contentType: 'text/plain',\n\n      timeout: 20000\n\n    });\n\n    const code = resp",
+      "evidence": "fetch(url, {\n\n      method: 'get',\n\n      followRedirects: true,\n\n      muteHttpExceptions: true,\n\n      validateHttpsCertificates: true,\n\n      contentType: 'text/plain',\n\n      timeout: 20000\n\n    });\n\n    const code = resp",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 14,
+      "category": "correction",
+      "summary": "Correction: \ue200filecite\ue202turn7file4\ue202L14-L26\ue201\n\n# Critical issues to fix (blocking)\n1) **Missing implementation: `cal",
+      "details": "\ue200filecite\ue202turn7file4\ue202L14-L26\ue201\n\n# Critical issues to fix (blocking)\n1) **Missing implementation: `callGeminiTTS_`**  \n   Multiple functions call `callGeminiTTS_(AUSTRALIAN_PROMPT + ' ' + script, VOICE_NAME, SPEECH_TEMPERATURE)` but no definition appears in the stitched file. 5) **A small but real bug in a folder-read helper**  \n   One recursive reader variant pushes errors via a typo (`errors. errors);\n```\n(Problematic line noted here",
+      "evidence": "\ue200filecite\ue202turn7file4\ue202L14-L26\ue201\n\n# Critical issues to fix (blocking)\n1) **Missing implementation: `callGeminiTTS_`**  \n   Multiple functions call `callGeminiTTS_(AUSTRALIAN_PROMPT + ' ' + script, VOICE_NAME, SPEECH_TEMPERATURE)` but no definition appears in the stitched file",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 14,
+      "category": "methodology",
+      "summary": "Methodology: \ue200filecite\ue202turn7file9\ue202L60-L85\ue201 \ue200filecite\ue202turn6file9\ue202L39-L56\ue201\n- Your \u201cSlides from TTS tab Column C\u201d be",
+      "details": "\ue200filecite\ue202turn7file9\ue202L60-L85\ue201 \ue200filecite\ue202turn6file9\ue202L39-L56\ue201\n- Your \u201cSlides from TTS tab Column C\u201d behavior is correctly implemented in the voiceover-script generation wiring. fetch(url, {\n    method: 'post',\n    contentType: 'application/json',\n    payload: JSON",
+      "evidence": "\ue200filecite\ue202turn7file9\ue202L60-L85\ue201 \ue200filecite\ue202turn6file9\ue202L39-L56\ue201\n- Your \u201cSlides from TTS tab Column C\u201d behavior is correctly implemented in the voiceover-script generation wiring",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 16,
+      "category": "methodology",
+      "summary": "Methodology: fetch(url, {method:'get', followRedirects:true, muteHttpExceptions:true, validateHttpsCertificates:t",
+      "details": "fetch(url, {method:'get', followRedirects:true, muteHttpExceptions:true, validateHttpsCertificates:true, timeout: URL_CRAWL_TIMEOUT_MS});\n      const code = resp",
+      "evidence": "fetch(url, {method:'get', followRedirects:true, muteHttpExceptions:true, validateHttpsCertificates:true, timeout: URL_CRAWL_TIMEOUT_MS});\n      const code = resp",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 17,
+      "category": "correction",
+      "summary": "Correction: Year;Volume(Issue):Pages",
+      "details": "Year;Volume(Issue):Pages. Year;Volume(Issue):Pages. `;\n\n\n\nconst ENHANCED_DOWNLOADABLES_CONTENT = `\n\n**PROFESSIONAL DOWNLOADABLE RESOURCE DEVELOPMENT - Australian Healthcare Supervision**\n\n\n\n**Resource Type**: Comprehensive PDF supplement (1500-2500 words)\n\n**Purpose**: Extend module learning with practical implementation tools and evidence-based frameworks\n\n\n\n**Content Architecture**:\n\n- Executive Summary (200-300 words): Module integration, practical value, evidence foundation\n\n- Theoretical Foundation (400-500 words): Evidence-based framework, Australian healthcare context, cultural competency\n\n- Practical Implementation Guide (600-800 words): Step-by-step procedures, real-world applications, team integration\n\n- Tools and Templates (300-400 words): Assessment frameworks, communication templates, escalation procedures\n\n- Case Study Applications (400-500 words): Diverse scenarios, cultural considerations, problem-solving examples\n\n\n\n**Quality Standards**: Evidence-based content, practical applicability, Australian healthcare alignment, adult learning principles\n\n\n\nGenerate comprehensive downloadable resource with immediate workplace implementation focus",
+      "evidence": "Year;Volume(Issue):Pages",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 17,
+      "category": "methodology",
+      "summary": "Methodology: warn('Approaching Gemini API daily quota limit');\n\n    }\n\n  },\n\n\n\n  // Configurable batch processing",
+      "details": "warn('Approaching Gemini API daily quota limit');\n\n    }\n\n  },\n\n\n\n  // Configurable batch processing settings\n\n  getBatchSize() {\n\n    const customSize = PropertiesService. Explain how modules combine to form a high-quality micro-credentialing course\n\n\n\nOUTPUT FORMAT:\n\nCOURSE RECOMMENDATION:\n\n[6 paragraph detailed recommendation explaining:]\n\n- Why this concept warrants a structured course approach\n\n- How breaking it into modules enhances learning effectiveness\n\n- Why this specific module breakdown serves the audience effectively\n\n- How modules build upon each other progressively\n\n- Target audience fit and learning progression\n\n- Value as a micro-credentialing opportunity\n\n\n\nRECOMMENDED MODULES:\n\n1. `;\n\n\n\nconst ENHANCED_ASSESSMENTS_CONTENT = `\n\n**COMPREHENSIVE ASSESSMENT DEVELOPMENT - Australian Healthcare Supervision Training**\n\n\n\n**Assessment Design Principles**:\n\n- Knowledge Application: Test practical understanding, not rote memorization\n\n- Cultural Competency: Include scenarios requiring inclusive, culturally safe approaches\n\n- Professional Judgment: Evaluate decision-making in complex supervision situations\n\n- Evidence-Based Practice: Assess integration of contemporary research and best practices\n\n\n\n**Assessment Type Distribution**:\n\n- Multiple Choice Questions (40%): Scenario-based, real Australian healthcare supervision situations\n\n- True/False with Rationale (20%): Professional standards, best practices, cultural safety\n\n- Drag-and-Drop Interactive (20%): Process sequencing, priority ranking, resource matching\n\n- Scenario Reflection Questions (20%): Complex supervision situations requiring written responses\n\n\n\n**Quality Standards**: Evidence-based rationales, Australian healthcare context, inclusive design, professional credibility",
+      "evidence": "warn('Approaching Gemini API daily quota limit');\n\n    }\n\n  },\n\n\n\n  // Configurable batch processing settings\n\n  getBatchSize() {\n\n    const customSize = PropertiesService",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 19,
+      "category": "methodology",
+      "summary": "Methodology: fetch(url, {\n\n      method: 'get',\n\n      followRedirects: true,\n\n      muteHttpExceptions: true,\n\n ",
+      "details": "fetch(url, {\n\n      method: 'get',\n\n      followRedirects: true,\n\n      muteHttpExceptions: true,\n\n      validateHttpsCertificates: true,\n\n      contentType: 'text/plain',\n\n      timeout: 20000\n\n    });\n\n    const code = resp",
+      "evidence": "fetch(url, {\n\n      method: 'get',\n\n      followRedirects: true,\n\n      muteHttpExceptions: true,\n\n      validateHttpsCertificates: true,\n\n      contentType: 'text/plain',\n\n      timeout: 20000\n\n    });\n\n    const code = resp",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 21,
+      "category": "correction",
+      "summary": "Correction: value);\n```\n\n---\n\n### 5) CSV escaping bug\nOne copy of `exportTTSModuleToCSV_` escapes quotes incorre",
+      "details": "value);\n```\n\n---\n\n### 5) CSV escaping bug\nOne copy of `exportTTSModuleToCSV_` escapes quotes incorrectly (`'\"\\\"'`). Year;Volume(Issue):Pages",
+      "evidence": "value);\n```\n\n---\n\n### 5) CSV escaping bug\nOne copy of `exportTTSModuleToCSV_` escapes quotes incorrectly (`'\"\\\"'`)",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 22,
+      "category": "correction",
+      "summary": "Correction: I think I have confused the issue with the TTS file generation - this SHOULD be for the entire modul",
+      "details": "I think I have confused the issue with the TTS file generation - this SHOULD be for the entire module, I was worried it had gone back to the AllModules option from a very early version. - Uses the corrected CSV escaping. 5) **exportTTSModuleToCSV_**: replace with the corrected version in #5 (fixes the stray `});`)",
+      "evidence": "I think I have confused the issue with the TTS file generation - this SHOULD be for the entire module, I was worried it had gone back to the AllModules option from a very early version",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 22,
+      "category": "methodology",
+      "summary": "Methodology: fetch(url, {\n    method: 'post',\n    contentType: 'application/json',\n    payload: JSON",
+      "details": "fetch(url, {\n    method: 'post',\n    contentType: 'application/json',\n    payload: JSON. fetch(apiUrl, { \n\n    method: 'post', \n\n    contentType: 'application/json', \n\n    payload: JSON. 5-flash-preview-tts\",\n\n    contents: [{ parts: [{ text: text }] }],\n\n    generationConfig: {\n\n      temperature: temperature,\n\n      responseModalities: [\"AUDIO\"],\n\n      speechConfig: { \n\n        voiceConfig: { \n\n          prebuiltVoiceConfig: { \n\n            voiceName: voiceName \n\n          } \n\n        } \n\n      }\n\n    },\n\n  };\n\n\n\n  const options = {\n\n    'method': 'post',\n\n    'contentType': 'application/json',\n\n    'payload': JSON",
+      "evidence": "fetch(url, {\n    method: 'post',\n    contentType: 'application/json',\n    payload: JSON",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 24,
+      "category": "methodology",
+      "summary": "Methodology: fetch(url, {\n\n      method: 'get',\n\n      followRedirects: true,\n\n      muteHttpExceptions: true,\n\n ",
+      "details": "fetch(url, {\n\n      method: 'get',\n\n      followRedirects: true,\n\n      muteHttpExceptions: true,\n\n      validateHttpsCertificates: true,\n\n      contentType: 'text/plain',\n\n      timeout: 20000\n\n    });\n\n    const code = resp",
+      "evidence": "fetch(url, {\n\n      method: 'get',\n\n      followRedirects: true,\n\n      muteHttpExceptions: true,\n\n      validateHttpsCertificates: true,\n\n      contentType: 'text/plain',\n\n      timeout: 20000\n\n    });\n\n    const code = resp",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 25,
+      "category": "methodology",
+      "summary": "Methodology: warn('Approaching Gemini API daily quota limit');\n\n[L64]     }\n\n[L65]   },\n\n[L66] \n\n[L67]   // Confi",
+      "details": "warn('Approaching Gemini API daily quota limit');\n\n[L64]     }\n\n[L65]   },\n\n[L66] \n\n[L67]   // Configurable batch processing settings\n\n[L68]   getBatchSize() {\n\n[L69]     const customSize = PropertiesService. Explain how modules combine to form a high-quality micro-credentialing course\n\n[L181] \n\n[L182] OUTPUT FORMAT:\n\n[L183] COURSE RECOMMENDATION:\n\n[L184] [6 paragraph detailed recommendation explaining:]\n\n[L185] - Why this concept warrants a structured course approach\n\n[L186] - How breaking it into modules enhances learning effectiveness\n\n[L187] - Why this specific module breakdown serves the audience effectively\n\n[L188] - How modules build upon each other progressively\n\n[L189] - Target audience fit and learning progression\n\n[L190] - Value as a micro-credentialing opportunity\n\n[L191] \n\n[L192] RECOMMENDED MODULES:\n\n[L193] 1. `;\n\n[L254] \n\n[L255] const ENHANCED_ASSESSMENTS_CONTENT = `\n\n[L256] **COMPREHENSIVE ASSESSMENT DEVELOPMENT - Australian Healthcare Supervision Training**\n\n[L257] \n\n[L258] **Assessment Design Principles**:\n\n[L259] - Knowledge Application: Test practical understanding, not rote memorization\n\n[L260] - Cultural Competency: Include scenarios requiring inclusive, culturally safe approaches\n\n[L261] - Professional Judgment: Evaluate decision-making in complex supervision situations\n\n[L262] - Evidence-Based Practice: Assess integration of contemporary research and best practices\n\n[L263] \n\n[L264] **Assessment Type Distribution**:\n\n[L265] - Multiple Choice Questions (40%): Scenario-based, real Australian healthcare supervision situations\n\n[L266] - True/False with Rationale (20%): Professional standards, best practices, cultural safety\n\n[L267] - Drag-and-Drop Interactive (20%): Process sequencing, priority ranking, resource matching\n\n[L268] - Scenario Reflection Questions (20%): Complex supervision situations requiring written responses\n\n[L269] \n\n[L270] **Quality Standards**: Evidence-based rationales, Australian healthcare context, inclusive design, professional credibility",
+      "evidence": "warn('Approaching Gemini API daily quota limit');\n\n[L64]     }\n\n[L65]   },\n\n[L66] \n\n[L67]   // Configurable batch processing settings\n\n[L68]   getBatchSize() {\n\n[L69]     const customSize = PropertiesService",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 26,
+      "category": "correction",
+      "summary": "Correction: If you want me to fold this into a complete Section E paste including `callGeminiTTS_` (the correcte",
+      "details": "If you want me to fold this into a complete Section E paste including `callGeminiTTS_` (the corrected Gemini version) and your CSV export, say the word and I\u2019ll give you a single, clean block",
+      "evidence": "If you want me to fold this into a complete Section E paste including `callGeminiTTS_` (the corrected Gemini version) and your CSV export, say the word and I\u2019ll give you a single, clean block",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 27,
+      "category": "correction",
+      "summary": "Correction: If elsewhere you call **`generateGeminiAudioForModule(concept, module)`** (no underscore), add this ",
+      "details": "If elsewhere you call **`generateGeminiAudioForModule(concept, module)`** (no underscore), add this shim so both names work:\n\n```javascript\nfunction generateGeminiAudioForModule(concept, module){\n  return generateGeminiAudioForModule_(concept, module);\n}\n```\n\n### Why this resolves the problems you highlighted\n- The **for-loop over modules** can continue calling `generateGeminiAudioForModule_`\u2014now it\u2019s the corrected version. Year;Volume(Issue):Pages. Year;Volume(Issue):Pages",
+      "evidence": "If elsewhere you call **`generateGeminiAudioForModule(concept, module)`** (no underscore), add this shim so both names work:\n\n```javascript\nfunction generateGeminiAudioForModule(concept, module){\n  return generateGeminiAudioForModule_(concept, module);\n}\n```\n\n### Why this resolves the problems you highlighted\n- The **for-loop over modules** can continue calling `generateGeminiAudioForModule_`\u2014now it\u2019s the corrected version",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 27,
+      "category": "methodology",
+      "summary": "Methodology: warn('Approaching Gemini API daily quota limit');\n\n    }\n\n  },\n\n\n\n  // Configurable batch processing",
+      "details": "warn('Approaching Gemini API daily quota limit');\n\n    }\n\n  },\n\n\n\n  // Configurable batch processing settings\n\n  getBatchSize() {\n\n    const customSize = PropertiesService. Explain how modules combine to form a high-quality micro-credentialing course\n\n\n\nOUTPUT FORMAT:\n\nCOURSE RECOMMENDATION:\n\n[6 paragraph detailed recommendation explaining:]\n\n- Why this concept warrants a structured course approach\n\n- How breaking it into modules enhances learning effectiveness\n\n- Why this specific module breakdown serves the audience effectively\n\n- How modules build upon each other progressively\n\n- Target audience fit and learning progression\n\n- Value as a micro-credentialing opportunity\n\n\n\nRECOMMENDED MODULES:\n\n1. `;\n\n\n\nconst ENHANCED_ASSESSMENTS_CONTENT = `\n\n**COMPREHENSIVE ASSESSMENT DEVELOPMENT - Australian Healthcare Supervision Training**\n\n\n\n**Assessment Design Principles**:\n\n- Knowledge Application: Test practical understanding, not rote memorization\n\n- Cultural Competency: Include scenarios requiring inclusive, culturally safe approaches\n\n- Professional Judgment: Evaluate decision-making in complex supervision situations\n\n- Evidence-Based Practice: Assess integration of contemporary research and best practices\n\n\n\n**Assessment Type Distribution**:\n\n- Multiple Choice Questions (40%): Scenario-based, real Australian healthcare supervision situations\n\n- True/False with Rationale (20%): Professional standards, best practices, cultural safety\n\n- Drag-and-Drop Interactive (20%): Process sequencing, priority ranking, resource matching\n\n- Scenario Reflection Questions (20%): Complex supervision situations requiring written responses\n\n\n\n**Quality Standards**: Evidence-based rationales, Australian healthcare context, inclusive design, professional credibility",
+      "evidence": "warn('Approaching Gemini API daily quota limit');\n\n    }\n\n  },\n\n\n\n  // Configurable batch processing settings\n\n  getBatchSize() {\n\n    const customSize = PropertiesService",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 29,
+      "category": "methodology",
+      "summary": "Methodology: fetch(url, {\n\n      method: 'get',\n\n      followRedirects: true,\n\n      muteHttpExceptions: true,\n\n ",
+      "details": "fetch(url, {\n\n      method: 'get',\n\n      followRedirects: true,\n\n      muteHttpExceptions: true,\n\n      validateHttpsCertificates: true,\n\n      contentType: 'text/plain',\n\n      timeout: 20000\n\n    });\n\n    const code = resp",
+      "evidence": "fetch(url, {\n\n      method: 'get',\n\n      followRedirects: true,\n\n      muteHttpExceptions: true,\n\n      validateHttpsCertificates: true,\n\n      contentType: 'text/plain',\n\n      timeout: 20000\n\n    });\n\n    const code = resp",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 30,
+      "category": "correction",
+      "summary": "Correction: If they need to delete the existing audio file to re-run it after changing the voice that won't be a",
+      "details": "If they need to delete the existing audio file to re-run it after changing the voice that won't be a problem, whereas making them navigate yet another step in the menu will be offputting",
+      "evidence": "If they need to delete the existing audio file to re-run it after changing the voice that won't be a problem, whereas making them navigate yet another step in the menu will be offputting",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 31,
+      "category": "decision",
+      "summary": "Decision: # Tips to keep it tidy\n- **Search & clean \u201cREGENERATE_TTS\u201d** if you decided to drop that flag:\n  - R",
+      "details": "# Tips to keep it tidy\n- **Search & clean \u201cREGENERATE_TTS\u201d** if you decided to drop that flag:\n  - Remove the reads and branches in your audio generator",
+      "evidence": "# Tips to keep it tidy\n- **Search & clean \u201cREGENERATE_TTS\u201d** if you decided to drop that flag:\n  - Remove the reads and branches in your audio generator",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [
+    {
+      "involved_threads": [
+        1,
+        4,
+        5,
+        6,
+        9,
+        10,
+        11,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        12,
+        13,
+        14,
+        15,
+        16,
+        31,
+        7,
+        8
+      ],
+      "insight_type": "evolution",
+      "description": "Topic evolution across 29 threads",
+      "significance": "Shows progressive refinement of understanding"
+    },
+    {
+      "involved_threads": [
+        1,
+        4,
+        6,
+        7,
+        8,
+        9,
+        11,
+        13,
+        14,
+        16,
+        17,
+        19,
+        22,
+        24,
+        25,
+        27,
+        29
+      ],
+      "insight_type": "emergent_pattern",
+      "description": "Repeated methodology learnings across conversation",
+      "significance": "Strong focus on methodology throughout discussion"
+    },
+    {
+      "involved_threads": [
+        4,
+        9,
+        14,
+        17,
+        21,
+        22,
+        26,
+        27,
+        30
+      ],
+      "insight_type": "emergent_pattern",
+      "description": "Repeated correction learnings across conversation",
+      "significance": "Strong focus on correction throughout discussion"
+    }
+  ],
+  "thinking_patterns": {
+    "flow": "Associative - wide-ranging exploration",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

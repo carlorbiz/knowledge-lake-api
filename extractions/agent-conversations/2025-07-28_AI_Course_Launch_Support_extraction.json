@@ -1,0 +1,444 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221415",
+  "word_count": 8876,
+  "extraction_date": "2025-12-24 22:14:15",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "AI Course Launch Support",
+      "start_line": 0,
+      "end_line": 41,
+      "excerpt": "# AI Course Launch Support\n\n**Date:** 2025-07-28\n\n---\n\n**User:** Hi Fred, here today's challenge...\nI've built a web app to help execs and solopreneurs like me increase their productivity with AI with",
+      "keywords": [
+        "2020",
+        "20250728",
+        "34",
+        "4",
+        "810"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 404
+    },
+    {
+      "thread_id": 2,
+      "title": "Sound familiar? That was exactly my situation as CEO.",
+      "start_line": 41,
+      "end_line": 315,
+      "excerpt": "Picture this: You're running an organization, making strategic decisions that affect hundreds or thousands of people, and you're spending 15+ hours a week just writing and rewriting documents. Board p",
+      "keywords": [
+        "1",
+        "10",
+        "11",
+        "12",
+        "13"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2166
+    },
+    {
+      "thread_id": 3,
+      "title": "- Leaders returning to work after major life...",
+      "start_line": 315,
+      "end_line": 451,
+      "excerpt": "- Leaders returning to work after major life changes (health, family, sabbatical)\n- New executives stepping into roles requiring high-caliber documentation\n- Ambitious professionals juggling multiple",
+      "keywords": [
+        "1",
+        "12",
+        "123350",
+        "1240",
+        "1754"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 888
+    },
+    {
+      "thread_id": 4,
+      "title": "3. Branding would be awesome - even though...",
+      "start_line": 451,
+      "end_line": 550,
+      "excerpt": "3. Branding would be awesome - even though hosted on the Carlorbiz website, I'm branding the courses and app MakeTheMostOfToday so I can host everything on the WordPress site Carlorbiz.com.au and driv",
+      "keywords": [
+        "1",
+        "2",
+        "3",
+        "30second",
+        "33"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 729
+    },
+    {
+      "thread_id": 5,
+      "title": "- Footer banner or CTA to link users back to MTMOT.com",
+      "start_line": 550,
+      "end_line": 786,
+      "excerpt": "- Footer banner or CTA to link users back to MTMOT.com?\n\nLet me know and I\u2019ll include these too.\n\nGetting started now \u2014 Batch 1 coming shortly!\n\n**User:** Fred, why do you ask when you know I will say",
+      "keywords": [
+        "00",
+        "01",
+        "1",
+        "11",
+        "1158pm"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1321
+    },
+    {
+      "thread_id": 6,
+      "title": "\u2705 Bonus:",
+      "start_line": 786,
+      "end_line": 993,
+      "excerpt": "- CTAs for both Carlorbiz and MTMOT\n- `Canva_PromoAssets_Link.txt`\n\n---\n\n### \u2705 Bonus:\n- **Academy LMS Upload Checklist (PDF + Google Sheet)**\n- **Progress Tracker Setup Guide**\n- **StoreEngine Integra",
+      "keywords": [
+        "1",
+        "1158pm",
+        "1230",
+        "15",
+        "2"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1331
+    },
+    {
+      "thread_id": 7,
+      "title": "> Ready to reclaim your time? Let\u2019s begin.\u201d",
+      "start_line": 993,
+      "end_line": 1018,
+      "excerpt": "> Just a few years ago, I was fighting stage 4 cancer. When I came back to work, everything had changed \u2014 AI, tech, the expectations on executive communication.\n>\n> I realised that no one was teaching",
+      "keywords": [
+        "1",
+        "3",
+        "4",
+        "5pm",
+        "7th"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 220
+    },
+    {
+      "thread_id": 8,
+      "title": "Ready to reclaim your time? Let\u2019s begin.\u201d",
+      "start_line": 1018,
+      "end_line": 1037,
+      "excerpt": "For the last 10 years, I have been fighting stage 4 cancer. When I came back to work from a lengthy unplanned hiatus (the sort needed just to stay alive!), everything had changed \u2014 AI, tech, the expec",
+      "keywords": [
+        "1",
+        "10",
+        "4",
+        "5pm",
+        "7th"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 213
+    },
+    {
+      "thread_id": 9,
+      "title": "> Ready to reclaim your time? Let\u2019s begin.\u201d",
+      "start_line": 1037,
+      "end_line": 1091,
+      "excerpt": "> For the last 10 years, I have been fighting stage 4 cancer. When I came back to work from a lengthy unplanned hiatus (the sort needed just to stay alive!), everything had changed \u2014 AI, tech, the e",
+      "keywords": [
+        "1",
+        "10",
+        "1700",
+        "20250807",
+        "4"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 518
+    },
+    {
+      "thread_id": 10,
+      "title": "\ud83e\udde9 JSON Payload for Custom Webhook Module in Make",
+      "start_line": 1091,
+      "end_line": 1105,
+      "excerpt": "| Record voiceover for Module 1 promo | Inbox | 2025-08-07 17:00 | Medium | Audio; Course | \u201cWelcome to Executive AI Prompt Mastery. I\u2019m Carla \u2014 and before we dive in, I want to tell you why this cour",
+      "keywords": [
+        "1",
+        "10",
+        "1700",
+        "20250807",
+        "4"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 252
+    },
+    {
+      "thread_id": 11,
+      "title": "\"Comments\": \"\u201cWelcome to Executive AI Prompt Mastery. I\u2019m...",
+      "start_line": 1105,
+      "end_line": 1232,
+      "excerpt": "\"Comments\": \"\u201cWelcome to Executive AI Prompt Mastery. I\u2019m Carla \u2014 and before we dive in, I want to tell you why this course exists. For the last 10 years, I have been fighting stage 4 cancer. When I",
+      "keywords": [
+        "1",
+        "10",
+        "1700",
+        "2",
+        "20250807"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 834
+    }
+  ],
+  "connections": [
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 3,
+      "connection_type": "builds_on",
+      "explanation": "Thread 3 references concepts from Thread 2",
+      "evidence": "- Template exploration: 1-2 hours"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 references concepts from Thread 2",
+      "evidence": "Getting started now \u2014 Batch 1 coming shortly!"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 2",
+      "evidence": "### \u2705 1. **Deliver Batch 1 for Executive AI Course**"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 references concepts from Thread 2",
+      "evidence": "For the last 10 years, I have been fighting stage 4 cancer. When I came back to work from a lengthy unplanned hiatus (the sort needed just to stay ali"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 references concepts from Thread 2",
+      "evidence": "> For the last 10 years, I have been fighting stage 4 cancer. When I came back to work from a lengthy unplanned hiatus (the sort needed just to stay a"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 2",
+      "evidence": "| Record voiceover for Module 1 promo | Inbox | 2025-08-07 17:00 | Medium | Audio; Course | \u201cWelcome to Executive AI Prompt Mastery. I\u2019m Carla \u2014 and b"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 references concepts from Thread 2",
+      "evidence": "\"Comments\": \"\u201cWelcome to Executive AI Prompt Mastery. I\u2019m Carla \u2014 and before we dive in, I want to tell you why this course exists. For the last 10 ye"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 3",
+      "evidence": "### \u2705 1. **Deliver Batch 1 for Executive AI Course**"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 references concepts from Thread 4",
+      "evidence": "Getting started now \u2014 Batch 1 coming shortly!"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 4",
+      "evidence": "### \u2705 1. **Deliver Batch 1 for Executive AI Course**"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 7,
+      "connection_type": "builds_on",
+      "explanation": "Thread 7 references concepts from Thread 4",
+      "evidence": "- Module 1 scripts (3 lessons)"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 references concepts from Thread 4",
+      "evidence": "> For the last 10 years, I have been fighting stage 4 cancer. When I came back to work from a lengthy unplanned hiatus (the sort needed just to stay a"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 4",
+      "evidence": "| Record voiceover for Module 1 promo | Inbox | 2025-08-07 17:00 | Medium | Audio; Course | \u201cWelcome to Executive AI Prompt Mastery. I\u2019m Carla \u2014 and b"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 references concepts from Thread 4",
+      "evidence": "\"Comments\": \"\u201cWelcome to Executive AI Prompt Mastery. I\u2019m Carla \u2014 and before we dive in, I want to tell you why this course exists. For the last 10 ye"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 5",
+      "evidence": "### \u2705 1. **Deliver Batch 1 for Executive AI Course**"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 references concepts from Thread 5",
+      "evidence": "> For the last 10 years, I have been fighting stage 4 cancer. When I came back to work from a lengthy unplanned hiatus (the sort needed just to stay a"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 5",
+      "evidence": "| Record voiceover for Module 1 promo | Inbox | 2025-08-07 17:00 | Medium | Audio; Course | \u201cWelcome to Executive AI Prompt Mastery. I\u2019m Carla \u2014 and b"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 references concepts from Thread 5",
+      "evidence": "\"Comments\": \"\u201cWelcome to Executive AI Prompt Mastery. I\u2019m Carla \u2014 and before we dive in, I want to tell you why this course exists. For the last 10 ye"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 references concepts from Thread 6",
+      "evidence": "> For the last 10 years, I have been fighting stage 4 cancer. When I came back to work from a lengthy unplanned hiatus (the sort needed just to stay a"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 6",
+      "evidence": "| Record voiceover for Module 1 promo | Inbox | 2025-08-07 17:00 | Medium | Audio; Course | \u201cWelcome to Executive AI Prompt Mastery. I\u2019m Carla \u2014 and b"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 references concepts from Thread 6",
+      "evidence": "\"Comments\": \"\u201cWelcome to Executive AI Prompt Mastery. I\u2019m Carla \u2014 and before we dive in, I want to tell you why this course exists. For the last 10 ye"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 references concepts from Thread 7",
+      "evidence": "For the last 10 years, I have been fighting stage 4 cancer. When I came back to work from a lengthy unplanned hiatus (the sort needed just to stay ali"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 references concepts from Thread 7",
+      "evidence": "> For the last 10 years, I have been fighting stage 4 cancer. When I came back to work from a lengthy unplanned hiatus (the sort needed just to stay a"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 7",
+      "evidence": "| Record voiceover for Module 1 promo | Inbox | 2025-08-07 17:00 | Medium | Audio; Course | \u201cWelcome to Executive AI Prompt Mastery. I\u2019m Carla \u2014 and b"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 references concepts from Thread 7",
+      "evidence": "\"Comments\": \"\u201cWelcome to Executive AI Prompt Mastery. I\u2019m Carla \u2014 and before we dive in, I want to tell you why this course exists. For the last 10 ye"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 references concepts from Thread 8",
+      "evidence": "> For the last 10 years, I have been fighting stage 4 cancer. When I came back to work from a lengthy unplanned hiatus (the sort needed just to stay a"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 8",
+      "evidence": "| Record voiceover for Module 1 promo | Inbox | 2025-08-07 17:00 | Medium | Audio; Course | \u201cWelcome to Executive AI Prompt Mastery. I\u2019m Carla \u2014 and b"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 references concepts from Thread 8",
+      "evidence": "\"Comments\": \"\u201cWelcome to Executive AI Prompt Mastery. I\u2019m Carla \u2014 and before we dive in, I want to tell you why this course exists. For the last 10 ye"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 9",
+      "evidence": "| Record voiceover for Module 1 promo | Inbox | 2025-08-07 17:00 | Medium | Audio; Course | \u201cWelcome to Executive AI Prompt Mastery. I\u2019m Carla \u2014 and b"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 references concepts from Thread 9",
+      "evidence": "\"Comments\": \"\u201cWelcome to Executive AI Prompt Mastery. I\u2019m Carla \u2014 and before we dive in, I want to tell you why this course exists. For the last 10 ye"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 references concepts from Thread 10",
+      "evidence": "\"Comments\": \"\u201cWelcome to Executive AI Prompt Mastery. I\u2019m Carla \u2014 and before we dive in, I want to tell you why this course exists. For the last 10 ye"
+    }
+  ],
+  "learnings": [
+    {
+      "thread_id": 2,
+      "category": "methodology",
+      "summary": "Methodology: Your voice isn't just how you write \u2013 it's how you think, how you prioritize, how you approach probl",
+      "details": "Your voice isn't just how you write \u2013 it's how you think, how you prioritize, how you approach problems. 2: \"Business Document Hierarchy & Strategy\" (15 min video)\n\n**Video Content:**\n- Strategic vs. \"\n\n**Personal Method Integration:**\n\"During my AI deep dive, I created and tested over 200 different prompt variations",
+      "evidence": "Your voice isn't just how you write \u2013 it's how you think, how you prioritize, how you approach problems",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 3,
+      "category": "methodology",
+      "summary": "Methodology: \"\n\n---\n\n## \ud83d\udcca Course Delivery Method\n\n**Academy LMS Integration:**\n- Video lessons with downloadable ",
+      "details": "\"\n\n---\n\n## \ud83d\udcca Course Delivery Method\n\n**Academy LMS Integration:**\n- Video lessons with downloadable transcripts\n- Interactive exercises and worksheets\n- Embedded AI tool (Module 3)\n- Progress tracking and completion certificates\n- Mobile-responsive design\n- Downloadable resources library\n\n**Estimated Time Investment:**\n- Core content: 3-4 hours\n- Tool practice: 2-3 hours\n- Template exploration: 1-2 hours\n- **Total value delivery: 6-9 hours + lifetime tool access**\n\n---\n\n## \ud83d\udcb0 Pricing Strategy\n\n**Launch Pricing:**\n- **Early Bird**: $197 (limited time)\n- **Standard**: $397\n- **VIP Edition**: $697 (includes 1-on-1 implementation call)\n\n**Payment Options:**\n- One-time payment\n- 3-month payment plan available\n- 30-day money-back guarantee\n\n---\n\n*This course structure need to be implemented in Academy LMS with StoreEngine integration",
+      "evidence": "\"\n\n---\n\n## \ud83d\udcca Course Delivery Method\n\n**Academy LMS Integration:**\n- Video lessons with downloadable transcripts\n- Interactive exercises and worksheets\n- Embedded AI tool (Module 3)\n- Progress tracking and completion certificates\n- Mobile-responsive design\n- Downloadable resources library\n\n**Estimated Time Investment:**\n- Core content: 3-4 hours\n- Tool practice: 2-3 hours\n- Template exploration: 1-2 hours\n- **Total value delivery: 6-9 hours + lifetime tool access**\n\n---\n\n## \ud83d\udcb0 Pricing Strategy\n\n**Launch Pricing:**\n- **Early Bird**: $197 (limited time)\n- **Standard**: $397\n- **VIP Edition**: $697 (includes 1-on-1 implementation call)\n\n**Payment Options:**\n- One-time payment\n- 3-month payment plan available\n- 30-day money-back guarantee\n\n---\n\n*This course structure need to be implemented in Academy LMS with StoreEngine integration",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [
+    {
+      "involved_threads": [
+        2,
+        3,
+        6,
+        9,
+        10,
+        11,
+        5,
+        8
+      ],
+      "insight_type": "evolution",
+      "description": "Topic evolution across 8 threads",
+      "significance": "Shows progressive refinement of understanding"
+    }
+  ],
+  "thinking_patterns": {
+    "flow": "Associative - wide-ranging exploration",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

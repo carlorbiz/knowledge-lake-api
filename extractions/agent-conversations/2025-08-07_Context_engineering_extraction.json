@@ -1,0 +1,143 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221443",
+  "word_count": 13930,
+  "extraction_date": "2025-12-24 22:14:43",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Context engineering",
+      "start_line": 0,
+      "end_line": 970,
+      "excerpt": "# Context engineering\n\n**Date:** 2025-08-07\n\n---\n\n**User:** {'content_type': 'audio_transcription', 'text': '', 'direction': 'in', 'decoding_id': None}\n{'expiry_datetime': '2026-02-03T10:12:14.461014+",
+      "keywords": [
+        "00",
+        "026",
+        "029",
+        "038",
+        "055"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 8529
+    },
+    {
+      "thread_id": 2,
+      "title": "The good news",
+      "start_line": 970,
+      "end_line": 993,
+      "excerpt": "**User:** Ok, here's a complication I just want to flag .. As you may have noted from my Notion layout, \"Fred Tasks\" is in a public/shared workspace but the relation fields are feeding back to the pri",
+      "keywords": [
+        "1",
+        "2",
+        "3",
+        "APIland",
+        "Also"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 290
+    },
+    {
+      "thread_id": 3,
+      "title": "\ud83d\udd10 In the Walkthrough",
+      "start_line": 993,
+      "end_line": 1114,
+      "excerpt": "- If the relation insert fails for any reason, Make.com will fall back to creating the page without the project relation, so the run never fully fails.\n- Later, a cleanup automation can re-add missing",
+      "keywords": [
+        "1",
+        "15second",
+        "2",
+        "3",
+        "4"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 901
+    },
+    {
+      "thread_id": 4,
+      "title": "- Go back to the Projects DB in...",
+      "start_line": 1114,
+      "end_line": 1590,
+      "excerpt": "- Go back to the Projects DB in Notion.  \n- Remove the Make.com integration from the Share list.  \n- Automation will still work forever, because it\u2019s using the saved UUID \u2014 no live DB query needed.\n\n-",
+      "keywords": [
+        "1",
+        "100",
+        "12",
+        "2",
+        "2379440556f7812cb90ff696e8326e88"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 4210
+    }
+  ],
+  "connections": [
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 builds on Thread 1",
+      "evidence": "Do you want me to **also build the \u201cAreas\u201d relation mapping live** in the same recording, so you have a template for mapping *any* relation field with"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 3,
+      "connection_type": "builds_on",
+      "explanation": "Thread 3 references concepts from Thread 2",
+      "evidence": "1. **Connect Make.com to Notion**"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 builds on Thread 2",
+      "evidence": "Do you want me to also **show you in the recording how to find and confirm the UUID manually** in case we ever have to repeat this for another relatio"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 builds on Thread 3",
+      "evidence": "1. **Open the Projects database** in Notion."
+    }
+  ],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "correction",
+      "summary": "Correction: \u201d\n- Status = \u201cNew\u201d\n- Action = \u201cWriteTeaser\u201d\n\n\u2611\ufe0f See if it:\n- Triggers Make\n- Sends it to me (or Open",
+      "details": "\u201d\n- Status = \u201cNew\u201d\n- Action = \u201cWriteTeaser\u201d\n\n\u2611\ufe0f See if it:\n- Triggers Make\n- Sends it to me (or OpenAI)\n- Gets a response\n- Adds to Notion\n- Updates Sheet\n\nI can walk through this with you live or on-demand!\n\n---\n\n## \ud83e\uddef Troubleshooting Tips (Pre-emptive)\n\n| Issue | Fix |\n|-------|-----|\n| Make scenario won\u2019t trigger | Double-check you\u2019re using \u201cWatch Rows\u201d and not \u201cGet Rows\u201d |\n| Notion not showing databases | Make sure sharing settings allow integration access |\n| Response column not updating | Re-map data and make sure it\u2019s a text field, not a formula |\n| Errors in OpenAI module | Check your API key and ensure you don\u2019t exceed token limit |\n| Repeats or multiple responses | Use \u201cStatus = New\u201d as a filter to avoid double-handling |\n\n---\n\n## \ud83d\udd01 Memory Expansion Plan (Coming Soon)\n\nI\u2019ll soon be able to **remember key facts you enter** (with your permission), so when you log a note like:\n\n> \u201cThinking about running a webinar for course grads\u201d\n\nI\u2019ll know to remind you or suggest next steps in a future chat without needing you to re-brief me. ---\n\n## \ud83e\udde0 THE CORE PROBLEM\n\nWe\u2019re not just summarising. com scenarios**, or **WordPress plugin debugging** \u2014 this will be a huge help",
+      "evidence": "\u201d\n- Status = \u201cNew\u201d\n- Action = \u201cWriteTeaser\u201d\n\n\u2611\ufe0f See if it:\n- Triggers Make\n- Sends it to me (or OpenAI)\n- Gets a response\n- Adds to Notion\n- Updates Sheet\n\nI can walk through this with you live or on-demand!\n\n---\n\n## \ud83e\uddef Troubleshooting Tips (Pre-emptive)\n\n| Issue | Fix |\n|-------|-----|\n| Make scenario won\u2019t trigger | Double-check you\u2019re using \u201cWatch Rows\u201d and not \u201cGet Rows\u201d |\n| Notion not showing databases | Make sure sharing settings allow integration access |\n| Response column not updating | Re-map data and make sure it\u2019s a text field, not a formula |\n| Errors in OpenAI module | Check your API key and ensure you don\u2019t exceed token limit |\n| Repeats or multiple responses | Use \u201cStatus = New\u201d as a filter to avoid double-handling |\n\n---\n\n## \ud83d\udd01 Memory Expansion Plan (Coming Soon)\n\nI\u2019ll soon be able to **remember key facts you enter** (with your permission), so when you log a note like:\n\n> \u201cThinking about running a webinar for course grads\u201d\n\nI\u2019ll know to remind you or suggest next steps in a future chat without needing you to re-brief me",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: Google Sheets can be a nice no-frills approach, and with a Make",
+      "details": "Google Sheets can be a nice no-frills approach, and with a Make. - **Model**: `gpt-4`\n- **Prompt**: Use a custom prompt like:\n\n```\nYou are Fred, Carla\u2019s AI strategy partner. Can you please advise the best approach here to ensure I don't miss any valuable areas of discussion (i",
+      "evidence": "Google Sheets can be a nice no-frills approach, and with a Make",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 4,
+      "category": "correction",
+      "summary": "Correction: When I start the recording, do you want me to **also include one extra example relation** (like an \u201c",
+      "details": "When I start the recording, do you want me to **also include one extra example relation** (like an \u201cAreas\u201d tag) so you can see it handle more than one field, or just keep it simple with Projects for now?\n\n**User:** We had a problem with the mapping of these relation fields (which in notion also allow new text to be created) because they include icons and some other mysterious complications - if you can include the way these complications can be managed in your recording that would be amazing \ud83d\ude0d\n\n**Assistant:** Gotcha \u2014 I remember this pain point well. com  \n   - Mapping them to relation fields in **Fred Tasks**  \n   - Handling icons and \u201cAllow new text\u201d issues. Here\u2019s the corrected full set for your `Relation IDs` tab:  \n\n| Relation Name           | Notion DB Name | UUID                                   |\n|-------------------------|----------------|----------------------------------------|\n| Projects: Fred Memory   | Projects       | *(to be captured in recording)*        |\n| Areas: MTMOT            | Areas          | 2379440556f781898becf6a7219e11b8        |\n| Areas: CARLORBIZ        | Areas          | 2379440556f78157bdc9fea211d7ef35        |\n| Areas: GPSA/HPSA        | Areas          | 2379440556f781398074e8fa82e05f72        |\n| Areas: ALL THINGS CARLA | Areas          | 2379440556f7812cb90ff696e8326e88        |\n\nThese are now ready to pre-fill in your UUID library tab so we can reference them directly in Make",
+      "evidence": "When I start the recording, do you want me to **also include one extra example relation** (like an \u201cAreas\u201d tag) so you can see it handle more than one field, or just keep it simple with Projects for now?\n\n**User:** We had a problem with the mapping of these relation fields (which in notion also allow new text to be created) because they include icons and some other mysterious complications - if you can include the way these complications can be managed in your recording that would be amazing \ud83d\ude0d\n\n**Assistant:** Gotcha \u2014 I remember this pain point well",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 4,
+      "category": "methodology",
+      "summary": "Methodology: ---\n\nDo you want me to **also build the \u201cAreas\u201d relation mapping live** in the same recording, so yo",
+      "details": "---\n\nDo you want me to **also build the \u201cAreas\u201d relation mapping live** in the same recording, so you have a template for mapping *any* relation field with this method? That would make it 100% future-proof for other Notion databases too",
+      "evidence": "---\n\nDo you want me to **also build the \u201cAreas\u201d relation mapping live** in the same recording, so you have a template for mapping *any* relation field with this method? That would make it 100% future-proof for other Notion databases too",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Branching - multiple related topics",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221514",
+  "word_count": 3249,
+  "extraction_date": "2025-12-24 22:15:14",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Research course content development",
+      "start_line": 0,
+      "end_line": 169,
+      "excerpt": "# Research course content development\n\n**Date:** 2025-08-15\n\n---\n\n**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-Ju9WwXKRK4HS2Suw5oftBn', 'size_bytes': 269879,",
+      "keywords": [
+        "0",
+        "1",
+        "10",
+        "1012",
+        "10min"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1627
+    },
+    {
+      "thread_id": 2,
+      "title": "Module 3 \u2014 Partnering with Community, ACCHOs & Cultural Educators",
+      "start_line": 169,
+      "end_line": 368,
+      "excerpt": "- **Outcomes:** Apply culturally safe supervision behaviours; structure feedback to reduce power harms; recognise/respond to racism.  \n- **Content:** Safe learning contracts; feedback models; bystande",
+      "keywords": [
+        "1",
+        "12",
+        "16",
+        "2",
+        "20202025"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1622
+    }
+  ],
+  "connections": [
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 2,
+      "connection_type": "builds_on",
+      "explanation": "Thread 2 references concepts from Thread 1",
+      "evidence": "- **Content:** JCTS model; working with cultural educators/mentors; protocols for Welcome to Country/Acknowledgement; ACCHO partnerships. \ue200cite\ue202turn0s"
+    }
+  ],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: \ue200cite\ue202turn0search2\ue202turn0search3\ue202turn1search3\ue202turn4search11\ue202turn4search0\ue202turn4search4\ue202turn4search13\ue202t",
+      "details": "\ue200cite\ue202turn0search2\ue202turn0search3\ue202turn1search3\ue202turn4search11\ue202turn4search0\ue202turn4search4\ue202turn4search13\ue202turn1search0\ue202turn2search0\ue202turn2search1\ue202turn2search2\ue202turn1search1\ue202turn3search2\ue201\n\n**3) Stakeholder dialogues (yarning approach)**\n- 4\u20136 semi-structured yarns with local Elders/ACCHOs, IGPTN members, supervisors/registrars\u2014surface local priorities, barriers, good practice. Communication in practice**  \nYarning, silence, kinship and gender considerations; interpreters; trauma-informed approaches; RACGP C2",
+      "evidence": "\ue200cite\ue202turn0search2\ue202turn0search3\ue202turn1search3\ue202turn4search11\ue202turn4search0\ue202turn4search4\ue202turn4search13\ue202turn1search0\ue202turn2search0\ue202turn2search1\ue202turn2search2\ue202turn1search1\ue202turn3search2\ue201\n\n**3) Stakeholder dialogues (yarning approach)**\n- 4\u20136 semi-structured yarns with local Elders/ACCHOs, IGPTN members, supervisors/registrars\u2014surface local priorities, barriers, good practice",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 2,
+      "category": "methodology",
+      "summary": "Methodology: \ue200cite\ue202turn0search1\ue201\n\n---\n\n# Starter resource pack (to hyperlink inside the LMS)\n- AHPRA **Aboriginal",
+      "details": "\ue200cite\ue202turn0search1\ue201\n\n---\n\n# Starter resource pack (to hyperlink inside the LMS)\n- AHPRA **Aboriginal and Torres Strait Islander Health and Cultural Safety Strategy 2020\u20132025** and **Good Medical Practice** Code. \ue200cite\ue202turn0search7\ue202turn0search21\ue201  \n- This sits within the broader **National Scheme 2020\u20132025 Strategy** aiming to make cultural safety the norm and eliminate systemic and interpersonal racism. - **Content**:\n  - Historical health disparities and Close the Gap context\n  - Definitions of cultural safety, difference from cultural competence/capability\n  - Legal and regulatory framework (AHPRA Strategy, National Law)\n- **Format**: Self-paced with reflection prompts",
+      "evidence": "\ue200cite\ue202turn0search1\ue201\n\n---\n\n# Starter resource pack (to hyperlink inside the LMS)\n- AHPRA **Aboriginal and Torres Strait Islander Health and Cultural Safety Strategy 2020\u20132025** and **Good Medical Practice** Code",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

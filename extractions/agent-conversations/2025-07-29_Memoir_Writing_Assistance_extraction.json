@@ -1,0 +1,133 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221541",
+  "word_count": 5506,
+  "extraction_date": "2025-12-24 22:15:41",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Memoir Writing Assistance",
+      "start_line": 0,
+      "end_line": 123,
+      "excerpt": "# Memoir Writing Assistance\n\n**Date:** 2025-07-29\n\n---\n\n**User:** {'content_type': 'audio_transcription', 'text': '...to build content for my memoir. Do you think you can give me a hand? Ask me some q",
+      "keywords": [
+        "00",
+        "026",
+        "064",
+        "075",
+        "09"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 3027
+    },
+    {
+      "thread_id": 2,
+      "title": "**Assistant:** {'content_type': 'audio_transcription', 'text': 'Absolutely! Crafting better prompts...",
+      "start_line": 123,
+      "end_line": 181,
+      "excerpt": "**Assistant:** {'content_type': 'audio_transcription', 'text': 'Absolutely! Crafting better prompts is a huge part of getting the best out of AI. One great approach is to include specific examples or",
+      "keywords": [
+        "00",
+        "05",
+        "077",
+        "103",
+        "106"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1795
+    },
+    {
+      "thread_id": 3,
+      "title": "{'content_type': 'audio_transcription', 'text': \"So, if I'm setting out...",
+      "start_line": 181,
+      "end_line": 199,
+      "excerpt": "{'content_type': 'audio_transcription', 'text': \"So, if I'm setting out on a journey to adopt AI into my new workflows, I'm coming back into the workforce as an executive, and the company doesn't have",
+      "keywords": [
+        "00",
+        "1063278",
+        "1543",
+        "1626798",
+        "175"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 684
+    }
+  ],
+  "connections": [
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 2,
+      "connection_type": "parallels",
+      "explanation": "Thread 2 parallels Thread 1",
+      "evidence": "{'expiry_datetime': '2026-01-25T04:43:31.518346+00:00', 'content_type': 'audio_asset_pointer', 'asset_pointer': 'sediment://file_00000000e0c061f6a07ea"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 3,
+      "connection_type": "builds_on",
+      "explanation": "Thread 3 references concepts from Thread 1",
+      "evidence": "{'expiry_datetime': '2026-01-25T04:53:05.930453+00:00', 'content_type': 'audio_asset_pointer', 'asset_pointer': 'sediment://file_00000000be54622fbc8a6"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 3,
+      "connection_type": "builds_on",
+      "explanation": "Thread 3 references concepts from Thread 2",
+      "evidence": "{'expiry_datetime': '2026-01-25T04:53:05.930453+00:00', 'content_type': 'audio_asset_pointer', 'asset_pointer': 'sediment://file_00000000be54622fbc8a6"
+    }
+  ],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: \", 'direction': 'in', 'decoding_id': None}\n\n**Assistant:** {'content_type': 'audio_transcription', '",
+      "details": "\", 'direction': 'in', 'decoding_id': None}\n\n**Assistant:** {'content_type': 'audio_transcription', 'text': 'That sounds like such a fantastic approach!', 'direction': 'out', 'decoding_id': None}\n{'expiry_datetime': '2026-01-25T04:25:58. 07100467098644}\n\n**Assistant:** {'content_type': 'audio_transcription', 'text': \"That's a great question! I think the key is to approach AI as a collaborative tool rather than a replacement",
+      "evidence": "\", 'direction': 'in', 'decoding_id': None}\n\n**Assistant:** {'content_type': 'audio_transcription', 'text': 'That sounds like such a fantastic approach!', 'direction': 'out', 'decoding_id': None}\n{'expiry_datetime': '2026-01-25T04:25:58",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 2,
+      "category": "methodology",
+      "summary": "Methodology: One great approach is to include specific examples or even snippets of their own writing or work so ",
+      "details": "One great approach is to include specific examples or even snippets of their own writing or work so that the AI can learn their style and tone",
+      "evidence": "One great approach is to include specific examples or even snippets of their own writing or work so that the AI can learn their style and tone",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 3,
+      "category": "methodology",
+      "summary": "Methodology: What would your advice be to that person to come in with the most strategic approach to incorporatin",
+      "details": "What would your advice be to that person to come in with the most strategic approach to incorporating AI into their new workflows?\", 'direction': 'in', 'decoding_id': None}\n\n**Assistant:** {'content_type': 'audio_transcription', 'text': 'I\u2019d definitely suggest starting with a tool that has a good balance of user-friendliness and strong privacy features",
+      "evidence": "What would your advice be to that person to come in with the most strategic approach to incorporating AI into their new workflows?\", 'direction': 'in', 'decoding_id': None}\n\n**Assistant:** {'content_type': 'audio_transcription', 'text': 'I\u2019d definitely suggest starting with a tool that has a good balance of user-friendliness and strong privacy features",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [
+    {
+      "involved_threads": [
+        1,
+        2,
+        3
+      ],
+      "insight_type": "evolution",
+      "description": "Topic evolution across 3 threads",
+      "significance": "Shows progressive refinement of understanding"
+    },
+    {
+      "involved_threads": [
+        1,
+        2,
+        3
+      ],
+      "insight_type": "emergent_pattern",
+      "description": "Repeated methodology learnings across conversation",
+      "significance": "Strong focus on methodology throughout discussion"
+    }
+  ],
+  "thinking_patterns": {
+    "flow": "Branching - multiple related topics",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

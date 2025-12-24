@@ -1,0 +1,50 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221448",
+  "word_count": 8012,
+  "extraction_date": "2025-12-24 22:14:48",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Google Sheets workspace setup",
+      "start_line": 0,
+      "end_line": 1233,
+      "excerpt": "# Google Sheets workspace setup\n\n**Date:** 2025-08-09\n\n---\n\n**User:** I need you to create a comprehensive Google Sheets database structure that replicates a Notion workspace. Using the following CSV",
+      "keywords": [
+        "0",
+        "00",
+        "01",
+        "0100",
+        "025n"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 8012
+    }
+  ],
+  "connections": [],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "correction",
+      "summary": "Correction: ### What I fixed\n- **Merged any duplicate \u201ccore\u201d tabs** (e",
+      "details": "### What I fixed\n- **Merged any duplicate \u201ccore\u201d tabs** (e. ### Grab the fixed file\n[**\ud83d\udcc2 Download: HQ Dashboard (CLEANED). ### What I changed (to fix the Drive import/save issue)\n- **Removed all emoji and Notion icon characters** from every value across all CSVs (names, titles, tags, etc",
+      "evidence": "### What I fixed\n- **Merged any duplicate \u201ccore\u201d tabs** (e",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: **User:** go for staging with comma-separated links\n\n**Assistant:** Perfect\u2014thanks for green-lightin",
+      "details": "**User:** go for staging with comma-separated links\n\n**Assistant:** Perfect\u2014thanks for green-lighting the **staging with comma-separated links** approach. Do you want me to:\n- **Prefill the Registry + add Unified_* tabs now** (Apps Script approach), or  \n- Build the **formula-only** version (slower on huge data, but zero scripting)?\n\n**User:** let's go with all your suggestions (#5) and re Apps Script vs formulae, I'm happiest with the approach that won't throw errors in the future and undo all this work",
+      "evidence": "**User:** go for staging with comma-separated links\n\n**Assistant:** Perfect\u2014thanks for green-lighting the **staging with comma-separated links** approach",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

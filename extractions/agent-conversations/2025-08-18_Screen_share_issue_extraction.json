@@ -1,0 +1,60 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221506",
+  "word_count": 8979,
+  "extraction_date": "2025-12-24 22:15:06",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Screen share issue",
+      "start_line": 0,
+      "end_line": 444,
+      "excerpt": "# Screen share issue\n\n**Date:** 2025-08-18\n\n---\n\n**User:** {'content_type': 'audio_transcription', 'text': '', 'direction': 'in', 'decoding_id': None}\n{'expiry_datetime': '2026-02-13T22:37:58.213270+0",
+      "keywords": [
+        "0",
+        "00",
+        "036",
+        "038",
+        "1"
+      ],
+      "breakthrough_moments": [
+        "9103214959614}\n\n**Assistant:** {'content_type': 'audio_transcription', 'text': \"Of course! So as I was saying, it's actually a pretty unique selling point that you're connecting supervisors and learners in this kind of interactive, scenario-based discussion that can cross borders and different guidelines"
+      ],
+      "word_count": 8979
+    }
+  ],
+  "connections": [],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "correction",
+      "summary": "Correction: # Screen share issue\n\n**Date:** 2025-08-18\n\n---\n\n**User:** {'content_type': 'audio_transcription', '",
+      "details": "# Screen share issue\n\n**Date:** 2025-08-18\n\n---\n\n**User:** {'content_type': 'audio_transcription', 'text': '', 'direction': 'in', 'decoding_id': None}\n{'expiry_datetime': '2026-02-13T22:37:58. If you were trying to show me something, you might just need to double-check that the screen sharing is turned on or give me a heads-up if there's any issue. 74648491991684}\n\n**Assistant:** {'content_type': 'audio_transcription', 'text': \"No problem, I see what you're looking at",
+      "evidence": "# Screen share issue\n\n**Date:** 2025-08-18\n\n---\n\n**User:** {'content_type': 'audio_transcription', 'text': '', 'direction': 'in', 'decoding_id': None}\n{'expiry_datetime': '2026-02-13T22:37:58",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 1,
+      "category": "insight",
+      "summary": "Breakthrough in Screen share issue",
+      "details": "9103214959614}\n\n**Assistant:** {'content_type': 'audio_transcription', 'text': \"Of course! So as I was saying, it's actually a pretty unique selling point that you're connecting supervisors and learners in this kind of interactive, scenario-based discussion that can cross borders and different guidelines",
+      "evidence": "9103214959614}\n\n**Assistant:** {'content_type': 'audio_transcription', 'text': \"Of course! So as I was saying, it's actually a pretty unique selling point that you're connecting supervisors and learners in this kind of interactive, scenario-based discussion that can cross borders and different guidelines",
+      "confidence": "high"
+    },
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: We can also talk about the dual-app approach as a unique way to bridge the gap between supervisors a",
+      "details": "We can also talk about the dual-app approach as a unique way to bridge the gap between supervisors and learners in real-world scenarios. **\n\n---\n\nWould you like this split into two separate versions for the store listings (Scenario vs ScenarioEd), or should we use this shared listing approach with parallel branding?\n\nNext, I\u2019ll begin drafting the **positioning framework** and a visual storyboard outline for onboarding. \u201d\n\n---\n\nNext up:  \n\ud83e\udded I\u2019ll draft the **positioning framework** that explains how to market the apps:\n- Together (ecosystem, partner strategy)\n- Separately (distinct user journeys)\n- Visually (onboarding slides, feature cards, etc",
+      "evidence": "We can also talk about the dual-app approach as a unique way to bridge the gap between supervisors and learners in real-world scenarios",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Moderate breakthroughs - productive exploration"
+  }
+}

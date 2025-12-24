@@ -1,0 +1,84 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221457",
+  "word_count": 2952,
+  "extraction_date": "2025-12-24 22:14:57",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Notion API Integration",
+      "start_line": 0,
+      "end_line": 454,
+      "excerpt": "# Notion API Integration\n\n**Date:** 2025-08-12\n\n---\n\n**User:** OK, the fact we achieved this amazing success deserved a new chat... but now I have Claude working directly into Notion and Claude has he",
+      "keywords": [
+        "1",
+        "13",
+        "2",
+        "200",
+        "20220628"
+      ],
+      "breakthrough_moments": [
+        "**Always include**: \n\n   - Session summary\n\n   - Key breakthroughs or insights\n\n   - Specific next steps identified\n\n   - Priority level for follow-up\n\n4"
+      ],
+      "word_count": 1777
+    },
+    {
+      "thread_id": 2,
+      "title": "Quick safety tidy-up",
+      "start_line": 454,
+      "end_line": 711,
+      "excerpt": "- Later, we can add a helper that *creates* tasks in your Tasks DB and auto-links them back to the conversation page. (I\u2019ve got a ready-to-drop snippet when you\u2019re ready.)\n\n---\n\n## Quick safety tidy",
+      "keywords": [
+        "1",
+        "100388",
+        "1090",
+        "1339",
+        "144913"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1175
+    }
+  ],
+  "connections": [
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 2,
+      "connection_type": "builds_on",
+      "explanation": "Thread 2 references concepts from Thread 1",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-C2gMSUvBRjzqX9Z2D9HEXi', 'size_bytes': 85235, 'width': 1339, '"
+    }
+  ],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "correction",
+      "summary": "Correction: We\u2019ll (1) verify your DB fields, (2) drop in a corrected/optimised logging script, (3) test it, (4) ",
+      "details": "We\u2019ll (1) verify your DB fields, (2) drop in a corrected/optimised logging script, (3) test it, (4) add a simple end-of-chat workflow, and (5) set up the Claude/Fred bridge",
+      "evidence": "We\u2019ll (1) verify your DB fields, (2) drop in a corrected/optimised logging script, (3) test it, (4) add a simple end-of-chat workflow, and (5) set up the Claude/Fred bridge",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 1,
+      "category": "insight",
+      "summary": "Breakthrough in Notion API Integration",
+      "details": "**Always include**: \n\n   - Session summary\n\n   - Key breakthroughs or insights\n\n   - Specific next steps identified\n\n   - Priority level for follow-up\n\n4",
+      "evidence": "**Always include**: \n\n   - Session summary\n\n   - Key breakthroughs or insights\n\n   - Specific next steps identified\n\n   - Priority level for follow-up\n\n4",
+      "confidence": "high"
+    },
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: *Memoir*, *Coaching*, *MTMOT*, *Strategy*, *AI Integration*)",
+      "details": "*Memoir*, *Coaching*, *MTMOT*, *Strategy*, *AI Integration*)",
+      "evidence": "*Memoir*, *Coaching*, *MTMOT*, *Strategy*, *AI Integration*)",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Moderate breakthroughs - productive exploration"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221420",
+  "word_count": 9763,
+  "extraction_date": "2025-12-24 22:14:20",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Content development task AI scribes",
+      "start_line": 0,
+      "end_line": 1763,
+      "excerpt": "# Content development task AI scribes\n\n**Date:** 2025-08-01\n\n---\n\n**User:** Hi Fred, I need you to turn on your super educator / course architect brain for me and adapt the below outline into the full",
+      "keywords": [
+        "0128",
+        "0223",
+        "0225",
+        "1",
+        "10"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 9696
+    },
+    {
+      "thread_id": 2,
+      "title": "| Critical Evaluation of AI Output | Interactive...",
+      "start_line": 1763,
+      "end_line": 1772,
+      "excerpt": "| Critical Evaluation of AI Output            | Interactive review, error identification, feedback to vendor       |\n| Human Oversight Emphasis                    | Verifier not consumer mindset reinf",
+      "keywords": [
+        "Assurance",
+        "Critical",
+        "Documentation",
+        "Emphasis",
+        "Evaluation"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 67
+    }
+  ],
+  "connections": [],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "correction",
+      "summary": "Correction: Slide 5\n - Your questions \u2013 what we are covering\u2026\n - Medicolegal issues - privacy, security etc",
+      "details": "Slide 5\n - Your questions \u2013 what we are covering\u2026\n - Medicolegal issues - privacy, security etc. | Training issues \u2013 impact on registrar skill development, review of AI-generated notes | \n\nSlide 6\n - Your questions \u2013 what we are not covering\u2026\n - Platforms, microphones etc. Your questions \u2013 what we are covering\u2026 \nMedicolegal issues - privacy, security etc",
+      "evidence": "Slide 5\n - Your questions \u2013 what we are covering\u2026\n - Medicolegal issues - privacy, security etc",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: 3 Strategic Planning\n\n- Long-term practice technology roadmaps\n\n- Cost-benefit analysis frameworks\n\n",
+      "details": "3 Strategic Planning\n\n- Long-term practice technology roadmaps\n\n- Cost-benefit analysis frameworks\n\n- Scalability considerations for growing practices\n\n- Succession planning and knowledge transfer\n\n\n\n---\n\n\n\n## Assessment and Certification\n\n\n\n### Formative Assessment\n\n- Module quizzes testing knowledge retention\n\n- Case study analyses demonstrating practical application\n\n- Group discussions and peer learning activities\n\n- Practical exercises with real-world scenarios\n\n\n\n### Summative Assessment\n\n- Comprehensive case study requiring integration of legal, clinical, and practical considerations\n\n- Development of a practice-specific AI scribe implementation plan\n\n- Demonstration of consent procedures and patient communication\n\n- Risk assessment and mitigation strategy presentation\n\n\n\n### Certification Requirements\n\n- Attendance at all modules (minimum 90%)\n\n- Satisfactory completion of all practical exercises\n\n- Passing grade on final assessment (75% minimum)\n\n- Commitment to ongoing professional development in AI literacy\n\n\n\n---\n\n\n\n## Resources and References\n\n\n\n### Essential Reading\n\n- RACGP Artificial Intelligence (AI) Scribes Fact Sheet\n\n- GPSA Position Statement: Artificial Intelligence in GP Supervision\n\n- Avant AI Scribes Checklist\n\n- MIPS AI Scribes Fact Sheet and Medicolegal Guidance\n\n- ACRRM Checklist for AI-Based Scribing Software\n\n\n\n### Supplementary Materials\n\n- Sample consent forms and privacy policies\n\n- Vendor comparison matrices\n\n- Risk assessment templates\n\n- Implementation checklists and timelines\n\n- Case study library with real-world examples\n\n\n\n### Online Resources\n\n- RACGP AI in Primary Care Position Statement: [racgp. aspx)\n\n- Digital Health Agency Implementation Guide\n\n- Vendor-specific training materials and documentation\n\n\n\n### Professional Development Pathways\n\n- Advanced AI literacy courses\n\n- Privacy law updates and training\n\n- Clinical audit and quality improvement methodologies\n\n- Leadership in health technology adoption\n\n\n\n---\n\n\n\n## Course Delivery \n\n\n### Modular Online Learning (4-6 weeks)\n\n- Self-paced progression through modules\n\n- Virtual discussion forums\n\n- Online practical exercises\n\n- Flexible scheduling for busy practitioners\n\n\n\n\n\n\n### Continuing Professional Development Integration\n\n- RACGP CPD point allocation\n\n- ACRRM professional development requirements\n\n- Practice accreditation standard alignment\n\n- Annual refresher and update sessions\n\n\n\nThis course outline provides a comprehensive foundation for safe and effective AI scribe implementation while maintaining the highest standards of patient care and professional practice in Australian general practice settings. 3 Strategic Planning\n- Long-term practice technology roadmaps\n- Cost-benefit analysis frameworks\n- Scalability considerations for growing practices\n- Succession planning and knowledge transfer\n\n---\n\n## Assessment and Certification\n\n### Formative Assessment\n- Module quizzes testing knowledge retention\n- Case study analyses demonstrating practical application\n- Group discussions and peer learning activities\n- Practical exercises with real-world scenarios\n\n### Summative Assessment\n- Comprehensive case study requiring integration of legal, clinical, and practical considerations\n- Development of a practice-specific AI scribe implementation plan\n- Demonstration of consent procedures and patient communication\n- Risk assessment and mitigation strategy presentation\n\n### Certification Requirements\n- Attendance at all modules (minimum 90%)\n- Satisfactory completion of all practical exercises\n- Passing grade on final assessment (75% minimum)\n- Commitment to ongoing professional development in AI literacy\n\n---\n\n## Resources and References\n\n### Essential Reading\n- RACGP Artificial Intelligence (AI) Scribes Fact Sheet\n- GPSA Position Statement: Artificial Intelligence in GP Supervision\n- Avant AI Scribes Checklist\n- MIPS AI Scribes Fact Sheet and Medicolegal Guidance\n- ACRRM Checklist for AI-Based Scribing Software\n\n### Supplementary Materials\n- Sample consent forms and privacy policies\n- Vendor comparison matrices\n- Risk assessment templates\n- Implementation checklists and timelines\n- Case study library with real-world examples\n\n### Online Resources\n- RACGP AI in Primary Care Position Statement: [racgp",
+      "evidence": "3 Strategic Planning\n\n- Long-term practice technology roadmaps\n\n- Cost-benefit analysis frameworks\n\n- Scalability considerations for growing practices\n\n- Succession planning and knowledge transfer\n\n\n\n---\n\n\n\n## Assessment and Certification\n\n\n\n### Formative Assessment\n\n- Module quizzes testing knowledge retention\n\n- Case study analyses demonstrating practical application\n\n- Group discussions and peer learning activities\n\n- Practical exercises with real-world scenarios\n\n\n\n### Summative Assessment\n\n- Comprehensive case study requiring integration of legal, clinical, and practical considerations\n\n- Development of a practice-specific AI scribe implementation plan\n\n- Demonstration of consent procedures and patient communication\n\n- Risk assessment and mitigation strategy presentation\n\n\n\n### Certification Requirements\n\n- Attendance at all modules (minimum 90%)\n\n- Satisfactory completion of all practical exercises\n\n- Passing grade on final assessment (75% minimum)\n\n- Commitment to ongoing professional development in AI literacy\n\n\n\n---\n\n\n\n## Resources and References\n\n\n\n### Essential Reading\n\n- RACGP Artificial Intelligence (AI) Scribes Fact Sheet\n\n- GPSA Position Statement: Artificial Intelligence in GP Supervision\n\n- Avant AI Scribes Checklist\n\n- MIPS AI Scribes Fact Sheet and Medicolegal Guidance\n\n- ACRRM Checklist for AI-Based Scribing Software\n\n\n\n### Supplementary Materials\n\n- Sample consent forms and privacy policies\n\n- Vendor comparison matrices\n\n- Risk assessment templates\n\n- Implementation checklists and timelines\n\n- Case study library with real-world examples\n\n\n\n### Online Resources\n\n- RACGP AI in Primary Care Position Statement: [racgp",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

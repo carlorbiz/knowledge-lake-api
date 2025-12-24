@@ -1,0 +1,74 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221015",
+  "word_count": 15085,
+  "extraction_date": "2025-12-24 22:10:15",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Project module content verification",
+      "start_line": 0,
+      "end_line": 1591,
+      "excerpt": "# Project module content verification\n\n**Summary:** **Conversation Overview**\n\nThe user is working on a comprehensive GP training module development project involving 9 modules for healthcare administ",
+      "keywords": [
+        "0",
+        "005008",
+        "06",
+        "0630",
+        "08"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 12601
+    },
+    {
+      "thread_id": 2,
+      "title": "- Registrar discloses Friday evening work finishing 9pm,...",
+      "start_line": 1591,
+      "end_line": 1881,
+      "excerpt": "- Registrar discloses Friday evening work finishing 9pm, driving home (arriving 10pm), returning to training practice Saturday 8am (10-hour rest period not met)\n\n**Joint risk assessment:**\n- Immediate",
+      "keywords": [
+        "08",
+        "1",
+        "10",
+        "100130",
+        "10a"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2484
+    }
+  ],
+  "connections": [],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "correction",
+      "summary": "Correction: 2) properly integrated\n\n### **No Issues Found:**\n- No content deletions\n- No contradictions with ori",
+      "details": "2) properly integrated\n\n### **No Issues Found:**\n- No content deletions\n- No contradictions with original slides\n- No terminology inconsistencies\n\n---\n\n## Verdict: \u2705 **APPROVED**\n\nThe learning objectives and module development have:\n- \u2705 **Preserved** all original slide content\n- \u2705 **Honoured** the structure and emphasis of original materials\n- \u2705 **Enhanced** with current 2025 standards and terminology\n- \u2705 **Added** only critical policy updates documented in Style Guide\n\n**Recommendation:** Proceed with confidence. **Stage 1 - Internal discussion:**\n   - Practice manager acknowledges receipt of concern within 24 hours\n   - Conducts internal audit: retrieves employment contract, reviews calculation methodology, checks payroll records\n   - Identifies error: calculation used receipts methodology but contract specifies billings\n   - Within 5 business days: meets with registrar, acknowledges error, provides corrected calculation showing $1,247 underpayment\n   - Commits to correcting underpayment in next pay cycle with retrospective adjustment\n   - Implements system improvement: payroll system now flags calculation methodology from contract\n\n**Outcome:** Dispute resolved at Stage 1. These findings emphasise rostering as a patient safety issue, not merely an administrative function",
+      "evidence": "2) properly integrated\n\n### **No Issues Found:**\n- No content deletions\n- No contradictions with original slides\n- No terminology inconsistencies\n\n---\n\n## Verdict: \u2705 **APPROVED**\n\nThe learning objectives and module development have:\n- \u2705 **Preserved** all original slide content\n- \u2705 **Honoured** the structure and emphasis of original materials\n- \u2705 **Enhanced** with current 2025 standards and terminology\n- \u2705 **Added** only critical policy updates documented in Style Guide\n\n**Recommendation:** Proceed with confidence",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: ---\n\n### MODULE 5: PROACTIVELY ADDRESSING CONFLICT \u2705\n**Slide Topics Covered:**\n- Top 10 causes of co",
+      "details": "---\n\n### MODULE 5: PROACTIVELY ADDRESSING CONFLICT \u2705\n**Slide Topics Covered:**\n- Top 10 causes of conflict \u2713\n- Prevention (interview, welcome pack, NTCER review) \u2713\n- Early intervention (warning signs, check-ins) \u2713\n- Formal resolution (documentation, confidentiality) \u2713\n\n**Learning Objectives Alignment:** All 5 objectives aligned with 3-step approach. length > 100) {\n  // Research exists - CONTINUE automation\n  return {\n    hasResearch: true,\n    summary: researchNotes,  // Full 2500-3500 words\n    sources: ['User-provided research via NotebookLM/Gems'],\n    method: 'manual'\n  };\n}\n```\n\n**If NO research:** Automation STOPS, creates research brief, user must complete it first. **Archival record** (partial)\n   - First 500 chars stored in Module Content Complete\n   - Full version lives in Module Queue until processed\n\n---\n\n## Why Only Partial Research Used?\n\nLooking at the truncation strategy:\n\n| Generation Stage | Chars Used | Rationale |\n|------------------|------------|-----------|\n| **Slides** | 2000 | Max context for 12 slide generation |\n| **LMS Document** | 1500 | Enough for citations + grounding |\n| **Workbook** | 1500 | Enough for practical activities |\n| **Case Studies** | 1500 | Enough for scenario basis |\n| **Module Content Complete** | 500 | Summary reference only |\n\n**Why not use full 2500-3500 words?**\n- API token limits per request\n- Focused context = better outputs\n- Key information front-loaded in research foundation structure\n\n---\n\n## Your Next Steps\n\n### **Immediate Action Required:**\n\n1",
+      "evidence": "---\n\n### MODULE 5: PROACTIVELY ADDRESSING CONFLICT \u2705\n**Slide Topics Covered:**\n- Top 10 causes of conflict \u2713\n- Prevention (interview, welcome pack, NTCER review) \u2713\n- Early intervention (warning signs, check-ins) \u2713\n- Formal resolution (documentation, confidentiality) \u2713\n\n**Learning Objectives Alignment:** All 5 objectives aligned with 3-step approach",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 2,
+      "category": "methodology",
+      "summary": "Methodology: - Registrar discloses Friday evening work finishing 9pm, driving home (arriving 10pm), returning to ",
+      "details": "- Registrar discloses Friday evening work finishing 9pm, driving home (arriving 10pm), returning to training practice Saturday 8am (10-hour rest period not met)\n\n**Joint risk assessment:**\n- Immediate risk: Registrar potentially unsafe for complex Saturday consultations\n- Contributing factors: Financial pressure from exam costs, lack of awareness about disclosure requirement\n- Risk to patients: Increased error risk due to cumulative sleep debt over multiple weekends\n\n**Mitigation implemented:**\n- Immediate: Roster adjusted so Saturday shifts start 11am (allowing 13-hour rest period)\n- Short-term: Reduced Saturday patient load from 4/hour to 3/hour\n- Medium-term: Discussion of financial pressures, referral to GPRA for exam cost support resources\n- System improvement: Orientation process revised to explicitly discuss outside work disclosure\n\n**Outcome:**\n- Registrar grateful for supportive response rather than punitive\n- Saturday performance improved (supervisor reports)\n- No further fatigue-related concerns for remainder of term\n\n*Case Study 2: Practice roster creating fatigue risk*\n\n**Background:**\n- GPT2 registrar, part-time 0. 4 hours weekly (30 min \u00d7 8 half-days)\n  - Day length reduced to maximum 9 hours per day\n  - Additional reception staff rostered during busy period to manage patient flow\n- Registrar return to work meeting:\n  - Apology for pressure created\n  - Revised roster presented\n  - Commitment to monthly roster review\n- System improvement:\n  - Practice manager receives GPSA rostering compliance training\n  - Monthly roster audit against NTCER requirements implemented\n  - Automatic alerts when roster exceeds teaching/admin time limits\n\n**Outcome:**\n- Registrar returned to work week 8, completed term successfully\n- Placement evaluation scores improved from 3. 2 provides clear minimum standards that, when implemented systematically, prevent the majority of rostering-related conflicts and welfare concerns",
+      "evidence": "- Registrar discloses Friday evening work finishing 9pm, driving home (arriving 10pm), returning to training practice Saturday 8am (10-hour rest period not met)\n\n**Joint risk assessment:**\n- Immediate risk: Registrar potentially unsafe for complex Saturday consultations\n- Contributing factors: Financial pressure from exam costs, lack of awareness about disclosure requirement\n- Risk to patients: Increased error risk due to cumulative sleep debt over multiple weekends\n\n**Mitigation implemented:**\n- Immediate: Roster adjusted so Saturday shifts start 11am (allowing 13-hour rest period)\n- Short-term: Reduced Saturday patient load from 4/hour to 3/hour\n- Medium-term: Discussion of financial pressures, referral to GPRA for exam cost support resources\n- System improvement: Orientation process revised to explicitly discuss outside work disclosure\n\n**Outcome:**\n- Registrar grateful for supportive response rather than punitive\n- Saturday performance improved (supervisor reports)\n- No further fatigue-related concerns for remainder of term\n\n*Case Study 2: Practice roster creating fatigue risk*\n\n**Background:**\n- GPT2 registrar, part-time 0",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

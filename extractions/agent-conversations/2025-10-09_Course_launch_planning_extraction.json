@@ -1,0 +1,66 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221324",
+  "word_count": 3197,
+  "extraction_date": "2025-12-24 22:13:24",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Course launch planning",
+      "start_line": 0,
+      "end_line": 15,
+      "excerpt": "# Course launch planning\n\n**Date:** 2025-10-09\n\n---\n\n**User:** {'content_type': 'audio_transcription', 'text': '', 'direction': 'in', 'decoding_id': None}\n{'expiry_datetime': '2026-04-07T08:34:14.0329",
+      "keywords": [
+        "00",
+        "038",
+        "10907",
+        "1193782953780028",
+        "18318"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 416
+    },
+    {
+      "thread_id": 2,
+      "title": "**Assistant:** Carla is stepping back from her GPSA/HPSA...",
+      "start_line": 15,
+      "end_line": 141,
+      "excerpt": "**Assistant:** Carla is stepping back from her GPSA/HPSA role, freeing up more time to focus on building her own courses and products. She wants to revisit and prioritize the rollout of AI-focused cou",
+      "keywords": [
+        "00",
+        "01",
+        "074",
+        "1",
+        "10"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2781
+    }
+  ],
+  "connections": [],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "correction",
+      "summary": "Correction: I'm currently looking to move out of the Elementor hosted WordPress and moving my WordPress onto som",
+      "details": "I'm currently looking to move out of the Elementor hosted WordPress and moving my WordPress onto something that's more manageable because I've had a bugger of a time trying to get my plugins to work on my own website",
+      "evidence": "I'm currently looking to move out of the Elementor hosted WordPress and moving my WordPress onto something that's more manageable because I've had a bugger of a time trying to get my plugins to work on my own website",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 2,
+      "category": "correction",
+      "summary": "Correction: She is also planning to move away from Elementor-hosted WordPress to a more manageable hosting setup",
+      "details": "She is also planning to move away from Elementor-hosted WordPress to a more manageable hosting setup due to plugin issues",
+      "evidence": "She is also planning to move away from Elementor-hosted WordPress to a more manageable hosting setup due to plugin issues",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

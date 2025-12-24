@@ -1,0 +1,125 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221312",
+  "word_count": 3550,
+  "extraction_date": "2025-12-24 22:13:12",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Notion appendix extraction",
+      "start_line": 0,
+      "end_line": 14,
+      "excerpt": "# Notion appendix extraction\n\n**Date:** 2025-10-16\n\n---\n\n**User:** Fred, you are my trusted COO with excellent administrative skills and an eye for detail, but you have let me down lately. As second c",
+      "keywords": [
+        "0",
+        "20251016",
+        "20262030",
+        "Assistant",
+        "But"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 162
+    },
+    {
+      "thread_id": 2,
+      "title": "Also, remember to use `source_specific_search_parameters` when applicable....",
+      "start_line": 14,
+      "end_line": 36,
+      "excerpt": "Also, remember to use `source_specific_search_parameters` when applicable.\n\n**Assistant:** {\"queries\": [\"\"], \"source_filter\": [\"slurm_notion\"], \"source_specific_search_parameters\": {\"slurm_notion\": [{",
+      "keywords": [
+        "0",
+        "1",
+        "2",
+        "20262030",
+        "Also"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 251
+    },
+    {
+      "thread_id": 3,
+      "title": "**User:** easier to get you to access the...",
+      "start_line": 36,
+      "end_line": 352,
+      "excerpt": "**User:** easier to get you to access the exported pdfs from google drive - you will find all exports here <https://drive.google.com/drive/folders/1yLDy-mtpIg1aFjnpXFh-JJGhyVpE8bTd> Please convert and",
+      "keywords": [
+        "1",
+        "1on1",
+        "2",
+        "20262030",
+        "28d9440556f781bbbab4db81f3a9591b"
+      ],
+      "breakthrough_moments": [
+        "This is the key source plan whose appendices were exported"
+      ],
+      "word_count": 3137
+    }
+  ],
+  "connections": [
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 2,
+      "connection_type": "builds_on",
+      "explanation": "Thread 2 builds on Thread 1",
+      "evidence": "**Assistant:** {\"queries\": [\"\"], \"source_filter\": [\"slurm_notion\"], \"source_specific_search_parameters\": {\"slurm_notion\": [{\"query\": \"Rural Health Wor"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 3,
+      "connection_type": "builds_on",
+      "explanation": "Thread 3 builds on Thread 1",
+      "evidence": "**Assistant:** {\"queries\": [\"\"], \"source_filter\": [\"slurm_google_drive\"], \"source_specific_search_parameters\": {\"slurm_google_drive\": [{\"query\": \"Noti"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 3,
+      "connection_type": "builds_on",
+      "explanation": "Thread 3 builds on Thread 2",
+      "evidence": "**User:** easier to get you to access the exported pdfs from google drive - you will find all exports here <https://drive.google.com/drive/folders/1yL"
+    }
+  ],
+  "learnings": [
+    {
+      "thread_id": 3,
+      "category": "correction",
+      "summary": "Correction: \u2705 End result: a **full clean suite of appendix Google Docs** in your Strategic Plan folder, all refo",
+      "details": "\u2705 End result: a **full clean suite of appendix Google Docs** in your Strategic Plan folder, all reformatted via the template, footers stripped, line flow corrected, nothing omitted. Do you want me to start with one PDF appendix file right now so you can see the corrected Google Doc output?\n\n**User:** what do you mean you can't do it?\n\n**Assistant:** I get why that\u2019s frustrating \u2014 let me explain clearly. Clean up formatting issues caused by Notion export:  \n   - Remove all Notion footers and page references",
+      "evidence": "\u2705 End result: a **full clean suite of appendix Google Docs** in your Strategic Plan folder, all reformatted via the template, footers stripped, line flow corrected, nothing omitted",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 3,
+      "category": "insight",
+      "summary": "Breakthrough in **User:** easier to get you to access the...",
+      "details": "This is the key source plan whose appendices were exported",
+      "evidence": "This is the key source plan whose appendices were exported",
+      "confidence": "high"
+    },
+    {
+      "thread_id": 3,
+      "category": "methodology",
+      "summary": "Methodology: For any queries asking more than a single value (like listing values, or asking for a summary), if t",
+      "details": "For any queries asking more than a single value (like listing values, or asking for a summary), if the sheet is CLEARLY relevant, you need to open the full sheet to gather additional information by using the mclick() command. For any queries asking more than a single value (like listing values, or asking for a summary), if the sheet is CLEARLY relevant, you need to open the full sheet to gather additional information by using the mclick() command. It contains the core strategy, stakeholder validation, and evidence base",
+      "evidence": "For any queries asking more than a single value (like listing values, or asking for a summary), if the sheet is CLEARLY relevant, you need to open the full sheet to gather additional information by using the mclick() command",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [
+    {
+      "involved_threads": [
+        1,
+        2,
+        3
+      ],
+      "insight_type": "evolution",
+      "description": "Topic evolution across 3 threads",
+      "significance": "Shows progressive refinement of understanding"
+    }
+  ],
+  "thinking_patterns": {
+    "flow": "Branching - multiple related topics",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Moderate breakthroughs - productive exploration"
+  }
+}

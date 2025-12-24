@@ -1,0 +1,248 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221336",
+  "word_count": 8865,
+  "extraction_date": "2025-12-24 22:13:36",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Notion database access",
+      "start_line": 0,
+      "end_line": 22,
+      "excerpt": "# Notion database access\n\n**Date:** 2025-09-26\n\n---\n\n**User:** Hey Fred, can you access my Course Concepts database in Notion?\n\n**Assistant:** Yep \u2014 I can see your **Course Concepts** database in Noti",
+      "keywords": [
+        "0",
+        "20250925",
+        "20250926",
+        "6",
+        "ALSO"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 334
+    },
+    {
+      "thread_id": 2,
+      "title": "Also, remember to use `source_specific_search_parameters` when applicable....",
+      "start_line": 22,
+      "end_line": 39,
+      "excerpt": "Also, remember to use `source_specific_search_parameters` when applicable.\n\n**Assistant:** {\"queries\": [\"\"], \"source_filter\": [\"slurm_notion\"], \"source_specific_search_parameters\": {\"slurm_notion\": [{",
+      "keywords": [
+        "0",
+        "6month",
+        "Also",
+        "App",
+        "Assistant"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 193
+    },
+    {
+      "thread_id": 3,
+      "title": "As for **n8n**: I can\u2019t directly access your...",
+      "start_line": 39,
+      "end_line": 51,
+      "excerpt": "As for **n8n**: I can\u2019t directly access your n8n instance yet \u2014 I can only help you design, generate workflows, and troubleshoot configs. If you\u2019d like, I can draft the exact workflow JSONs you can im",
+      "keywords": [
+        "0",
+        "Assistant",
+        "Concept",
+        "Conversations",
+        "Course"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 189
+    },
+    {
+      "thread_id": 4,
+      "title": "Immediate Next Steps",
+      "start_line": 51,
+      "end_line": 192,
+      "excerpt": "Also, remember to use `source_specific_search_parameters` when applicable.\n\n**Assistant:** Looks like I wasn\u2019t able to surface the **Universal AI Conversations**, **Deck Requests**, or **Courses & Edu",
+      "keywords": [
+        "00",
+        "025",
+        "055",
+        "075",
+        "076"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 3546
+    },
+    {
+      "thread_id": 5,
+      "title": "**User:** {'content_type': 'audio_transcription', 'text': \"So that's different, that's...",
+      "start_line": 192,
+      "end_line": 210,
+      "excerpt": "**User:** {'content_type': 'audio_transcription', 'text': \"So that's different, that's not going into the gamma territory, it does need to go to glide, but I need to, you know, I'll share with you whe",
+      "keywords": [
+        "00",
+        "1197678",
+        "1302",
+        "1356078",
+        "1434798"
+      ],
+      "breakthrough_moments": [
+        "0328333500001}\n\n**Assistant:** {'content_type': 'audio_transcription', 'text': \"Of course! I can definitely give you a sense of how the front end might look in Glide"
+      ],
+      "word_count": 664
+    },
+    {
+      "thread_id": 6,
+      "title": "**User:** {'content_type': 'audio_transcription', 'text': \"Perfect, I'll come back...",
+      "start_line": 210,
+      "end_line": 571,
+      "excerpt": "**User:** {'content_type': 'audio_transcription', 'text': \"Perfect, I'll come back to you a bit later. You'll have it done, Buzzin.\", 'direction': 'in', 'decoding_id': None}\n{'expiry_datetime': '2026-",
+      "keywords": [
+        "00",
+        "025",
+        "048",
+        "05",
+        "068"
+      ],
+      "breakthrough_moments": [
+        "]\n\nAction Items Generated\n[Numbered list of specific next steps or tasks]\n\nDeliverables Created\n[Specific content, tools, or solutions produced]\n\nBusiness Area Classification\n[Choose ONE: GPSA/HPSA, CARLORBIZ, MTMOT, ALL THINGS CARLA, AAE Development]\n\nQuality Rating Assessment\n[5 = breakthrough, 4 = high value, 3 = good insights, 2 = basic info, 1 = low value]\n\nBusiness Impact Level\n[High Impact | Medium Impact | Low Impact | Reference Only]\n\n---DETAIL---\n[Full extended synthesis"
+      ],
+      "word_count": 3939
+    }
+  ],
+  "connections": [
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 2,
+      "connection_type": "builds_on",
+      "explanation": "Thread 2 references concepts from Thread 1",
+      "evidence": "Also, remember to use `source_specific_search_parameters` when applicable."
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 references concepts from Thread 1",
+      "evidence": "Also, remember to use `source_specific_search_parameters` when applicable."
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 references concepts from Thread 1",
+      "evidence": "{'expiry_datetime': '2026-03-25T01:30:04.634076+00:00', 'content_type': 'real_time_user_audio_video_asset_pointer', 'frames_asset_pointers': [], 'vide"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 1",
+      "evidence": "{'expiry_datetime': '2026-03-25T01:31:40.718709+00:00', 'content_type': 'real_time_user_audio_video_asset_pointer', 'frames_asset_pointers': [], 'vide"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 3,
+      "connection_type": "builds_on",
+      "explanation": "Thread 3 references concepts from Thread 2",
+      "evidence": "**Assistant:** {\"queries\": [\"\"], \"source_filter\": [\"slurm_notion\"], \"source_specific_search_parameters\": {\"slurm_notion\": [ {\"query\": \"Universal AI Co"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 references concepts from Thread 2",
+      "evidence": "Also, remember to use `source_specific_search_parameters` when applicable."
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 references concepts from Thread 2",
+      "evidence": "{'expiry_datetime': '2026-03-25T01:30:04.634076+00:00', 'content_type': 'real_time_user_audio_video_asset_pointer', 'frames_asset_pointers': [], 'vide"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 2",
+      "evidence": "{'expiry_datetime': '2026-03-25T01:31:40.718709+00:00', 'content_type': 'real_time_user_audio_video_asset_pointer', 'frames_asset_pointers': [], 'vide"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 references concepts from Thread 3",
+      "evidence": "**Assistant:** Looks like I wasn\u2019t able to surface the **Universal AI Conversations**, **Deck Requests**, or **Courses & Education** databases just no"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 references concepts from Thread 3",
+      "evidence": "{'expiry_datetime': '2026-03-25T01:30:04.634076+00:00', 'content_type': 'real_time_user_audio_video_asset_pointer', 'frames_asset_pointers': [], 'vide"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 3",
+      "evidence": "{'expiry_datetime': '2026-03-25T01:31:40.718709+00:00', 'content_type': 'real_time_user_audio_video_asset_pointer', 'frames_asset_pointers': [], 'vide"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 references concepts from Thread 4",
+      "evidence": "{'expiry_datetime': '2026-03-25T01:30:04.634076+00:00', 'content_type': 'real_time_user_audio_video_asset_pointer', 'frames_asset_pointers': [], 'vide"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 4",
+      "evidence": "{'expiry_datetime': '2026-03-25T01:31:40.718709+00:00', 'content_type': 'real_time_user_audio_video_asset_pointer', 'frames_asset_pointers': [], 'vide"
+    }
+  ],
+  "learnings": [
+    {
+      "thread_id": 5,
+      "category": "insight",
+      "summary": "Breakthrough in **User:** {'content_type': 'audio_transcription', 'text': \"So that's different, that's...",
+      "details": "0328333500001}\n\n**Assistant:** {'content_type': 'audio_transcription', 'text': \"Of course! I can definitely give you a sense of how the front end might look in Glide",
+      "evidence": "0328333500001}\n\n**Assistant:** {'content_type': 'audio_transcription', 'text': \"Of course! I can definitely give you a sense of how the front end might look in Glide",
+      "confidence": "high"
+    },
+    {
+      "thread_id": 6,
+      "category": "correction",
+      "summary": "Correction: ]\n\n\nSynthesis Guidelines\nContent Quality:\nWrite for business application, not academic discussion\nFo",
+      "details": "]\n\n\nSynthesis Guidelines\nContent Quality:\nWrite for business application, not academic discussion\nFocus on implementable insights over theoretical concepts\nInclude specific examples or solutions when relevant\nAvoid fancy formatting, special characters, or icons\nKeep total synthesis under 500 words for optimal processing\nBusiness Context:\nAlways consider relevance to Carla's four business areas: GPSA/HPSA, CARLORBIZ, MTMOT, ALL THINGS CARLA\nHighlight consulting applications for RWAV project work\nNote course creation opportunities for healthcare education\nIdentify automation or efficiency improvements for business operations\nQuality Standards:\nHigh Impact: Game-changing insights, breakthrough solutions, major strategic direction\nMedium Impact: Useful improvements, solid problem-solving, valuable information\nLow Impact: Basic information, minor clarifications, routine discussions\nReference Only: Background information, general knowledge, casual conversation\nThis template ensures consistent processing by the Universal Database system while maximising business intelligence extraction from every AI conversation. \u201cn8n workflow bugfix\u201d) or keep it very high-level (\u201cautomation troubleshooting\u201d)?  \n\nOnce you decide those, I\u2019ll start using this template as the **default AAE synthesis output** for relevant chats. ]\n\n\nSynthesis Guidelines\nContent Quality:\nWrite for business application, not academic discussion\nFocus on implementable insights over theoretical concepts\nInclude specific examples or solutions when relevant\nAvoid fancy formatting, special characters, or icons\nKeep total synthesis under 500 words for optimal processing\nBusiness Context:\nAlways consider relevance to Carla's four business areas: GPSA/HPSA, CARLORBIZ, MTMOT, ALL THINGS CARLA\nHighlight consulting applications for RWAV project work\nNote course creation opportunities for healthcare education\nIdentify automation or efficiency improvements for business operations\nQuality Standards:\nHigh Impact: Game-changing insights, breakthrough solutions, major strategic direction\nMedium Impact: Useful improvements, solid problem-solving, valuable information\nLow Impact: Basic information, minor clarifications, routine discussions\nReference Only: Background information, general knowledge, casual conversation\nThis template ensures consistent processing by the Universal Database system while maximising business intelligence extraction from every AI conversation",
+      "evidence": "]\n\n\nSynthesis Guidelines\nContent Quality:\nWrite for business application, not academic discussion\nFocus on implementable insights over theoretical concepts\nInclude specific examples or solutions when relevant\nAvoid fancy formatting, special characters, or icons\nKeep total synthesis under 500 words for optimal processing\nBusiness Context:\nAlways consider relevance to Carla's four business areas: GPSA/HPSA, CARLORBIZ, MTMOT, ALL THINGS CARLA\nHighlight consulting applications for RWAV project work\nNote course creation opportunities for healthcare education\nIdentify automation or efficiency improvements for business operations\nQuality Standards:\nHigh Impact: Game-changing insights, breakthrough solutions, major strategic direction\nMedium Impact: Useful improvements, solid problem-solving, valuable information\nLow Impact: Basic information, minor clarifications, routine discussions\nReference Only: Background information, general knowledge, casual conversation\nThis template ensures consistent processing by the Universal Database system while maximising business intelligence extraction from every AI conversation",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 6,
+      "category": "insight",
+      "summary": "Breakthrough in **User:** {'content_type': 'audio_transcription', 'text': \"Perfect, I'll come back...",
+      "details": "]\n\nAction Items Generated\n[Numbered list of specific next steps or tasks]\n\nDeliverables Created\n[Specific content, tools, or solutions produced]\n\nBusiness Area Classification\n[Choose ONE: GPSA/HPSA, CARLORBIZ, MTMOT, ALL THINGS CARLA, AAE Development]\n\nQuality Rating Assessment\n[5 = breakthrough, 4 = high value, 3 = good insights, 2 = basic info, 1 = low value]\n\nBusiness Impact Level\n[High Impact | Medium Impact | Low Impact | Reference Only]\n\n---DETAIL---\n[Full extended synthesis",
+      "evidence": "]\n\nAction Items Generated\n[Numbered list of specific next steps or tasks]\n\nDeliverables Created\n[Specific content, tools, or solutions produced]\n\nBusiness Area Classification\n[Choose ONE: GPSA/HPSA, CARLORBIZ, MTMOT, ALL THINGS CARLA, AAE Development]\n\nQuality Rating Assessment\n[5 = breakthrough, 4 = high value, 3 = good insights, 2 = basic info, 1 = low value]\n\nBusiness Impact Level\n[High Impact | Medium Impact | Low Impact | Reference Only]\n\n---DETAIL---\n[Full extended synthesis",
+      "confidence": "high"
+    }
+  ],
+  "cross_thread_insights": [
+    {
+      "involved_threads": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "insight_type": "evolution",
+      "description": "Topic evolution across 6 threads",
+      "significance": "Shows progressive refinement of understanding"
+    }
+  ],
+  "thinking_patterns": {
+    "flow": "Associative - wide-ranging exploration",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Moderate breakthroughs - productive exploration"
+  }
+}

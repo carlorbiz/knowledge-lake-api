@@ -1,0 +1,74 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221525",
+  "word_count": 5998,
+  "extraction_date": "2025-12-24 22:15:25",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Mentorship in medical supervision",
+      "start_line": 0,
+      "end_line": 88,
+      "excerpt": "# Mentorship in medical supervision\n\n**Date:** 2025-08-06\n\n---\n\n**User:** Fred, can you please turn on your super sleuth medical education and research guru brain and investigate the topic \"mentorship",
+      "keywords": [
+        "1",
+        "10",
+        "1012",
+        "10hour",
+        "11"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1509
+    },
+    {
+      "thread_id": 2,
+      "title": "References (Harvard style)",
+      "start_line": 88,
+      "end_line": 679,
+      "excerpt": "- **Module 4**: Structured feedback to a registrar after a telehealth consultation where clinical judgment was suboptimal.\n- **Module 5**: Mentor reflecting on shaping a trainee\u2019s professional identit",
+      "keywords": [
+        "1",
+        "10",
+        "100",
+        "1012",
+        "11611173"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 4489
+    }
+  ],
+  "connections": [
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 2,
+      "connection_type": "builds_on",
+      "explanation": "Thread 2 builds on Thread 1",
+      "evidence": "- Wearne, S., Dornan, T., Teunissen, P.W. & Skinner, T. (2012) \u2018General practitioners as supervisors in postgraduate clinical education: an integrativ"
+    }
+  ],
+  "learnings": [
+    {
+      "thread_id": 2,
+      "category": "correction",
+      "summary": "Correction: This guide \nprovides a practical framework to help supervisors and the entire practice team understa",
+      "details": "This guide \nprovides a practical framework to help supervisors and the entire practice team understand the \nkey issues facing IMGs and offers straightforward suggestions on how to best support them \nduring their transition into Australian general practice. \u25cb When challenges arise, it is essential to specifically 'diagnose' the problem (e. , \neducational, personal, or systemic) rather than making a generalisation that it is a 'cultural' or \n'language' issue",
+      "evidence": "This guide \nprovides a practical framework to help supervisors and the entire practice team understand the \nkey issues facing IMGs and offers straightforward suggestions on how to best support them \nduring their transition into Australian general practice",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 2,
+      "category": "methodology",
+      "summary": "Methodology: Why Now? The Tectonic Shifts in Healthcare Education  \nIn 2025\u201326, Australia\u2019s health workforce is u",
+      "details": "Why Now? The Tectonic Shifts in Healthcare Education  \nIn 2025\u201326, Australia\u2019s health workforce is undergoing significant transformation:\n\n- **Interprofessional learning (IPL)** and **team-based care** are now central to primary healthcare strategy (Australian Government, Primary Health Reform Steering Group, 2021). - The **National Rural and Remote Workforce Strategy** highlights the need for \u201cplace-based education\u201d where practices become training grounds across disciplines. Recommended Next Steps Before Content Build  \nTo move from strategy to execution:\n\n\u2705 Finalise **branding and positioning**\u2014is this credential under Carlorbiz, MTMOT, or a fresh blended identity like *The Supervisors' Studio*?\n\n\u2705 Decide on **delivery model**:\n- Fully asynchronous via Academy LMS?  \n- Or combined with live facilitated workshops (hybrid delivery) via ABSORB?\n\n\u2705 Confirm **accreditation pathways** for CPD via RACGP, APNA etc",
+      "evidence": "Why Now? The Tectonic Shifts in Healthcare Education  \nIn 2025\u201326, Australia\u2019s health workforce is undergoing significant transformation:\n\n- **Interprofessional learning (IPL)** and **team-based care** are now central to primary healthcare strategy (Australian Government, Primary Health Reform Steering Group, 2021)",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

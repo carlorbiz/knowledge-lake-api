@@ -1,0 +1,42 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221546",
+  "word_count": 2079,
+  "extraction_date": "2025-12-24 22:15:46",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Strategic Consultancy Plan RWAV",
+      "start_line": 0,
+      "end_line": 368,
+      "excerpt": "# Strategic Consultancy Plan RWAV\n\n**Date:** 2025-07-21\n\n---\n\n**User:** Hi Fred, can you please develop a detailed presentation outlining my approach to this consultancy project, building in additiona",
+      "keywords": [
+        "0417",
+        "1",
+        "10",
+        "1012",
+        "11"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2079
+    }
+  ],
+  "connections": [],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: # Strategic Consultancy Plan RWAV\n\n**Date:** 2025-07-21\n\n---\n\n**User:** Hi Fred, can you please deve",
+      "details": "# Strategic Consultancy Plan RWAV\n\n**Date:** 2025-07-21\n\n---\n\n**User:** Hi Fred, can you please develop a detailed presentation outlining my approach to this consultancy project, building in additional detail to satisfy the client of my clarity of purpose and comprehensive experience making this something  am uniquely placed to deliver? Please note that the initial timeframes for this project have been put back 2 week (start/end dates)\n\n**Tool:** \nPlease remember to search the user's documents if an answer to their question is not contained in the above snippets. \u201d\n\n---\n\n#### **Slide 3: Strategic Purpose & Objectives**  \n- Translate RWAV\u2019s 2023\u201325 progress into 2026\u201330 foresight  \n- Emphasise a bold, data-informed, people-centred strategy  \n- Objectives:\n  - Ensure continuity of effective programs  \n  - Address emerging workforce gaps  \n  - Position RWAV as a national leader in rural health innovation  \n\n---\n\n#### **Slide 4: Why Carla / Carlorbiz?**  \n**Unique Value Proposition:**  \n- 30+ years experience across health, education, NFP, corporate, legal  \n- 23 years as CEO across complex, multidisciplinary organisations  \n- High-level consultancy across digital, workforce, legal, and cultural systems  \n\n**Core Differentiators:**  \n- Deep lived experience in rural health policy and practice  \n- Proven success delivering strategic clarity under complexity  \n- Thought leader and systems navigator with executive presence  \n\n---\n\n#### **Slide 5: Strategic Planning Methodology**  \n**Four Phases (Adjusted Timeline):**\n- **Phase 1: Environmental Scan** *(Weeks 1\u20133 \u2192 now starting [new date])*\n- **Phase 2: Stakeholder Engagement** *(Weeks 4\u20136)*\n- **Phase 3: Analysis & Bold Recommendations** *(Weeks 7\u20139)*\n- **Phase 4: Engagement & Implementation Planning** *(Weeks 10\u201312 \u2192 end [revised date])*\n\n> \u201cThis is a flexible but firm roadmap, grounded in evidence and responsive to lived reality. Here\u2019s an example for Phase 1:\n\n**Phase 1: Future-Focused Environmental Analysis**  \n- Workforce pipeline and hotspot data review  \n- National and state reform alignment  \n- Funding + innovation opportunity scan  \n- Systems thinking approach to community sustainability  \n\n**Visual Prompt:** Icons for research, funding, digital, equity  \n\n---\n\n#### **Slide 7: Engagement Design for Impact**  \n- Strategic interviews with RWAV partners and stakeholders  \n- Purpose-built survey design  \n- Board, Executive & VACCHO-informed consultations  \n- Layered engagement approach to support adoption  \n\n---\n\n#### **Slide 8: Deliverables that Drive Change**  \n- Comprehensive strategic analysis report  \n- Policy and innovation insights  \n- Board + staff workshops  \n- Draft strategic plan structure and messaging  \n- Weekly project meetings + 3 strategic briefings  \n\n**Visual cue:** Checklist + milestone timeline  \n\n---\n\n#### **Slide 9: Evidence of Readiness and Success**  \n- Snapshot of achievements from GPSA leadership  \n- Successful delivery of national strategies  \n- Cross-sectoral implementation expertise  \n- 97% win rate in government tenders  \n- Scalable systems + digital innovations adopted in 30+ countries  \n\n---\n\n#### **Slide 10: RWAV-Specific Knowledge**  \n- Familiarity with RWAV outreach data, First Nations partnerships, DR JuMP, and Rural Ambassadors  \n- Understanding of place-based priorities, retention pain points, and cultural safety  \n- Alignment with RWAV Strategic Goals #2, #3, #4, #6 and #8 in particular  \n\n---\n\n#### **Slide 11: Investment and Value**  \n- Flat rate: $32,400 \u2013 all inclusive  \n- Phase-based payment ($8,100 x 4 milestones)  \n- Unlimited communication, agile approach  \n- Guaranteed delivery regardless of actual hours required  \n\n---\n\n#### **Slide 12: Final Commitment**  \n- Your consultancy is not transactional \u2013 it is transformational  \n- Clear ethical boundaries and transparency  \n- Deep alignment with RWAV\u2019s values and community mission  \n\n> \u201cI bring not only my skill set, but my heart \u2013 committed to helping RWAV lead rural health equity into the next decade",
+      "evidence": "# Strategic Consultancy Plan RWAV\n\n**Date:** 2025-07-21\n\n---\n\n**User:** Hi Fred, can you please develop a detailed presentation outlining my approach to this consultancy project, building in additional detail to satisfy the client of my clarity of purpose and comprehensive experience making this something  am uniquely placed to deliver? Please note that the initial timeframes for this project have been put back 2 week (start/end dates)\n\n**Tool:** \nPlease remember to search the user's documents if an answer to their question is not contained in the above snippets",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221543",
+  "word_count": 2207,
+  "extraction_date": "2025-12-24 22:15:43",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "HPSA Marketing Plan",
+      "start_line": 0,
+      "end_line": 22,
+      "excerpt": "# HPSA Marketing Plan\n\n**Date:** 2025-07-27\n\n---\n\n**User:** You are an experienced Executive Lead - Special Projects  at GPTA Ltd , a Health Workforce development  company. Create a comprehensive mark",
+      "keywords": [
+        "19th",
+        "2025",
+        "20250727",
+        "2030",
+        "21st"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 364
+    },
+    {
+      "thread_id": 2,
+      "title": "DOCUMENT SPECIFICATIONS:",
+      "start_line": 22,
+      "end_line": 191,
+      "excerpt": "The first day of presentations and keynote addresses was a bit of a challenge once that caffeine wore off... \"Data and tech\" seemed like something I could get my teeth into, especially the tech part,",
+      "keywords": [
+        "1",
+        "2",
+        "2025",
+        "2030",
+        "247"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1843
+    }
+  ],
+  "connections": [],
+  "learnings": [
+    {
+      "thread_id": 2,
+      "category": "methodology",
+      "summary": "Methodology: It\u2019s our transition strategy",
+      "details": "It\u2019s our transition strategy. ---\n\n## **Revenue Strategy: Why This Matters to GPSA**\n\nOur message to the team is simple: **this is everyone\u2019s business**. Our business development strategy is relationship-based",
+      "evidence": "It\u2019s our transition strategy",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221359",
+  "word_count": 6494,
+  "extraction_date": "2025-12-24 22:13:59",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Conflict of interest review",
+      "start_line": 0,
+      "end_line": 135,
+      "excerpt": "# Conflict of interest review\n\n**Date:** 2025-09-11\n\n---\n\n**User:** Fred please review this consulting contract and identify any wording that suggests a potential for conflict of interest with my role",
+      "keywords": [
+        "0410",
+        "0417585363",
+        "078",
+        "081",
+        "1"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 351
+    },
+    {
+      "thread_id": 2,
+      "title": "N/A",
+      "start_line": 135,
+      "end_line": 850,
+      "excerpt": "Create and deliver a training program for regional teams regarding practice support  \n\n\t\t\t\t\t\t\t\t\tWork with the regional teams to facilitate Holistic support for Program particpants",
+      "keywords": [
+        "088",
+        "1",
+        "10",
+        "12",
+        "120"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 6143
+    }
+  ],
+  "connections": [],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: com\n\nSIGNING\n\n\n\nSigned for and on behalf of:\n\nCollege \n\nService Provider\n\n\n\nSignature:\t\n\n\n\n\n\nName (P",
+      "details": "com\n\nSIGNING\n\n\n\nSigned for and on behalf of:\n\nCollege \n\nService Provider\n\n\n\nSignature:\t\n\n\n\n\n\nName (Print): Marita Cowie\n\nPosition:\t     Chief Executive Officer\n\nSignature:\t\n\n\n\n\n\n\t\tName (Print):  Carla Taylor  \n\n\n\nPosition:\tPractice Support Engagement Lead   \n\nDate\n\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0/\u00a0\u00a0\u00a0\u00a0\u00a0/\n\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0/\u00a0\u00a0\u00a0\u00a0\u00a0/\n\nAGREEMENT DETAILS\n\n\n\n\n\nAgreement Term\n\nStart Date: 15 September 2025\n\nEnd Date: 30 May 2026\n\n\n\nServices Period\n\nService Start Date: 15 September 2025\n\nService End Date: 30 May 2026\n\n\n\nServices\n\nThe provision of Practice Support Engagement Lead to support to the Training Engagement Team in in the following areas:\n\n\t\t\t\t\t\t\t\t\tFurther develop the practice manager strategy ensuring regional engagement and National support  \n\n\t\t\t\t\t\t\t\t\tIdentify, collate and create resources for Training posts and practice managers to facilitate accreditation and understanding of registrar program requirements\n\n\t\t\t\t\t\t\t\t\tIdentify, collate and create resources for regional teams to support and enhance their role in supporting Training posts",
+      "evidence": "com\n\nSIGNING\n\n\n\nSigned for and on behalf of:\n\nCollege \n\nService Provider\n\n\n\nSignature:\t\n\n\n\n\n\nName (Print): Marita Cowie\n\nPosition:\t     Chief Executive Officer\n\nSignature:\t\n\n\n\n\n\n\t\tName (Print):  Carla Taylor  \n\n\n\nPosition:\tPractice Support Engagement Lead   \n\nDate\n\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0/\u00a0\u00a0\u00a0\u00a0\u00a0/\n\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0/\u00a0\u00a0\u00a0\u00a0\u00a0/\n\nAGREEMENT DETAILS\n\n\n\n\n\nAgreement Term\n\nStart Date: 15 September 2025\n\nEnd Date: 30 May 2026\n\n\n\nServices Period\n\nService Start Date: 15 September 2025\n\nService End Date: 30 May 2026\n\n\n\nServices\n\nThe provision of Practice Support Engagement Lead to support to the Training Engagement Team in in the following areas:\n\n\t\t\t\t\t\t\t\t\tFurther develop the practice manager strategy ensuring regional engagement and National support  \n\n\t\t\t\t\t\t\t\t\tIdentify, collate and create resources for Training posts and practice managers to facilitate accreditation and understanding of registrar program requirements\n\n\t\t\t\t\t\t\t\t\tIdentify, collate and create resources for regional teams to support and enhance their role in supporting Training posts",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 2,
+      "category": "methodology",
+      "summary": "Methodology: Confidential Information includes:\n\n\t\tthe ideas, techniques, systems, processes, trade secrets, desi",
+      "details": "Confidential Information includes:\n\n\t\tthe ideas, techniques, systems, processes, trade secrets, designs, inventions, methodologies and procedures developed by the College or the Service Provider for the purposes of this Agreement;\n\n\t\tinformation of the College or any related entity of the College (within the meaning given to the term \u201crelated entity\u201d by section 9 of the Corporations Act 2001 (Cth)) relating to its business and business processes, including financial information, accounts, financial records, policies, customer records, employee records, business plans, customer lists and all associated information;\n\n\t\tall reports, proposals, memoranda, drawings, diagrams, statements, accounts and other documents created during the course of the provision of the Services; and\n\n\t\tall copies of any information referred to above, including anything composed and stored digitally embodying or based upon that information,\n\nbut does not include any information which:\n\n\t\tis already in the public domain at the time this Agreement is executed or which subsequently falls into the public domain lawfully and through no breach of any duty of confidentiality; or\n\n\t\tis obtained by the Service Provider lawfully and without breaching an obligation of confidence from a source other than the College. **Implication:**  \nIf GPSA or another organisation takes a policy stance at odds with ACRRM\u2019s approach, ACRRM could view your dual engagement as risky. - This includes methodologies, resources, and business processes\u30107\u2020source\u3011",
+      "evidence": "Confidential Information includes:\n\n\t\tthe ideas, techniques, systems, processes, trade secrets, designs, inventions, methodologies and procedures developed by the College or the Service Provider for the purposes of this Agreement;\n\n\t\tinformation of the College or any related entity of the College (within the meaning given to the term \u201crelated entity\u201d by section 9 of the Corporations Act 2001 (Cth)) relating to its business and business processes, including financial information, accounts, financial records, policies, customer records, employee records, business plans, customer lists and all associated information;\n\n\t\tall reports, proposals, memoranda, drawings, diagrams, statements, accounts and other documents created during the course of the provision of the Services; and\n\n\t\tall copies of any information referred to above, including anything composed and stored digitally embodying or based upon that information,\n\nbut does not include any information which:\n\n\t\tis already in the public domain at the time this Agreement is executed or which subsequently falls into the public domain lawfully and through no breach of any duty of confidentiality; or\n\n\t\tis obtained by the Service Provider lawfully and without breaching an obligation of confidence from a source other than the College",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

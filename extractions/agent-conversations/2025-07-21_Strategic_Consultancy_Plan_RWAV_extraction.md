@@ -1,0 +1,165 @@
+# Multi-Pass Learning Extraction Report
+
+**Conversation:** Temp 20251224 221546
+**Word Count:** 2,079
+**Extracted:** 2025-12-24 22:15:46
+
+---
+
+## Pass 1: Topic Segmentation
+
+**Found 1 topic threads:**
+
+### Thread 1: Strategic Consultancy Plan RWAV
+- **Lines:** 0-368
+- **Word Count:** 2,079
+- **Keywords:** 0417, 1, 10, 1012, 11
+
+---
+
+## Pass 2: Thread Connections
+
+**Identified 0 connections:**
+
+---
+
+## Pass 3: Per-Thread Learnings
+
+**Extracted 1 learnings:**
+
+### Methodology
+
+**Thread 1:** Methodology: # Strategic Consultancy Plan RWAV
+
+**Date:** 2025-07-21
+
+---
+
+**User:** Hi Fred, can you please deve
+- Details: # Strategic Consultancy Plan RWAV
+
+**Date:** 2025-07-21
+
+---
+
+**User:** Hi Fred, can you please develop a detailed presentation outlining my approach to this consultancy project, building in additional detail to satisfy the client of my clarity of purpose and comprehensive experience making this something  am uniquely placed to deliver? Please note that the initial timeframes for this project have been put back 2 week (start/end dates)
+
+**Tool:** 
+Please remember to search the user's documents if an answer to their question is not contained in the above snippets. ”
+
+---
+
+#### **Slide 3: Strategic Purpose & Objectives**  
+- Translate RWAV’s 2023–25 progress into 2026–30 foresight  
+- Emphasise a bold, data-informed, people-centred strategy  
+- Objectives:
+  - Ensure continuity of effective programs  
+  - Address emerging workforce gaps  
+  - Position RWAV as a national leader in rural health innovation  
+
+---
+
+#### **Slide 4: Why Carla / Carlorbiz?**  
+**Unique Value Proposition:**  
+- 30+ years experience across health, education, NFP, corporate, legal  
+- 23 years as CEO across complex, multidisciplinary organisations  
+- High-level consultancy across digital, workforce, legal, and cultural systems  
+
+**Core Differentiators:**  
+- Deep lived experience in rural health policy and practice  
+- Proven success delivering strategic clarity under complexity  
+- Thought leader and systems navigator with executive presence  
+
+---
+
+#### **Slide 5: Strategic Planning Methodology**  
+**Four Phases (Adjusted Timeline):**
+- **Phase 1: Environmental Scan** *(Weeks 1–3 → now starting [new date])*
+- **Phase 2: Stakeholder Engagement** *(Weeks 4–6)*
+- **Phase 3: Analysis & Bold Recommendations** *(Weeks 7–9)*
+- **Phase 4: Engagement & Implementation Planning** *(Weeks 10–12 → end [revised date])*
+
+> “This is a flexible but firm roadmap, grounded in evidence and responsive to lived reality. Here’s an example for Phase 1:
+
+**Phase 1: Future-Focused Environmental Analysis**  
+- Workforce pipeline and hotspot data review  
+- National and state reform alignment  
+- Funding + innovation opportunity scan  
+- Systems thinking approach to community sustainability  
+
+**Visual Prompt:** Icons for research, funding, digital, equity  
+
+---
+
+#### **Slide 7: Engagement Design for Impact**  
+- Strategic interviews with RWAV partners and stakeholders  
+- Purpose-built survey design  
+- Board, Executive & VACCHO-informed consultations  
+- Layered engagement approach to support adoption  
+
+---
+
+#### **Slide 8: Deliverables that Drive Change**  
+- Comprehensive strategic analysis report  
+- Policy and innovation insights  
+- Board + staff workshops  
+- Draft strategic plan structure and messaging  
+- Weekly project meetings + 3 strategic briefings  
+
+**Visual cue:** Checklist + milestone timeline  
+
+---
+
+#### **Slide 9: Evidence of Readiness and Success**  
+- Snapshot of achievements from GPSA leadership  
+- Successful delivery of national strategies  
+- Cross-sectoral implementation expertise  
+- 97% win rate in government tenders  
+- Scalable systems + digital innovations adopted in 30+ countries  
+
+---
+
+#### **Slide 10: RWAV-Specific Knowledge**  
+- Familiarity with RWAV outreach data, First Nations partnerships, DR JuMP, and Rural Ambassadors  
+- Understanding of place-based priorities, retention pain points, and cultural safety  
+- Alignment with RWAV Strategic Goals #2, #3, #4, #6 and #8 in particular  
+
+---
+
+#### **Slide 11: Investment and Value**  
+- Flat rate: $32,400 – all inclusive  
+- Phase-based payment ($8,100 x 4 milestones)  
+- Unlimited communication, agile approach  
+- Guaranteed delivery regardless of actual hours required  
+
+---
+
+#### **Slide 12: Final Commitment**  
+- Your consultancy is not transactional – it is transformational  
+- Clear ethical boundaries and transparency  
+- Deep alignment with RWAV’s values and community mission  
+
+> “I bring not only my skill set, but my heart – committed to helping RWAV lead rural health equity into the next decade
+- Confidence: medium
+
+---
+
+## Pass 4: Cross-Thread Insights
+
+**Discovered 0 insights:**
+
+---
+
+## Pass 5: Thinking Patterns
+
+**Flow:** Linear - single focused topic
+
+**Problem Solving:** Deliberate - builds systematically
+
+**Exploration Style:** Deep dive - thorough exploration of topics
+
+**Innovation:** Incremental progress - steady advancement
+
+---
+
+*Generated by Multi-Pass Learning Extraction Tool*

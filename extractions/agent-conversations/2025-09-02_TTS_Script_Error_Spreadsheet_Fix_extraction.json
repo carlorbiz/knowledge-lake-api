@@ -1,0 +1,60 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221128",
+  "word_count": 4867,
+  "extraction_date": "2025-12-24 22:11:28",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "TTS Script Error Spreadsheet Fix",
+      "start_line": 0,
+      "end_line": 1000,
+      "excerpt": "# TTS Script Error Spreadsheet Fix\n\n**Summary:** **Conversation Overview**\n\nThe user is working on a Google Apps Script-based course generation system for Australian healthcare education that uses the",
+      "keywords": [
+        "0",
+        "1",
+        "10",
+        "100",
+        "1012"
+      ],
+      "breakthrough_moments": [
+        "## **Comprehensive Fix:**\n\n**User:** cols H-S in Mapping tab are all in Markdown, in fact all of the AI outputs are (col C recommendations)\n\n**Claude:**  Now I see the real root cause - **the Gemini API is outputting markdown formatting in ALL responses**, not just the voiceover scripts"
+      ],
+      "word_count": 4867
+    }
+  ],
+  "connections": [],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "correction",
+      "summary": "Correction: They encountered critical issues with their TTS (Text-to-Speech) tab where module names were corrupt",
+      "details": "They encountered critical issues with their TTS (Text-to-Speech) tab where module names were corrupted with markdown formatting (asterisks, underscores) and slide numbering was incorrect, preventing proper script distribution for audio generation. The conversation focused on debugging and fixing these systematic formatting problems that were affecting the entire content pipeline. The final solution addressed both immediate repair of existing corrupted data and prevention of future markdown formatting issues throughout the entire content generation pipeline",
+      "evidence": "They encountered critical issues with their TTS (Text-to-Speech) tab where module names were corrupted with markdown formatting (asterisks, underscores) and slide numbering was incorrect, preventing proper script distribution for audio generation",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 1,
+      "category": "insight",
+      "summary": "Breakthrough in TTS Script Error Spreadsheet Fix",
+      "details": "## **Comprehensive Fix:**\n\n**User:** cols H-S in Mapping tab are all in Markdown, in fact all of the AI outputs are (col C recommendations)\n\n**Claude:**  Now I see the real root cause - **the Gemini API is outputting markdown formatting in ALL responses**, not just the voiceover scripts",
+      "evidence": "## **Comprehensive Fix:**\n\n**User:** cols H-S in Mapping tab are all in Markdown, in fact all of the AI outputs are (col C recommendations)\n\n**Claude:**  Now I see the real root cause - **the Gemini API is outputting markdown formatting in ALL responses**, not just the voiceover scripts",
+      "confidence": "high"
+    },
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: Missing Repair Function Inside CourseGenerator Class**\nThe `repairAllModuleNames()` function is defi",
+      "details": "Missing Repair Function Inside CourseGenerator Class**\nThe `repairAllModuleNames()` function is defined outside the `CourseGenerator` class, but it should be inside as a static method. **User:** Please check!\n\n**Claude:**  Looking at your complete script, I can see there are still **two critical issues** that need fixing:\n\n## **Issue 1: `repairAllModuleNames` is Outside the Class**\n\nYou have the `repairAllModuleNames` function defined **outside** the `CourseGenerator` class (near the bottom of your script), but it should be **inside** the class as a static method. rest of your existing methods",
+      "evidence": "Missing Repair Function Inside CourseGenerator Class**\nThe `repairAllModuleNames()` function is defined outside the `CourseGenerator` class, but it should be inside as a static method",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Moderate breakthroughs - productive exploration"
+  }
+}

@@ -1,0 +1,1331 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221522",
+  "word_count": 36036,
+  "extraction_date": "2025-12-24 22:15:22",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "NTCER and AGPT Overview",
+      "start_line": 0,
+      "end_line": 327,
+      "excerpt": "# NTCER and AGPT Overview\n\n**Date:** 2025-08-08\n\n---\n\n**User:** There you go. Hey, Fred. Can you please do me a single document using these three references? I need to create a presentation using Gamm",
+      "keywords": [
+        "1",
+        "10",
+        "101",
+        "102",
+        "103"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1555
+    },
+    {
+      "thread_id": 2,
+      "title": "You will immediately report any concern regarding your...",
+      "start_line": 327,
+      "end_line": 607,
+      "excerpt": "You will immediately report any concern regarding your personal safety, particularly with respect to working alone or after hours, to your Employer;\n\nYou consent to the release of relevant Medicare Au",
+      "keywords": [
+        "1",
+        "10",
+        "101",
+        "1010",
+        "1011"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2618
+    },
+    {
+      "thread_id": 3,
+      "title": "Outside the scope of providing feedback to your...",
+      "start_line": 607,
+      "end_line": 633,
+      "excerpt": "Outside the scope of providing feedback to your College on any negative experiences, You must not at any time, either during your employment or after termination, disparage or otherwise make any state",
+      "keywords": [
+        "1",
+        "12",
+        "18",
+        "19",
+        "Associated"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 311
+    },
+    {
+      "thread_id": 4,
+      "title": "Any accrued entitlements, including annual leave, will be...",
+      "start_line": 633,
+      "end_line": 1393,
+      "excerpt": "Any accrued entitlements, including annual leave, will be paid to you at termination, unless otherwise required by law. Superannuation contributions will be made to the relevant fund where applicable.",
+      "keywords": [
+        "01072025",
+        "01072026",
+        "1",
+        "10",
+        "100"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2544
+    },
+    {
+      "thread_id": 5,
+      "title": "<IMAGE FOR PAGE: 16 / 17>",
+      "start_line": 1393,
+      "end_line": 1463,
+      "excerpt": "\u2022 certainty for practices and registrars regarding their rights and \n\nresponsibilities to each other outside the traditional AGPT context in \n\ncommunity private practice\n\n\u2022 reduced exploitation of reg",
+      "keywords": [
+        "1",
+        "1024",
+        "16",
+        "17",
+        "2"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 389
+    },
+    {
+      "thread_id": 6,
+      "title": "The NTCER was originally designed to provide clarity...",
+      "start_line": 1463,
+      "end_line": 2397,
+      "excerpt": "The NTCER was originally designed to provide clarity regarding the application of the National \n\nEmployment Standards (NES) within the specific context of the AGPT. \n\nSince the NTCER\u2019s inception, alon",
+      "keywords": [
+        "1",
+        "10",
+        "101",
+        "1010",
+        "1011"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 4611
+    },
+    {
+      "thread_id": 7,
+      "title": "<PARSED TEXT FOR PAGE: 14 / 35>",
+      "start_line": 2397,
+      "end_line": 2849,
+      "excerpt": "to any request regarding study leave.\n\nA new funded Commonwealth Study Leave Scheme is being developed to give registrars access to \n\nstudy leave payments through the NCP from the commencement of 2026",
+      "keywords": [
+        "05",
+        "10",
+        "101",
+        "1010",
+        "1011"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2651
+    },
+    {
+      "thread_id": 8,
+      "title": "Clear and timely advice regarding the registrar\u2019s patient...",
+      "start_line": 2849,
+      "end_line": 3129,
+      "excerpt": "Clear and timely advice regarding the registrar\u2019s patient billing information should be provided \n\nthroughout the training placement to assist the registrar in developing an understanding of general",
+      "keywords": [
+        "1",
+        "10",
+        "111",
+        "112",
+        "113"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1534
+    },
+    {
+      "thread_id": 9,
+      "title": "b) The registrar should be encouraged to share...",
+      "start_line": 3129,
+      "end_line": 3579,
+      "excerpt": "b) The registrar should be encouraged to share any challenges regarding their study habits with \n\ntheir supervisor and seek solutions to minimise education-related fatigue. \n\nc) The registrar is requi",
+      "keywords": [
+        "1",
+        "10",
+        "103",
+        "104",
+        "105"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2233
+    },
+    {
+      "thread_id": 10,
+      "title": "GPT1/CGT1",
+      "start_line": 3579,
+      "end_line": 3967,
+      "excerpt": "period of the agreed cycle regardless of any periods of non-attendance at the practice such as for \n\neducational sessions and any periods of leave taken, including annual leave. \n\nThe registrar\u2019s tota",
+      "keywords": [
+        "1",
+        "1024",
+        "107",
+        "10921352",
+        "11"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1808
+    },
+    {
+      "thread_id": 11,
+      "title": "<IMAGE FOR PAGE: 1 / 35>",
+      "start_line": 3967,
+      "end_line": 4015,
+      "excerpt": "ADF or SEM registrar to ensure they have clarity regarding where responsibilities lie for day-to-day \n\nperformance and the management of registrar - and in turn patient \u2013 safety.\n\n**Tool:** Make sure",
+      "keywords": [
+        "1",
+        "1024",
+        "2",
+        "2009",
+        "2025"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 299
+    },
+    {
+      "thread_id": 12,
+      "title": "The NTCER was originally designed to provide clarity...",
+      "start_line": 4015,
+      "end_line": 4949,
+      "excerpt": "The NTCER was originally designed to provide clarity regarding the application of the National \n\nEmployment Standards (NES) within the specific context of the AGPT. \n\nSince the NTCER\u2019s inception, alon",
+      "keywords": [
+        "1",
+        "10",
+        "101",
+        "1010",
+        "1011"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 4611
+    },
+    {
+      "thread_id": 13,
+      "title": "<PARSED TEXT FOR PAGE: 14 / 35>",
+      "start_line": 4949,
+      "end_line": 5401,
+      "excerpt": "to any request regarding study leave.\n\nA new funded Commonwealth Study Leave Scheme is being developed to give registrars access to \n\nstudy leave payments through the NCP from the commencement of 2026",
+      "keywords": [
+        "05",
+        "10",
+        "101",
+        "1010",
+        "1011"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2651
+    },
+    {
+      "thread_id": 14,
+      "title": "Clear and timely advice regarding the registrar\u2019s patient...",
+      "start_line": 5401,
+      "end_line": 5681,
+      "excerpt": "Clear and timely advice regarding the registrar\u2019s patient billing information should be provided \n\nthroughout the training placement to assist the registrar in developing an understanding of general",
+      "keywords": [
+        "1",
+        "10",
+        "111",
+        "112",
+        "113"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1534
+    },
+    {
+      "thread_id": 15,
+      "title": "b) The registrar should be encouraged to share...",
+      "start_line": 5681,
+      "end_line": 6131,
+      "excerpt": "b) The registrar should be encouraged to share any challenges regarding their study habits with \n\ntheir supervisor and seek solutions to minimise education-related fatigue. \n\nc) The registrar is requi",
+      "keywords": [
+        "1",
+        "10",
+        "103",
+        "104",
+        "105"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2233
+    },
+    {
+      "thread_id": 16,
+      "title": "GPT1/CGT1",
+      "start_line": 6131,
+      "end_line": 6519,
+      "excerpt": "period of the agreed cycle regardless of any periods of non-attendance at the practice such as for \n\neducational sessions and any periods of leave taken, including annual leave. \n\nThe registrar\u2019s tota",
+      "keywords": [
+        "1",
+        "1024",
+        "107",
+        "10921352",
+        "11"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1808
+    },
+    {
+      "thread_id": 17,
+      "title": "ADF or SEM registrar to ensure they have...",
+      "start_line": 6519,
+      "end_line": 6965,
+      "excerpt": "ADF or SEM registrar to ensure they have clarity regarding where responsibilities lie for day-to-day \n\nperformance and the management of registrar - and in turn patient \u2013 safety.\n\n**Tool:** \nRemember",
+      "keywords": [
+        "1",
+        "10hour",
+        "13week",
+        "18",
+        "19"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2646
+    }
+  ],
+  "connections": [
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 2,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 2 triggered by Thread 1",
+      "evidence": "Your full-time hours as set out below shall be in accordance with the NTCER (version 2024-01) at clauses 10.4, 10.9, 10.10 and 10.11."
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 builds on Thread 1",
+      "evidence": "The Contract shall be governed by the jurisdiction of the courts in the State or Territory as described at Item 13 of the Schedule."
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 builds on Thread 1",
+      "evidence": "<IMAGE FOR PAGE: 16 / 17>"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 6,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 6 triggered by Thread 1",
+      "evidence": "1 Definitions 6"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 7,
+      "connection_type": "builds_on",
+      "explanation": "Thread 7 builds on Thread 1",
+      "evidence": "6.10 Public Holidays"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 references concepts from Thread 1",
+      "evidence": "11.1 Indexation"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 builds on Thread 1",
+      "evidence": "that may impact on their ability to have a clear period of rest of no less than ten (10) hours."
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 1",
+      "evidence": "GPT1/CGT1"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 builds on Thread 1",
+      "evidence": "<IMAGE FOR PAGE: 1 / 35>"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 12,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 12 triggered by Thread 1",
+      "evidence": "1 Definitions 6"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 builds on Thread 1",
+      "evidence": "6.10 Public Holidays"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 references concepts from Thread 1",
+      "evidence": "11.1 Indexation"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 1",
+      "evidence": "that may impact on their ability to have a clear period of rest of no less than ten (10) hours."
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 1",
+      "evidence": "GPT1/CGT1"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 references concepts from Thread 1",
+      "evidence": "## **1. Why This Matters Now**"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 builds on Thread 2",
+      "evidence": "The Contract shall be governed by the jurisdiction of the courts in the State or Territory as described at Item 13 of the Schedule."
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 builds on Thread 2",
+      "evidence": "<IMAGE FOR PAGE: 16 / 17>"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 6,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 6 triggered by Thread 2",
+      "evidence": "1 Definitions 6"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 7,
+      "connection_type": "builds_on",
+      "explanation": "Thread 7 builds on Thread 2",
+      "evidence": "6.10 Public Holidays"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 references concepts from Thread 2",
+      "evidence": "11.1 Indexation"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 builds on Thread 2",
+      "evidence": "that may impact on their ability to have a clear period of rest of no less than ten (10) hours."
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 2",
+      "evidence": "GPT1/CGT1"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 builds on Thread 2",
+      "evidence": "<IMAGE FOR PAGE: 1 / 35>"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 12,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 12 triggered by Thread 2",
+      "evidence": "1 Definitions 6"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 builds on Thread 2",
+      "evidence": "6.10 Public Holidays"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 references concepts from Thread 2",
+      "evidence": "11.1 Indexation"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 2",
+      "evidence": "that may impact on their ability to have a clear period of rest of no less than ten (10) hours."
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 2",
+      "evidence": "GPT1/CGT1"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 references concepts from Thread 2",
+      "evidence": "## **1. Why This Matters Now**"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 builds on Thread 3",
+      "evidence": "The Contract shall be governed by the jurisdiction of the courts in the State or Territory as described at Item 13 of the Schedule."
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 builds on Thread 3",
+      "evidence": "<IMAGE FOR PAGE: 16 / 17>"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 6,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 6 triggered by Thread 3",
+      "evidence": "1 Definitions 6"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 7,
+      "connection_type": "builds_on",
+      "explanation": "Thread 7 builds on Thread 3",
+      "evidence": "6.10 Public Holidays"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 references concepts from Thread 3",
+      "evidence": "11.1 Indexation"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 builds on Thread 3",
+      "evidence": "that may impact on their ability to have a clear period of rest of no less than ten (10) hours."
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 3",
+      "evidence": "GPT1/CGT1"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 12,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 12 triggered by Thread 3",
+      "evidence": "1 Definitions 6"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 builds on Thread 3",
+      "evidence": "6.10 Public Holidays"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 references concepts from Thread 3",
+      "evidence": "11.1 Indexation"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 3",
+      "evidence": "that may impact on their ability to have a clear period of rest of no less than ten (10) hours."
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 3",
+      "evidence": "GPT1/CGT1"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 references concepts from Thread 3",
+      "evidence": "## **1. Why This Matters Now**"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 builds on Thread 4",
+      "evidence": "<IMAGE FOR PAGE: 16 / 17>"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 6,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 6 triggered by Thread 4",
+      "evidence": "1 Definitions 6"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 7,
+      "connection_type": "builds_on",
+      "explanation": "Thread 7 builds on Thread 4",
+      "evidence": "6.10 Public Holidays"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 references concepts from Thread 4",
+      "evidence": "11.1 Indexation"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 builds on Thread 4",
+      "evidence": "that may impact on their ability to have a clear period of rest of no less than ten (10) hours."
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 4",
+      "evidence": "GPT1/CGT1"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 builds on Thread 4",
+      "evidence": "<IMAGE FOR PAGE: 1 / 35>"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 12,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 12 triggered by Thread 4",
+      "evidence": "1 Definitions 6"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 builds on Thread 4",
+      "evidence": "6.10 Public Holidays"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 references concepts from Thread 4",
+      "evidence": "11.1 Indexation"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 4",
+      "evidence": "that may impact on their ability to have a clear period of rest of no less than ten (10) hours."
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 4",
+      "evidence": "GPT1/CGT1"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 references concepts from Thread 4",
+      "evidence": "## **1. Why This Matters Now**"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 6,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 6 triggered by Thread 5",
+      "evidence": "2024 NTCER Review Process"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 7,
+      "connection_type": "builds_on",
+      "explanation": "Thread 7 builds on Thread 5",
+      "evidence": "study leave payments through the NCP from the commencement of 2026. These payments are"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 references concepts from Thread 5",
+      "evidence": "11.1 Indexation"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 builds on Thread 5",
+      "evidence": "that may impact on their ability to have a clear period of rest of no less than ten (10) hours."
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 5",
+      "evidence": "GPT1/CGT1"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 builds on Thread 5",
+      "evidence": "<IMAGE FOR PAGE: 1 / 35>"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 12,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 12 triggered by Thread 5",
+      "evidence": "2024 NTCER Review Process"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 builds on Thread 5",
+      "evidence": "study leave payments through the NCP from the commencement of 2026. These payments are"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 references concepts from Thread 5",
+      "evidence": "11.1 Indexation"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 5",
+      "evidence": "that may impact on their ability to have a clear period of rest of no less than ten (10) hours."
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 5",
+      "evidence": "GPT1/CGT1"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 references concepts from Thread 5",
+      "evidence": "- \"According to the *chart on page 5*, sales have increased by 20% over ...\""
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 7,
+      "connection_type": "builds_on",
+      "explanation": "Thread 7 builds on Thread 6",
+      "evidence": "6.10 Public Holidays"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 references concepts from Thread 6",
+      "evidence": "11.1 Indexation"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 builds on Thread 6",
+      "evidence": "that may impact on their ability to have a clear period of rest of no less than ten (10) hours."
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 6",
+      "evidence": "GPT1/CGT1"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 builds on Thread 6",
+      "evidence": "<IMAGE FOR PAGE: 1 / 35>"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 12,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 12 triggered by Thread 6",
+      "evidence": "1 Definitions 6"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 builds on Thread 6",
+      "evidence": "6.10 Public Holidays"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 references concepts from Thread 6",
+      "evidence": "11.1 Indexation"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 6",
+      "evidence": "that may impact on their ability to have a clear period of rest of no less than ten (10) hours."
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 6",
+      "evidence": "GPT1/CGT1"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 references concepts from Thread 6",
+      "evidence": "## **1. Why This Matters Now**"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 builds on Thread 8",
+      "evidence": "that may impact on their ability to have a clear period of rest of no less than ten (10) hours."
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 8",
+      "evidence": "GPT1/CGT1"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 builds on Thread 8",
+      "evidence": "<IMAGE FOR PAGE: 1 / 35>"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 12,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 12 triggered by Thread 8",
+      "evidence": "1 Definitions 6"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 builds on Thread 8",
+      "evidence": "6.10 Public Holidays"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 references concepts from Thread 8",
+      "evidence": "11.1 Indexation"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 8",
+      "evidence": "that may impact on their ability to have a clear period of rest of no less than ten (10) hours."
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 8",
+      "evidence": "GPT1/CGT1"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 references concepts from Thread 8",
+      "evidence": "## **1. Why This Matters Now**"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 9",
+      "evidence": "GPT1/CGT1"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 builds on Thread 9",
+      "evidence": "<IMAGE FOR PAGE: 1 / 35>"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 12,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 12 triggered by Thread 9",
+      "evidence": "1 Definitions 6"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 builds on Thread 9",
+      "evidence": "6.10 Public Holidays"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 references concepts from Thread 9",
+      "evidence": "11.1 Indexation"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 9",
+      "evidence": "that may impact on their ability to have a clear period of rest of no less than ten (10) hours."
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 9",
+      "evidence": "GPT1/CGT1"
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 references concepts from Thread 9",
+      "evidence": "## **1. Why This Matters Now**"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 builds on Thread 10",
+      "evidence": "<IMAGE FOR PAGE: 1 / 35>"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 12,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 12 triggered by Thread 10",
+      "evidence": "1 Definitions 6"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 builds on Thread 10",
+      "evidence": "6.10 Public Holidays"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 references concepts from Thread 10",
+      "evidence": "11.1 Indexation"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 10",
+      "evidence": "that may impact on their ability to have a clear period of rest of no less than ten (10) hours."
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 10",
+      "evidence": "GPT1/CGT1"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 references concepts from Thread 10",
+      "evidence": "## **1. Why This Matters Now**"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 12,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 12 triggered by Thread 11",
+      "evidence": "2024 NTCER Review Process"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 builds on Thread 11",
+      "evidence": "study leave payments through the NCP from the commencement of 2026. These payments are"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 references concepts from Thread 11",
+      "evidence": "11.1 Indexation"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 11",
+      "evidence": "that may impact on their ability to have a clear period of rest of no less than ten (10) hours."
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 11",
+      "evidence": "GPT1/CGT1"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 references concepts from Thread 11",
+      "evidence": "- \"According to the *chart on page 5*, sales have increased by 20% over ...\""
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 builds on Thread 12",
+      "evidence": "6.10 Public Holidays"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 references concepts from Thread 12",
+      "evidence": "11.1 Indexation"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 12",
+      "evidence": "that may impact on their ability to have a clear period of rest of no less than ten (10) hours."
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 12",
+      "evidence": "GPT1/CGT1"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 references concepts from Thread 12",
+      "evidence": "## **1. Why This Matters Now**"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 builds on Thread 14",
+      "evidence": "that may impact on their ability to have a clear period of rest of no less than ten (10) hours."
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 14",
+      "evidence": "GPT1/CGT1"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 references concepts from Thread 14",
+      "evidence": "## **1. Why This Matters Now**"
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 15",
+      "evidence": "GPT1/CGT1"
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 references concepts from Thread 15",
+      "evidence": "## **1. Why This Matters Now**"
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 17,
+      "connection_type": "builds_on",
+      "explanation": "Thread 17 references concepts from Thread 16",
+      "evidence": "## **1. Why This Matters Now**"
+    }
+  ],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "correction",
+      "summary": "Correction: Please refer to the attached copies of:\n\nthe NTCER attached as Annexure \u2018A\u2019;\n\nthe Fair Work Informat",
+      "details": "Please refer to the attached copies of:\n\nthe NTCER attached as Annexure \u2018A\u2019;\n\nthe Fair Work Information Statement attached as Annexure \u2018B\u2019;\n\nthe Fixed Term Contract Information Statement attached as Annexure \u2018C\u2019;\n\nthe Position Description attached as Annexe \u2018D\u2019. 7\tAnnual Leave Calculation\t17\n\n\tItem 12 - Additional Special Conditions\t17\n\n\tItem 13 - Governing Law\t17\n\nAnnexe A \u2013 NTCER\t18\n\nAnnexe B \u2013 Fair Work Information Statement\t19\n\nAnnexe C \u2013 Fixed Term Contract Information Statement\t20\n\nAnnexe D \u2013 Position Description\t21\n\n\n\n\n\nBackground\n\nThe Employer has agreed to employ You to perform the role described in Annexe \u2018D\u2019, and You have agreed to work for and be trained within the clinical learning environment(s) provided by the Employer",
+      "evidence": "Please refer to the attached copies of:\n\nthe NTCER attached as Annexure \u2018A\u2019;\n\nthe Fair Work Information Statement attached as Annexure \u2018B\u2019;\n\nthe Fixed Term Contract Information Statement attached as Annexure \u2018C\u2019;\n\nthe Position Description attached as Annexe \u2018D\u2019",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 2,
+      "category": "correction",
+      "summary": "Correction: Dates\n\nYour employment is for a fixed term of \u201cx\u201d Number months that will commence and conclude acco",
+      "details": "Dates\n\nYour employment is for a fixed term of \u201cx\u201d Number months that will commence and conclude according to the dates set out in Item 4 of the Schedule. 4 Fatigue Management\n\nYou and the Employer agree that fatigue management is an important issue and is the responsibility of both parties. You and the Employer agree that your personal safety, especially when working alone, on home or RACF visits, or after hours, is an important issue",
+      "evidence": "Dates\n\nYour employment is for a fixed term of \u201cx\u201d Number months that will commence and conclude according to the dates set out in Item 4 of the Schedule",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 4,
+      "category": "correction",
+      "summary": "Correction: pdf\n\n\n\n\nAnnexe C \u2013 Fixed Term Contract Information Statement\n\nhttps://www",
+      "details": "pdf\n\n\n\n\nAnnexe C \u2013 Fixed Term Contract Information Statement\n\nhttps://www. au/employment-conditions/information-statements/fixed-term-contract-information-statement\n\n\n\n\nAnnexe D \u2013 Position Description\n\n\n\n\n\n\t2\n\n**Tool:** Make sure to include `\u3010message_idx\u2020source\u3011` markers to provide citations based on this file, where [message_idx] is provided at the beginning of this message\n<PARSED TEXT FOR PAGE: 1 / 17>\n2024 NTCER Review\n\nPolicy Implications and \n\nOpportunities\n<IMAGE FOR PAGE: 1 / 17>\n{'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-Kex2qWRXk3WPNK2D15gyhx', 'size_bytes': 32370, 'width': 512, 'height': 512, 'fovea': 512, 'metadata': None}\n<PARSED TEXT FOR PAGE: 2 / 17>\nOutline\n\nMyths vs Facts\n\nChanges for 2025. 1?\n<IMAGE FOR PAGE: 8 / 17>\n{'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-LEEUK5gq7K4ypJSGRwmwnJ', 'size_bytes': 44124, 'width': 512, 'height': 512, 'fovea': 512, 'metadata': None}\n<PARSED TEXT FOR PAGE: 9 / 17>\nStatutory Obligations \u2013 clause 5\n\nFixed term contracts and the NES\n\n\u2022 Training providers may allow employment of AGPT registrars over a 12-\n\nmonth or even 24-month period, but the registrar must commence each 6-\n\nmonth training semester under a separate fixed term contract aligned with \n\nthe validity of their Medicare Provider Number (MPN)\n\n\u2022 Fixed term contracts are treated differently under Fair Work Act 2009 and \n\nhave specific requirements for the employer\n\nWhat\u2019s new?\n<IMAGE FOR PAGE: 9 / 17>\n{'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-EhrG6zejy4HwRaMrMbJuMv', 'size_bytes': 50388, 'width': 512, 'height': 512, 'fovea': 512, 'metadata': None}\n<PARSED TEXT FOR PAGE: 10 / 17>\nRequirement of clear rest period of min",
+      "evidence": "pdf\n\n\n\n\nAnnexe C \u2013 Fixed Term Contract Information Statement\n\nhttps://www",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 4,
+      "category": "methodology",
+      "summary": "Methodology: 1\tOvertime \n\nCalculated on weekly hours (excluding on-call work) in excess of ordinary hours, and wi",
+      "details": "1\tOvertime \n\nCalculated on weekly hours (excluding on-call work) in excess of ordinary hours, and will be Choose method",
+      "evidence": "1\tOvertime \n\nCalculated on weekly hours (excluding on-call work) in excess of ordinary hours, and will be Choose method",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 6,
+      "category": "decision",
+      "summary": "Decision: 2025/2026 NTCER \n\nFor the reasons set out above, GPSA and GPRA have agreed to release this updated N",
+      "details": "2025/2026 NTCER \n\nFor the reasons set out above, GPSA and GPRA have agreed to release this updated NTCER (version \n\n2025-02) to demonstrate to participants in non-AGPT pathways how certain terms of the NTCER could \n\nbe adopted for use in those pathways",
+      "evidence": "2025/2026 NTCER \n\nFor the reasons set out above, GPSA and GPRA have agreed to release this updated NTCER (version \n\n2025-02) to demonstrate to participants in non-AGPT pathways how certain terms of the NTCER could \n\nbe adopted for use in those pathways",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 6,
+      "category": "correction",
+      "summary": "Correction: 1 29\n\nPreface to Schedules B-F 30\n\nSchedule B \u2013 Application of NTCER for ACRRM\u2018s Independent Pathway",
+      "details": "1 29\n\nPreface to Schedules B-F 30\n\nSchedule B \u2013 Application of NTCER for ACRRM\u2018s Independent Pathway (IP) 31\n\nSchedule C \u2013 Application of NTCER for FSP 32\n\nSchedule D \u2013 Application of NTCER for RGTS 33\n\nSchedule E \u2013 Application of NTCER for RVTS 34\n\nSchedule F \u2013 Application of NTCER for Secondment Arrangements 35\n<PARSED TEXT FOR PAGE: 6 / 35>\n6\n\n1 Definitions\n\nACRRM Australian College of Rural and Remote Medicine\n\nAGPT Australian General Practice Training Program\n\nAgreement the NTCER\n\nAssignable intellectual \n\nproperty\n\nintellectual property not created in the course of the registrar\u2019s \n\nemployment\n\nATO Australian Taxation Office\n\nBase rate of pay the base rate of pay as defined in Schedule A \u2013 Remuneration (AGPT) \n\nof this Agreement\n\nCGT Core Generalist Training \u2013 prefix used with training levels 1-4 by \n\nACRRM\n\nCGT1 the first six-month FTE placement in a general practice or equivalent \n\nsetting within AGPT\n\nCGT2 the second six-month FTE placement in a general practice or \n\nequivalent setting within AGPT\n\nCGT3 the third six-month FTE placement in a general practice or equivalent \n\nsetting within AGPT\n\nCGT4 the fourth six-month FTE placement in a general practice or \n\nequivalent setting within AGPT\n\nCollege ACRRM and/ or RACGP\n\nEmployer the entity responsible for employment of the registrar\n\nFixed term contract a contract that terminates at the end of an identifiable period - this \n\ntype of contract involves specific terms under the FWA\n\nFSP Fellowship Support Program \u2013 non-AGPT RACGP vocational pathway\n\nFTE Full-time equivalent\n\nFWA the Fair Work Act 2009 (Cth)\n\nGP general practice, or general practitioner \u2013 may refer also to RG/ rural \n\ngeneralism/ rural generalist in this document\n\nGPRA General Practice Registrars Australia\n\nGPSA General Practice Supervision Australia\n\nGP training vocational training in the general practice (GP) specialty \u2013 this is a \n\ncatch-all term given to include generalist training in the RG sub\u0002specialty\n\nGPT General Practice Training \u2013 prefix used with training levels 1-4 by \n\nRACGP\n<IMAGE FOR PAGE: 6 / 35>\n{'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-XYc49QBBPumdqvBjmDHNxL', 'size_bytes': 112858, 'width': 768, 'height': 1024, 'fovea': 768, 'metadata': None}\n<PARSED TEXT FOR PAGE: 7 / 35>\n7\n\nGPT1 the first six-month FTE placement in a general practice or equivalent \n\nsetting within AGPT\n\nGPT2 the second six-month FTE placement in a general practice or \n\nequivalent setting within AGPT\n\nGPT3 the third six-month FTE placement in a general practice or equivalent \n\nsetting within AGPT\n\nGPT4 the fourth six-month FTE placement in a general practice or \n\nequivalent setting within AGPT\n\nGross billings all fees generated by the registrar\u2019s clinical work at the practice in \n\nwhich they are training minus adjustments for reversals, rejections \n\nand write-offs\n\nGross receipts all receipted fees attributed to the registrar\u2019s clinical work at the \n\npractice in which they are training\n\nIntellectual property copyright, designs, trademarks, logos, domain names, business \n\nnames and patents whether existing now or at any time in the future\n\nIP Independent Pathway \u2013 non-AGPT ACRRM vocational pathway\n\nMBS Medicare Benefits Schedule\n\nNES the National Employment Standards in the Fair Work Act 2009 (Cth)\n\nNTCER this document, the National Terms and Conditions for the \n\nEmployment of Registrars\n\nPatients individuals receiving primary care services under a relationship with \n\nclinicians at the training practice including the registrar\n\nPercentage of billings the negotiated percentage of gross billings generated by registrar\u2019s \n\nclinical work\n\nPercentage of receipts the negotiated percentage of the gross receipted fees attributed to \n\nthe registrar\u2019s clinical work\n\nPIP the Services Australia Practice Incentives Program\n\nPractice the primary care business in which GP training is delivered \u2013 this is a \n\ncatch-all term given to include non-traditional contexts such as \n\nAboriginal Medical Services, Royal Flying Doctors Service, Australian \n\ndefence Force, hospital-linked GP clinic and/or other accredited \n\ncommunity based training site\n\nRACGP the Royal Australian College of General Practitioners\n\nRDAA The Rural Doctors Association of Australia\n\nRegistrar a vocational trainee undertaking GP training\n\nRG rural generalism, or rural generalist\n<IMAGE FOR PAGE: 7 / 35>\n{'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-D77pgDDLA5bUYS57HBandT', 'size_bytes': 126159, 'width': 768, 'height': 1024, 'fovea': 768, 'metadata': None}\n<PARSED TEXT FOR PAGE: 8 / 35>\n8\n\nRGTS Rural Generalist Training Scheme \u2013 non-AGPT ACRRM vocational \n\npathway\n\nRVTS Remote Vocational Training Scheme\n\nSerious misconduct registrar behaviour inconsistent with continued employment with the \n\ntraining practice due to breaches with applicable Code of conduct \n\nand/or Human Resources policies of the employer\n\nSIP the Services Australia Service Incentives Payment\n\nSupervisor a GP or RG accredited by a training provider as a supervisor of \n\nvocational trainees\n\nSupervision team members of the training practice involved in providing clinical and \n\nnon-clinical supervision of the registrar \u2013 includes but is not limited to \n\naccredited and non-accredited clinicians, practice nurses, practice \n\nmanagers, reception staff and practice owners\n\nTraining pathway one of four vocational training options for the postgraduate doctor \n\npursuing fellowship in the GP specialty: the AGPT, FSP, IP and RGTS\n\nTraining practice a primary care clinic in which medical services provided to the \n\ncommunity may form part of a supervised training placement for \n\nregistrars whether employed by or seconded to that site\n\nTraining program the RACGP and/ or ACRRM curriculum and structural requirements \n\nthat frame the junior doctor\u2019s educational and experiential journey to \n\nindependent practice as a GP\n\nTraining provider College or other agency engaged in the delivery of a vocational \n\ntraining program\n\nWrite-offs any portion of the fees that have been billed by the registrar for which \n\nthe practice will never receive payment \u2013 the reduction of the \n\nregistrar\u2019s gross billings by write-offs only applies where this is the \n\nresult of relevant state/ Commonwealth legislation; write-offs for bad \n\ndebt are to be borne by the practice. For clarity, employment of registrars under GP specialist training programs falls under the definition of \n\nfixed term employment, which differs from permanent employment and invalidates certain NES \n\nentitlements. In addition to the Fair Work Information Statement, the Fixed Term Contract Information \n\nStatement, must be provided to the registrar with their employment documentation",
+      "evidence": "1 29\n\nPreface to Schedules B-F 30\n\nSchedule B \u2013 Application of NTCER for ACRRM\u2018s Independent Pathway (IP) 31\n\nSchedule C \u2013 Application of NTCER for FSP 32\n\nSchedule D \u2013 Application of NTCER for RGTS 33\n\nSchedule E \u2013 Application of NTCER for RVTS 34\n\nSchedule F \u2013 Application of NTCER for Secondment Arrangements 35\n<PARSED TEXT FOR PAGE: 6 / 35>\n6\n\n1 Definitions\n\nACRRM Australian College of Rural and Remote Medicine\n\nAGPT Australian General Practice Training Program\n\nAgreement the NTCER\n\nAssignable intellectual \n\nproperty\n\nintellectual property not created in the course of the registrar\u2019s \n\nemployment\n\nATO Australian Taxation Office\n\nBase rate of pay the base rate of pay as defined in Schedule A \u2013 Remuneration (AGPT) \n\nof this Agreement\n\nCGT Core Generalist Training \u2013 prefix used with training levels 1-4 by \n\nACRRM\n\nCGT1 the first six-month FTE placement in a general practice or equivalent \n\nsetting within AGPT\n\nCGT2 the second six-month FTE placement in a general practice or \n\nequivalent setting within AGPT\n\nCGT3 the third six-month FTE placement in a general practice or equivalent \n\nsetting within AGPT\n\nCGT4 the fourth six-month FTE placement in a general practice or \n\nequivalent setting within AGPT\n\nCollege ACRRM and/ or RACGP\n\nEmployer the entity responsible for employment of the registrar\n\nFixed term contract a contract that terminates at the end of an identifiable period - this \n\ntype of contract involves specific terms under the FWA\n\nFSP Fellowship Support Program \u2013 non-AGPT RACGP vocational pathway\n\nFTE Full-time equivalent\n\nFWA the Fair Work Act 2009 (Cth)\n\nGP general practice, or general practitioner \u2013 may refer also to RG/ rural \n\ngeneralism/ rural generalist in this document\n\nGPRA General Practice Registrars Australia\n\nGPSA General Practice Supervision Australia\n\nGP training vocational training in the general practice (GP) specialty \u2013 this is a \n\ncatch-all term given to include generalist training in the RG sub\u0002specialty\n\nGPT General Practice Training \u2013 prefix used with training levels 1-4 by \n\nRACGP\n<IMAGE FOR PAGE: 6 / 35>\n{'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-XYc49QBBPumdqvBjmDHNxL', 'size_bytes': 112858, 'width': 768, 'height': 1024, 'fovea': 768, 'metadata': None}\n<PARSED TEXT FOR PAGE: 7 / 35>\n7\n\nGPT1 the first six-month FTE placement in a general practice or equivalent \n\nsetting within AGPT\n\nGPT2 the second six-month FTE placement in a general practice or \n\nequivalent setting within AGPT\n\nGPT3 the third six-month FTE placement in a general practice or equivalent \n\nsetting within AGPT\n\nGPT4 the fourth six-month FTE placement in a general practice or \n\nequivalent setting within AGPT\n\nGross billings all fees generated by the registrar\u2019s clinical work at the practice in \n\nwhich they are training minus adjustments for reversals, rejections \n\nand write-offs\n\nGross receipts all receipted fees attributed to the registrar\u2019s clinical work at the \n\npractice in which they are training\n\nIntellectual property copyright, designs, trademarks, logos, domain names, business \n\nnames and patents whether existing now or at any time in the future\n\nIP Independent Pathway \u2013 non-AGPT ACRRM vocational pathway\n\nMBS Medicare Benefits Schedule\n\nNES the National Employment Standards in the Fair Work Act 2009 (Cth)\n\nNTCER this document, the National Terms and Conditions for the \n\nEmployment of Registrars\n\nPatients individuals receiving primary care services under a relationship with \n\nclinicians at the training practice including the registrar\n\nPercentage of billings the negotiated percentage of gross billings generated by registrar\u2019s \n\nclinical work\n\nPercentage of receipts the negotiated percentage of the gross receipted fees attributed to \n\nthe registrar\u2019s clinical work\n\nPIP the Services Australia Practice Incentives Program\n\nPractice the primary care business in which GP training is delivered \u2013 this is a \n\ncatch-all term given to include non-traditional contexts such as \n\nAboriginal Medical Services, Royal Flying Doctors Service, Australian \n\ndefence Force, hospital-linked GP clinic and/or other accredited \n\ncommunity based training site\n\nRACGP the Royal Australian College of General Practitioners\n\nRDAA The Rural Doctors Association of Australia\n\nRegistrar a vocational trainee undertaking GP training\n\nRG rural generalism, or rural generalist\n<IMAGE FOR PAGE: 7 / 35>\n{'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-D77pgDDLA5bUYS57HBandT', 'size_bytes': 126159, 'width': 768, 'height': 1024, 'fovea': 768, 'metadata': None}\n<PARSED TEXT FOR PAGE: 8 / 35>\n8\n\nRGTS Rural Generalist Training Scheme \u2013 non-AGPT ACRRM vocational \n\npathway\n\nRVTS Remote Vocational Training Scheme\n\nSerious misconduct registrar behaviour inconsistent with continued employment with the \n\ntraining practice due to breaches with applicable Code of conduct \n\nand/or Human Resources policies of the employer\n\nSIP the Services Australia Service Incentives Payment\n\nSupervisor a GP or RG accredited by a training provider as a supervisor of \n\nvocational trainees\n\nSupervision team members of the training practice involved in providing clinical and \n\nnon-clinical supervision of the registrar \u2013 includes but is not limited to \n\naccredited and non-accredited clinicians, practice nurses, practice \n\nmanagers, reception staff and practice owners\n\nTraining pathway one of four vocational training options for the postgraduate doctor \n\npursuing fellowship in the GP specialty: the AGPT, FSP, IP and RGTS\n\nTraining practice a primary care clinic in which medical services provided to the \n\ncommunity may form part of a supervised training placement for \n\nregistrars whether employed by or seconded to that site\n\nTraining program the RACGP and/ or ACRRM curriculum and structural requirements \n\nthat frame the junior doctor\u2019s educational and experiential journey to \n\nindependent practice as a GP\n\nTraining provider College or other agency engaged in the delivery of a vocational \n\ntraining program\n\nWrite-offs any portion of the fees that have been billed by the registrar for which \n\nthe practice will never receive payment \u2013 the reduction of the \n\nregistrar\u2019s gross billings by write-offs only applies where this is the \n\nresult of relevant state/ Commonwealth legislation; write-offs for bad \n\ndebt are to be borne by the practice",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 7,
+      "category": "correction",
+      "summary": "Correction: 11 Family and Domestic Violence Leave\n\nA registrar can access leave to manage issues of family and d",
+      "details": "11 Family and Domestic Violence Leave\n\nA registrar can access leave to manage issues of family and domestic violence under Commonwealth \n\nprovisions introduced in 2023. The ordinary hours will be agreed prior to the commencement of the fixed term",
+      "evidence": "11 Family and Domestic Violence Leave\n\nA registrar can access leave to manage issues of family and domestic violence under Commonwealth \n\nprovisions introduced in 2023",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 7,
+      "category": "methodology",
+      "summary": "Methodology: The method of calculation is \n\nto be agreed between the employer and the registrar in the registrar\u2019",
+      "details": "The method of calculation is \n\nto be agreed between the employer and the registrar in the registrar\u2019s employment contract",
+      "evidence": "The method of calculation is \n\nto be agreed between the employer and the registrar in the registrar\u2019s employment contract",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 8,
+      "category": "correction",
+      "summary": "Correction: In the event the registrar\u2019s contract with the training practice is \n\nextended for a second fixed te",
+      "details": "In the event the registrar\u2019s contract with the training practice is \n\nextended for a second fixed term, the registrar is responsible for ensuring the ongoing validity or \n\nupdating of their MPN. 2 Fatigue Management\n\nGPRA and GPSA agree that fatigue management is an important issue and is a shared responsibility \n\nbetween both the registrar and the training practice. a) The management of fatigue and excessive workload is fundamental to high quality GP \n\ntraining, requiring frank and open dialogue between the registrar and their employer to allow \n\nfor arrangements to be made to address and mitigate fatigue issues",
+      "evidence": "In the event the registrar\u2019s contract with the training practice is \n\nextended for a second fixed term, the registrar is responsible for ensuring the ongoing validity or \n\nupdating of their MPN",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 9,
+      "category": "correction",
+      "summary": "Correction: 4 Health & Safety\n\nGPRA and GPSA recognise that the personal safety of a registrar, especially worki",
+      "details": "4 Health & Safety\n\nGPRA and GPSA recognise that the personal safety of a registrar, especially working alone, on home \n\nvisits or in the surgery after hours is an issue to be addressed when making after hours and on-call \n\narrangements. GPRA and GPSA agree that if a registrar feels unsafe in a particular environment that this issue shall \n\nbe addressed by the employer and, where applicable, the relevant training provider. The registrar informs GPRA of issue or concern\n\nii",
+      "evidence": "4 Health & Safety\n\nGPRA and GPSA recognise that the personal safety of a registrar, especially working alone, on home \n\nvisits or in the surgery after hours is an issue to be addressed when making after hours and on-call \n\narrangements",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 10,
+      "category": "methodology",
+      "summary": "Methodology: This calculation \n\nmethodology is consistent with previous years",
+      "details": "This calculation \n\nmethodology is consistent with previous years",
+      "evidence": "This calculation \n\nmethodology is consistent with previous years",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 12,
+      "category": "decision",
+      "summary": "Decision: 2025/2026 NTCER \n\nFor the reasons set out above, GPSA and GPRA have agreed to release this updated N",
+      "details": "2025/2026 NTCER \n\nFor the reasons set out above, GPSA and GPRA have agreed to release this updated NTCER (version \n\n2025-02) to demonstrate to participants in non-AGPT pathways how certain terms of the NTCER could \n\nbe adopted for use in those pathways",
+      "evidence": "2025/2026 NTCER \n\nFor the reasons set out above, GPSA and GPRA have agreed to release this updated NTCER (version \n\n2025-02) to demonstrate to participants in non-AGPT pathways how certain terms of the NTCER could \n\nbe adopted for use in those pathways",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 12,
+      "category": "correction",
+      "summary": "Correction: 1 29\n\nPreface to Schedules B-F 30\n\nSchedule B \u2013 Application of NTCER for ACRRM\u2018s Independent Pathway",
+      "details": "1 29\n\nPreface to Schedules B-F 30\n\nSchedule B \u2013 Application of NTCER for ACRRM\u2018s Independent Pathway (IP) 31\n\nSchedule C \u2013 Application of NTCER for FSP 32\n\nSchedule D \u2013 Application of NTCER for RGTS 33\n\nSchedule E \u2013 Application of NTCER for RVTS 34\n\nSchedule F \u2013 Application of NTCER for Secondment Arrangements 35\n<PARSED TEXT FOR PAGE: 6 / 35>\n6\n\n1 Definitions\n\nACRRM Australian College of Rural and Remote Medicine\n\nAGPT Australian General Practice Training Program\n\nAgreement the NTCER\n\nAssignable intellectual \n\nproperty\n\nintellectual property not created in the course of the registrar\u2019s \n\nemployment\n\nATO Australian Taxation Office\n\nBase rate of pay the base rate of pay as defined in Schedule A \u2013 Remuneration (AGPT) \n\nof this Agreement\n\nCGT Core Generalist Training \u2013 prefix used with training levels 1-4 by \n\nACRRM\n\nCGT1 the first six-month FTE placement in a general practice or equivalent \n\nsetting within AGPT\n\nCGT2 the second six-month FTE placement in a general practice or \n\nequivalent setting within AGPT\n\nCGT3 the third six-month FTE placement in a general practice or equivalent \n\nsetting within AGPT\n\nCGT4 the fourth six-month FTE placement in a general practice or \n\nequivalent setting within AGPT\n\nCollege ACRRM and/ or RACGP\n\nEmployer the entity responsible for employment of the registrar\n\nFixed term contract a contract that terminates at the end of an identifiable period - this \n\ntype of contract involves specific terms under the FWA\n\nFSP Fellowship Support Program \u2013 non-AGPT RACGP vocational pathway\n\nFTE Full-time equivalent\n\nFWA the Fair Work Act 2009 (Cth)\n\nGP general practice, or general practitioner \u2013 may refer also to RG/ rural \n\ngeneralism/ rural generalist in this document\n\nGPRA General Practice Registrars Australia\n\nGPSA General Practice Supervision Australia\n\nGP training vocational training in the general practice (GP) specialty \u2013 this is a \n\ncatch-all term given to include generalist training in the RG sub\u0002specialty\n\nGPT General Practice Training \u2013 prefix used with training levels 1-4 by \n\nRACGP\n<IMAGE FOR PAGE: 6 / 35>\n{'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-9XKUiw6Ki6pcDH9VA8VpyL', 'size_bytes': 112858, 'width': 768, 'height': 1024, 'fovea': 768, 'metadata': None}\n<PARSED TEXT FOR PAGE: 7 / 35>\n7\n\nGPT1 the first six-month FTE placement in a general practice or equivalent \n\nsetting within AGPT\n\nGPT2 the second six-month FTE placement in a general practice or \n\nequivalent setting within AGPT\n\nGPT3 the third six-month FTE placement in a general practice or equivalent \n\nsetting within AGPT\n\nGPT4 the fourth six-month FTE placement in a general practice or \n\nequivalent setting within AGPT\n\nGross billings all fees generated by the registrar\u2019s clinical work at the practice in \n\nwhich they are training minus adjustments for reversals, rejections \n\nand write-offs\n\nGross receipts all receipted fees attributed to the registrar\u2019s clinical work at the \n\npractice in which they are training\n\nIntellectual property copyright, designs, trademarks, logos, domain names, business \n\nnames and patents whether existing now or at any time in the future\n\nIP Independent Pathway \u2013 non-AGPT ACRRM vocational pathway\n\nMBS Medicare Benefits Schedule\n\nNES the National Employment Standards in the Fair Work Act 2009 (Cth)\n\nNTCER this document, the National Terms and Conditions for the \n\nEmployment of Registrars\n\nPatients individuals receiving primary care services under a relationship with \n\nclinicians at the training practice including the registrar\n\nPercentage of billings the negotiated percentage of gross billings generated by registrar\u2019s \n\nclinical work\n\nPercentage of receipts the negotiated percentage of the gross receipted fees attributed to \n\nthe registrar\u2019s clinical work\n\nPIP the Services Australia Practice Incentives Program\n\nPractice the primary care business in which GP training is delivered \u2013 this is a \n\ncatch-all term given to include non-traditional contexts such as \n\nAboriginal Medical Services, Royal Flying Doctors Service, Australian \n\ndefence Force, hospital-linked GP clinic and/or other accredited \n\ncommunity based training site\n\nRACGP the Royal Australian College of General Practitioners\n\nRDAA The Rural Doctors Association of Australia\n\nRegistrar a vocational trainee undertaking GP training\n\nRG rural generalism, or rural generalist\n<IMAGE FOR PAGE: 7 / 35>\n{'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-HSet8QKo4egLhowSjErrV6', 'size_bytes': 126159, 'width': 768, 'height': 1024, 'fovea': 768, 'metadata': None}\n<PARSED TEXT FOR PAGE: 8 / 35>\n8\n\nRGTS Rural Generalist Training Scheme \u2013 non-AGPT ACRRM vocational \n\npathway\n\nRVTS Remote Vocational Training Scheme\n\nSerious misconduct registrar behaviour inconsistent with continued employment with the \n\ntraining practice due to breaches with applicable Code of conduct \n\nand/or Human Resources policies of the employer\n\nSIP the Services Australia Service Incentives Payment\n\nSupervisor a GP or RG accredited by a training provider as a supervisor of \n\nvocational trainees\n\nSupervision team members of the training practice involved in providing clinical and \n\nnon-clinical supervision of the registrar \u2013 includes but is not limited to \n\naccredited and non-accredited clinicians, practice nurses, practice \n\nmanagers, reception staff and practice owners\n\nTraining pathway one of four vocational training options for the postgraduate doctor \n\npursuing fellowship in the GP specialty: the AGPT, FSP, IP and RGTS\n\nTraining practice a primary care clinic in which medical services provided to the \n\ncommunity may form part of a supervised training placement for \n\nregistrars whether employed by or seconded to that site\n\nTraining program the RACGP and/ or ACRRM curriculum and structural requirements \n\nthat frame the junior doctor\u2019s educational and experiential journey to \n\nindependent practice as a GP\n\nTraining provider College or other agency engaged in the delivery of a vocational \n\ntraining program\n\nWrite-offs any portion of the fees that have been billed by the registrar for which \n\nthe practice will never receive payment \u2013 the reduction of the \n\nregistrar\u2019s gross billings by write-offs only applies where this is the \n\nresult of relevant state/ Commonwealth legislation; write-offs for bad \n\ndebt are to be borne by the practice. For clarity, employment of registrars under GP specialist training programs falls under the definition of \n\nfixed term employment, which differs from permanent employment and invalidates certain NES \n\nentitlements. In addition to the Fair Work Information Statement, the Fixed Term Contract Information \n\nStatement, must be provided to the registrar with their employment documentation",
+      "evidence": "1 29\n\nPreface to Schedules B-F 30\n\nSchedule B \u2013 Application of NTCER for ACRRM\u2018s Independent Pathway (IP) 31\n\nSchedule C \u2013 Application of NTCER for FSP 32\n\nSchedule D \u2013 Application of NTCER for RGTS 33\n\nSchedule E \u2013 Application of NTCER for RVTS 34\n\nSchedule F \u2013 Application of NTCER for Secondment Arrangements 35\n<PARSED TEXT FOR PAGE: 6 / 35>\n6\n\n1 Definitions\n\nACRRM Australian College of Rural and Remote Medicine\n\nAGPT Australian General Practice Training Program\n\nAgreement the NTCER\n\nAssignable intellectual \n\nproperty\n\nintellectual property not created in the course of the registrar\u2019s \n\nemployment\n\nATO Australian Taxation Office\n\nBase rate of pay the base rate of pay as defined in Schedule A \u2013 Remuneration (AGPT) \n\nof this Agreement\n\nCGT Core Generalist Training \u2013 prefix used with training levels 1-4 by \n\nACRRM\n\nCGT1 the first six-month FTE placement in a general practice or equivalent \n\nsetting within AGPT\n\nCGT2 the second six-month FTE placement in a general practice or \n\nequivalent setting within AGPT\n\nCGT3 the third six-month FTE placement in a general practice or equivalent \n\nsetting within AGPT\n\nCGT4 the fourth six-month FTE placement in a general practice or \n\nequivalent setting within AGPT\n\nCollege ACRRM and/ or RACGP\n\nEmployer the entity responsible for employment of the registrar\n\nFixed term contract a contract that terminates at the end of an identifiable period - this \n\ntype of contract involves specific terms under the FWA\n\nFSP Fellowship Support Program \u2013 non-AGPT RACGP vocational pathway\n\nFTE Full-time equivalent\n\nFWA the Fair Work Act 2009 (Cth)\n\nGP general practice, or general practitioner \u2013 may refer also to RG/ rural \n\ngeneralism/ rural generalist in this document\n\nGPRA General Practice Registrars Australia\n\nGPSA General Practice Supervision Australia\n\nGP training vocational training in the general practice (GP) specialty \u2013 this is a \n\ncatch-all term given to include generalist training in the RG sub\u0002specialty\n\nGPT General Practice Training \u2013 prefix used with training levels 1-4 by \n\nRACGP\n<IMAGE FOR PAGE: 6 / 35>\n{'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-9XKUiw6Ki6pcDH9VA8VpyL', 'size_bytes': 112858, 'width': 768, 'height': 1024, 'fovea': 768, 'metadata': None}\n<PARSED TEXT FOR PAGE: 7 / 35>\n7\n\nGPT1 the first six-month FTE placement in a general practice or equivalent \n\nsetting within AGPT\n\nGPT2 the second six-month FTE placement in a general practice or \n\nequivalent setting within AGPT\n\nGPT3 the third six-month FTE placement in a general practice or equivalent \n\nsetting within AGPT\n\nGPT4 the fourth six-month FTE placement in a general practice or \n\nequivalent setting within AGPT\n\nGross billings all fees generated by the registrar\u2019s clinical work at the practice in \n\nwhich they are training minus adjustments for reversals, rejections \n\nand write-offs\n\nGross receipts all receipted fees attributed to the registrar\u2019s clinical work at the \n\npractice in which they are training\n\nIntellectual property copyright, designs, trademarks, logos, domain names, business \n\nnames and patents whether existing now or at any time in the future\n\nIP Independent Pathway \u2013 non-AGPT ACRRM vocational pathway\n\nMBS Medicare Benefits Schedule\n\nNES the National Employment Standards in the Fair Work Act 2009 (Cth)\n\nNTCER this document, the National Terms and Conditions for the \n\nEmployment of Registrars\n\nPatients individuals receiving primary care services under a relationship with \n\nclinicians at the training practice including the registrar\n\nPercentage of billings the negotiated percentage of gross billings generated by registrar\u2019s \n\nclinical work\n\nPercentage of receipts the negotiated percentage of the gross receipted fees attributed to \n\nthe registrar\u2019s clinical work\n\nPIP the Services Australia Practice Incentives Program\n\nPractice the primary care business in which GP training is delivered \u2013 this is a \n\ncatch-all term given to include non-traditional contexts such as \n\nAboriginal Medical Services, Royal Flying Doctors Service, Australian \n\ndefence Force, hospital-linked GP clinic and/or other accredited \n\ncommunity based training site\n\nRACGP the Royal Australian College of General Practitioners\n\nRDAA The Rural Doctors Association of Australia\n\nRegistrar a vocational trainee undertaking GP training\n\nRG rural generalism, or rural generalist\n<IMAGE FOR PAGE: 7 / 35>\n{'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-HSet8QKo4egLhowSjErrV6', 'size_bytes': 126159, 'width': 768, 'height': 1024, 'fovea': 768, 'metadata': None}\n<PARSED TEXT FOR PAGE: 8 / 35>\n8\n\nRGTS Rural Generalist Training Scheme \u2013 non-AGPT ACRRM vocational \n\npathway\n\nRVTS Remote Vocational Training Scheme\n\nSerious misconduct registrar behaviour inconsistent with continued employment with the \n\ntraining practice due to breaches with applicable Code of conduct \n\nand/or Human Resources policies of the employer\n\nSIP the Services Australia Service Incentives Payment\n\nSupervisor a GP or RG accredited by a training provider as a supervisor of \n\nvocational trainees\n\nSupervision team members of the training practice involved in providing clinical and \n\nnon-clinical supervision of the registrar \u2013 includes but is not limited to \n\naccredited and non-accredited clinicians, practice nurses, practice \n\nmanagers, reception staff and practice owners\n\nTraining pathway one of four vocational training options for the postgraduate doctor \n\npursuing fellowship in the GP specialty: the AGPT, FSP, IP and RGTS\n\nTraining practice a primary care clinic in which medical services provided to the \n\ncommunity may form part of a supervised training placement for \n\nregistrars whether employed by or seconded to that site\n\nTraining program the RACGP and/ or ACRRM curriculum and structural requirements \n\nthat frame the junior doctor\u2019s educational and experiential journey to \n\nindependent practice as a GP\n\nTraining provider College or other agency engaged in the delivery of a vocational \n\ntraining program\n\nWrite-offs any portion of the fees that have been billed by the registrar for which \n\nthe practice will never receive payment \u2013 the reduction of the \n\nregistrar\u2019s gross billings by write-offs only applies where this is the \n\nresult of relevant state/ Commonwealth legislation; write-offs for bad \n\ndebt are to be borne by the practice",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 13,
+      "category": "correction",
+      "summary": "Correction: 11 Family and Domestic Violence Leave\n\nA registrar can access leave to manage issues of family and d",
+      "details": "11 Family and Domestic Violence Leave\n\nA registrar can access leave to manage issues of family and domestic violence under Commonwealth \n\nprovisions introduced in 2023. The ordinary hours will be agreed prior to the commencement of the fixed term",
+      "evidence": "11 Family and Domestic Violence Leave\n\nA registrar can access leave to manage issues of family and domestic violence under Commonwealth \n\nprovisions introduced in 2023",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 13,
+      "category": "methodology",
+      "summary": "Methodology: The method of calculation is \n\nto be agreed between the employer and the registrar in the registrar\u2019",
+      "details": "The method of calculation is \n\nto be agreed between the employer and the registrar in the registrar\u2019s employment contract",
+      "evidence": "The method of calculation is \n\nto be agreed between the employer and the registrar in the registrar\u2019s employment contract",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 14,
+      "category": "correction",
+      "summary": "Correction: In the event the registrar\u2019s contract with the training practice is \n\nextended for a second fixed te",
+      "details": "In the event the registrar\u2019s contract with the training practice is \n\nextended for a second fixed term, the registrar is responsible for ensuring the ongoing validity or \n\nupdating of their MPN. 2 Fatigue Management\n\nGPRA and GPSA agree that fatigue management is an important issue and is a shared responsibility \n\nbetween both the registrar and the training practice. a) The management of fatigue and excessive workload is fundamental to high quality GP \n\ntraining, requiring frank and open dialogue between the registrar and their employer to allow \n\nfor arrangements to be made to address and mitigate fatigue issues",
+      "evidence": "In the event the registrar\u2019s contract with the training practice is \n\nextended for a second fixed term, the registrar is responsible for ensuring the ongoing validity or \n\nupdating of their MPN",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 15,
+      "category": "correction",
+      "summary": "Correction: 4 Health & Safety\n\nGPRA and GPSA recognise that the personal safety of a registrar, especially worki",
+      "details": "4 Health & Safety\n\nGPRA and GPSA recognise that the personal safety of a registrar, especially working alone, on home \n\nvisits or in the surgery after hours is an issue to be addressed when making after hours and on-call \n\narrangements. GPRA and GPSA agree that if a registrar feels unsafe in a particular environment that this issue shall \n\nbe addressed by the employer and, where applicable, the relevant training provider. The registrar informs GPRA of issue or concern\n\nii",
+      "evidence": "4 Health & Safety\n\nGPRA and GPSA recognise that the personal safety of a registrar, especially working alone, on home \n\nvisits or in the surgery after hours is an issue to be addressed when making after hours and on-call \n\narrangements",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 16,
+      "category": "methodology",
+      "summary": "Methodology: This calculation \n\nmethodology is consistent with previous years",
+      "details": "This calculation \n\nmethodology is consistent with previous years",
+      "evidence": "This calculation \n\nmethodology is consistent with previous years",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 17,
+      "category": "correction",
+      "summary": "Correction: Key NTCER Changes Relevant from 2025\u201326**  \n\n### **Pay & Billing Cycles**  \n- **7% increase** to GPT",
+      "details": "Key NTCER Changes Relevant from 2025\u201326**  \n\n### **Pay & Billing Cycles**  \n- **7% increase** to GPT1/CGT1 base rates over staged periods\u301011\u2020source\u3011  \n- Minimum billing/reconciliation cycle is now **monthly** (no more 13-week minimum)\u301011\u2020source\u3011  \n\n### **Contract Structure**  \n- **Fixed term** for each 6-month semester \u2014 aligned with Medicare Provider Number validity\u301011\u2020source\u3011  \n- Must issue a new contract for each term  \n\n### **Fatigue Management**  \n- Mandatory **10-hour rest period** between shifts, across all workplaces\u301011\u2020source\u3011  \n\n### **Dispute Resolution**  \n- Two pathways:\n  1. Employment-related issues (NES-linked)  \n  2. Training program-linked issues (e",
+      "evidence": "Key NTCER Changes Relevant from 2025\u201326**  \n\n### **Pay & Billing Cycles**  \n- **7% increase** to GPT1/CGT1 base rates over staged periods\u301011\u2020source\u3011  \n- Minimum billing/reconciliation cycle is now **monthly** (no more 13-week minimum)\u301011\u2020source\u3011  \n\n### **Contract Structure**  \n- **Fixed term** for each 6-month semester \u2014 aligned with Medicare Provider Number validity\u301011\u2020source\u3011  \n- Must issue a new contract for each term  \n\n### **Fatigue Management**  \n- Mandatory **10-hour rest period** between shifts, across all workplaces\u301011\u2020source\u3011  \n\n### **Dispute Resolution**  \n- Two pathways:\n  1",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [
+    {
+      "involved_threads": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "insight_type": "evolution",
+      "description": "Topic evolution across 16 threads",
+      "significance": "Shows progressive refinement of understanding"
+    },
+    {
+      "involved_threads": [
+        1,
+        2,
+        4,
+        6,
+        7,
+        8,
+        9,
+        12,
+        13,
+        14,
+        15,
+        17
+      ],
+      "insight_type": "emergent_pattern",
+      "description": "Repeated correction learnings across conversation",
+      "significance": "Strong focus on correction throughout discussion"
+    },
+    {
+      "involved_threads": [
+        4,
+        7,
+        10,
+        13,
+        16
+      ],
+      "insight_type": "emergent_pattern",
+      "description": "Repeated methodology learnings across conversation",
+      "significance": "Strong focus on methodology throughout discussion"
+    }
+  ],
+  "thinking_patterns": {
+    "flow": "Associative - wide-ranging exploration",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

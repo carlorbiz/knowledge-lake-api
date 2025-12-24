@@ -1,0 +1,74 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221501",
+  "word_count": 4991,
+  "extraction_date": "2025-12-24 22:15:01",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "App description review",
+      "start_line": 0,
+      "end_line": 390,
+      "excerpt": "# App description review\n\n**Date:** 2025-08-14\n\n---\n\n**User:** Hey Fred, so I need your help with a GPSA / HPSA project... I have been working with app developers on the adaptation of the \"Clinical Re",
+      "keywords": [
+        "0",
+        "1",
+        "14",
+        "2",
+        "20250814"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1423
+    },
+    {
+      "thread_id": 2,
+      "title": "Do you want me to prepare that entry now",
+      "start_line": 390,
+      "end_line": 801,
+      "excerpt": "Also, remember to use `source_specific_search_parameters` when applicable.\n\n**Assistant:** It looks like I couldn\u2019t find the \u201cFred Conversations\u201d database in your connected Notion workspace from here",
+      "keywords": [
+        "0",
+        "1",
+        "100",
+        "14",
+        "1525"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 3568
+    }
+  ],
+  "connections": [
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 2,
+      "connection_type": "builds_on",
+      "explanation": "Thread 2 builds on Thread 1",
+      "evidence": "1. **The database ID** (the long string from the Notion URL when the database is open \u2014 it usually looks like `xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`), or"
+    }
+  ],
+  "learnings": [
+    {
+      "thread_id": 2,
+      "category": "decision",
+      "summary": "Decision: - Decided to create A/B test variants for description and keywords within first 30 days post-launch ",
+      "details": "- Decided to create A/B test variants for description and keywords within first 30 days post-launch to optimise install rate",
+      "evidence": "- Decided to create A/B test variants for description and keywords within first 30 days post-launch to optimise install rate",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 2,
+      "category": "methodology",
+      "summary": "Methodology: - **For IMGs** \u2014 Gain familiarity with Australian clinical approaches and decision-making styles",
+      "details": "- **For IMGs** \u2014 Gain familiarity with Australian clinical approaches and decision-making styles. Would you like me to do that next?\n\n**User:** yes please\n\n**Assistant:** Here\u2019s your **SEO-rich, store-optimised \u201cfull page\u201d description** with keyword strategy baked in so it performs well on both Apple and Google Play search algorithms. **Keyword Strategy for Google Play Long Description:**  \n- Repeat **primary keywords** (`clinical reasoning`, `medical education`, `GP training`) 3\u20135 times each  \n- Include **secondary keywords** (`OSCE prep`, `diagnostic skills`, `allied health`, `case based learning`) 2\u20133 times each  \n- Place **geo-relevant terms** like `Australia` and `Australian healthcare` once or twice for local ranking  \n\n---\n\n## **\ud83d\udcac Developer-Lingo Explanation for You to Pass On**  \n\n> \u201cWe\u2019re implementing an ASO (App Store Optimisation) strategy to maximise search visibility",
+      "evidence": "- **For IMGs** \u2014 Gain familiarity with Australian clinical approaches and decision-making styles",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

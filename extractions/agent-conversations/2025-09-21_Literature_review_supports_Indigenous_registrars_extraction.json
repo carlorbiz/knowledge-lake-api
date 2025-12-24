@@ -1,0 +1,123 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221337",
+  "word_count": 13868,
+  "extraction_date": "2025-12-24 22:13:37",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Literature review supports Indigenous registrars",
+      "start_line": 0,
+      "end_line": 86,
+      "excerpt": "# Literature review supports Indigenous registrars\n\n**Date:** 2025-09-21\n\n---\n\n**User:** can you help me with a literature review of current supports available for Australian general practice registra",
+      "keywords": [
+        "1",
+        "2",
+        "20250921",
+        "3",
+        "4"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1460
+    },
+    {
+      "thread_id": 2,
+      "title": "7. Summary & Implications for Your Mapping Project",
+      "start_line": 86,
+      "end_line": 196,
+      "excerpt": "| Gap | Implication | Some suggested focal areas for mapping / further research |\n|---|---|---|\n| **Uneven distribution of supports by region / remoteness** | Registrars (and supervisors) in remote/ve",
+      "keywords": [
+        "2024",
+        "35",
+        "67",
+        "7",
+        "ACCHO"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2374
+    },
+    {
+      "thread_id": 3,
+      "title": "| **National / all states** | The AGPT...",
+      "start_line": 196,
+      "end_line": 773,
+      "excerpt": "| **National / all states** | The AGPT Aboriginal & Torres Strait Islander Salary Support Program is active nationally; data by state and Modified Monash Model (MMM) shows investment, number of regist",
+      "keywords": [
+        "0044",
+        "02",
+        "03",
+        "08",
+        "1"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 10034
+    }
+  ],
+  "connections": [
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 2,
+      "connection_type": "builds_on",
+      "explanation": "Thread 2 builds on Thread 1",
+      "evidence": "| **Supervisor / registrar definitions and shared understandings of cultural safety** | As the 2024 study (Brumpton et al.) showed, there is limited a"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 3,
+      "connection_type": "parallels",
+      "explanation": "Thread 3 parallels Thread 1",
+      "evidence": "| **National / all states** | The AGPT Aboriginal & Torres Strait Islander Salary Support Program is active nationally; data by state and Modified Mon"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 3,
+      "connection_type": "parallels",
+      "explanation": "Thread 3 parallels Thread 2",
+      "evidence": "| **National / all states** | The AGPT Aboriginal & Torres Strait Islander Salary Support Program is active nationally; data by state and Modified Mon"
+    }
+  ],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: | Support / Resource | Description | Strengths | Limitations / Gaps |\n|---|---|---|---|\n| **GPSA (Ge",
+      "details": "| Support / Resource | Description | Strengths | Limitations / Gaps |\n|---|---|---|---|\n| **GPSA (General Practice Supervision Australia)** resources for Aboriginal & Torres Strait Islander Health | GPSA provides guides, webinars, teaching plans, \u201cCulturally Safe GP Registrar Supervision \u2013 Decolonisation and a Strengths\u2011Based Approach\u201d, etc. \ue200cite\ue202turn0search17\ue201 | Sets expectations for collaboration; could support embedding registrar/supervisor training in ACCHOs; gives mandate for culturally informed approaches",
+      "evidence": "| Support / Resource | Description | Strengths | Limitations / Gaps |\n|---|---|---|---|\n| **GPSA (General Practice Supervision Australia)** resources for Aboriginal & Torres Strait Islander Health | GPSA provides guides, webinars, teaching plans, \u201cCulturally Safe GP Registrar Supervision \u2013 Decolonisation and a Strengths\u2011Based Approach\u201d, etc",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 3,
+      "category": "correction",
+      "summary": "Correction: |\n| **Ballarat & District Aboriginal Co\u2011operative** | Ballarat, Victoria | 106\u2011108 Armstrong Street ",
+      "details": "|\n| **Ballarat & District Aboriginal Co\u2011operative** | Ballarat, Victoria | 106\u2011108 Armstrong Street North Ballarat VIC 3350; Phone: (03)\u202f5331\u202f5344 \ue200cite\ue202turn0search5\ue201 | Good candidate for rural/regional setting; likely to have issues around capacity / remoteness; ask what supports exist, what gaps. Barriers include discrimination, lack of cultural mentoring, sometimes insufficient supervisor support in addressing cultural issues. They recognise certain communication, relationship, trust, contextual issues are different in Aboriginal and Torres Strait Islander consultations",
+      "evidence": "|\n| **Ballarat & District Aboriginal Co\u2011operative** | Ballarat, Victoria | 106\u2011108 Armstrong Street North Ballarat VIC 3350; Phone: (03)\u202f5331\u202f5344 \ue200cite\ue202turn0search5\ue201 | Good candidate for rural/regional setting; likely to have issues around capacity / remoteness; ask what supports exist, what gaps",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 3,
+      "category": "methodology",
+      "summary": "Methodology: Guides such as \u201cCulturally Safe GP Registrar Supervision \u2013 Decolonisation and a Strengths\u2011Based Appr",
+      "details": "Guides such as \u201cCulturally Safe GP Registrar Supervision \u2013 Decolonisation and a Strengths\u2011Based Approach\u201d; teaching plans; resources for supervisors to build cultural competence. |\n| *Racism and cultural safety for Indigenous general practice trainees* (mixed\u2011methods, 2024) \ue200cite\ue202turn0search1\ue202turn0search15\ue201 | GP trainees who are Aboriginal and/or Torres Strait Islander, in metropolitan or rural settings | Many trainees reported experiencing racism in training, and that cultural safety/competence components of training are not always robust or consistent. ---\n\nIf you like, I can collect 5\u201110 of the most relevant articles in full, summarising methods, sample, setting, findings, and map them by region/cohort, to feed directly into your matrix",
+      "evidence": "Guides such as \u201cCulturally Safe GP Registrar Supervision \u2013 Decolonisation and a Strengths\u2011Based Approach\u201d; teaching plans; resources for supervisors to build cultural competence",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [
+    {
+      "involved_threads": [
+        1,
+        2,
+        3
+      ],
+      "insight_type": "evolution",
+      "description": "Topic evolution across 3 threads",
+      "significance": "Shows progressive refinement of understanding"
+    }
+  ],
+  "thinking_patterns": {
+    "flow": "Branching - multiple related topics",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

@@ -1,0 +1,1896 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221346",
+  "word_count": 33262,
+  "extraction_date": "2025-12-24 22:13:46",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Strategic execution alignment",
+      "start_line": 0,
+      "end_line": 179,
+      "excerpt": "# Strategic execution alignment\n\n**Date:** 2025-09-20\n\n---\n\n**User:** Fred, please research this for me: the importance of creating an environment that allows strategic plans like the one I am working",
+      "keywords": [
+        "1",
+        "10",
+        "2",
+        "20",
+        "20250920"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1851
+    },
+    {
+      "thread_id": 2,
+      "title": "Would you like me to now draft the...",
+      "start_line": 179,
+      "end_line": 1314,
+      "excerpt": "Would you like me to now draft the **slide-deck outline** for your online workshop \u2014 weaving in (1) the concept of rhythms and cadences in execution, (2) the warm-up exercise we discussed, and (3) ref",
+      "keywords": [
+        "0",
+        "01",
+        "015",
+        "02",
+        "02s"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 5181
+    },
+    {
+      "thread_id": 3,
+      "title": "RWAV Online Workshop Slide Outline",
+      "start_line": 1314,
+      "end_line": 1561,
+      "excerpt": "That means we can directly reference the toolkit in your workshop \u2014 not just as a static resource, but as the \u201canchor\u201d environment that the team will keep coming back to when thinking about rhythms an",
+      "keywords": [
+        "1",
+        "10",
+        "10s",
+        "10slide",
+        "1554"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1941
+    },
+    {
+      "thread_id": 4,
+      "title": "A) Webhook-triggered (fastest)",
+      "start_line": 1561,
+      "end_line": 1660,
+      "excerpt": "**Assistant:** Great call using n8n. Here are two clean trigger patterns\u2014pick A (fastest) or B (database-driven). I\u2019ll give you exact node configs, payload shape, and a loop to poll Gamma until the de",
+      "keywords": [
+        "1",
+        "10s",
+        "2",
+        "3",
+        "30"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 555
+    },
+    {
+      "thread_id": 5,
+      "title": "- `pptxUrl`: `={{$json.exports?.pptxUrl}}`",
+      "start_line": 1660,
+      "end_line": 1733,
+      "excerpt": "- **False \u2192** go back to **Wait** (step 5), then to **Poll** again (this is your loop)\n\n8. **Set (Format Output)**\n   - Add fields:\n     - `status`: `={{$json.status}}`\n     - `gammaUrl`: `={{$json",
+      "keywords": [
+        "1",
+        "10",
+        "11",
+        "12",
+        "1520s"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 341
+    },
+    {
+      "thread_id": 6,
+      "title": "- If your **themeName** isn\u2019t found, Gamma will...",
+      "start_line": 1733,
+      "end_line": 1784,
+      "excerpt": "- If your **themeName** isn\u2019t found, Gamma will fall back to a default workspace theme\u2014still fine. You can remove `themeName` if you want pure default.\n- When the export links are missing but `status=",
+      "keywords": [
+        "1",
+        "2",
+        "23",
+        "3",
+        "4"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 630
+    },
+    {
+      "thread_id": 7,
+      "title": "0) Open n8n (Docker) on BigBoy",
+      "start_line": 1784,
+      "end_line": 1984,
+      "excerpt": "3. n8n receives it and continues the workflow (building the Gamma payload, polling, writing back to Notion, etc.).  \n\nThe **Notion DB ID** is still needed for identifying which database/page the event",
+      "keywords": [
+        "0",
+        "01",
+        "02",
+        "03",
+        "04"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 989
+    },
+    {
+      "thread_id": 8,
+      "title": "3.10 Set \u2013 Format Links",
+      "start_line": 1984,
+      "end_line": 2006,
+      "excerpt": "- **False \u2192** back to **Wait 10s** (loop Wait \u2192 Poll \u2192 IF until done; cap at ~12 loops if you want a timeout)\n\n## 3.10 Set \u2013 Format Links\n- **Fields:**\n  - `gammaUrl` \u2192 `={{$json.gammaUrl}}`\n  - `pp",
+      "keywords": [
+        "10s",
+        "12",
+        "200",
+        "310",
+        "311"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 138
+    },
+    {
+      "thread_id": 9,
+      "title": "4) Register the Notion webhook (the URL comes from n8n)",
+      "start_line": 2006,
+      "end_line": 2405,
+      "excerpt": "The **false** branch from IF loops back to **Wait**.\n\n---\n\n# 4) Register the Notion webhook (the URL comes from n8n)\nIn Notion, open your **Deck Requests** database:\n1) Automations / Webhooks (or Work",
+      "keywords": [
+        "01911",
+        "02311",
+        "1",
+        "1234",
+        "153o1"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1830
+    },
+    {
+      "thread_id": 10,
+      "title": "edit docker-compose.yml back to prior version",
+      "start_line": 2405,
+      "end_line": 2814,
+      "excerpt": "# edit docker-compose.yml back to prior version\ndocker compose up -d\n```\n\nOnce the Production URL is HTTPS, paste it into Notion and your webhook will register without the SSL error.\n\n**User:** {'cont",
+      "keywords": [
+        "1",
+        "10",
+        "1080",
+        "11",
+        "1169"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2896
+    },
+    {
+      "thread_id": 11,
+      "title": "2. \ud83d\udd11 `X-API-KEY = <your Gamma API key>`...",
+      "start_line": 2814,
+      "end_line": 2849,
+      "excerpt": "2. \ud83d\udd11 `X-API-KEY = <your Gamma API key>` (must be added, otherwise Gamma falls back to sample/demo content)  \n\nThe **real issue** isn\u2019t the `Content-Type`. It\u2019s that your request body is still carrying",
+      "keywords": [
+        "1",
+        "1306",
+        "2",
+        "2048",
+        "407411"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 251
+    },
+    {
+      "thread_id": 12,
+      "title": "\ud83d\udd27 Fix in your HTTP Request node",
+      "start_line": 2849,
+      "end_line": 2998,
+      "excerpt": "- Right now you haven\u2019t turned on **Send Body as JSON** with your Notion values \u2014 so Gamma keeps falling back to its sample payload.  \n\n---\n\n### \ud83d\udd27 Fix in your HTTP Request node\n\n1. **Keep both headers",
+      "keywords": [
+        "1",
+        "1180508",
+        "1306",
+        "2",
+        "2048"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 757
+    },
+    {
+      "thread_id": 13,
+      "title": "2. The \u201cGamma URL\u201d issue",
+      "start_line": 2998,
+      "end_line": 3106,
+      "excerpt": "But the update node shows `property_outline` is nested inside `properties` in your Notion DB response. n8n is probably sending `undefined` \u2192 Gamma falls back to real estate.\n\n---\n\n### 2. The \u201cGamma UR",
+      "keywords": [
+        "1",
+        "1306",
+        "2",
+        "2048",
+        "3"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 629
+    },
+    {
+      "thread_id": 14,
+      "title": "1) Build plain text fields right before the POST",
+      "start_line": 3106,
+      "end_line": 3224,
+      "excerpt": "1) **Your `inputText` isn\u2019t actually reaching Gamma.** When Gamma gets an empty/undefined `inputText`, it falls back to its demo corpus (the \u201cReal Estate\u201d decks).  \n2) You\u2019re writing the **`generation",
+      "keywords": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 603
+    },
+    {
+      "thread_id": 15,
+      "title": "Do this (2-minute fix)",
+      "start_line": 3224,
+      "end_line": 3456,
+      "excerpt": "- This keeps everything clean, and avoids Gamma defaulting back to its real estate examples.\n\n\ud83d\udc49 Do you want me to rewrite the **full n8n node JSON** for that POST request so you can just paste it stra",
+      "keywords": [
+        "1",
+        "12",
+        "1306",
+        "1nnnnLine",
+        "2"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1310
+    },
+    {
+      "thread_id": 16,
+      "title": "**User:** should the body type in the POST be Raw",
+      "start_line": 3456,
+      "end_line": 3759,
+      "excerpt": "If Gamma returns **no warning** and creates 2\u20133 cards, the API/key is fine and the issue was escaping. Then flip back to the expression body above.\n\n---\n\nIf you paste those expressions exactly (and co",
+      "keywords": [
+        "0",
+        "1",
+        "11074",
+        "1306",
+        "1nnLine"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 1401
+    },
+    {
+      "thread_id": 17,
+      "title": "Why your current text almost works",
+      "start_line": 3759,
+      "end_line": 3841,
+      "excerpt": "If Gamma returns multiple cards and no warning, your node is good. Switch `inputText` back to `{{$json.InputText}}`.\n\n5) Keep your **Set** node as we outlined (so `InputText` has real newlines):\n- `Ou",
+      "keywords": [
+        "1",
+        "10",
+        "1nnnnLine",
+        "2",
+        "20year"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 625
+    },
+    {
+      "thread_id": 18,
+      "title": "**User:** would you please reformat thes quickly back to what's needed then",
+      "start_line": 3841,
+      "end_line": 4271,
+      "excerpt": "**User:** would you please reformat thes quickly back to what's needed then?\n# Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nNokia had brilliant concepts before iPh",
+      "keywords": [
+        "1",
+        "10",
+        "2",
+        "20year",
+        "3"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 2508
+    },
+    {
+      "thread_id": 19,
+      "title": "Step 2. Add a Wait node",
+      "start_line": 4271,
+      "end_line": 4377,
+      "excerpt": "- Don\u2019t write it back to Notion yet \u2014 just pass it forward.\n\n### Step 2. Add a Wait node\n- Wait 5\u201310 seconds (Gamma needs time to build the deck).  \n- If your decks are longer, you can make this a loo",
+      "keywords": [
+        "1",
+        "1015s",
+        "1306",
+        "2",
+        "2048"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 619
+    },
+    {
+      "thread_id": 20,
+      "title": "1) Carry the Notion page ID forward",
+      "start_line": 4377,
+      "end_line": 4471,
+      "excerpt": "**Assistant:** You\u2019re almost there\u2014the Notion update is failing because the **GET node\u2019s output doesn\u2019t include the Notion page ID** and the Update node therefore doesn\u2019t know *which* page to write to",
+      "keywords": [
+        "1",
+        "10s",
+        "2",
+        "3",
+        "4"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 610
+    },
+    {
+      "thread_id": 21,
+      "title": "4. Go back to the **Update database page**...",
+      "start_line": 4471,
+      "end_line": 5184,
+      "excerpt": "4. Go back to the **Update database page** node \u2192 Properties.  \n   Now you\u2019ll be able to use `={{$json.pageId}}` for \u201cDatabase Page (by ID)\u201d and map `={{$json.gammaUrl}}` etc.  \n\nAfter that first run,",
+      "keywords": [
+        "0",
+        "1",
+        "1015s",
+        "11074",
+        "1306"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 3939
+    },
+    {
+      "thread_id": 22,
+      "title": "Quick sanity checks",
+      "start_line": 5184,
+      "end_line": 5228,
+      "excerpt": "(If n8n complains about JSON validity again, go back to Option A\u2014it\u2019s more forgiving.)\n\n---\n\n### Quick sanity checks\n- In the POST node\u2019s **Preview/Execution Data**, confirm `textOptions` and `imageOp",
+      "keywords": [
+        "1",
+        "AUUK",
+        "Aits",
+        "Assistant",
+        "Below"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 369
+    },
+    {
+      "thread_id": 23,
+      "title": "Quick checklist to avoid regressions",
+      "start_line": 5228,
+      "end_line": 5777,
+      "excerpt": "- Cons: Gamma may paraphrase more than you like. (If that\u2019s too much, test `textMode: 'generate'` on one slide first; if it over-edits, go back to Option A.)\n\n---\n\n## Quick checklist to avoid regressi",
+      "keywords": [
+        "1",
+        "12",
+        "13",
+        "2",
+        "400"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 3289
+    }
+  ],
+  "connections": [
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 2,
+      "connection_type": "builds_on",
+      "explanation": "Thread 2 builds on Thread 1",
+      "evidence": "Would you like me to now draft the **slide-deck outline** for your online workshop \u2014 weaving in (1) the concept of rhythms and cadences in execution, "
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 3,
+      "connection_type": "builds_on",
+      "explanation": "Thread 3 builds on Thread 1",
+      "evidence": "1. Opens with the *rhythm and cadence* warm-up exercise."
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 references concepts from Thread 1",
+      "evidence": "## 1) Nodes & wiring (in order)"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 references concepts from Thread 1",
+      "evidence": "- Status: `200`"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 1",
+      "evidence": "- When the export links are missing but `status=completed`, call **Poll** one more time after 2\u20133 seconds\u2014exports sometimes lag the deck creation."
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 7,
+      "connection_type": "builds_on",
+      "explanation": "Thread 7 references concepts from Thread 1",
+      "evidence": "# 0.1 go to your n8n compose folder (yours was here)"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 references concepts from Thread 1",
+      "evidence": "- **False \u2192** back to **Wait 10s** (loop Wait \u2192 Poll \u2192 IF until done; cap at ~12 loops if you want a timeout)"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 references concepts from Thread 1",
+      "evidence": "1) Automations / Webhooks (or Workspace Settings \u2192 Webhooks)"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 1",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-HjW7RB6HNcPRRPjN6tydzU', 'size_bytes': 125838, 'width': 1734, "
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 references concepts from Thread 1",
+      "evidence": "2. \ud83d\udd11 `X-API-KEY = <your Gamma API key>` (must be added, otherwise Gamma falls back to sample/demo content)"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 12,
+      "connection_type": "builds_on",
+      "explanation": "Thread 12 references concepts from Thread 1",
+      "evidence": "1. **Keep both headers**:"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 references concepts from Thread 1",
+      "evidence": "### 2. The \u201cGamma URL\u201d issue"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 references concepts from Thread 1",
+      "evidence": "1) **Your `inputText` isn\u2019t actually reaching Gamma.** When Gamma gets an empty/undefined `inputText`, it falls back to its demo corpus (the \u201cReal Est"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 references concepts from Thread 1",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-EnvWk6A7kU1ni1dprT45Qq', 'size_bytes': 475492, 'width': 2048, "
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 1",
+      "evidence": "If Gamma returns **no warning** and creates 2\u20133 cards, the API/key is fine and the issue was escaping. Then flip back to the expression body above."
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 17,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 17 triggered by Thread 1",
+      "evidence": "**User:** is this formatting in NOtion correct for the workflow? # Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nN"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 builds on Thread 1",
+      "evidence": "# Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nNokia had brilliant concepts before iPhone, difference was rhythm "
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 1",
+      "evidence": "### Step 2. Add a Wait node"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 1",
+      "evidence": "# 1) Carry the Notion page ID forward"
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 1",
+      "evidence": "\"pageId\": \"test123\","
+    },
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 23,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 23 triggered by Thread 1",
+      "evidence": "400 - \"{\\\"message\\\":\\\"Input validation errors: 1. imageOptions.property prompt should not exist\\\",\\\"statusCode\\\":400}\""
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 3,
+      "connection_type": "builds_on",
+      "explanation": "Thread 3 builds on Thread 2",
+      "evidence": "- Visual: RWAV logo + \u201c2026\u20132030 Strategic Plan\u201d banner"
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 references concepts from Thread 2",
+      "evidence": "- Use an **IF** node next (secretReceived equals secretExpected). Route \u201cfalse\u201d to a **Respond to Webhook** with 401."
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 references concepts from Thread 2",
+      "evidence": "- **Webhooks 404** \u2192 Make sure the workflow is **Active** and you used the **Production** webhook URL from the Webhook node."
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 2",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-Te31kTshs6q1UkZ22TUZ4M', 'size_bytes': 468067, 'width': 2048, "
+    },
+    {
+      "from_thread_id": 2,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 2",
+      "evidence": "https://public-api.gamma.app/v0.2/generations/{{$node[\"HTTP Request\"].json.generationId}}"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 4,
+      "connection_type": "builds_on",
+      "explanation": "Thread 4 references concepts from Thread 3",
+      "evidence": "## 1) Nodes & wiring (in order)"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 references concepts from Thread 3",
+      "evidence": "10. **Notion \u2192 Update Page** (optional)"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 3",
+      "evidence": "- You\u2019ve already got a **Services Registry** in Notion that holds **DB IDs and ingest webhooks**. It\u2019s the \u201cone stop\u201d for connecting agents, APIs, and"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 7,
+      "connection_type": "builds_on",
+      "explanation": "Thread 7 references concepts from Thread 3",
+      "evidence": "# 0.1 go to your n8n compose folder (yours was here)"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 references concepts from Thread 3",
+      "evidence": "- **False \u2192** back to **Wait 10s** (loop Wait \u2192 Poll \u2192 IF until done; cap at ~12 loops if you want a timeout)"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 3",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-HjW7RB6HNcPRRPjN6tydzU', 'size_bytes': 125838, 'width': 1734, "
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 references concepts from Thread 3",
+      "evidence": "1. After the first HTTP Request (POST \u2192 generations), capture `generationId`."
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 references concepts from Thread 3",
+      "evidence": "1) **Your `inputText` isn\u2019t actually reaching Gamma.** When Gamma gets an empty/undefined `inputText`, it falls back to its demo corpus (the \u201cReal Est"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 references concepts from Thread 3",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-EnvWk6A7kU1ni1dprT45Qq', 'size_bytes': 475492, 'width': 2048, "
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 3",
+      "evidence": "1. **Send Headers**"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 17,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 17 triggered by Thread 3",
+      "evidence": "**User:** is this formatting in NOtion correct for the workflow? # Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nN"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 builds on Thread 3",
+      "evidence": "# Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nNokia had brilliant concepts before iPhone, difference was rhythm "
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 3",
+      "evidence": "- Wait 5\u201310 seconds (Gamma needs time to build the deck)."
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 3",
+      "evidence": "# 1) Carry the Notion page ID forward"
+    },
+    {
+      "from_thread_id": 3,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 3",
+      "evidence": "\"pageId\": \"test123\","
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 5,
+      "connection_type": "builds_on",
+      "explanation": "Thread 5 references concepts from Thread 4",
+      "evidence": "- Status: `200`"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 4",
+      "evidence": "- When the export links are missing but `status=completed`, call **Poll** one more time after 2\u20133 seconds\u2014exports sometimes lag the deck creation."
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 7,
+      "connection_type": "builds_on",
+      "explanation": "Thread 7 references concepts from Thread 4",
+      "evidence": "3. n8n receives it and continues the workflow (building the Gamma payload, polling, writing back to Notion, etc.)."
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 references concepts from Thread 4",
+      "evidence": "- **False \u2192** back to **Wait 10s** (loop Wait \u2192 Poll \u2192 IF until done; cap at ~12 loops if you want a timeout)"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 references concepts from Thread 4",
+      "evidence": "1) Automations / Webhooks (or Workspace Settings \u2192 Webhooks)"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 4",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-HjW7RB6HNcPRRPjN6tydzU', 'size_bytes': 125838, 'width': 1734, "
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 references concepts from Thread 4",
+      "evidence": "2. \ud83d\udd11 `X-API-KEY = <your Gamma API key>` (must be added, otherwise Gamma falls back to sample/demo content)"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 12,
+      "connection_type": "builds_on",
+      "explanation": "Thread 12 references concepts from Thread 4",
+      "evidence": "1. **Keep both headers**:"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 references concepts from Thread 4",
+      "evidence": "### 2. The \u201cGamma URL\u201d issue"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 references concepts from Thread 4",
+      "evidence": "1) **Your `inputText` isn\u2019t actually reaching Gamma.** When Gamma gets an empty/undefined `inputText`, it falls back to its demo corpus (the \u201cReal Est"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 references concepts from Thread 4",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-EnvWk6A7kU1ni1dprT45Qq', 'size_bytes': 475492, 'width': 2048, "
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 4",
+      "evidence": "If Gamma returns **no warning** and creates 2\u20133 cards, the API/key is fine and the issue was escaping. Then flip back to the expression body above."
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 17,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 17 triggered by Thread 4",
+      "evidence": "**User:** is this formatting in NOtion correct for the workflow? # Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nN"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 builds on Thread 4",
+      "evidence": "# Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nNokia had brilliant concepts before iPhone, difference was rhythm "
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 4",
+      "evidence": "### Step 2. Add a Wait node"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 4",
+      "evidence": "# 1) Carry the Notion page ID forward"
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 4",
+      "evidence": "\"pageId\": \"test123\","
+    },
+    {
+      "from_thread_id": 4,
+      "to_thread_id": 23,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 23 triggered by Thread 4",
+      "evidence": "400 - \"{\\\"message\\\":\\\"Input validation errors: 1. imageOptions.property prompt should not exist\\\",\\\"statusCode\\\":400}\""
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 6,
+      "connection_type": "builds_on",
+      "explanation": "Thread 6 references concepts from Thread 5",
+      "evidence": "- You\u2019ve already got a **Services Registry** in Notion that holds **DB IDs and ingest webhooks**. It\u2019s the \u201cone stop\u201d for connecting agents, APIs, and"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 7,
+      "connection_type": "builds_on",
+      "explanation": "Thread 7 references concepts from Thread 5",
+      "evidence": "# 0.1 go to your n8n compose folder (yours was here)"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 references concepts from Thread 5",
+      "evidence": "- **False \u2192** back to **Wait 10s** (loop Wait \u2192 Poll \u2192 IF until done; cap at ~12 loops if you want a timeout)"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 references concepts from Thread 5",
+      "evidence": "1) Automations / Webhooks (or Workspace Settings \u2192 Webhooks)"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 5",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-HjW7RB6HNcPRRPjN6tydzU', 'size_bytes': 125838, 'width': 1734, "
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 references concepts from Thread 5",
+      "evidence": "\"numCards\": 1"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 12,
+      "connection_type": "builds_on",
+      "explanation": "Thread 12 references concepts from Thread 5",
+      "evidence": "1. **Keep both headers**:"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 references concepts from Thread 5",
+      "evidence": "1. After the first HTTP Request (POST \u2192 generations), capture `generationId`."
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 references concepts from Thread 5",
+      "evidence": "1) **Your `inputText` isn\u2019t actually reaching Gamma.** When Gamma gets an empty/undefined `inputText`, it falls back to its demo corpus (the \u201cReal Est"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 references concepts from Thread 5",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-EnvWk6A7kU1ni1dprT45Qq', 'size_bytes': 475492, 'width': 2048, "
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 5",
+      "evidence": "1. **Send Headers**"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 17,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 17 triggered by Thread 5",
+      "evidence": "**User:** is this formatting in NOtion correct for the workflow? # Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nN"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 builds on Thread 5",
+      "evidence": "# Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nNokia had brilliant concepts before iPhone, difference was rhythm "
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 5",
+      "evidence": "- Wait 5\u201310 seconds (Gamma needs time to build the deck)."
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 5",
+      "evidence": "# 1) Carry the Notion page ID forward"
+    },
+    {
+      "from_thread_id": 5,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 5",
+      "evidence": "\"pageId\": \"test123\","
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 7,
+      "connection_type": "builds_on",
+      "explanation": "Thread 7 references concepts from Thread 6",
+      "evidence": "3. n8n receives it and continues the workflow (building the Gamma payload, polling, writing back to Notion, etc.)."
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 8,
+      "connection_type": "builds_on",
+      "explanation": "Thread 8 references concepts from Thread 6",
+      "evidence": "- **False \u2192** back to **Wait 10s** (loop Wait \u2192 Poll \u2192 IF until done; cap at ~12 loops if you want a timeout)"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 references concepts from Thread 6",
+      "evidence": "# 4) Register the Notion webhook (the URL comes from n8n)"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 6",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-HjW7RB6HNcPRRPjN6tydzU', 'size_bytes': 125838, 'width': 1734, "
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 references concepts from Thread 6",
+      "evidence": "2. \ud83d\udd11 `X-API-KEY = <your Gamma API key>` (must be added, otherwise Gamma falls back to sample/demo content)"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 12,
+      "connection_type": "builds_on",
+      "explanation": "Thread 12 references concepts from Thread 6",
+      "evidence": "1. **Keep both headers**:"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 references concepts from Thread 6",
+      "evidence": "### 2. The \u201cGamma URL\u201d issue"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 references concepts from Thread 6",
+      "evidence": "1) **Your `inputText` isn\u2019t actually reaching Gamma.** When Gamma gets an empty/undefined `inputText`, it falls back to its demo corpus (the \u201cReal Est"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 references concepts from Thread 6",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-EnvWk6A7kU1ni1dprT45Qq', 'size_bytes': 475492, 'width': 2048, "
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 6",
+      "evidence": "If Gamma returns **no warning** and creates 2\u20133 cards, the API/key is fine and the issue was escaping. Then flip back to the expression body above."
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 17,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 17 triggered by Thread 6",
+      "evidence": "**User:** is this formatting in NOtion correct for the workflow? # Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nN"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 builds on Thread 6",
+      "evidence": "# Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nNokia had brilliant concepts before iPhone, difference was rhythm "
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 6",
+      "evidence": "### Step 2. Add a Wait node"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 6",
+      "evidence": "# 1) Carry the Notion page ID forward"
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 6",
+      "evidence": "4. Go back to the **Update database page** node \u2192 Properties."
+    },
+    {
+      "from_thread_id": 6,
+      "to_thread_id": 23,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 23 triggered by Thread 6",
+      "evidence": "400 - \"{\\\"message\\\":\\\"Input validation errors: 1. imageOptions.property prompt should not exist\\\",\\\"statusCode\\\":400}\""
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 9,
+      "connection_type": "builds_on",
+      "explanation": "Thread 9 references concepts from Thread 7",
+      "evidence": "- **Webhooks 404** \u2192 Make sure the workflow is **Active** and you used the **Production** webhook URL from the Webhook node."
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 7",
+      "evidence": "Right now you\u2019ve got a **Redis-enabled n8n setup** (`n8nio/n8n:1.107.4`, Redis, task runners). That\u2019s good \u2014 keep it. What we need is to **add Cloudfl"
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 references concepts from Thread 7",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-1tmnx3YhcMeN7fgmH2SvQ8', 'size_bytes': 407411, 'width': 2048, "
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 12,
+      "connection_type": "builds_on",
+      "explanation": "Thread 12 references concepts from Thread 7",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-U25xVGwhcA7tiVTd8PeEjb', 'size_bytes': 414961, 'width': 2048, "
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 references concepts from Thread 7",
+      "evidence": "\"inputText\": \"={{$json[\\\"properties\\\"][\\\"Outline\\\"][\\\"rich_text\\\"][0][\\\"plain_text\\\"]}}\","
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 references concepts from Thread 7",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-EnvWk6A7kU1ni1dprT45Qq', 'size_bytes': 475492, 'width': 2048, "
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 7",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-Te31kTshs6q1UkZ22TUZ4M', 'size_bytes': 468067, 'width': 2048, "
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 7",
+      "evidence": "- Wait 5\u201310 seconds (Gamma needs time to build the deck)."
+    },
+    {
+      "from_thread_id": 7,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 7",
+      "evidence": "https://public-api.gamma.app/v0.2/generations/{{$node[\"HTTP Request\"].json.generationId}}"
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 10,
+      "connection_type": "builds_on",
+      "explanation": "Thread 10 references concepts from Thread 8",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-HjW7RB6HNcPRRPjN6tydzU', 'size_bytes': 125838, 'width': 1734, "
+    },
+    {
+      "from_thread_id": 8,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 8",
+      "evidence": "\"generationId\": \"gen_12345\","
+    },
+    {
+      "from_thread_id": 9,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 9",
+      "evidence": "- Wait 5\u201310 seconds (Gamma needs time to build the deck)."
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 11,
+      "connection_type": "builds_on",
+      "explanation": "Thread 11 references concepts from Thread 10",
+      "evidence": "\"numCards\": 1"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 12,
+      "connection_type": "builds_on",
+      "explanation": "Thread 12 references concepts from Thread 10",
+      "evidence": "1. **Keep both headers**:"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 references concepts from Thread 10",
+      "evidence": "1. After the first HTTP Request (POST \u2192 generations), capture `generationId`."
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 references concepts from Thread 10",
+      "evidence": "1) **Your `inputText` isn\u2019t actually reaching Gamma.** When Gamma gets an empty/undefined `inputText`, it falls back to its demo corpus (the \u201cReal Est"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 references concepts from Thread 10",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-EnvWk6A7kU1ni1dprT45Qq', 'size_bytes': 475492, 'width': 2048, "
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 10",
+      "evidence": "1. **Send Headers**"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 17,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 17 triggered by Thread 10",
+      "evidence": "**User:** is this formatting in NOtion correct for the workflow? # Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nN"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 builds on Thread 10",
+      "evidence": "# Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nNokia had brilliant concepts before iPhone, difference was rhythm "
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 10",
+      "evidence": "- Wait 5\u201310 seconds (Gamma needs time to build the deck)."
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 10",
+      "evidence": "# 1) Carry the Notion page ID forward"
+    },
+    {
+      "from_thread_id": 10,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 10",
+      "evidence": "\"pageId\": \"test123\","
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 12,
+      "connection_type": "builds_on",
+      "explanation": "Thread 12 references concepts from Thread 11",
+      "evidence": "1. **Keep both headers**:"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 references concepts from Thread 11",
+      "evidence": "### 2. The \u201cGamma URL\u201d issue"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 references concepts from Thread 11",
+      "evidence": "1) **Your `inputText` isn\u2019t actually reaching Gamma.** When Gamma gets an empty/undefined `inputText`, it falls back to its demo corpus (the \u201cReal Est"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 references concepts from Thread 11",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-EnvWk6A7kU1ni1dprT45Qq', 'size_bytes': 475492, 'width': 2048, "
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 11",
+      "evidence": "If Gamma returns **no warning** and creates 2\u20133 cards, the API/key is fine and the issue was escaping. Then flip back to the expression body above."
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 17,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 17 triggered by Thread 11",
+      "evidence": "**User:** is this formatting in NOtion correct for the workflow? # Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nN"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 builds on Thread 11",
+      "evidence": "# Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nNokia had brilliant concepts before iPhone, difference was rhythm "
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 11",
+      "evidence": "### Step 2. Add a Wait node"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 11",
+      "evidence": "# 1) Carry the Notion page ID forward"
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 11",
+      "evidence": "\"pageId\": \"test123\","
+    },
+    {
+      "from_thread_id": 11,
+      "to_thread_id": 23,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 23 triggered by Thread 11",
+      "evidence": "400 - \"{\\\"message\\\":\\\"Input validation errors: 1. imageOptions.property prompt should not exist\\\",\\\"statusCode\\\":400}\""
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 13,
+      "connection_type": "builds_on",
+      "explanation": "Thread 13 references concepts from Thread 12",
+      "evidence": "### 2. The \u201cGamma URL\u201d issue"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 references concepts from Thread 12",
+      "evidence": "1) **Your `inputText` isn\u2019t actually reaching Gamma.** When Gamma gets an empty/undefined `inputText`, it falls back to its demo corpus (the \u201cReal Est"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 references concepts from Thread 12",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-EnvWk6A7kU1ni1dprT45Qq', 'size_bytes': 475492, 'width': 2048, "
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 12",
+      "evidence": "If Gamma returns **no warning** and creates 2\u20133 cards, the API/key is fine and the issue was escaping. Then flip back to the expression body above."
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 17,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 17 triggered by Thread 12",
+      "evidence": "**User:** is this formatting in NOtion correct for the workflow? # Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nN"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 builds on Thread 12",
+      "evidence": "# Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nNokia had brilliant concepts before iPhone, difference was rhythm "
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 12",
+      "evidence": "### Step 2. Add a Wait node"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 12",
+      "evidence": "# 1) Carry the Notion page ID forward"
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 12",
+      "evidence": "\"pageId\": \"test123\","
+    },
+    {
+      "from_thread_id": 12,
+      "to_thread_id": 23,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 23 triggered by Thread 12",
+      "evidence": "400 - \"{\\\"message\\\":\\\"Input validation errors: 1. imageOptions.property prompt should not exist\\\",\\\"statusCode\\\":400}\""
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 14,
+      "connection_type": "builds_on",
+      "explanation": "Thread 14 references concepts from Thread 13",
+      "evidence": "1) **Your `inputText` isn\u2019t actually reaching Gamma.** When Gamma gets an empty/undefined `inputText`, it falls back to its demo corpus (the \u201cReal Est"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 references concepts from Thread 13",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-EnvWk6A7kU1ni1dprT45Qq', 'size_bytes': 475492, 'width': 2048, "
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 13",
+      "evidence": "If Gamma returns **no warning** and creates 2\u20133 cards, the API/key is fine and the issue was escaping. Then flip back to the expression body above."
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 17,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 17 triggered by Thread 13",
+      "evidence": "**User:** is this formatting in NOtion correct for the workflow? # Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nN"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 builds on Thread 13",
+      "evidence": "# Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nNokia had brilliant concepts before iPhone, difference was rhythm "
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 13",
+      "evidence": "### Step 2. Add a Wait node"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 13",
+      "evidence": "# 1) Carry the Notion page ID forward"
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 13",
+      "evidence": "\"pageId\": \"test123\","
+    },
+    {
+      "from_thread_id": 13,
+      "to_thread_id": 23,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 23 triggered by Thread 13",
+      "evidence": "400 - \"{\\\"message\\\":\\\"Input validation errors: 1. imageOptions.property prompt should not exist\\\",\\\"statusCode\\\":400}\""
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 15,
+      "connection_type": "builds_on",
+      "explanation": "Thread 15 references concepts from Thread 14",
+      "evidence": "**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-EnvWk6A7kU1ni1dprT45Qq', 'size_bytes': 475492, 'width': 2048, "
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 14",
+      "evidence": "If Gamma returns **no warning** and creates 2\u20133 cards, the API/key is fine and the issue was escaping. Then flip back to the expression body above."
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 17,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 17 triggered by Thread 14",
+      "evidence": "5) Keep your **Set** node as we outlined (so `InputText` has real newlines):"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 builds on Thread 14",
+      "evidence": "# Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nNokia had brilliant concepts before iPhone, difference was rhythm "
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 14",
+      "evidence": "### Step 2. Add a Wait node"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 14",
+      "evidence": "# 1) Carry the Notion page ID forward"
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 14",
+      "evidence": "4. Go back to the **Update database page** node \u2192 Properties."
+    },
+    {
+      "from_thread_id": 14,
+      "to_thread_id": 23,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 23 triggered by Thread 14",
+      "evidence": "400 - \"{\\\"message\\\":\\\"Input validation errors: 1. imageOptions.property prompt should not exist\\\",\\\"statusCode\\\":400}\""
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 16,
+      "connection_type": "builds_on",
+      "explanation": "Thread 16 references concepts from Thread 15",
+      "evidence": "If Gamma returns **no warning** and creates 2\u20133 cards, the API/key is fine and the issue was escaping. Then flip back to the expression body above."
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 17,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 17 triggered by Thread 15",
+      "evidence": "**User:** is this formatting in NOtion correct for the workflow? # Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nN"
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 builds on Thread 15",
+      "evidence": "# Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nNokia had brilliant concepts before iPhone, difference was rhythm "
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 15",
+      "evidence": "### Step 2. Add a Wait node"
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 15",
+      "evidence": "# 1) Carry the Notion page ID forward"
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 15",
+      "evidence": "\"pageId\": \"test123\","
+    },
+    {
+      "from_thread_id": 15,
+      "to_thread_id": 23,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 23 triggered by Thread 15",
+      "evidence": "400 - \"{\\\"message\\\":\\\"Input validation errors: 1. imageOptions.property prompt should not exist\\\",\\\"statusCode\\\":400}\""
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 17,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 17 triggered by Thread 16",
+      "evidence": "**User:** is this formatting in NOtion correct for the workflow? # Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nN"
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 builds on Thread 16",
+      "evidence": "# Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nNokia had brilliant concepts before iPhone, difference was rhythm "
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 16",
+      "evidence": "- Wait 5\u201310 seconds (Gamma needs time to build the deck)."
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 16",
+      "evidence": "# 1) Carry the Notion page ID forward"
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 16",
+      "evidence": "\"pageId\": \"test123\","
+    },
+    {
+      "from_thread_id": 16,
+      "to_thread_id": 23,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 23 triggered by Thread 16",
+      "evidence": "400 - \"{\\\"message\\\":\\\"Input validation errors: 1. imageOptions.property prompt should not exist\\\",\\\"statusCode\\\":400}\""
+    },
+    {
+      "from_thread_id": 17,
+      "to_thread_id": 18,
+      "connection_type": "builds_on",
+      "explanation": "Thread 18 builds on Thread 17",
+      "evidence": "# Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nNokia had brilliant concepts before iPhone, difference was rhythm "
+    },
+    {
+      "from_thread_id": 17,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 17",
+      "evidence": "### Step 2. Add a Wait node"
+    },
+    {
+      "from_thread_id": 17,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 17",
+      "evidence": "# 1) Carry the Notion page ID forward"
+    },
+    {
+      "from_thread_id": 17,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 17",
+      "evidence": "\"pageId\": \"test123\","
+    },
+    {
+      "from_thread_id": 17,
+      "to_thread_id": 23,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 23 triggered by Thread 17",
+      "evidence": "400 - \"{\\\"message\\\":\\\"Input validation errors: 1. imageOptions.property prompt should not exist\\\",\\\"statusCode\\\":400}\""
+    },
+    {
+      "from_thread_id": 18,
+      "to_thread_id": 19,
+      "connection_type": "builds_on",
+      "explanation": "Thread 19 references concepts from Thread 18",
+      "evidence": "### Step 2. Add a Wait node"
+    },
+    {
+      "from_thread_id": 18,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 18",
+      "evidence": "# 1) Carry the Notion page ID forward"
+    },
+    {
+      "from_thread_id": 18,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 18",
+      "evidence": "\"pageId\": \"test123\","
+    },
+    {
+      "from_thread_id": 18,
+      "to_thread_id": 23,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 23 triggered by Thread 18",
+      "evidence": "400 - \"{\\\"message\\\":\\\"Input validation errors: 1. imageOptions.property prompt should not exist\\\",\\\"statusCode\\\":400}\""
+    },
+    {
+      "from_thread_id": 19,
+      "to_thread_id": 20,
+      "connection_type": "builds_on",
+      "explanation": "Thread 20 references concepts from Thread 19",
+      "evidence": "# 1) Carry the Notion page ID forward"
+    },
+    {
+      "from_thread_id": 19,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 19",
+      "evidence": "\"pageId\": \"test123\","
+    },
+    {
+      "from_thread_id": 19,
+      "to_thread_id": 23,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 23 triggered by Thread 19",
+      "evidence": "400 - \"{\\\"message\\\":\\\"Input validation errors: 1. imageOptions.property prompt should not exist\\\",\\\"statusCode\\\":400}\""
+    },
+    {
+      "from_thread_id": 20,
+      "to_thread_id": 21,
+      "connection_type": "builds_on",
+      "explanation": "Thread 21 references concepts from Thread 20",
+      "evidence": "4. Go back to the **Update database page** node \u2192 Properties."
+    },
+    {
+      "from_thread_id": 20,
+      "to_thread_id": 23,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 23 triggered by Thread 20",
+      "evidence": "400 - \"{\\\"message\\\":\\\"Input validation errors: 1. imageOptions.property prompt should not exist\\\",\\\"statusCode\\\":400}\""
+    },
+    {
+      "from_thread_id": 21,
+      "to_thread_id": 23,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 23 triggered by Thread 21",
+      "evidence": "400 - \"{\\\"message\\\":\\\"Input validation errors: 1. imageOptions.property prompt should not exist\\\",\\\"statusCode\\\":400}\""
+    },
+    {
+      "from_thread_id": 22,
+      "to_thread_id": 23,
+      "connection_type": "triggered_by",
+      "explanation": "Thread 23 triggered by Thread 22",
+      "evidence": "- Keep **Body Content Type = JSON \u2192 Using Fields Below**."
+    }
+  ],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: Are you up to the challenge?\n\n**Assistant:** Great topic \u2014 alignment of strategy execution with the ",
+      "details": "Are you up to the challenge?\n\n**Assistant:** Great topic \u2014 alignment of strategy execution with the team\u2019s rhythms/cadences is often the missing link in turning bold plans into sustainable change. ---\n\n## Why Rhythm / Cadence + Execution Environment Matters\n\nHere are some \u201ctalking points\u201d you might use (or show visually) in your workshop to help the RWAV team see *why* this is so important:\n\n| Element | What it looks like when it\u2019s missing | What it enables when it works well |\n|---|---|---|\n| **Clarity of priorities** | Lots of urgent issues, ad\u2010hoc requests, people unsure what is most important; strategy feels like distant. |\n| **Accountability & ownership** | Responsibilities muddied; things fall between cracks; strategy not \u201cowned",
+      "evidence": "Are you up to the challenge?\n\n**Assistant:** Great topic \u2014 alignment of strategy execution with the team\u2019s rhythms/cadences is often the missing link in turning bold plans into sustainable change",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 2,
+      "category": "correction",
+      "summary": "Correction: 375rem;\n            position: fixed;\n            top: 20px;\n            right: 20px;\n            z-i",
+      "details": "375rem;\n            position: fixed;\n            top: 20px;\n            right: 20px;\n            z-index: 1000;\n            animation: slideInRight 0. </p>\n                \n                <div class=\"space-y-4\" id=\"research-questions-container\">\n                    <div class=\"item-box blue-theme rounded-md px-4 py-3 border\">\n                        <div class=\"editable-item\" contenteditable=\"true\" role=\"textbox\" aria-label=\"Research question\">How can RWAV evolve from the traditional \"bums on seats\" model to addressing broader systemic issues affecting rural health communities?</div>\n                    </div>\n                    <div class=\"item-box blue-theme rounded-md px-4 py-3 border\">\n                        <div class=\"editable-item\" contenteditable=\"true\" role=\"textbox\" aria-label=\"Research question\">What community-based approach would enable RWAV to work with rural towns to design their own health workforce solutions?</div>\n                    </div>\n                    <div class=\"item-box blue-theme rounded-md px-4 py-3 border\">\n                        <div class=\"editable-item\" contenteditable=\"true\" role=\"textbox\" aria-label=\"Research question\">How can RWAV leverage its position as a trusted, independent organisation to advocate for system-level changes (internet, housing, education, infrastructure)?</div>\n                    </div>\n                    <div class=\"item-box blue-theme rounded-md px-4 py-3 border\">\n                        <div class=\"editable-item\" contenteditable=\"true\" role=\"textbox\" aria-label=\"Research question\">What partnerships with business chambers, local councils, and community stakeholders could address the socio-economic determinants of health?</div>\n                    </div>\n                    <div class=\"item-box blue-theme rounded-md px-4 py-3 border\">\n                        <div class=\"editable-item\" contenteditable=\"true\" role=\"textbox\" aria-label=\"Research question\">How can RWAV commission or conduct pilot programs to generate evidence-based rural health workforce models?</div>\n                    </div>\n                    <div class=\"item-box blue-theme rounded-md px-4 py-3 border\">\n                        <div class=\"editable-item\" contenteditable=\"true\" role=\"textbox\" aria-label=\"Research question\">What would it take for rural Victoria to skip a generation of progress and become Australia's most innovative health workforce hub?</div>\n                    </div>\n                </div>\n                \n                <button onclick=\"addResearchQuestion()\" class=\"mt-4 text-blue-700 hover:text-blue-900 bg-blue-100 px-4 py-2 rounded-md transition-colors\">\n                    <i class=\"fas fa-plus mr-2\" aria-hidden=\"true\"></i>Add Research Question\n                </button>\n            </section>\n\n            <!-- Stakeholder Analysis with Individual Textboxes -->\n            <section id=\"stakeholder-analysis\" class=\"bg-white p-8 border-b-4 border-purple-200 rounded-lg shadow-sm mb-8\">\n                <h2 class=\"text-2xl font-bold text-gray-800 mb-4 flex items-center\">\n                    <i class=\"fas fa-users text-purple-600 mr-3\" aria-hidden=\"true\"></i>\n                    Stakeholder Analysis & Power-Interest Matrix\n                </h2>\n                <p class=\"text-gray-600 mb-6\">Map key stakeholders and analyse their power and interest levels to inform engagement strategies",
+      "evidence": "375rem;\n            position: fixed;\n            top: 20px;\n            right: 20px;\n            z-index: 1000;\n            animation: slideInRight 0",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 2,
+      "category": "methodology",
+      "summary": "Methodology: \">\n    \n    <!-- COPYRIGHT NOTICE: This toolkit and its Individual Textbox System methodology are pr",
+      "details": "\">\n    \n    <!-- COPYRIGHT NOTICE: This toolkit and its Individual Textbox System methodology are proprietary intellectual property of Carla Taylor and Carlorbiz Consulting. </p>\n                    </div>\n                </div>\n            </div>\n            \n            <!-- Carlorbiz Methodology Banner -->\n            <div class=\"bg-gradient-to-r from-green-800 to-green-700 rounded-lg p-4 mb-6 border border-green-500 border-opacity-30\">\n                <div class=\"flex items-center justify-between flex-wrap\">\n                    <div class=\"mb-2 lg:mb-0\">\n                        <h3 class=\"text-lg font-semibold text-green-100\">Carlorbiz Strategic Planning Methodology</h3>\n                        <p class=\"text-green-200 text-sm\">Evidence-Based \u2022 Stakeholder-Centric \u2022 Implementation-Focused</p>\n                    </div>\n                    <div class=\"flex space-x-4 text-xs\">\n                        <div class=\"text-center\">\n                            <div class=\"bg-green-600 rounded-full w-8 h-8 flex items-center justify-center mb-1\">\n                                <i class=\"fas fa-search text-white\" aria-hidden=\"true\"></i>\n                            </div>\n                            <span class=\"text-green-200\">Analyse</span>\n                        </div>\n                        <div class=\"text-center\">\n                            <div class=\"bg-green-600 rounded-full w-8 h-8 flex items-center justify-center mb-1\">\n                                <i class=\"fas fa-users text-white\" aria-hidden=\"true\"></i>\n                            </div>\n                            <span class=\"text-green-200\">Engage</span>\n                        </div>\n                        <div class=\"text-center\">\n                            <div class=\"bg-green-600 rounded-full w-8 h-8 flex items-center justify-center mb-1\">\n                                <i class=\"fas fa-rocket text-white\" aria-hidden=\"true\"></i>\n                            </div>\n                            <span class=\"text-green-200\">Execute</span>\n                        </div>\n                    </div>\n                </div>\n            </div>\n\n            <!-- Main Navigation Tabs - Framework vs Templates vs Risk Matrix -->\n            <div class=\"flex flex-wrap gap-3 mb-4\">\n                <button onclick=\"switchMainTab('framework', this)\" class=\"main-tab active text-white bg-gray-700\" aria-label=\"Strategic Framework\">\n                    <i class=\"fas fa-sitemap mr-2\" aria-hidden=\"true\"></i>Strategic Framework\n                </button>\n                <button onclick=\"switchMainTab('templates', this)\" class=\"main-tab text-white bg-gray-600 hover:bg-gray-700\" aria-label=\"Visual Templates\">\n                    <i class=\"fas fa-palette mr-2\" aria-hidden=\"true\"></i>Visual Templates\n                </button>\n                <a href=\"risk-matrix-app. </p>\n                \n                <div class=\"space-y-4\" id=\"research-questions-container\">\n                    <div class=\"item-box blue-theme rounded-md px-4 py-3 border\">\n                        <div class=\"editable-item\" contenteditable=\"true\" role=\"textbox\" aria-label=\"Research question\">How can RWAV evolve from the traditional \"bums on seats\" model to addressing broader systemic issues affecting rural health communities?</div>\n                    </div>\n                    <div class=\"item-box blue-theme rounded-md px-4 py-3 border\">\n                        <div class=\"editable-item\" contenteditable=\"true\" role=\"textbox\" aria-label=\"Research question\">What community-based approach would enable RWAV to work with rural towns to design their own health workforce solutions?</div>\n                    </div>\n                    <div class=\"item-box blue-theme rounded-md px-4 py-3 border\">\n                        <div class=\"editable-item\" contenteditable=\"true\" role=\"textbox\" aria-label=\"Research question\">How can RWAV leverage its position as a trusted, independent organisation to advocate for system-level changes (internet, housing, education, infrastructure)?</div>\n                    </div>\n                    <div class=\"item-box blue-theme rounded-md px-4 py-3 border\">\n                        <div class=\"editable-item\" contenteditable=\"true\" role=\"textbox\" aria-label=\"Research question\">What partnerships with business chambers, local councils, and community stakeholders could address the socio-economic determinants of health?</div>\n                    </div>\n                    <div class=\"item-box blue-theme rounded-md px-4 py-3 border\">\n                        <div class=\"editable-item\" contenteditable=\"true\" role=\"textbox\" aria-label=\"Research question\">How can RWAV commission or conduct pilot programs to generate evidence-based rural health workforce models?</div>\n                    </div>\n                    <div class=\"item-box blue-theme rounded-md px-4 py-3 border\">\n                        <div class=\"editable-item\" contenteditable=\"true\" role=\"textbox\" aria-label=\"Research question\">What would it take for rural Victoria to skip a generation of progress and become Australia's most innovative health workforce hub?</div>\n                    </div>\n                </div>\n                \n                <button onclick=\"addResearchQuestion()\" class=\"mt-4 text-blue-700 hover:text-blue-900 bg-blue-100 px-4 py-2 rounded-md transition-colors\">\n                    <i class=\"fas fa-plus mr-2\" aria-hidden=\"true\"></i>Add Research Question\n                </button>\n            </section>\n\n            <!-- Stakeholder Analysis with Individual Textboxes -->\n            <section id=\"stakeholder-analysis\" class=\"bg-white p-8 border-b-4 border-purple-200 rounded-lg shadow-sm mb-8\">\n                <h2 class=\"text-2xl font-bold text-gray-800 mb-4 flex items-center\">\n                    <i class=\"fas fa-users text-purple-600 mr-3\" aria-hidden=\"true\"></i>\n                    Stakeholder Analysis & Power-Interest Matrix\n                </h2>\n                <p class=\"text-gray-600 mb-6\">Map key stakeholders and analyse their power and interest levels to inform engagement strategies",
+      "evidence": "\">\n    \n    <!-- COPYRIGHT NOTICE: This toolkit and its Individual Textbox System methodology are proprietary intellectual property of Carla Taylor and Carlorbiz Consulting",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 3,
+      "category": "methodology",
+      "summary": "Methodology: Positions the Toolkit as the ongoing reference for embedding new strategy into RWAV\u2019s daily and quar",
+      "details": "Positions the Toolkit as the ongoing reference for embedding new strategy into RWAV\u2019s daily and quarterly rhythms. ---\n\n# RWAV Online Workshop Slide Outline  \n\n### Slide 1 \u2013 Welcome & Purpose  \n- **Title:** \u201cFrom Bold Strategy to Everyday Rhythm\u201d  \n- Visual: RWAV logo + \u201c2026\u20132030 Strategic Plan\u201d banner  \n- Notes: Frame the session as a chance to explore *how* to make strategy stick, not just what the plan says. ---\n\n### Slide 5 \u2013 RWAV Toolkit as a Rhythm Guide  \n- **Key point:** The RWAV Ultimate Strategic Toolkit provides the *structure* to keep strategy aligned with team rhythms",
+      "evidence": "Positions the Toolkit as the ongoing reference for embedding new strategy into RWAV\u2019s daily and quarterly rhythms",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 4,
+      "category": "correction",
+      "summary": "Correction: **Wait**\n   - Fixed duration: `10s` (you\u2019ll loop a few times)\n\n6",
+      "details": "**Wait**\n   - Fixed duration: `10s` (you\u2019ll loop a few times)\n\n6",
+      "evidence": "**Wait**\n   - Fixed duration: `10s` (you\u2019ll loop a few times)\n\n6",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 4,
+      "category": "methodology",
+      "summary": "Methodology: **Webhook (Trigger)**\n   - Path: `/gamma/generate`\n   - HTTP Method: `POST`\n   - Response: `Last nod",
+      "details": "**Webhook (Trigger)**\n   - Path: `/gamma/generate`\n   - HTTP Method: `POST`\n   - Response: `Last node` (we\u2019ll return links at the end)\n   - Test URL will work while you\u2019re editing; use Production URL after activation. outline || `# From Bold Strategy to Everyday Rhythm\n     Subtitle: RWAV Online Workshop\n     ---\n     # Why We\u2019re Here\n     Bold strategies overwhelm unless aligned to team rhythms & cadences. ---\n     # Key Takeaways\n     Bold strategy + right cadence = sustainable change",
+      "evidence": "**Webhook (Trigger)**\n   - Path: `/gamma/generate`\n   - HTTP Method: `POST`\n   - Response: `Last node` (we\u2019ll return links at the end)\n   - Test URL will work while you\u2019re editing; use Production URL after activation",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 5,
+      "category": "methodology",
+      "summary": "Methodology: ### Example trigger (curl)\n```bash\ncurl -X POST \"https://<your-n8n-host>/webhook/gamma/generate\" \\\n ",
+      "details": "### Example trigger (curl)\n```bash\ncurl -X POST \"https://<your-n8n-host>/webhook/gamma/generate\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"secret\":\"<YOUR_SHARED_SECRET>\",\n    \"themeName\":\"RWAV-Workshop-Theme\",\n    \"exportAs\":\"pptx\",\n    \"outline\":\"# From Bold Strategy to Everyday Rhythm\\nSubtitle: RWAV Online Workshop\\n---\\n# Why We\u2019re Here\\n",
+      "evidence": "### Example trigger (curl)\n```bash\ncurl -X POST \"https://<your-n8n-host>/webhook/gamma/generate\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"secret\":\"<YOUR_SHARED_SECRET>\",\n    \"themeName\":\"RWAV-Workshop-Theme\",\n    \"exportAs\":\"pptx\",\n    \"outline\":\"# From Bold Strategy to Everyday Rhythm\\nSubtitle: RWAV Online Workshop\\n---\\n# Why We\u2019re Here\\n",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 7,
+      "category": "methodology",
+      "summary": "Methodology: 1 Webhook (Trigger)\n- **Node name:** `Webhook - Notion`\n- **HTTP Method:** `POST`\n- **Path:** `notio",
+      "details": "1 Webhook (Trigger)\n- **Node name:** `Webhook - Notion`\n- **HTTP Method:** `POST`\n- **Path:** `notion-deck-events`  \u2192 production URL will be  \n  `http://localhost:5678/webhook/notion-deck-events`\n- **Response:** Last node\n\n> This URL is what you\u2019ll paste into Notion\u2019s **webhook subscription** for the Deck Requests DB. Outline) || `# From Bold Strategy to Everyday Rhythm\nSubtitle: RWAV Online Workshop\n---\n# Why We\u2019re Here\nBold strategies overwhelm unless aligned to team rhythms & cadences. ---\n# Key Takeaways\nBold strategy + right cadence = sustainable change",
+      "evidence": "1 Webhook (Trigger)\n- **Node name:** `Webhook - Notion`\n- **HTTP Method:** `POST`\n- **Path:** `notion-deck-events`  \u2192 production URL will be  \n  `http://localhost:5678/webhook/notion-deck-events`\n- **Response:** Last node\n\n> This URL is what you\u2019ll paste into Notion\u2019s **webhook subscription** for the Deck Requests DB",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 9,
+      "category": "methodology",
+      "summary": "Methodology: Do you want me to show you a quick **copy-paste safe method** (using \u201cCopy Link to Database\u201d in Noti",
+      "details": "Do you want me to show you a quick **copy-paste safe method** (using \u201cCopy Link to Database\u201d in Notion) so you don\u2019t have to eyeball the ID each time?\n\n**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-D3jApeuaSvmYnzTygrxzt1', 'size_bytes': 242498, 'width': 2048, 'height': 1234, 'fovea': None, 'metadata': {'dalle': None, 'gizmo': None, 'generation': None, 'container_pixel_height': None, 'container_pixel_width': None, 'emu_omit_glimpse_image': None, 'emu_patches_override': None, 'lpe_keep_patch_ijhw': None, 'sanitized': True, 'asset_pointer_link': None, 'watermarked_asset_pointer': None}}\nis this correct?\n\n**Assistant:** Yes \ud83d\udc4d \u2014 what you\u2019ve set up in that screenshot looks correct for your **Webhook trigger node** in n8n:\n\n- **Production URL**: `http://localhost:5678/webhook/notion-deck-events` \u2192 this is the URL you\u2019ll paste into Notion\u2019s webhook subscription. - **HTTP Method**: `POST` \u2192 correct (Notion will POST events)",
+      "evidence": "Do you want me to show you a quick **copy-paste safe method** (using \u201cCopy Link to Database\u201d in Notion) so you don\u2019t have to eyeball the ID each time?\n\n**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-D3jApeuaSvmYnzTygrxzt1', 'size_bytes': 242498, 'width': 2048, 'height': 1234, 'fovea': None, 'metadata': {'dalle': None, 'gizmo': None, 'generation': None, 'container_pixel_height': None, 'container_pixel_width': None, 'emu_omit_glimpse_image': None, 'emu_patches_override': None, 'lpe_keep_patch_ijhw': None, 'sanitized': True, 'asset_pointer_link': None, 'watermarked_asset_pointer': None}}\nis this correct?\n\n**Assistant:** Yes \ud83d\udc4d \u2014 what you\u2019ve set up in that screenshot looks correct for your **Webhook trigger node** in n8n:\n\n- **Production URL**: `http://localhost:5678/webhook/notion-deck-events` \u2192 this is the URL you\u2019ll paste into Notion\u2019s webhook subscription",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 10,
+      "category": "methodology",
+      "summary": "Methodology: Can you please advise if this will work for the n8n workflow or if I need to add anything specific? ",
+      "details": "Can you please advise if this will work for the n8n workflow or if I need to add anything specific? \nSlide 1 - Title: Why Great Strategies Need Great Rhythms | Type: Title Slide\nSlide 2 - Title: The Nokia vs Apple Reality Check | Content: Nokia had brilliant concepts before iPhone, difference was rhythm not vision | Type: Opening Hook\nSlide 3 - Title: RWAV's Transformation Challenge | Content: Workforce agency \u2192 community catalyst, strategic brilliance vs execution rhythm | Type: Framework\nSlide 4 - Title: Kodak's Digital Strategy Disaster | Content: Great strategy + poor rhythm = 20-year head start became irrelevant | Type: Cautionary Tale\nSlide 5 - Title: Tesla's Rhythm Mastery | Content: Traditional auto vs Tesla rhythm comparison, market capture through execution speed | Type: Success Comparison  \nSlide 6 - Title: Amazon COVID Response | Content: Strategy + rhythm alignment, 400k hires in 10 months | Type: Success Story\nSlide 7 - Title: Rhythm vs Cadence Definition | Content: Cadence = scheduled touchpoints, Rhythm = momentum between meetings | Type: Educational\nSlide 8 - Title: RWAV Community Partnerships | Content: Poor vs effective rhythm examples for community engagement | Type: Application\nSlide 9 - Title: RWAV Policy Advocacy | Content: Data timing for policy influence, reactive vs proactive rhythms | Type: Application\nSlide 10 - Title: Rhythm Challenge Poll | Content: Interactive - which rhythm challenge resonates most? | Type: Interactive\nSlide 11 - Title: RWAV Priority Rhythm Poll | Content: Interactive - critical rhythm for transformation success | Type: Interactive\nSlide 12 - Title: Personal Commitment Exercise | Content: Individual rhythm discipline commitments | Type: Engagement\nSlide 13 - Title: Four Strategic Rhythms Framework | Content: Planning cycle, decision architecture, information flow, stakeholder engagement | Type: Framework\nSlide 14 - Title: Bridge to In-Person Sessions | Content: Today's learning + upcoming workshop objectives | Type: Transition\nSlide 15 - Title: Key Takeaways | Content: Strategic failures are rhythm problems, personal responsibility for organisational success | Type: Summary\nSlide 16 - Title: Building RWAV's Strategic Heartbeat | Content: Call to action, contact details, next steps | Type: Closing\n\n\n**Assistant:** Carla, your revised 16-slide outline looks great for the **n8n \u2192 Gamma** workflow. So you just need to structure the outline like this before sending:\n\n```markdown\n# Why Great Strategies Need Great Rhythms\nType: Title Slide\n---\n\n# The Nokia vs Apple Reality Check\nNokia had brilliant concepts before iPhone, difference was rhythm not vision\nType: Opening Hook\n---\n\n# RWAV's Transformation Challenge\nWorkforce agency \u2192 community catalyst, strategic brilliance vs execution rhythm\nType: Framework\n---\n\n# Kodak's Digital Strategy Disaster\nGreat strategy + poor rhythm = 20-year head start became irrelevant\nType: Cautionary Tale\n---\n\n# Tesla's Rhythm Mastery\nTraditional auto vs Tesla rhythm comparison, market capture through execution speed\nType: Success Comparison\n---\n\n# Amazon COVID Response\nStrategy + rhythm alignment, 400k hires in 10 months\nType: Success Story\n---\n\n# Rhythm vs Cadence Definition\nCadence = scheduled touchpoints, Rhythm = momentum between meetings\nType: Educational\n---\n\n# RWAV Community Partnerships\nPoor vs effective rhythm examples for community engagement\nType: Application\n---\n\n# RWAV Policy Advocacy\nData timing for policy influence, reactive vs proactive rhythms\nType: Application\n---\n\n# Rhythm Challenge Poll\nInteractive \u2013 which rhythm challenge resonates most?\nType: Interactive\n---\n\n# RWAV Priority Rhythm Poll\nInteractive \u2013 critical rhythm for transformation success\nType: Interactive\n---\n\n# Personal Commitment Exercise\nIndividual rhythm discipline commitments\nType: Engagement\n---\n\n# Four Strategic Rhythms Framework\nPlanning cycle, decision architecture, information flow, stakeholder engagement\nType: Framework\n---\n\n# Bridge to In-Person Sessions\nToday's learning + upcoming workshop objectives\nType: Transition\n---\n\n# Key Takeaways\nStrategic failures are rhythm problems, personal responsibility for organisational success\nType: Summary\n---\n\n# Building RWAV's Strategic Heartbeat\nCall to action, contact details, next steps\nType: Closing\n```\n\n### \ud83d\ude80 In practice\n- In your Notion \u201cDeck Requests\u201d DB, paste the above as the **Outline** property",
+      "evidence": "Can you please advise if this will work for the n8n workflow or if I need to add anything specific? \nSlide 1 - Title: Why Great Strategies Need Great Rhythms | Type: Title Slide\nSlide 2 - Title: The Nokia vs Apple Reality Check | Content: Nokia had brilliant concepts before iPhone, difference was rhythm not vision | Type: Opening Hook\nSlide 3 - Title: RWAV's Transformation Challenge | Content: Workforce agency \u2192 community catalyst, strategic brilliance vs execution rhythm | Type: Framework\nSlide 4 - Title: Kodak's Digital Strategy Disaster | Content: Great strategy + poor rhythm = 20-year head start became irrelevant | Type: Cautionary Tale\nSlide 5 - Title: Tesla's Rhythm Mastery | Content: Traditional auto vs Tesla rhythm comparison, market capture through execution speed | Type: Success Comparison  \nSlide 6 - Title: Amazon COVID Response | Content: Strategy + rhythm alignment, 400k hires in 10 months | Type: Success Story\nSlide 7 - Title: Rhythm vs Cadence Definition | Content: Cadence = scheduled touchpoints, Rhythm = momentum between meetings | Type: Educational\nSlide 8 - Title: RWAV Community Partnerships | Content: Poor vs effective rhythm examples for community engagement | Type: Application\nSlide 9 - Title: RWAV Policy Advocacy | Content: Data timing for policy influence, reactive vs proactive rhythms | Type: Application\nSlide 10 - Title: Rhythm Challenge Poll | Content: Interactive - which rhythm challenge resonates most? | Type: Interactive\nSlide 11 - Title: RWAV Priority Rhythm Poll | Content: Interactive - critical rhythm for transformation success | Type: Interactive\nSlide 12 - Title: Personal Commitment Exercise | Content: Individual rhythm discipline commitments | Type: Engagement\nSlide 13 - Title: Four Strategic Rhythms Framework | Content: Planning cycle, decision architecture, information flow, stakeholder engagement | Type: Framework\nSlide 14 - Title: Bridge to In-Person Sessions | Content: Today's learning + upcoming workshop objectives | Type: Transition\nSlide 15 - Title: Key Takeaways | Content: Strategic failures are rhythm problems, personal responsibility for organisational success | Type: Summary\nSlide 16 - Title: Building RWAV's Strategic Heartbeat | Content: Call to action, contact details, next steps | Type: Closing\n\n\n**Assistant:** Carla, your revised 16-slide outline looks great for the **n8n \u2192 Gamma** workflow",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 12,
+      "category": "correction",
+      "summary": "Correction: ) so you can paste it without guessing which names to use?\n\n**User:** {'content_type': 'image_asset_",
+      "details": ") so you can paste it without guessing which names to use?\n\n**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-U25xVGwhcA7tiVTd8PeEjb', 'size_bytes': 414961, 'width': 2048, 'height': 1306, 'fovea': None, 'metadata': {'dalle': None, 'gizmo': None, 'generation': None, 'container_pixel_height': None, 'container_pixel_width': None, 'emu_omit_glimpse_image': None, 'emu_patches_override': None, 'lpe_keep_patch_ijhw': None, 'sanitized': True, 'asset_pointer_link': None, 'watermarked_asset_pointer': None}}\nthis was already in place (screenshot didn't show earlier) - was this not set up correctly? The body content is fixed to: {\n\n  \"inputText\": \"{{ $json. Field names from Notion\nIn your earlier output, the Notion DB properties were prefixed like this:  \n\n```json\n\"property_outline\": \". ---\n\n### \u2705 Fixed Body\nHere\u2019s the body you should paste into the **HTTP Request** node:\n\n```json\n{\n  \"inputText\": \"={{$json[\\\"property_outline\\\"]}}\",\n  \"textMode\": \"generate\",\n  \"format\": \"presentation\",\n  \"cardSplit\": \"auto\",\n  \"exportAs\": \"pptx\"\n}\n```\n\n---\n\n\ud83d\udc49 Carla, do you want me to also extend this so it pulls both the **slide Title** and **Outline** from your Notion DB (instead of just `property_outline`) so Gamma has richer context per slide? That tends to make the decks much more on-point",
+      "evidence": ") so you can paste it without guessing which names to use?\n\n**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-U25xVGwhcA7tiVTd8PeEjb', 'size_bytes': 414961, 'width': 2048, 'height': 1306, 'fovea': None, 'metadata': {'dalle': None, 'gizmo': None, 'generation': None, 'container_pixel_height': None, 'container_pixel_width': None, 'emu_omit_glimpse_image': None, 'emu_patches_override': None, 'lpe_keep_patch_ijhw': None, 'sanitized': True, 'asset_pointer_link': None, 'watermarked_asset_pointer': None}}\nthis was already in place (screenshot didn't show earlier) - was this not set up correctly? The body content is fixed to: {\n\n  \"inputText\": \"{{ $json",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 13,
+      "category": "methodology",
+      "summary": "Methodology: Then another HTTP Request:  \n   - Method: GET  \n   - URL: `https://public-api",
+      "details": "Then another HTTP Request:  \n   - Method: GET  \n   - URL: `https://public-api",
+      "evidence": "Then another HTTP Request:  \n   - Method: GET  \n   - URL: `https://public-api",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 15,
+      "category": "correction",
+      "summary": "Correction: ---\n\n### Then in your HTTP Request (POST)\nUse JSON body mode and reference **InputText**:\n\n```json\n{",
+      "details": "---\n\n### Then in your HTTP Request (POST)\nUse JSON body mode and reference **InputText**:\n\n```json\n{\n  \"inputText\": \"={{$json[\\\"InputText\\\"]}}\",\n  \"textMode\": \"preserve\",\n  \"format\": \"presentation\",\n  \"cardSplit\": \"inputTextBreaks\",\n  \"imageOptions\": { \"source\": \"placeholder\" },\n  \"sharingOptions\": { \"workspaceAccess\": \"view\", \"externalAccess\": \"noAccess\" }\n}\n```\n\n---\n\n\ud83d\udca1 This way:\n- `OutlineRaw` keeps the untouched value (for debugging if needed)",
+      "evidence": "---\n\n### Then in your HTTP Request (POST)\nUse JSON body mode and reference **InputText**:\n\n```json\n{\n  \"inputText\": \"={{$json[\\\"InputText\\\"]}}\",\n  \"textMode\": \"preserve\",\n  \"format\": \"presentation\",\n  \"cardSplit\": \"inputTextBreaks\",\n  \"imageOptions\": { \"source\": \"placeholder\" },\n  \"sharingOptions\": { \"workspaceAccess\": \"view\", \"externalAccess\": \"noAccess\" }\n}\n```\n\n---\n\n\ud83d\udca1 This way:\n- `OutlineRaw` keeps the untouched value (for debugging if needed)",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 16,
+      "category": "correction",
+      "summary": "Correction: If Gamma returns **no warning** and creates 2\u20133 cards, the API/key is fine and the issue was escapin",
+      "details": "If Gamma returns **no warning** and creates 2\u20133 cards, the API/key is fine and the issue was escaping. Do you want me to rewrite your current **HTTP Request node JSON export** with the corrected `bodyContentType` set to `json` so you can import it straight into your workflow?\n\n**User:** {'content_type': 'image_asset_pointer', 'asset_pointer': 'file-service://file-Te31kTshs6q1UkZ22TUZ4M', 'size_bytes': 468067, 'width': 2048, 'height': 1306, 'fovea': None, 'metadata': {'dalle': None, 'gizmo': None, 'generation': None, 'container_pixel_height': None, 'container_pixel_width': None, 'emu_omit_glimpse_image': None, 'emu_patches_override': None, 'lpe_keep_patch_ijhw': None, 'sanitized': True, 'asset_pointer_link': None, 'watermarked_asset_pointer': None}}\nwhat name?\n\n**Assistant:** Got it \u2014 in that screenshot you\u2019re on the right track \ud83d\udc4c. ---\n\nWould you like me to show you how to **hard-test just that POST** with a dummy `inputText` (`\"Line 1\\n---\\nLine 2\"`) so you can confirm Gamma is actually splitting slides before reconnecting it to Notion? That\u2019s the quickest way to prove the escaping issue is fixed",
+      "evidence": "If Gamma returns **no warning** and creates 2\u20133 cards, the API/key is fine and the issue was escaping",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 17,
+      "category": "methodology",
+      "summary": "Methodology: **User:** is this formatting in NOtion correct for the workflow? # Why Great Strategies Need Great R",
+      "details": "**User:** is this formatting in NOtion correct for the workflow? # Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nNokia had brilliant concepts before iPhone, difference was rhythm not vision\\n---\\n# RWAV's Transformation Challenge\\nWorkforce agency \u2192 community catalyst, strategic brilliance vs execution rhythm\\n---\\n# Kodak's Digital Strategy Disaster\\nGreat strategy + poor rhythm = 20-year head start became irrelevant\\n---\\n# Tesla's Rhythm Mastery\\nTraditional auto vs Tesla rhythm comparison, market capture through execution speed\\n---\\n# Amazon COVID Response\\nStrategy + rhythm alignment, 400k hires in 10 months\\n---\\n# Rhythm vs Cadence Definition\\nCadence = scheduled touchpoints, Rhythm = momentum between meetings\\n---\\n# RWAV Community Partnerships\\nPoor vs effective rhythm examples for community engagement\\n---\\n# RWAV Policy Advocacy\\nData timing for policy influence, reactive vs proactive rhythms\\n---\\n# Rhythm Challenge Poll\\nInteractive \u2013 which rhythm challenge resonates most?\\n---\\n# RWAV Priority Rhythm Poll\\nInteractive \u2013 critical rhythm for transformation success\\n---\\n# Personal Commitment Exercise\\nIndividual rhythm discipline commitments\\n---\\n# Four Strategic Rhythms Framework\\nPlanning cycle, decision architecture, information flow, stakeholder engagement\\n---\\n# Bridge to In-Person Sessions\\nToday's learning + upcoming workshop objectives\\n---\\n# Key Takeaways\\nStrategic failures are rhythm problems, personal responsibility for organisational success\\n---\\n# Building RWAV's Strategic Heartbeat\\nCall to action, contact details, next steps\n\n**Assistant:** Carla, yes \u2014 that Notion formatting will work well for the Gamma workflow, but with one tiny tweak so that **card splitting** is guaranteed:\n\n### Why your current text almost works\n- You\u2019re already using `\\n---\\n` as separators",
+      "evidence": "**User:** is this formatting in NOtion correct for the workflow? # Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nNokia had brilliant concepts before iPhone, difference was rhythm not vision\\n---\\n# RWAV's Transformation Challenge\\nWorkforce agency \u2192 community catalyst, strategic brilliance vs execution rhythm\\n---\\n# Kodak's Digital Strategy Disaster\\nGreat strategy + poor rhythm = 20-year head start became irrelevant\\n---\\n# Tesla's Rhythm Mastery\\nTraditional auto vs Tesla rhythm comparison, market capture through execution speed\\n---\\n# Amazon COVID Response\\nStrategy + rhythm alignment, 400k hires in 10 months\\n---\\n# Rhythm vs Cadence Definition\\nCadence = scheduled touchpoints, Rhythm = momentum between meetings\\n---\\n# RWAV Community Partnerships\\nPoor vs effective rhythm examples for community engagement\\n---\\n# RWAV Policy Advocacy\\nData timing for policy influence, reactive vs proactive rhythms\\n---\\n# Rhythm Challenge Poll\\nInteractive \u2013 which rhythm challenge resonates most?\\n---\\n# RWAV Priority Rhythm Poll\\nInteractive \u2013 critical rhythm for transformation success\\n---\\n# Personal Commitment Exercise\\nIndividual rhythm discipline commitments\\n---\\n# Four Strategic Rhythms Framework\\nPlanning cycle, decision architecture, information flow, stakeholder engagement\\n---\\n# Bridge to In-Person Sessions\\nToday's learning + upcoming workshop objectives\\n---\\n# Key Takeaways\\nStrategic failures are rhythm problems, personal responsibility for organisational success\\n---\\n# Building RWAV's Strategic Heartbeat\\nCall to action, contact details, next steps\n\n**Assistant:** Carla, yes \u2014 that Notion formatting will work well for the Gamma workflow, but with one tiny tweak so that **card splitting** is guaranteed:\n\n### Why your current text almost works\n- You\u2019re already using `\\n---\\n` as separators",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 18,
+      "category": "correction",
+      "summary": "Correction: **User:** would you please reformat thes quickly back to what's needed then?\n# Why Great Strategies ",
+      "details": "**User:** would you please reformat thes quickly back to what's needed then?\n# Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nNokia had brilliant concepts before iPhone, difference was rhythm not vision\\n---\\n# RWAV's Transformation Challenge\\nWorkforce agency \u2192 community catalyst, strategic brilliance vs execution rhythm\\n---\\n# Kodak's Digital Strategy Disaster\\nGreat strategy + poor rhythm = 20-year head start became irrelevant\\n---\\n# Tesla's Rhythm Mastery\\nTraditional auto vs Tesla rhythm comparison, market capture through execution speed\\n---\\n# Amazon COVID Response\\nStrategy + rhythm alignment, 400k hires in 10 months\\n---\\n# Rhythm vs Cadence Definition\\nCadence = scheduled touchpoints, Rhythm = momentum between meetings\\n---\\n# RWAV Community Partnerships\\nPoor vs effective rhythm examples for community engagement\\n---\\n# RWAV Policy Advocacy\\nData timing for policy influence, reactive vs proactive rhythms\\n---\\n# Rhythm Challenge Poll\\nInteractive \u2013 which rhythm challenge resonates most?\\n---\\n# RWAV Priority Rhythm Poll\\nInteractive \u2013 critical rhythm for transformation success\\n---\\n# Personal Commitment Exercise\\nIndividual rhythm discipline commitments\\n---\\n# Four Strategic Rhythms Framework\\nPlanning cycle, decision architecture, information flow, stakeholder engagement\\n---\\n# Bridge to In-Person Sessions\\nToday's learning + upcoming workshop objectives\\n---\\n# Key Takeaways\\nStrategic failures are rhythm problems, personal responsibility for organisational success\\n---\\n# Building RWAV's Strategic Heartbeat\\nCall to action, contact details, next steps\n\n# The Strategic Planning Imperative\\n* Why most strategies fail in execution\\n* The gap between boardroom vision and frontline reality\\n* Preview of our 8-step embedding framework\\n---\\n# Foundations - Vision That Resonates\\n* Crafting vision statements that inspire action\\n* Moving beyond corporate speak to authentic purpose\\n* Testing vision clarity with the \"elevator test\"\\n---\\n# Strategic Analysis That Matters\\n* SWOT analysis with implementation lens\\n* Competitive positioning for sustainable advantage\\n* Market trends that will shape your next 3 years\\n---\\n# Smart Goal Architecture\\n* OKRs vs traditional goal setting\\n* The 70-20-10 rule for strategic priorities\\n* Building goals that cascade and connect\\n---\\n# Resource Allocation Reality\\n* Budget alignment with strategic priorities\\n* The 80/20 rule for resource deployment\\n* Building capability gaps into your timeline\\n---\\n# The Implementation Bridge\\n* Breaking annual goals into quarterly sprints\\n* Creating accountability without micromanagement\\n* Communication rhythms that maintain momentum\\n---\\n# Measurement and Course Correction\\n* Leading vs lagging indicators\\n* Monthly pulse checks that matter\\n* When and how to pivot strategically\\n---\\n# Daily Embedding Tactics\\n* Morning huddles that connect to strategy\\n* Decision frameworks that reflect priorities\\n* Recognition systems that reinforce strategic behaviors\\n---\\n# Sustaining Strategic Momentum\\n* Annual refresh vs continuous evolution\\n* Building strategic thinking capability across teams\\n* Your 90-day action plan for implementation\n\n**Assistant:** Got it \u2705 \u2014 let me reformat your two outlines properly for the **Gamma API** so they\u2019ll split cleanly into cards. ---\n\n### Deck 1 \u2013 Strategic Rhythms\n```\n# Why Great Strategies Need Great Rhythms\n\n---\n# The Nokia vs Apple Reality Check\nNokia had brilliant concepts before iPhone, difference was rhythm not vision\n\n---\n# RWAV's Transformation Challenge\nWorkforce agency \u2192 community catalyst, strategic brilliance vs execution rhythm\n\n---\n# Kodak's Digital Strategy Disaster\nGreat strategy + poor rhythm = 20-year head start became irrelevant\n\n---\n# Tesla's Rhythm Mastery\nTraditional auto vs Tesla rhythm comparison, market capture through execution speed\n\n---\n# Amazon COVID Response\nStrategy + rhythm alignment, 400k hires in 10 months\n\n---\n# Rhythm vs Cadence Definition\nCadence = scheduled touchpoints, Rhythm = momentum between meetings\n\n---\n# RWAV Community Partnerships\nPoor vs effective rhythm examples for community engagement\n\n---\n# RWAV Policy Advocacy\nData timing for policy influence, reactive vs proactive rhythms\n\n---\n# Rhythm Challenge Poll\nInteractive \u2013 which rhythm challenge resonates most?\n\n---\n# RWAV Priority Rhythm Poll\nInteractive \u2013 critical rhythm for transformation success\n\n---\n# Personal Commitment Exercise\nIndividual rhythm discipline commitments\n\n---\n# Four Strategic Rhythms Framework\nPlanning cycle, decision architecture, information flow, stakeholder engagement\n\n---\n# Bridge to In-Person Sessions\nToday's learning + upcoming workshop objectives\n\n---\n# Key Takeaways\nStrategic failures are rhythm problems, personal responsibility for organisational success\n\n---\n# Building RWAV's Strategic Heartbeat\nCall to action, contact details, next steps\n```\n\n---\n\n### Deck 2 \u2013 Strategic Planning Imperative\n```\n# The Strategic Planning Imperative\n* Why most strategies fail in execution\n* The gap between boardroom vision and frontline reality\n* Preview of our 8-step embedding framework\n\n---\n# Foundations - Vision That Resonates\n* Crafting vision statements that inspire action\n* Moving beyond corporate speak to authentic purpose\n* Testing vision clarity with the \"elevator test\"\n\n---\n# Strategic Analysis That Matters\n* SWOT analysis with implementation lens\n* Competitive positioning for sustainable advantage\n* Market trends that will shape your next 3 years\n\n---\n# Smart Goal Architecture\n* OKRs vs traditional goal setting\n* The 70-20-10 rule for strategic priorities\n* Building goals that cascade and connect\n\n---\n# Resource Allocation Reality\n* Budget alignment with strategic priorities\n* The 80/20 rule for resource deployment\n* Building capability gaps into your timeline\n\n---\n# The Implementation Bridge\n* Breaking annual goals into quarterly sprints\n* Creating accountability without micromanagement\n* Communication rhythms that maintain momentum\n\n---\n# Measurement and Course Correction\n* Leading vs lagging indicators\n* Monthly pulse checks that matter\n* When and how to pivot strategically\n\n---\n# Daily Embedding Tactics\n* Morning huddles that connect to strategy\n* Decision frameworks that reflect priorities\n* Recognition systems that reinforce strategic behaviors\n\n---\n# Sustaining Strategic Momentum\n* Annual refresh vs continuous evolution\n* Building strategic thinking capability across teams\n* Your 90-day action plan for implementation\n```\n\n---\n\n\ud83d\udc49 These are now in the **exact format Gamma expects**:\n- Each `---` is on its own line with a newline before and after. ### Option B (keep intermediate versions)\nIf you want to keep intermediate fields for debugging:\n- Call them `OutlineRaw`, `OutlineAU`, `StyleHeader`, etc",
+      "evidence": "**User:** would you please reformat thes quickly back to what's needed then?\n# Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nNokia had brilliant concepts before iPhone, difference was rhythm not vision\\n---\\n# RWAV's Transformation Challenge\\nWorkforce agency \u2192 community catalyst, strategic brilliance vs execution rhythm\\n---\\n# Kodak's Digital Strategy Disaster\\nGreat strategy + poor rhythm = 20-year head start became irrelevant\\n---\\n# Tesla's Rhythm Mastery\\nTraditional auto vs Tesla rhythm comparison, market capture through execution speed\\n---\\n# Amazon COVID Response\\nStrategy + rhythm alignment, 400k hires in 10 months\\n---\\n# Rhythm vs Cadence Definition\\nCadence = scheduled touchpoints, Rhythm = momentum between meetings\\n---\\n# RWAV Community Partnerships\\nPoor vs effective rhythm examples for community engagement\\n---\\n# RWAV Policy Advocacy\\nData timing for policy influence, reactive vs proactive rhythms\\n---\\n# Rhythm Challenge Poll\\nInteractive \u2013 which rhythm challenge resonates most?\\n---\\n# RWAV Priority Rhythm Poll\\nInteractive \u2013 critical rhythm for transformation success\\n---\\n# Personal Commitment Exercise\\nIndividual rhythm discipline commitments\\n---\\n# Four Strategic Rhythms Framework\\nPlanning cycle, decision architecture, information flow, stakeholder engagement\\n---\\n# Bridge to In-Person Sessions\\nToday's learning + upcoming workshop objectives\\n---\\n# Key Takeaways\\nStrategic failures are rhythm problems, personal responsibility for organisational success\\n---\\n# Building RWAV's Strategic Heartbeat\\nCall to action, contact details, next steps\n\n# The Strategic Planning Imperative\\n* Why most strategies fail in execution\\n* The gap between boardroom vision and frontline reality\\n* Preview of our 8-step embedding framework\\n---\\n# Foundations - Vision That Resonates\\n* Crafting vision statements that inspire action\\n* Moving beyond corporate speak to authentic purpose\\n* Testing vision clarity with the \"elevator test\"\\n---\\n# Strategic Analysis That Matters\\n* SWOT analysis with implementation lens\\n* Competitive positioning for sustainable advantage\\n* Market trends that will shape your next 3 years\\n---\\n# Smart Goal Architecture\\n* OKRs vs traditional goal setting\\n* The 70-20-10 rule for strategic priorities\\n* Building goals that cascade and connect\\n---\\n# Resource Allocation Reality\\n* Budget alignment with strategic priorities\\n* The 80/20 rule for resource deployment\\n* Building capability gaps into your timeline\\n---\\n# The Implementation Bridge\\n* Breaking annual goals into quarterly sprints\\n* Creating accountability without micromanagement\\n* Communication rhythms that maintain momentum\\n---\\n# Measurement and Course Correction\\n* Leading vs lagging indicators\\n* Monthly pulse checks that matter\\n* When and how to pivot strategically\\n---\\n# Daily Embedding Tactics\\n* Morning huddles that connect to strategy\\n* Decision frameworks that reflect priorities\\n* Recognition systems that reinforce strategic behaviors\\n---\\n# Sustaining Strategic Momentum\\n* Annual refresh vs continuous evolution\\n* Building strategic thinking capability across teams\\n* Your 90-day action plan for implementation\n\n**Assistant:** Got it \u2705 \u2014 let me reformat your two outlines properly for the **Gamma API** so they\u2019ll split cleanly into cards",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 18,
+      "category": "methodology",
+      "summary": "Methodology: **User:** would you please reformat thes quickly back to what's needed then?\n# Why Great Strategies ",
+      "details": "**User:** would you please reformat thes quickly back to what's needed then?\n# Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nNokia had brilliant concepts before iPhone, difference was rhythm not vision\\n---\\n# RWAV's Transformation Challenge\\nWorkforce agency \u2192 community catalyst, strategic brilliance vs execution rhythm\\n---\\n# Kodak's Digital Strategy Disaster\\nGreat strategy + poor rhythm = 20-year head start became irrelevant\\n---\\n# Tesla's Rhythm Mastery\\nTraditional auto vs Tesla rhythm comparison, market capture through execution speed\\n---\\n# Amazon COVID Response\\nStrategy + rhythm alignment, 400k hires in 10 months\\n---\\n# Rhythm vs Cadence Definition\\nCadence = scheduled touchpoints, Rhythm = momentum between meetings\\n---\\n# RWAV Community Partnerships\\nPoor vs effective rhythm examples for community engagement\\n---\\n# RWAV Policy Advocacy\\nData timing for policy influence, reactive vs proactive rhythms\\n---\\n# Rhythm Challenge Poll\\nInteractive \u2013 which rhythm challenge resonates most?\\n---\\n# RWAV Priority Rhythm Poll\\nInteractive \u2013 critical rhythm for transformation success\\n---\\n# Personal Commitment Exercise\\nIndividual rhythm discipline commitments\\n---\\n# Four Strategic Rhythms Framework\\nPlanning cycle, decision architecture, information flow, stakeholder engagement\\n---\\n# Bridge to In-Person Sessions\\nToday's learning + upcoming workshop objectives\\n---\\n# Key Takeaways\\nStrategic failures are rhythm problems, personal responsibility for organisational success\\n---\\n# Building RWAV's Strategic Heartbeat\\nCall to action, contact details, next steps\n\n# The Strategic Planning Imperative\\n* Why most strategies fail in execution\\n* The gap between boardroom vision and frontline reality\\n* Preview of our 8-step embedding framework\\n---\\n# Foundations - Vision That Resonates\\n* Crafting vision statements that inspire action\\n* Moving beyond corporate speak to authentic purpose\\n* Testing vision clarity with the \"elevator test\"\\n---\\n# Strategic Analysis That Matters\\n* SWOT analysis with implementation lens\\n* Competitive positioning for sustainable advantage\\n* Market trends that will shape your next 3 years\\n---\\n# Smart Goal Architecture\\n* OKRs vs traditional goal setting\\n* The 70-20-10 rule for strategic priorities\\n* Building goals that cascade and connect\\n---\\n# Resource Allocation Reality\\n* Budget alignment with strategic priorities\\n* The 80/20 rule for resource deployment\\n* Building capability gaps into your timeline\\n---\\n# The Implementation Bridge\\n* Breaking annual goals into quarterly sprints\\n* Creating accountability without micromanagement\\n* Communication rhythms that maintain momentum\\n---\\n# Measurement and Course Correction\\n* Leading vs lagging indicators\\n* Monthly pulse checks that matter\\n* When and how to pivot strategically\\n---\\n# Daily Embedding Tactics\\n* Morning huddles that connect to strategy\\n* Decision frameworks that reflect priorities\\n* Recognition systems that reinforce strategic behaviors\\n---\\n# Sustaining Strategic Momentum\\n* Annual refresh vs continuous evolution\\n* Building strategic thinking capability across teams\\n* Your 90-day action plan for implementation\n\n**Assistant:** Got it \u2705 \u2014 let me reformat your two outlines properly for the **Gamma API** so they\u2019ll split cleanly into cards. ---\n\n### Deck 1 \u2013 Strategic Rhythms\n```\n# Why Great Strategies Need Great Rhythms\n\n---\n# The Nokia vs Apple Reality Check\nNokia had brilliant concepts before iPhone, difference was rhythm not vision\n\n---\n# RWAV's Transformation Challenge\nWorkforce agency \u2192 community catalyst, strategic brilliance vs execution rhythm\n\n---\n# Kodak's Digital Strategy Disaster\nGreat strategy + poor rhythm = 20-year head start became irrelevant\n\n---\n# Tesla's Rhythm Mastery\nTraditional auto vs Tesla rhythm comparison, market capture through execution speed\n\n---\n# Amazon COVID Response\nStrategy + rhythm alignment, 400k hires in 10 months\n\n---\n# Rhythm vs Cadence Definition\nCadence = scheduled touchpoints, Rhythm = momentum between meetings\n\n---\n# RWAV Community Partnerships\nPoor vs effective rhythm examples for community engagement\n\n---\n# RWAV Policy Advocacy\nData timing for policy influence, reactive vs proactive rhythms\n\n---\n# Rhythm Challenge Poll\nInteractive \u2013 which rhythm challenge resonates most?\n\n---\n# RWAV Priority Rhythm Poll\nInteractive \u2013 critical rhythm for transformation success\n\n---\n# Personal Commitment Exercise\nIndividual rhythm discipline commitments\n\n---\n# Four Strategic Rhythms Framework\nPlanning cycle, decision architecture, information flow, stakeholder engagement\n\n---\n# Bridge to In-Person Sessions\nToday's learning + upcoming workshop objectives\n\n---\n# Key Takeaways\nStrategic failures are rhythm problems, personal responsibility for organisational success\n\n---\n# Building RWAV's Strategic Heartbeat\nCall to action, contact details, next steps\n```\n\n---\n\n### Deck 2 \u2013 Strategic Planning Imperative\n```\n# The Strategic Planning Imperative\n* Why most strategies fail in execution\n* The gap between boardroom vision and frontline reality\n* Preview of our 8-step embedding framework\n\n---\n# Foundations - Vision That Resonates\n* Crafting vision statements that inspire action\n* Moving beyond corporate speak to authentic purpose\n* Testing vision clarity with the \"elevator test\"\n\n---\n# Strategic Analysis That Matters\n* SWOT analysis with implementation lens\n* Competitive positioning for sustainable advantage\n* Market trends that will shape your next 3 years\n\n---\n# Smart Goal Architecture\n* OKRs vs traditional goal setting\n* The 70-20-10 rule for strategic priorities\n* Building goals that cascade and connect\n\n---\n# Resource Allocation Reality\n* Budget alignment with strategic priorities\n* The 80/20 rule for resource deployment\n* Building capability gaps into your timeline\n\n---\n# The Implementation Bridge\n* Breaking annual goals into quarterly sprints\n* Creating accountability without micromanagement\n* Communication rhythms that maintain momentum\n\n---\n# Measurement and Course Correction\n* Leading vs lagging indicators\n* Monthly pulse checks that matter\n* When and how to pivot strategically\n\n---\n# Daily Embedding Tactics\n* Morning huddles that connect to strategy\n* Decision frameworks that reflect priorities\n* Recognition systems that reinforce strategic behaviors\n\n---\n# Sustaining Strategic Momentum\n* Annual refresh vs continuous evolution\n* Building strategic thinking capability across teams\n* Your 90-day action plan for implementation\n```\n\n---\n\n\ud83d\udc49 These are now in the **exact format Gamma expects**:\n- Each `---` is on its own line with a newline before and after. The simplest, cleanest approach is:\n\n- **Delete** the old `InputText` expression you had",
+      "evidence": "**User:** would you please reformat thes quickly back to what's needed then?\n# Why Great Strategies Need Great Rhythms\\n---\\n# The Nokia vs Apple Reality Check\\nNokia had brilliant concepts before iPhone, difference was rhythm not vision\\n---\\n# RWAV's Transformation Challenge\\nWorkforce agency \u2192 community catalyst, strategic brilliance vs execution rhythm\\n---\\n# Kodak's Digital Strategy Disaster\\nGreat strategy + poor rhythm = 20-year head start became irrelevant\\n---\\n# Tesla's Rhythm Mastery\\nTraditional auto vs Tesla rhythm comparison, market capture through execution speed\\n---\\n# Amazon COVID Response\\nStrategy + rhythm alignment, 400k hires in 10 months\\n---\\n# Rhythm vs Cadence Definition\\nCadence = scheduled touchpoints, Rhythm = momentum between meetings\\n---\\n# RWAV Community Partnerships\\nPoor vs effective rhythm examples for community engagement\\n---\\n# RWAV Policy Advocacy\\nData timing for policy influence, reactive vs proactive rhythms\\n---\\n# Rhythm Challenge Poll\\nInteractive \u2013 which rhythm challenge resonates most?\\n---\\n# RWAV Priority Rhythm Poll\\nInteractive \u2013 critical rhythm for transformation success\\n---\\n# Personal Commitment Exercise\\nIndividual rhythm discipline commitments\\n---\\n# Four Strategic Rhythms Framework\\nPlanning cycle, decision architecture, information flow, stakeholder engagement\\n---\\n# Bridge to In-Person Sessions\\nToday's learning + upcoming workshop objectives\\n---\\n# Key Takeaways\\nStrategic failures are rhythm problems, personal responsibility for organisational success\\n---\\n# Building RWAV's Strategic Heartbeat\\nCall to action, contact details, next steps\n\n# The Strategic Planning Imperative\\n* Why most strategies fail in execution\\n* The gap between boardroom vision and frontline reality\\n* Preview of our 8-step embedding framework\\n---\\n# Foundations - Vision That Resonates\\n* Crafting vision statements that inspire action\\n* Moving beyond corporate speak to authentic purpose\\n* Testing vision clarity with the \"elevator test\"\\n---\\n# Strategic Analysis That Matters\\n* SWOT analysis with implementation lens\\n* Competitive positioning for sustainable advantage\\n* Market trends that will shape your next 3 years\\n---\\n# Smart Goal Architecture\\n* OKRs vs traditional goal setting\\n* The 70-20-10 rule for strategic priorities\\n* Building goals that cascade and connect\\n---\\n# Resource Allocation Reality\\n* Budget alignment with strategic priorities\\n* The 80/20 rule for resource deployment\\n* Building capability gaps into your timeline\\n---\\n# The Implementation Bridge\\n* Breaking annual goals into quarterly sprints\\n* Creating accountability without micromanagement\\n* Communication rhythms that maintain momentum\\n---\\n# Measurement and Course Correction\\n* Leading vs lagging indicators\\n* Monthly pulse checks that matter\\n* When and how to pivot strategically\\n---\\n# Daily Embedding Tactics\\n* Morning huddles that connect to strategy\\n* Decision frameworks that reflect priorities\\n* Recognition systems that reinforce strategic behaviors\\n---\\n# Sustaining Strategic Momentum\\n* Annual refresh vs continuous evolution\\n* Building strategic thinking capability across teams\\n* Your 90-day action plan for implementation\n\n**Assistant:** Got it \u2705 \u2014 let me reformat your two outlines properly for the **Gamma API** so they\u2019ll split cleanly into cards",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 19,
+      "category": "methodology",
+      "summary": "Methodology: 2/generations/{{$json[\"generationId\"]}}\n  ```\n- Method: GET  \n- Headers:  \n  - `Content-Type: applic",
+      "details": "2/generations/{{$json[\"generationId\"]}}\n  ```\n- Method: GET  \n- Headers:  \n  - `Content-Type: application/json`  \n  - `X-API-KEY: <your Gamma key>`\n\n### Step 4",
+      "evidence": "2/generations/{{$json[\"generationId\"]}}\n  ```\n- Method: GET  \n- Headers:  \n  - `Content-Type: application/json`  \n  - `X-API-KEY: <your Gamma key>`\n\n### Step 4",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 21,
+      "category": "correction",
+      "summary": "Correction: \"\n\n  }\n\n]\nand somehow the gamma output has changed to a single page pdf and lost the slide sequencin",
+      "details": "\"\n\n  }\n\n]\nand somehow the gamma output has changed to a single page pdf and lost the slide sequencing\n\n**Assistant:** You\u2019re seeing two separate (but connected) issues:\n\n1) The POST to Gamma is still being fed an `inputText` **without real line breaks** \u2192 Gamma warns:\n   \u201cinputText has no text breaks\u2026 Output will only have one card. This way you avoid juggling `StyleHeader` as a separate field, and you also eliminate the `undefined` issue you saw earlier. Do you want me to also give you a tested `OutlineClean` regex version that guarantees all your `---` and line breaks survive intact for Gamma? That would help stop the \u201cone card only\u201d problem",
+      "evidence": "\"\n\n  }\n\n]\nand somehow the gamma output has changed to a single page pdf and lost the slide sequencing\n\n**Assistant:** You\u2019re seeing two separate (but connected) issues:\n\n1) The POST to Gamma is still being fed an `inputText` **without real line breaks** \u2192 Gamma warns:\n   \u201cinputText has no text breaks\u2026 Output will only have one card",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 21,
+      "category": "methodology",
+      "summary": "Methodology: OutlineClean || '')\n}}\n```\n\nEither approach works",
+      "details": "OutlineClean || '')\n}}\n```\n\nEither approach works. **User:** Option B is exactly what I already have that's not working!!! So I implemented Option A but need to note that the output looks like the style instructions might be parsed as slide content?Language: en-AU\nTone: professional, warm, concise",
+      "evidence": "OutlineClean || '')\n}}\n```\n\nEither approach works",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 22,
+      "category": "methodology",
+      "summary": "Methodology: If you still see warnings about \u201cno text breaks\u201d, the cleaner for `InputText` needs to stay as we se",
+      "details": "If you still see warnings about \u201cno text breaks\u201d, the cleaner for `InputText` needs to stay as we set it (inline or two-Set-node approach)",
+      "evidence": "If you still see warnings about \u201cno text breaks\u201d, the cleaner for `InputText` needs to stay as we set it (inline or two-Set-node approach)",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 23,
+      "category": "correction",
+      "summary": "Correction: prompt` wordings (like \u201cprofessional abstract minimalism\u201d vs \u201cphotography without text\u201d) so you can ",
+      "details": "prompt` wordings (like \u201cprofessional abstract minimalism\u201d vs \u201cphotography without text\u201d) so you can A/B test what aesthetic fits RWAV\u2019s decks best?\n\n**User:** {{ { source: 'aiGenerated', prompt: 'abstract, photography, or iconography; no text, no words, no signage, no logos' } }} - this needs \"\" but I don't know where they should go? I think that's the problem causing this error? \n\n400 - \"{\\\"message\\\":\\\"Input validation errors: 1. ---\n\n### Your corrected HTTP Request (Using Fields Below)\n\n| Name        | Value                                                                 |\n|-------------|-----------------------------------------------------------------------|\n| `inputText` | `{{$json",
+      "evidence": "prompt` wordings (like \u201cprofessional abstract minimalism\u201d vs \u201cphotography without text\u201d) so you can A/B test what aesthetic fits RWAV\u2019s decks best?\n\n**User:** {{ { source: 'aiGenerated', prompt: 'abstract, photography, or iconography; no text, no words, no signage, no logos' } }} - this needs \"\" but I don't know where they should go? I think that's the problem causing this error? \n\n400 - \"{\\\"message\\\":\\\"Input validation errors: 1",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [
+    {
+      "involved_threads": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        19,
+        20,
+        21,
+        23,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        8
+      ],
+      "insight_type": "evolution",
+      "description": "Topic evolution across 22 threads",
+      "significance": "Shows progressive refinement of understanding"
+    },
+    {
+      "involved_threads": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        9,
+        10,
+        13,
+        17,
+        18,
+        19,
+        21,
+        22
+      ],
+      "insight_type": "emergent_pattern",
+      "description": "Repeated methodology learnings across conversation",
+      "significance": "Strong focus on methodology throughout discussion"
+    },
+    {
+      "involved_threads": [
+        2,
+        4,
+        12,
+        15,
+        16,
+        18,
+        21,
+        23
+      ],
+      "insight_type": "emergent_pattern",
+      "description": "Repeated correction learnings across conversation",
+      "significance": "Strong focus on correction throughout discussion"
+    }
+  ],
+  "thinking_patterns": {
+    "flow": "Associative - wide-ranging exploration",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}

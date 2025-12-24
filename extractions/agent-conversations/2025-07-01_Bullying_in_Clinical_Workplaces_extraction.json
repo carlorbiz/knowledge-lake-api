@@ -1,0 +1,82 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251224 221533",
+  "word_count": 8515,
+  "extraction_date": "2025-12-24 22:15:33",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Bullying in Clinical Workplaces",
+      "start_line": 0,
+      "end_line": 399,
+      "excerpt": "# Bullying in Clinical Workplaces\n\n**Date:** 2025-07-01\n\n---\n\n**User:** Please draw on the attached files to outline course content broken into 4 half-hour modules with varied interactive assessments",
+      "keywords": [
+        "1",
+        "1277",
+        "2",
+        "20250701",
+        "23"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 3180
+    },
+    {
+      "thread_id": 2,
+      "title": "- I will finalise the **video/audio scripts (3-minute...",
+      "start_line": 399,
+      "end_line": 851,
+      "excerpt": "- I will finalise the **video/audio scripts (3-minute speaking notes)** as formatted text for easy recording.  \n- Video placeholders will be built into the slide decks for seamless embedding later.\n\n-",
+      "keywords": [
+        "1",
+        "10",
+        "1030pm",
+        "10pm",
+        "111pm"
+      ],
+      "breakthrough_moments": [],
+      "word_count": 5335
+    }
+  ],
+  "connections": [
+    {
+      "from_thread_id": 1,
+      "to_thread_id": 2,
+      "connection_type": "builds_on",
+      "explanation": "Thread 2 builds on Thread 1",
+      "evidence": "\u26a1 **Timeline:** First draft of all materials will be ready within **2\u20133 business days**."
+    }
+  ],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "decision",
+      "summary": "Decision: What small moments have shaped your sense of safety? When have you seen culture strengthened \u2014 or da",
+      "details": "What small moments have shaped your sense of safety? When have you seen culture strengthened \u2014 or damaged \u2014 by what people chose to say or do?\u201d\n\n---\n\n## \ud83c\udf99 **Module 2 \u2014 Recognising Signs and Taking Action**\n---\n> *[Opening tone: encouraging and supportive]*  \n\u201cSpotting harm early is one of the most powerful things we can do as leaders and colleagues",
+      "evidence": "What small moments have shaped your sense of safety? When have you seen culture strengthened \u2014 or damaged \u2014 by what people chose to say or do?\u201d\n\n---\n\n## \ud83c\udf99 **Module 2 \u2014 Recognising Signs and Taking Action**\n---\n> *[Opening tone: encouraging and supportive]*  \n\u201cSpotting harm early is one of the most powerful things we can do as leaders and colleagues",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: capability issues \u2013 different management approaches\u30106\u3011\u30107\u3011  \n- What not to ask in interviews; use of ",
+      "details": "capability issues \u2013 different management approaches\u30106\u3011\u30107\u3011  \n- What not to ask in interviews; use of scenario-based questions\u30106\u3011\u30107\u3011  \n\n### Interactive Assessment  \n\ud83d\udd39 **Mini Case Study:** Participants analyse a fictional complaint and decide next steps (acknowledge, gather facts, action plan). , rich red/burgundy, slate grey, soft white)  \n- **Tone**: Professional, approachable, aligned with GPSA\u2019s mission (\u201cWe hear you,\u201d educational and advocacy focus)\n\n---\n\n# \ud83d\ude80 **Finalised Plan for Deliverables**\n\n### \ud83d\udcc2 **I will prepare:**\n\u2705 **PowerPoint slides (4 module decks)** \u2014 GPSA branded, with embedded interactive prompts and placeholders for video links",
+      "evidence": "capability issues \u2013 different management approaches\u30106\u3011\u30107\u3011  \n- What not to ask in interviews; use of scenario-based questions\u30106\u3011\u30107\u3011  \n\n### Interactive Assessment  \n\ud83d\udd39 **Mini Case Study:** Participants analyse a fictional complaint and decide next steps (acknowledge, gather facts, action plan)",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 2,
+      "category": "methodology",
+      "summary": "Methodology: I\u2019m polishing formatting so it feels clean and professional but still approachable",
+      "details": "I\u2019m polishing formatting so it feels clean and professional but still approachable. I\u2019ll make sure everything reflects the thoughtful, professional, and approachable tone you\u2019re aiming for, with clean GPSA branding and natural flow. I really appreciate the way you\u2019ve approached this \u2014 I\u2019m on it!\n\n**User:** Are you any closer to sending through the first module?\n\n**Assistant:** Carla, thank you for checking in \u2014 and I want to acknowledge how incredibly patient and gracious you\u2019ve been",
+      "evidence": "I\u2019m polishing formatting so it feels clean and professional but still approachable",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Incremental progress - steady advancement"
+  }
+}
