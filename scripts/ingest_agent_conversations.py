@@ -141,6 +141,77 @@ class AgentConversationIngester:
             'word_count': len(conversation_text.split())
         }
 
+    def parse_claude_project(self, project: Dict) -> Dict:
+        """Parse a Claude project object into standardized format"""
+        # Build project text
+        project_text = f"# Claude Project: {project.get('name', 'Untitled')}\n\n"
+        project_text += f"**Description:** {project.get('description', '')}\n\n"
+        project_text += f"**Created:** {project.get('created_at', '')}\n\n"
+        project_text += "---\n\n"
+
+        # Add all project documents
+        docs = project.get('docs', [])
+        project_text += f"## Project Documents ({len(docs)} files)\n\n"
+
+        for doc in docs:
+            project_text += f"### {doc.get('filename', 'Untitled Document')}\n\n"
+            project_text += f"{doc.get('content', '')}\n\n"
+            project_text += "---\n\n"
+
+        return {
+            'topic': f"Claude Project: {project.get('name', 'Untitled')}",
+            'content': project_text,
+            'date': project.get('created_at', datetime.now().isoformat()).split('T')[0],
+            'metadata': {
+                'agent': 'Claude GUI',
+                'type': 'project',
+                'uuid': project.get('uuid'),
+                'created_at': project.get('created_at'),
+                'updated_at': project.get('updated_at'),
+                'doc_count': len(docs),
+                'businessArea': 'AAE Development',
+                'processingAgent': 'Claude Code'
+            },
+            'word_count': len(project_text.split())
+        }
+
+    def parse_claude_memories(self, memories: Dict) -> Dict:
+        """Parse Claude memories object into standardized format"""
+        # Build memories text
+        memories_text = "# Claude Memories Summary\n\n"
+
+        # Add conversation memory
+        conv_memory = memories.get('conversations_memory', '')
+        if conv_memory:
+            memories_text += "## General Work Context & Background\n\n"
+            memories_text += f"{conv_memory}\n\n"
+            memories_text += "---\n\n"
+
+        # Add project memories
+        project_memories = memories.get('project_memories', {})
+        if project_memories:
+            memories_text += f"## Project-Specific Memories ({len(project_memories)} projects)\n\n"
+
+            for project_uuid, project_memory in project_memories.items():
+                memories_text += f"### Project: {project_uuid[:8]}...\n\n"
+                memories_text += f"{project_memory}\n\n"
+                memories_text += "---\n\n"
+
+        return {
+            'topic': 'Claude Memories - Work Context & Project Knowledge',
+            'content': memories_text,
+            'date': datetime.now().strftime('%Y-%m-%d'),
+            'metadata': {
+                'agent': 'Claude GUI',
+                'type': 'memories',
+                'account_uuid': memories.get('account_uuid'),
+                'project_count': len(project_memories),
+                'businessArea': 'AAE Development',
+                'processingAgent': 'Claude Code'
+            },
+            'word_count': len(memories_text.split())
+        }
+
     def classify_conversation(self, conversation: Dict) -> Dict:
         """Classify conversation complexity"""
         word_count = conversation['word_count']
@@ -376,6 +447,24 @@ class AgentConversationIngester:
                 FRED_CONVERSATIONS,
                 self.parse_fred_conversation,
                 'Fred (ChatGPT)',
+                dry_run
+            )
+
+        # Process Claude projects
+        if CLAUDE_PROJECTS.exists():
+            all_stats['claude_projects'] = self.process_file(
+                CLAUDE_PROJECTS,
+                self.parse_claude_project,
+                'Claude GUI',
+                dry_run
+            )
+
+        # Process Claude memories
+        if CLAUDE_MEMORIES.exists():
+            all_stats['claude_memories'] = self.process_file(
+                CLAUDE_MEMORIES,
+                self.parse_claude_memories,
+                'Claude GUI',
                 dry_run
             )
 
