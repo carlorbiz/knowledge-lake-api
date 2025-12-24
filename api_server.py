@@ -164,7 +164,7 @@ def health_check():
     return jsonify({
         'status': 'healthy',
         'service': 'mem0_knowledge_lake',
-        'version': '2.1.0_database_persistence',
+        'version': '2.1.1_thread_pool_fix',
         'database_enabled': USE_DATABASE,
         'environment': {
             'railway': railway_env,
