@@ -1,0 +1,151 @@
+name: Deployment Inventory Check
+
+on:
+  pull_request:
+    paths:
+      - 'github-projects/**'
+      - 'mtmot-unified-mcp/**'
+      - 'manus-mcp/**'
+      - 'mcp-ai-orchestration/**'
+      - 'CareTrack/**'
+      - 'Carlorbiz_Course_Apps/**'
+      - 'openmemory/ui/**'
+      - 'cloudflare-worker/**'
+      - 'cloudflare-deployments/**'
+      - 'examples/**'
+      - 'mem0/api_server.py'
+      - 'railway.json'
+
+jobs:
+  check-inventory-updated:
+    name: Verify DEPLOYMENT_INVENTORY.md Updated
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Full history for comparison
+
+      - name: Check if inventory was modified
+        id: inventory_check
+        run: |
+          echo "Checking if DEPLOYMENT_INVENTORY.md was updated in this PR..."
+
+          # Get list of changed files in this PR
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+
+          # Check if inventory file was modified
+          if echo "$CHANGED_FILES" | grep -q "DEPLOYMENT_INVENTORY.md"; then
+            echo "✅ DEPLOYMENT_INVENTORY.md was updated in this PR"
+            echo "inventory_updated=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ DEPLOYMENT_INVENTORY.md was NOT updated in this PR"
+            echo "inventory_updated=false" >> $GITHUB_OUTPUT
+          fi
+
+          # Show which project files were modified
+          echo ""
+          echo "Project files modified in this PR:"
+          echo "$CHANGED_FILES" | grep -E 'github-projects/|mtmot-unified-mcp/|manus-mcp/|CareTrack/|cloudflare-|mem0/api_server.py|railway.json' || echo "  (none detected by grep)"
+
+      - name: Fail if inventory not updated
+        if: steps.inventory_check.outputs.inventory_updated == 'false'
+        run: |
+          echo "::error::DEPLOYMENT_INVENTORY.md must be updated when project files are modified"
+          echo ""
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "⚠️  DEPLOYMENT INVENTORY NOT UPDATED"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+          echo "This PR modifies project files but does not update the"
+          echo "deployment inventory. Please update DEPLOYMENT_INVENTORY.md"
+          echo "to reflect your changes:"
+          echo ""
+          echo "  1. Edit DEPLOYMENT_INVENTORY.md"
+          echo "  2. Update project status, URLs, tech stack, or add new entries"
+          echo "  3. Update the 'Last Updated' date at the top"
+          echo "  4. Commit and push the changes"
+          echo ""
+          echo "If you believe this check is incorrect, please add a comment"
+          echo "to the PR explaining why the inventory doesn't need updating."
+          echo ""
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          exit 1
+
+      - name: Validate inventory format
+        if: steps.inventory_check.outputs.inventory_updated == 'true'
+        run: |
+          echo "Validating DEPLOYMENT_INVENTORY.md format..."
+
+          # Check if file exists
+          if [ ! -f "DEPLOYMENT_INVENTORY.md" ]; then
+            echo "::error::DEPLOYMENT_INVENTORY.md file not found!"
+            exit 1
+          fi
+
+          # Check for required sections
+          REQUIRED_SECTIONS=(
+            "Quick Stats"
+            "Production Applications"
+            "Applications in Development"
+            "MCP.*Servers"
+            "Deployment Platforms Summary"
+            "Last Updated"
+          )
+
+          VALIDATION_PASSED=true
+
+          for section in "${REQUIRED_SECTIONS[@]}"; do
+            if ! grep -qiE "$section" DEPLOYMENT_INVENTORY.md; then
+              echo "::warning::Required section missing or malformed: $section"
+              VALIDATION_PASSED=false
+            fi
+          done
+
+          if [ "$VALIDATION_PASSED" = true ]; then
+            echo "✅ DEPLOYMENT_INVENTORY.md format validation passed"
+          else
+            echo "::error::DEPLOYMENT_INVENTORY.md is missing required sections"
+            exit 1
+          fi
+
+      - name: Check if Last Updated date is current
+        if: steps.inventory_check.outputs.inventory_updated == 'true'
+        run: |
+          echo "Checking if 'Last Updated' date is recent..."
+
+          # Extract the "Last Updated" date from the file
+          LAST_UPDATED=$(grep -E "^\*\*Last Updated:\*\*" DEPLOYMENT_INVENTORY.md | sed 's/.*: //' || echo "")
+
+          if [ -z "$LAST_UPDATED" ]; then
+            echo "::warning::Could not find 'Last Updated' date in DEPLOYMENT_INVENTORY.md"
+            exit 0
+          fi
+
+          echo "Last Updated date found: $LAST_UPDATED"
+
+          # Convert dates to seconds for comparison (rough check - within 7 days)
+          LAST_UPDATED_SECONDS=$(date -d "$LAST_UPDATED" +%s 2>/dev/null || echo "0")
+          CURRENT_SECONDS=$(date +%s)
+          DAYS_AGO=$(( ($CURRENT_SECONDS - $LAST_UPDATED_SECONDS) / 86400 ))
+
+          if [ "$LAST_UPDATED_SECONDS" = "0" ]; then
+            echo "::warning::Could not parse 'Last Updated' date format"
+          elif [ $DAYS_AGO -gt 7 ]; then
+            echo "::warning::'Last Updated' date is $DAYS_AGO days old - consider updating it"
+          else
+            echo "✅ 'Last Updated' date is current ($DAYS_AGO days ago)"
+          fi
+
+      - name: Success summary
+        if: steps.inventory_check.outputs.inventory_updated == 'true'
+        run: |
+          echo ""
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "✅ DEPLOYMENT INVENTORY CHECK PASSED"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+          echo "DEPLOYMENT_INVENTORY.md has been properly updated."
+          echo "Thank you for maintaining the project documentation!"
+          echo ""
