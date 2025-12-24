@@ -9,6 +9,7 @@ from database import init_database, get_db
 from psycopg2.extras import RealDictCursor
 from typing import List, Dict, Any, Optional
 import threading
+from concurrent.futures import ThreadPoolExecutor
 
 # Configure logging to use stdout (prevents Railway from showing everything as "error")
 logging.basicConfig(
@@ -69,12 +70,20 @@ except ImportError as e:
     logger.warning("Continuing without mem0 - semantic search disabled")
     memory = None
 
+# Create bounded thread pool for background mem0 indexing
+# Limits concurrent threads to prevent "can't start new thread" errors
+MEM0_THREAD_POOL = ThreadPoolExecutor(
+    max_workers=10,  # Max 10 concurrent mem0 indexing operations
+    thread_name_prefix="mem0_indexer"
+)
+
 # DEPLOYMENT VERIFICATION: Log at startup to confirm enhanced version is loaded
 logger.info("=" * 80)
-logger.info("🚀 API_SERVER.PY LOADED - VERSION 2.1.0_database_persistence")
+logger.info("🚀 API_SERVER.PY LOADED - VERSION 2.1.1_thread_pool_fix")
 logger.info("📍 All 6 conversation endpoints: ingest, query, unprocessed, archive, extract-learning, stats")
 logger.info(f"🔑 OPENAI_API_KEY configured: {bool(os.environ.get('OPENAI_API_KEY'))}")
 logger.info(f"💾 Mem0 enabled: {memory is not None}")
+logger.info(f"🧵 Thread pool: max_workers=10")
 logger.info("=" * 80)
 
 # Initialize PostgreSQL database with fallback to in-memory
@@ -256,21 +265,17 @@ def ingest_conversation():
             conversations_db.append(conversation)
 
         # Also add to mem0 for semantic search (if available)
-        # Run in background thread to prevent timeout on large conversations
+        # Use bounded thread pool to prevent "can't start new thread" errors
         if memory:
-            background_thread = threading.Thread(
-                target=index_conversation_in_background,
-                args=(
-                    conversation,
-                    data['agent'],
-                    conversation['topic'],
-                    data['content'],
-                    f"user_{data['userId']}"
-                ),
-                daemon=True
+            MEM0_THREAD_POOL.submit(
+                index_conversation_in_background,
+                conversation,
+                data['agent'],
+                conversation['topic'],
+                data['content'],
+                f"user_{data['userId']}"
             )
-            background_thread.start()
-            logger.info(f"[Mem0] Background indexing started for conversation {conversation['id']}")
+            logger.info(f"[Mem0] Background indexing queued for conversation {conversation['id']}")
 
         # Store entities
         entities_created = []

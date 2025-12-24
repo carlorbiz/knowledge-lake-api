@@ -216,6 +216,7 @@ ingestion_log.txt
 
 # Temporary test scripts
 ingest_*.py
+!scripts/ingest_agent_conversations.py  # Production script - not temporary
 quick_ingest.py
 bot_query_fix.py
 test-*.sh
