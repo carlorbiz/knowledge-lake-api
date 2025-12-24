@@ -1,0 +1,60 @@
+{
+  "conversation_id": null,
+  "conversation_topic": "Temp 20251225 005022",
+  "word_count": 2842,
+  "extraction_date": "2025-12-25 00:50:22",
+  "threads": [
+    {
+      "thread_id": 1,
+      "title": "Claude Memories Summary",
+      "start_line": 0,
+      "end_line": 192,
+      "excerpt": "# Claude Memories Summary\n\n## General Work Context & Background\n\n**Work context**\n\nCarla runs multiple businesses including CARLORBIZ (strategic planning consultancy focused on evidence-based organisa",
+      "keywords": [
+        "0198932d",
+        "01997948",
+        "0199bebe",
+        "0199d540",
+        "12"
+      ],
+      "breakthrough_moments": [
+        "Recent technical breakthroughs include resolving Google API authentication issues by implementing Google Service Account credentials, creating a dynamic prompt library web service deployed on Vercel, and establishing the Google Form \u2192 Google Sheets \u2192 Notion \u2192 n8n workflow for professional user experience"
+      ],
+      "word_count": 2842
+    }
+  ],
+  "connections": [],
+  "learnings": [
+    {
+      "thread_id": 1,
+      "category": "correction",
+      "summary": "Correction: Recent focus includes troubleshooting MCP server configurations, resolving Docker Desktop compatibil",
+      "details": "Recent focus includes troubleshooting MCP server configurations, resolving Docker Desktop compatibility issues, and implementing automated content generation pipelines that transform single inputs into multiple revenue-generating assets across her business verticals. She's developed sophisticated Google Apps Script applications for healthcare course generation with Australian voice specifications and TTS functionality, while working through persistent technical challenges including MCP connection stability, Docker configuration issues, and API integration complexities. The project emerged from critical limitations in her existing Google Apps Script system, which was experiencing crashes, quota limits, and reliability issues when generating comprehensive healthcare courses",
+      "evidence": "Recent focus includes troubleshooting MCP server configurations, resolving Docker Desktop compatibility issues, and implementing automated content generation pipelines that transform single inputs into multiple revenue-generating assets across her business verticals",
+      "confidence": "medium"
+    },
+    {
+      "thread_id": 1,
+      "category": "insight",
+      "summary": "Breakthrough in Claude Memories Summary",
+      "details": "Recent technical breakthroughs include resolving Google API authentication issues by implementing Google Service Account credentials, creating a dynamic prompt library web service deployed on Vercel, and establishing the Google Form \u2192 Google Sheets \u2192 Notion \u2192 n8n workflow for professional user experience",
+      "evidence": "Recent technical breakthroughs include resolving Google API authentication issues by implementing Google Service Account credentials, creating a dynamic prompt library web service deployed on Vercel, and establishing the Google Form \u2192 Google Sheets \u2192 Notion \u2192 n8n workflow for professional user experience",
+      "confidence": "high"
+    },
+    {
+      "thread_id": 1,
+      "category": "methodology",
+      "summary": "Methodology: Carla works with a systematic, documentation-focused approach and prefers step-by-step guidance for ",
+      "details": "Carla works with a systematic, documentation-focused approach and prefers step-by-step guidance for technical implementations. She developed comprehensive strategic planning frameworks and interactive HTML toolkits for rural health workforce development, demonstrating expertise in both technical implementation and strategic consulting methodologies. She has consistently demonstrated a preference for evidence-based approaches, systematic documentation, and professional-grade solutions that maintain high quality standards while leveraging cutting-edge AI capabilities for business efficiency and client value delivery",
+      "evidence": "Carla works with a systematic, documentation-focused approach and prefers step-by-step guidance for technical implementations",
+      "confidence": "medium"
+    }
+  ],
+  "cross_thread_insights": [],
+  "thinking_patterns": {
+    "flow": "Linear - single focused topic",
+    "problem_solving": "Deliberate - builds systematically",
+    "exploration_style": "Deep dive - thorough exploration of topics",
+    "innovation": "Moderate breakthroughs - productive exploration"
+  }
+}
