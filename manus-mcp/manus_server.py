@@ -16,6 +16,12 @@ from pathlib import Path
 from typing import Any, Optional
 
 from mcp.server.fastmcp import FastMCP
+n# Import Knowledge Lake client
+try:
+    from knowledge_lake_client import get_knowledge_lake_client
+except ImportError:
+    logger.warning("knowledge_lake_client not found - Knowledge Lake features will be unavailable")
+    get_knowledge_lake_client = None
 
 # Configure logging to stderr (required for STDIO transport)
 logging.basicConfig(
