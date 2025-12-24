@@ -1,6 +1,12 @@
 FROM python:3.11-slim
 WORKDIR /app
 
+# Cache buster - forces rebuild when git commit changes
+ARG BUILD_DATE
+ARG GIT_COMMIT
+LABEL build_date=$BUILD_DATE
+LABEL git_commit=$GIT_COMMIT
+
 # Copy requirements first for better layer caching
 COPY requirements.txt .
 
