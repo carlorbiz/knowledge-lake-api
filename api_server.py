@@ -177,6 +177,7 @@ def health_check():
             'conversations': [
                 '/api/conversations/ingest',
                 '/api/conversations',
+                '/api/conversations/search',
                 '/api/conversations/unprocessed',
                 '/api/conversations/archive',
                 '/api/conversations/extract-learning'
@@ -491,6 +492,105 @@ def query_conversations():
 
     except Exception as e:
         logger.error(f"Error querying conversations: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/conversations/search', methods=['POST'])
+def search_conversations():
+    """
+    Search conversations by text query (POST endpoint for MCP compatibility)
+
+    Request body:
+    {
+        "query": "search text",
+        "userId": 1,
+        "limit": 50,
+        "agent": "Claude GUI" (optional)
+    }
+
+    Returns conversations matching the query in topic/content with full metadata
+    """
+    try:
+        data = request.get_json()
+        query = data.get('query', '')
+        user_id = data.get('userId')
+        limit = data.get('limit', 50)
+        agent_filter = data.get('agent')
+
+        if not user_id:
+            return jsonify({'error': 'userId required'}), 400
+
+        if USE_DATABASE:
+            # Use database method
+            db = get_db()
+            results = db.search_conversations(
+                user_id=user_id,
+                query=query,
+                agent=agent_filter,
+                limit=limit
+            )
+
+            # Convert database results to expected format
+            conversations = []
+            for conv in results:
+                # Get entities for this conversation
+                conv_entities = db.get_entities_by_conversation(conv['id'])
+
+                conversations.append({
+                    'id': conv['id'],
+                    'userId': conv['user_id'],
+                    'agent': conv['agent'],
+                    'date': conv['date'].isoformat() if hasattr(conv['date'], 'isoformat') else str(conv['date']),
+                    'topic': conv.get('topic', ''),
+                    'content': conv.get('content', ''),
+                    'metadata': conv.get('metadata', {}),
+                    'createdAt': conv['created_at'].isoformat() if hasattr(conv['created_at'], 'isoformat') else str(conv['created_at']),
+                    'entities': [
+                        {
+                            'id': e['id'],
+                            'name': e['name'],
+                            'entityType': e['entity_type'],
+                            'confidence': float(e['confidence']) if e['confidence'] else 0.0
+                        }
+                        for e in conv_entities
+                    ]
+                })
+
+            return jsonify({
+                'results': conversations,
+                'total': len(conversations),
+                'query': query
+            })
+        else:
+            # In-memory fallback
+            results = [c for c in conversations_db if c['userId'] == user_id]
+
+            # Apply agent filter
+            if agent_filter:
+                results = [c for c in results if c['agent'].lower() == agent_filter.lower()]
+
+            # Text search across topic and content
+            if query:
+                query_lower = query.lower()
+                results = [
+                    c for c in results
+                    if query_lower in c.get('topic', '').lower()
+                    or query_lower in c.get('content', '').lower()
+                ]
+
+            # Sort by date descending (most recent first)
+            results = sorted(results, key=lambda x: x.get('date', ''), reverse=True)
+
+            # Limit results
+            results = results[:limit]
+
+            return jsonify({
+                'results': results,
+                'total': len(results),
+                'query': query
+            })
+
+    except Exception as e:
+        logger.error(f"Error searching conversations: {e}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/api/conversations/unprocessed', methods=['GET'])

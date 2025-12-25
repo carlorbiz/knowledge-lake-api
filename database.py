@@ -225,6 +225,24 @@ CREATE TRIGGER update_conversations_updated_at BEFORE UPDATE ON conversations
                 cur.execute(sql, params)
                 return [dict(row) for row in cur.fetchall()]
 
+    def search_conversations(
+        self,
+        user_id: int,
+        query: str = None,
+        agent: str = None,
+        limit: int = 50
+    ) -> List[Dict]:
+        """
+        Search conversations by text query.
+        Wrapper for get_conversations() with simplified parameters for search endpoint.
+        """
+        return self.get_conversations(
+            user_id=user_id,
+            query=query,
+            agent_filter=agent,
+            limit=limit
+        )
+
     def get_unprocessed_conversations(
         self,
         user_id: int,
