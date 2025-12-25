@@ -107,17 +107,62 @@ All previously failing queries now return results:
 
 ## Impact
 
-### For Claude GUI
-- Can now search conversations via Knowledge Lake MCP
-- Queries return relevant results with full context
-- Enables reliable knowledge retrieval across sessions
+### For Claude GUI (Web/Desktop App)
+Claude GUI accesses the Knowledge Lake API **directly via Railway URL**, not through MCP.
+
+**API Endpoint Ready:**
+```
+POST https://knowledge-lake-api-production.up.railway.app/api/conversations/search
+```
+
+**Request Format:**
+```json
+{
+  "query": "your search keywords",
+  "userId": 1,
+  "limit": 50,
+  "agent": "Claude GUI" (optional)
+}
+```
+
+**Response Format:**
+```json
+{
+  "results": [
+    {
+      "id": 161,
+      "userId": 1,
+      "agent": "Claude GUI",
+      "date": "2025-12-25",
+      "topic": "AAE Council Coordination Plan",
+      "content": "full conversation text...",
+      "metadata": { "businessArea": "AAE Development" },
+      "createdAt": "2025-12-24T13:50:21",
+      "entities": [...]
+    }
+  ],
+  "total": 2,
+  "query": "council briefing"
+}
+```
+
+**How Claude GUI Uses This:**
+- Send natural language query to API endpoint
+- Receive full conversation details with context
+- Enable knowledge retrieval across sessions
+- Support multi-agent collaboration through shared knowledge
+
+### For Claude Code (VS Code Extension)
+- **Reload VS Code** to activate updated MTMOT Unified MCP tools
+- Access via `kl_search_conversations` MCP tool
+- Same API endpoint, wrapped in MCP interface
 
 ### For Dev Testing
 - MTMOT Unified MCP ready for testing
 - All Knowledge Lake tools functional
 - Search functionality verified end-to-end
 
-### For Manus
+### For Manus (Claude Code CLI)
 - Knowledge Lake integration now works correctly
 - Can query conversations for task context
 - Enables cross-agent knowledge sharing
@@ -129,23 +174,50 @@ All previously failing queries now return results:
 Per user requirement: **"Any changes to the Knowledge Lake API need to be reflected immediately across all of the corresponding MCPs"**
 
 This fix ensured:
-1. API endpoint added first
-2. All MCP servers updated simultaneously
-3. MCP tools rebuilt and deployed
-4. Production testing completed
-5. Documentation created (this file)
+1. ✅ API endpoint added to Railway production
+2. ✅ All MCP servers updated simultaneously
+3. ✅ MCP tools rebuilt and deployed
+4. ✅ Production testing completed
+5. ✅ Claude GUI can access directly via Railway URL
+6. ✅ Documentation created (this file)
+
+---
+
+## Knowledge Lake API Endpoints Reference
+
+All agents (Claude GUI, Claude Code, Manus, Fred, etc.) can access:
+
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/api/conversations/search` | POST | **NEW** - Search conversations by text query |
+| `/api/conversations` | GET | List conversations with filters |
+| `/api/conversations/ingest` | POST | Add new conversation |
+| `/api/conversations/extract-learning` | POST | Extract learnings from conversation |
+| `/api/conversations/archive` | POST | Archive processed conversation |
+| `/api/conversations/unprocessed` | GET | Get conversations pending extraction |
+| `/api/stats` | GET | Knowledge Lake statistics |
+| `/health` | GET | API health check |
+
+**Base URL:** `https://knowledge-lake-api-production.up.railway.app`
 
 ---
 
 ## Next Steps
 
-1. **Reload VS Code** to activate updated MTMOT Unified MCP tools
-2. **Test with Dev** - verify all MCP connections work
-3. **Monitor search queries** - ensure performance is acceptable
-4. **Document for Claude GUI** - update usage instructions if needed
+### For Claude GUI Integration
+1. ✅ API endpoint deployed and tested
+2. ✅ Direct access via Railway URL confirmed
+3. **Ready for use** - Claude GUI can query immediately
+
+### For Other Agents
+1. **Claude Code** - Reload VS Code to activate MCP tools
+2. **Dev/Fred** - Test MCP connections
+3. **Manus** - Verify updated endpoint integration
+4. **Monitor** - Track search query performance
 
 ---
 
 *Fix completed: 2025-12-25*
 *Total time: ~30 minutes*
 *Success rate: 100%*
+*Claude GUI access: Direct via Railway URL ✅*
