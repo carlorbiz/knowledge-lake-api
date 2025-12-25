@@ -108,49 +108,28 @@ All previously failing queries now return results:
 ## Impact
 
 ### For Claude GUI (Web/Desktop App)
-Claude GUI accesses the Knowledge Lake API **directly via Railway URL**, not through MCP.
+Claude GUI accesses the Knowledge Lake API **via Python MCP connector** (`knowledge-lake`).
 
-**API Endpoint Ready:**
-```
-POST https://knowledge-lake-api-production.up.railway.app/api/conversations/search
-```
+**MCP Connector Configuration:**
+- **Server:** `agent-conversations/claude/claude-knowledge-lake-mcp/server.py`
+- **Transport:** stdio (local Python process)
+- **Base URL:** `https://knowledge-lake-api-production.up.railway.app`
 
-**Request Format:**
-```json
-{
-  "query": "your search keywords",
-  "userId": 1,
-  "limit": 50,
-  "agent": "Claude GUI" (optional)
-}
-```
+**Tools Available (after restart):**
+- **Read-only (2 tools):**
+  - `knowledge_lake_query` - Search conversations (FIXED - now uses `/api/conversations/search`)
+  - `knowledge_lake_stats` - Get statistics
 
-**Response Format:**
-```json
-{
-  "results": [
-    {
-      "id": 161,
-      "userId": 1,
-      "agent": "Claude GUI",
-      "date": "2025-12-25",
-      "topic": "AAE Council Coordination Plan",
-      "content": "full conversation text...",
-      "metadata": { "businessArea": "AAE Development" },
-      "createdAt": "2025-12-24T13:50:21",
-      "entities": [...]
-    }
-  ],
-  "total": 2,
-  "query": "council briefing"
-}
-```
+- **Write/delete (3 tools):**
+  - `knowledge_lake_ingest` - Add conversations
+  - `knowledge_lake_extract_learning` - Extract learnings (NEW)
+  - `knowledge_lake_archive` - Archive conversations (NEW)
 
 **How Claude GUI Uses This:**
-- Send natural language query to API endpoint
-- Receive full conversation details with context
-- Enable knowledge retrieval across sessions
-- Support multi-agent collaboration through shared knowledge
+- MCP connector calls Railway API endpoints on behalf of Claude
+- Python client handles request formatting and error handling
+- Full conversation details with metadata and entities returned
+- Enables knowledge retrieval and cross-agent collaboration
 
 ### For Claude Code (VS Code Extension)
 - **Reload VS Code** to activate updated MTMOT Unified MCP tools
@@ -175,10 +154,10 @@ Per user requirement: **"Any changes to the Knowledge Lake API need to be reflec
 
 This fix ensured:
 1. ✅ API endpoint added to Railway production
-2. ✅ All MCP servers updated simultaneously
+2. ✅ All MCP servers updated simultaneously (Python + TypeScript)
 3. ✅ MCP tools rebuilt and deployed
 4. ✅ Production testing completed
-5. ✅ Claude GUI can access directly via Railway URL
+5. ✅ Claude GUI Python MCP updated with new endpoint
 6. ✅ Documentation created (this file)
 
 ---
@@ -206,8 +185,9 @@ All agents (Claude GUI, Claude Code, Manus, Fred, etc.) can access:
 
 ### For Claude GUI Integration
 1. ✅ API endpoint deployed and tested
-2. ✅ Direct access via Railway URL confirmed
-3. **Ready for use** - Claude GUI can query immediately
+2. ✅ Python MCP connector updated with new endpoint
+3. ✅ Extract-learning and archive tools added
+4. **Action required:** Restart Claude Desktop to activate 5 tools (2 read-only + 3 write/delete)
 
 ### For Other Agents
 1. **Claude Code** - Reload VS Code to activate MCP tools
@@ -218,6 +198,6 @@ All agents (Claude GUI, Claude Code, Manus, Fred, etc.) can access:
 ---
 
 *Fix completed: 2025-12-25*
-*Total time: ~30 minutes*
+*Total time: ~45 minutes*
 *Success rate: 100%*
-*Claude GUI access: Direct via Railway URL ✅*
+*Claude GUI Python MCP: Fixed + 2 new tools added ✅*
