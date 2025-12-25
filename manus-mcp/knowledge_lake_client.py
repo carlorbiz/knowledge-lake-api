@@ -53,7 +53,7 @@ class KnowledgeLakeClient:
         """
         try:
             response = requests.post(
-                f"{self.api_url}/api/query",
+                f"{self.api_url}/api/conversations/search",
                 json={
                     "userId": user_id,
                     "query": query,

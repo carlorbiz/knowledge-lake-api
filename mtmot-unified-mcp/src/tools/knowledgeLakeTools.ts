@@ -4,6 +4,7 @@ import {
   getContext,
   ingestConversation,
   getConversations,
+  searchConversations,
   getEntities,
   getRelationships,
   aureliaQuery,
@@ -11,6 +12,7 @@ import {
   archiveConversations,
   healthCheck,
   type IngestConversationParams,
+  type SearchConversationsParams,
   type ConversationEntity,
   type ConversationRelationship,
   type ExtractLearningParams,
@@ -386,6 +388,59 @@ export const knowledgeLakeTools = [
       const { userId = 1, agent, limit = 50 } = input;
 
       const result = await getConversations(userId, agent, limit);
+
+      return {
+        content: [
+          {
+            type: "text" as const,
+            text: JSON.stringify(result, null, 2),
+          },
+        ],
+      };
+    },
+  },
+  {
+    name: "kl_search_conversations",
+    description:
+      "Search conversations by text query in topic/content. Returns full conversation details including metadata and entities. Use this when you need to find specific conversations by keywords.",
+    inputSchema: {
+      type: "object" as const,
+      properties: {
+        query: {
+          type: "string",
+          description: "Search keywords to find in conversation topic or content.",
+        },
+        userId: {
+          type: "number",
+          description: "User ID (default 1 for Carla).",
+        },
+        agent: {
+          type: "string",
+          description: "Optional filter by agent name (Claude, Jan, Manus, etc.).",
+        },
+        limit: {
+          type: "number",
+          description: "Max results (default 50).",
+        },
+      },
+      required: ["query"],
+    },
+    handler: async (input: {
+      query: string;
+      userId?: number;
+      agent?: string;
+      limit?: number;
+    }) => {
+      const { query, userId = 1, agent, limit = 50 } = input;
+
+      const params: SearchConversationsParams = {
+        query,
+        userId,
+        agent,
+        limit,
+      };
+
+      const result = await searchConversations(params);
 
       return {
         content: [

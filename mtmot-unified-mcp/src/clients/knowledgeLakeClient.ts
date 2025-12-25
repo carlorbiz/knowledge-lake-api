@@ -172,6 +172,43 @@ export async function getConversations(
   });
 }
 
+export interface SearchConversationsParams {
+  query: string;
+  userId: number;
+  agent?: string;
+  limit?: number;
+}
+
+export interface SearchConversationsResult {
+  results: Array<{
+    id: number;
+    userId: number;
+    agent: string;
+    date: string;
+    topic: string;
+    content: string;
+    metadata: Record<string, unknown>;
+    createdAt: string;
+    entities: Array<{
+      id: number;
+      name: string;
+      entityType: string;
+      confidence: number;
+    }>;
+  }>;
+  total: number;
+  query: string;
+}
+
+export async function searchConversations(
+  params: SearchConversationsParams
+): Promise<SearchConversationsResult> {
+  return klFetch<SearchConversationsResult>("/api/conversations/search", {
+    method: "POST",
+    body: params,
+  });
+}
+
 // ==================== Entity Operations ====================
 
 export interface Entity {
