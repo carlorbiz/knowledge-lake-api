@@ -8,11 +8,13 @@ Tools provided:
 - knowledge_lake_ingest: Push conversation to Knowledge Lake in real-time
 - knowledge_lake_query: Search for context from other council members
 - knowledge_lake_stats: Get statistics and verify connection
+- knowledge_lake_extract_learning: Extract 7-dimension learnings from conversations
+- knowledge_lake_archive: Archive conversations after learning extraction
 
 Usage:
     # stdio transport (local)
     python server.py
-    
+
     # HTTP transport (remote/Railway)
     python server.py --http --port 8080
 """
@@ -29,6 +31,8 @@ from models import (
     IngestConversationInput,
     QueryKnowledgeLakeInput,
     GetStatsInput,
+    ExtractLearningInput,
+    ArchiveConversationsInput,
     Entity,
     Relationship,
     ResponseFormat
@@ -278,6 +282,153 @@ async def knowledge_lake_stats(params: GetStatsInput) -> str:
         return error_msg
     except Exception as e:
         return f"Unexpected error getting stats: {str(e)}"
+
+
+@mcp.tool(
+    name="knowledge_lake_extract_learning",
+    annotations={
+        "title": "Extract Learning from Conversations",
+        "readOnlyHint": False,
+        "destructiveHint": False,
+        "idempotentHint": False,
+        "openWorldHint": True
+    }
+)
+async def knowledge_lake_extract_learning(params: ExtractLearningInput) -> str:
+    """
+    Extract 7-dimension learning patterns from conversations using OpenAI.
+
+    Creates discrete, searchable learning entities from raw conversations that
+    capture methodology, decisions, corrections, insights, values, prompting
+    techniques, and teaching moments.
+
+    Use this tool to clean up the Knowledge Lake after ingesting conversations,
+    transforming raw conversational data into structured learnings that are easier
+    to query and reference.
+
+    Args:
+        params (ExtractLearningInput): Validated input parameters containing:
+            - conversation_ids (Optional[List[int]]): Conversation IDs to process.
+              If not provided, processes all unprocessed conversations.
+            - dimensions (Optional[List[str]]): Learning dimensions to extract.
+              Defaults to all 7: methodology, decisions, corrections, insights,
+              values, prompting, teaching
+            - response_format (ResponseFormat): Output format (markdown/json)
+
+    Returns:
+        str: Processing results with learning counts by dimension
+
+    Example:
+        Extract learnings from specific conversations:
+        {
+            "conversation_ids": [140, 141],
+            "dimensions": ["methodology", "insights", "decisions"]
+        }
+
+        Process all unprocessed conversations:
+        {
+            "conversation_ids": []
+        }
+    """
+    try:
+        result = await client.extract_learning(
+            conversation_ids=params.conversation_ids,
+            dimensions=params.dimensions
+        )
+
+        if params.response_format == ResponseFormat.JSON:
+            return json.dumps(result, indent=2)
+        else:
+            # Format as markdown
+            output = ["## Learning Extraction Results\n"]
+            output.append(f"**Conversations Processed:** {result.get('conversationsProcessed', 0)}")
+            output.append(f"**Learnings Created:** {result.get('learningsCreated', 0)}\n")
+
+            by_dimension = result.get('learningsByDimension', {})
+            if by_dimension:
+                output.append("### Learnings by Dimension")
+                for dimension, count in by_dimension.items():
+                    output.append(f"- {dimension}: {count}")
+
+            return "\n".join(output)
+
+    except KnowledgeLakeError as e:
+        return f"Learning Extraction Error: {e.message}"
+    except Exception as e:
+        return f"Unexpected error during learning extraction: {str(e)}"
+
+
+@mcp.tool(
+    name="knowledge_lake_archive",
+    annotations={
+        "title": "Archive Conversations",
+        "readOnlyHint": False,
+        "destructiveHint": True,
+        "idempotentHint": True,
+        "openWorldHint": True
+    }
+)
+async def knowledge_lake_archive(params: ArchiveConversationsInput) -> str:
+    """
+    Archive conversations after extracting learnings.
+
+    Removes raw conversations from queries while preserving extracted learning
+    entities. Use after extract_learning to keep the Knowledge Lake clean and
+    focused on actionable insights.
+
+    IMPORTANT: Only archive conversations after extracting learnings from them.
+    Once archived, the original conversation content will no longer appear in
+    standard queries (though it is preserved in the database).
+
+    Args:
+        params (ArchiveConversationsInput): Validated input parameters containing:
+            - conversation_ids (List[int]): List of conversation IDs to archive
+            - archive_type (str): Archive type:
+              * "soft_delete" - Scheduled deletion with retention period (default)
+              * "hard_delete" - Immediate removal from active queries
+              * "compress" - Future feature
+            - retention_days (int): Days to retain before deletion (soft_delete only, default 30)
+            - response_format (ResponseFormat): Output format (markdown/json)
+
+    Returns:
+        str: Archive confirmation with timestamp
+
+    Example:
+        Archive conversations after extracting learnings:
+        {
+            "conversation_ids": [140, 141],
+            "archive_type": "soft_delete",
+            "retention_days": 30
+        }
+    """
+    try:
+        result = await client.archive_conversations(
+            conversation_ids=params.conversation_ids,
+            archive_type=params.archive_type,
+            retention_days=params.retention_days
+        )
+
+        if params.response_format == ResponseFormat.JSON:
+            return json.dumps(result, indent=2)
+        else:
+            # Format as markdown
+            status = "✅ Success" if result.get("success") else "❌ Failed"
+            output = [f"## Archive Conversations Result\n"]
+            output.append(f"**Status:** {status}")
+            output.append(f"**Conversations Archived:** {result.get('conversationsArchived', 0)}")
+            output.append(f"**Archive Type:** {result.get('archiveType', params.archive_type)}")
+
+            if result.get('scheduledDeletion'):
+                output.append(f"**Scheduled Deletion:** {result['scheduledDeletion']}")
+
+            output.append(f"**Timestamp:** {result.get('timestamp', 'N/A')}")
+
+            return "\n".join(output)
+
+    except KnowledgeLakeError as e:
+        return f"Archive Error: {e.message}"
+    except Exception as e:
+        return f"Unexpected error during archive: {str(e)}"
 
 
 def main():

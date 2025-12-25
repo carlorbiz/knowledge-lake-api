@@ -40,7 +40,7 @@ class KnowledgeLakeClient:
     def __init__(self, base_url: str = KNOWLEDGE_LAKE_BASE_URL):
         self.base_url = base_url.rstrip('/')
         self.ingest_endpoint = f"{self.base_url}/api/conversations/ingest"
-        self.query_endpoint = f"{self.base_url}/api/query"
+        self.query_endpoint = f"{self.base_url}/api/conversations/search"
         self.stats_endpoint = f"{self.base_url}/api/stats"
         self.health_endpoint = f"{self.base_url}/health"
         
@@ -180,8 +180,8 @@ class KnowledgeLakeClient:
 
         Args:
             query: Search query string
-            agent_filter: Optional filter by agent name (currently not supported by API)
-            entity_type_filter: Optional filter by entity type (currently not supported by API)
+            agent_filter: Optional filter by agent name (supported by API)
+            entity_type_filter: Optional filter by entity type (client-side filtering)
             limit: Maximum results to return
 
         Returns:
@@ -193,32 +193,26 @@ class KnowledgeLakeClient:
             "limit": limit
         }
 
-        # Note: agent_filter and entity_type_filter are not currently supported by the /api/query endpoint
-        # These filters would need to be applied client-side to the results
+        # The new /api/conversations/search endpoint supports agent filtering
+        if agent_filter:
+            payload["agent"] = agent_filter
 
         result = await self._make_request("POST", self.query_endpoint, json_data=payload)
 
-        # Apply client-side filtering if needed
-        if agent_filter or entity_type_filter:
+        # Apply client-side entity type filtering if needed
+        if entity_type_filter:
             results = result.get("results", [])
             filtered_results = []
 
             for item in results:
-                # Apply agent filter
-                if agent_filter and item.get("agent") != agent_filter:
-                    continue
-
                 # Apply entity type filter on entities in the result
-                if entity_type_filter:
-                    entities = item.get("entities", [])
-                    matching_entities = [e for e in entities if e.get("entityType") == entity_type_filter]
-                    if not matching_entities:
-                        continue
-
-                filtered_results.append(item)
+                entities = item.get("entities", [])
+                matching_entities = [e for e in entities if e.get("entityType") == entity_type_filter]
+                if matching_entities:
+                    filtered_results.append(item)
 
             result["results"] = filtered_results
-            result["count"] = len(filtered_results)
+            result["total"] = len(filtered_results)
 
         return result
     

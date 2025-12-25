@@ -226,7 +226,60 @@ class GetStatsInput(BaseModel):
         validate_assignment=True,
         extra='forbid'
     )
-    
+
+    response_format: ResponseFormat = Field(
+        default=ResponseFormat.MARKDOWN,
+        description="Output format: 'markdown' for human-readable or 'json' for structured"
+    )
+
+
+class ExtractLearningInput(BaseModel):
+    """Input model for extracting learnings from conversations."""
+    model_config = ConfigDict(
+        str_strip_whitespace=True,
+        validate_assignment=True,
+        extra='forbid'
+    )
+
+    conversation_ids: Optional[List[int]] = Field(
+        default=None,
+        description="List of conversation IDs to process. If not provided, processes all unprocessed conversations.",
+        max_length=100
+    )
+    dimensions: Optional[List[str]] = Field(
+        default=None,
+        description="Learning dimensions to extract. Defaults to all 7: methodology, decisions, corrections, insights, values, prompting, teaching"
+    )
+    response_format: ResponseFormat = Field(
+        default=ResponseFormat.MARKDOWN,
+        description="Output format: 'markdown' for human-readable or 'json' for structured"
+    )
+
+
+class ArchiveConversationsInput(BaseModel):
+    """Input model for archiving conversations."""
+    model_config = ConfigDict(
+        str_strip_whitespace=True,
+        validate_assignment=True,
+        extra='forbid'
+    )
+
+    conversation_ids: List[int] = Field(
+        ...,
+        description="List of conversation IDs to archive",
+        min_length=1,
+        max_length=100
+    )
+    archive_type: str = Field(
+        default="soft_delete",
+        description="Archive type: 'soft_delete' (scheduled deletion), 'hard_delete' (immediate), or 'compress' (future)"
+    )
+    retention_days: int = Field(
+        default=30,
+        description="Days to retain before deletion (soft_delete only)",
+        ge=1,
+        le=365
+    )
     response_format: ResponseFormat = Field(
         default=ResponseFormat.MARKDOWN,
         description="Output format: 'markdown' for human-readable or 'json' for structured"
