@@ -59,25 +59,20 @@ class NotionQueueManager:
         print("\n🔍 Fetching complex conversations from Knowledge Lake...")
 
         try:
-            response = requests.post(
-                f"{KNOWLEDGE_LAKE_API}/api/query",
-                json={
-                    "userId": 1,
-                    "query": "",  # Empty query returns all
-                    "limit": 200
-                },
+            response = requests.get(
+                f"{KNOWLEDGE_LAKE_API}/api/conversations",
+                params={"userId": 1, "limit": 200},
                 timeout=30
             )
             response.raise_for_status()
 
-            conversations = response.json().get('results', [])
+            conversations = response.json().get('conversations', [])
 
-            # Filter for complex conversations not yet extracted
+            # Filter for complex conversations requiring multipass extraction
             complex_pending = [
                 conv for conv in conversations
-                if conv.get('complexity_classification') == 'complex'
-                and conv.get('requires_multipass') is True
-                and conv.get('multipass_extracted') is False
+                if conv.get('metadata', {}).get('complexity_classification') == 'complex'
+                and conv.get('metadata', {}).get('requires_multipass') is True
             ]
 
             print(f"✅ Found {len(conversations)} total conversations")
