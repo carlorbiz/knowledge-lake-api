@@ -96,7 +96,13 @@ class NotionQueueManager:
     def create_notion_page(self, conversation: Dict) -> Optional[str]:
         """Create a Notion page in the Multi-Pass Queue database"""
         try:
-            # Build page properties
+            # Extract metadata
+            metadata = conversation.get('metadata', {})
+            complexity_score = metadata.get('complexity_score', 0)
+            word_count = metadata.get('word_count', 0)
+            agent = conversation.get('agent') or metadata.get('agent', 'Unknown')
+
+            # Build page properties (only include fields that exist in database schema)
             properties = {
                 "Conversation Topic": {
                     "title": [{"text": {"content": conversation.get('topic', 'Untitled')[:2000]}}]
@@ -108,19 +114,19 @@ class NotionQueueManager:
                     "date": {"start": conversation.get('date', datetime.now().strftime('%Y-%m-%d'))}
                 },
                 "Classification": {
-                    "select": {"name": "Complex"}
+                    "select": {"name": metadata.get('complexity_classification', 'Complex').capitalize()}
                 },
                 "Complexity Score": {
-                    "number": conversation.get('complexity_score', 0)
+                    "number": complexity_score
                 },
                 "Word Count": {
-                    "number": conversation.get('word_count', 0)
+                    "number": word_count
                 },
                 "Status": {
                     "select": {"name": "Pending"}
                 },
                 "Priority": {
-                    "select": {"name": self.calculate_priority(conversation.get('complexity_score', 0))}
+                    "select": {"name": self.calculate_priority(complexity_score)}
                 },
                 "Assigned Agent": {
                     "select": {"name": "Auto"}
@@ -131,11 +137,13 @@ class NotionQueueManager:
             }
 
             # Add optional properties if available
-            if conversation.get('topic_shift_count') is not None:
-                properties["Topic Shift Count"] = {"number": conversation['topic_shift_count']}
+            topic_shift_count = metadata.get('topic_shift_count')
+            if topic_shift_count is not None:
+                properties["Topic Shift Count"] = {"number": topic_shift_count}
 
-            if conversation.get('breakthrough_moment_count') is not None:
-                properties["Breakthrough Moments"] = {"number": conversation['breakthrough_moment_count']}
+            breakthrough_count = metadata.get('breakthrough_moment_count')
+            if breakthrough_count is not None:
+                properties["Breakthrough Moments"] = {"number": breakthrough_count}
 
             # Create page
             response = requests.post(
@@ -179,7 +187,11 @@ class NotionQueueManager:
         if dry_run:
             print("\n🏃 DRY RUN MODE - No pages will be created")
             for conv in conversations:
-                print(f"  Would create: {conv.get('topic', 'Untitled')[:60]} (Complexity: {conv.get('complexity_score', 0):.1f})")
+                metadata = conv.get('metadata', {})
+                complexity = metadata.get('complexity_score', 0)
+                words = metadata.get('word_count', 0)
+                agent = conv.get('agent') or metadata.get('agent', 'Unknown')
+                print(f"  Would create: {conv.get('topic', 'Untitled')[:60]} | Agent: {agent} | Complexity: {complexity:.1f} | Words: {words:,}")
             return {"total": len(conversations), "created": 0, "skipped": len(conversations), "failed": 0}
 
         # Create pages
@@ -187,8 +199,13 @@ class NotionQueueManager:
 
         print("\n📝 Creating Notion pages...")
         for i, conv in enumerate(conversations, 1):
+            metadata = conv.get('metadata', {})
+            complexity = metadata.get('complexity_score', 0)
+            words = metadata.get('word_count', 0)
+            agent = conv.get('agent') or metadata.get('agent', 'Unknown')
+
             print(f"\n[{i}/{len(conversations)}] Processing: {conv.get('topic', 'Untitled')[:60]}")
-            print(f"  ID: {conv.get('id')}, Complexity: {conv.get('complexity_score', 0):.1f}, Words: {conv.get('word_count', 0):,}")
+            print(f"  ID: {conv.get('id')} | Agent: {agent} | Complexity: {complexity:.1f} | Words: {words:,}")
 
             page_id = self.create_notion_page(conv)
 
@@ -282,13 +299,113 @@ class NotionQueueManager:
             print(f"❌ Error finding page: {e}")
             return None
 
+    def fix_metadata(self, dry_run: bool = False) -> Dict:
+        """Fix metadata for all existing pages in the queue"""
+        print("\n" + "=" * 80)
+        print("NOTION QUEUE METADATA FIX")
+        print("=" * 80)
+
+        stats = {"total": 0, "updated": 0, "skipped": 0, "failed": 0}
+
+        # Fetch all pages from Notion database
+        print("\n🔍 Fetching existing pages from Notion...")
+        try:
+            response = requests.post(
+                f"{NOTION_BASE_URL}/databases/{self.database_id}/query",
+                headers=self.notion_headers,
+                json={"page_size": 100},
+                timeout=30
+            )
+            response.raise_for_status()
+            pages = response.json().get('results', [])
+            print(f"✅ Found {len(pages)} existing pages")
+
+        except requests.exceptions.RequestException as e:
+            print(f"❌ Error fetching pages: {e}")
+            return stats
+
+        stats['total'] = len(pages)
+
+        # Fetch all conversations from Knowledge Lake
+        print("\n🔍 Fetching conversations from Knowledge Lake...")
+        all_conversations = self.fetch_complex_conversations()
+        conv_by_id = {conv['id']: conv for conv in all_conversations}
+
+        if dry_run:
+            print("\n🏃 DRY RUN MODE - No pages will be updated")
+
+        # Update each page
+        print("\n📝 Updating pages...")
+        for i, page in enumerate(pages, 1):
+            page_id = page['id']
+            properties = page.get('properties', {})
+
+            # Get conversation ID from page
+            conv_id_prop = properties.get('Conversation ID', {})
+            conv_id = conv_id_prop.get('number')
+
+            if not conv_id:
+                print(f"[{i}/{len(pages)}] ⚠️  Skipping page {page_id} - no Conversation ID")
+                stats['skipped'] += 1
+                continue
+
+            # Find matching conversation
+            conversation = conv_by_id.get(conv_id)
+            if not conversation:
+                print(f"[{i}/{len(pages)}] ⚠️  Skipping ID {conv_id} - conversation not found in Knowledge Lake")
+                stats['skipped'] += 1
+                continue
+
+            # Extract metadata
+            metadata = conversation.get('metadata', {})
+            complexity_score = metadata.get('complexity_score', 0)
+            word_count = metadata.get('word_count', 0)
+            agent = conversation.get('agent') or metadata.get('agent', 'Unknown')
+            topic_shift_count = metadata.get('topic_shift_count')
+
+            print(f"[{i}/{len(pages)}] Updating ID {conv_id}: {conversation.get('topic', 'Untitled')[:50]}")
+            print(f"  Complexity: {complexity_score:.1f} | Words: {word_count:,} | Agent: {agent}")
+
+            if dry_run:
+                stats['updated'] += 1
+                continue
+
+            # Build update payload (only update fields that exist in database)
+            update_properties = {
+                "Complexity Score": {"number": complexity_score},
+                "Word Count": {"number": word_count},
+                "Priority": {"select": {"name": self.calculate_priority(complexity_score)}}
+            }
+
+            if topic_shift_count is not None:
+                update_properties["Topic Shift Count"] = {"number": topic_shift_count}
+
+            # Update the page
+            try:
+                response = requests.patch(
+                    f"{NOTION_BASE_URL}/pages/{page_id}",
+                    headers=self.notion_headers,
+                    json={"properties": update_properties},
+                    timeout=30
+                )
+                response.raise_for_status()
+                stats['updated'] += 1
+                print(f"  ✅ Updated successfully")
+
+            except requests.exceptions.RequestException as e:
+                print(f"  ❌ Update failed: {e}")
+                stats['failed'] += 1
+
+        return stats
+
     def print_summary(self, stats: Dict):
         """Print population summary"""
         print("\n" + "=" * 80)
         print("POPULATION SUMMARY")
         print("=" * 80)
         print(f"Total conversations:   {stats['total']}")
-        print(f"Pages created:         {stats['created']}")
+        print(f"Pages created:         {stats.get('created', 0)}")
+        print(f"Pages updated:         {stats.get('updated', 0)}")
         print(f"Skipped:               {stats['skipped']}")
         print(f"Failed:                {stats['failed']}")
         print("\n" + "=" * 80)
@@ -320,6 +437,12 @@ def main():
     update_parser.add_argument('--drive-url', help='Google Drive URL')
     update_parser.add_argument('--token', help='Notion API token')
     update_parser.add_argument('--database-id', help='Notion database ID')
+
+    # Fix metadata command
+    fix_parser = subparsers.add_parser('fix-metadata', help='Fix metadata for existing queue items')
+    fix_parser.add_argument('--dry-run', action='store_true', help='Preview without updating pages')
+    fix_parser.add_argument('--token', help='Notion API token (or set NOTION_API_TOKEN env var)')
+    fix_parser.add_argument('--database-id', help='Notion database ID (or set MULTIPASS_QUEUE_DB_ID env var)')
 
     args = parser.parse_args()
 
@@ -372,6 +495,26 @@ def main():
             else:
                 print(f"\n❌ Failed to update queue item")
                 return 1
+
+        elif args.command == 'fix-metadata':
+            # Fix metadata for existing pages
+            stats = manager.fix_metadata(dry_run=args.dry_run)
+
+            print("\n" + "=" * 80)
+            print("METADATA FIX SUMMARY")
+            print("=" * 80)
+            print(f"Total pages: {stats['total']}")
+            print(f"Updated: {stats['updated']}")
+            print(f"Skipped: {stats['skipped']}")
+            print(f"Failed: {stats['failed']}")
+
+            if stats['updated'] > 0 and not args.dry_run:
+                print(f"\n✅ Successfully updated {stats['updated']} pages with correct metadata")
+                print(f"\n📋 View queue: https://notion.so/{manager.database_id.replace('-', '')}")
+            elif args.dry_run:
+                print(f"\n🏃 Dry run complete - run without --dry-run to apply changes")
+
+            return 0
 
         return 0
 
