@@ -23,15 +23,15 @@ for /f "tokens=*" %%i in ('where python') do (
 :found_python
 echo    Found: %PYTHON_PATH%
 
-REM Step 2: Find mem0-sync repo location
+REM Step 2: Find mem0 repo location
 echo.
-echo [2/5] Detecting mem0-sync repository location...
+echo [2/5] Detecting mem0 repository location...
 set "CURRENT_DIR=%~dp0"
 set "SEARCH_DIR=%CURRENT_DIR%"
 
-REM Navigate up to find mem0-sync root
+REM Navigate up to find mem0 root (look for .git folder)
 :find_repo
-if exist "%SEARCH_DIR%\mem0" (
+if exist "%SEARCH_DIR%\.git" (
     set "REPO_ROOT=%SEARCH_DIR%"
     goto :found_repo
 )
@@ -40,8 +40,8 @@ for %%i in ("%SEARCH_DIR%..") do set "SEARCH_DIR=%%~fi"
 REM Check if we've reached root
 if "%SEARCH_DIR:~-1%"=="\" (
     if "%SEARCH_DIR%"=="%SEARCH_DIR:~0,3%" (
-        echo ERROR: Could not find mem0-sync repository
-        echo Please run this script from within the mem0-sync directory
+        echo ERROR: Could not find mem0 repository
+        echo Please run this script from within the mem0 directory
         exit /b 1
     )
 )
@@ -53,7 +53,7 @@ echo    Found: %REPO_ROOT%
 REM Step 3: Verify MCP server file exists
 echo.
 echo [3/5] Verifying MCP server files...
-set "SERVER_PATH=%REPO_ROOT%\mem0\agent-conversations\claude\claude-knowledge-lake-mcp\claude-knowledge-lake-mcp\server.py"
+set "SERVER_PATH=%REPO_ROOT%\agent-conversations\claude\claude-knowledge-lake-mcp\claude-knowledge-lake-mcp\server.py"
 if not exist "%SERVER_PATH%" (
     echo ERROR: MCP server not found at:
     echo %SERVER_PATH%
@@ -64,7 +64,7 @@ echo    Found: server.py
 REM Step 4: Generate config file
 echo.
 echo [4/5] Generating claude_desktop_config.json...
-set "CONFIG_FILE=%REPO_ROOT%\mem0\agent-conversations\claude\claude-knowledge-lake-mcp\claude_desktop_config.json"
+set "CONFIG_FILE=%REPO_ROOT%\agent-conversations\claude\claude-knowledge-lake-mcp\claude_desktop_config.json"
 
 REM Escape backslashes for JSON
 set "PYTHON_PATH_JSON=%PYTHON_PATH:\=\\%"
