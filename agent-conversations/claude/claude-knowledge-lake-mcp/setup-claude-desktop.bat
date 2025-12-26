@@ -23,31 +23,22 @@ for /f "tokens=*" %%i in ('where python') do (
 :found_python
 echo    Found: %PYTHON_PATH%
 
-REM Step 2: Find mem0 repo location
+REM Step 2: Find mem0 repo location (simple approach - just go up 3 levels)
 echo.
 echo [2/5] Detecting mem0 repository location...
 set "CURRENT_DIR=%~dp0"
-set "SEARCH_DIR=%CURRENT_DIR%"
 
-REM Navigate up to find mem0 root (look for .git folder)
-:find_repo
-if exist "%SEARCH_DIR%\.git" (
-    set "REPO_ROOT=%SEARCH_DIR%"
-    goto :found_repo
-)
-REM Go up one directory
-for %%i in ("%SEARCH_DIR%..") do set "SEARCH_DIR=%%~fi"
-REM Check if we've reached root
-if "%SEARCH_DIR:~-1%"=="\" (
-    if "%SEARCH_DIR%"=="%SEARCH_DIR:~0,3%" (
-        echo ERROR: Could not find mem0 repository
-        echo Please run this script from within the mem0 directory
-        exit /b 1
-    )
-)
-goto :find_repo
+REM Script is in: mem0\agent-conversations\claude\claude-knowledge-lake-mcp\
+REM Repo root is 3 levels up
+for %%i in ("%CURRENT_DIR%..\..\..\") do set "REPO_ROOT=%%~fi"
 
-:found_repo
+REM Verify .git folder exists at detected location
+if not exist "%REPO_ROOT%\.git" (
+    echo ERROR: Could not find .git folder at %REPO_ROOT%
+    echo Please run this script from within the mem0 repository
+    exit /b 1
+)
+
 echo    Found: %REPO_ROOT%
 
 REM Step 3: Verify MCP server file exists
