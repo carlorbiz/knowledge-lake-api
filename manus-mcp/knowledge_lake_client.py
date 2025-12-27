@@ -21,7 +21,7 @@ class KnowledgeLakeClient:
 
     def __init__(self, api_url: str = KNOWLEDGE_LAKE_API):
         self.api_url = api_url
-        self.timeout = 30
+        self.timeout = 60  # Increased from 30 to 60 seconds for Railway API reliability
 
     def health_check(self) -> bool:
         """Check if Knowledge Lake API is healthy"""

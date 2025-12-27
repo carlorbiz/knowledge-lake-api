@@ -16,7 +16,8 @@ from pathlib import Path
 from typing import Any, Optional
 
 from mcp.server.fastmcp import FastMCP
-n# Import Knowledge Lake client
+
+# Import Knowledge Lake client
 try:
     from knowledge_lake_client import get_knowledge_lake_client
 except ImportError:
