@@ -2,10 +2,20 @@ import os
 import requests
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from dotenv import load_dotenv
+from pathlib import Path
+
+# Load environment variables from .env file in parent directory
+env_path = Path(__file__).parent.parent / '.env'
+load_dotenv(dotenv_path=env_path)
 
 app = FastAPI()
 
-GAMMA_API_KEY = os.environ.get("GAMMA_API_KEY", "sk-gamma-O6q9C8hKRZr8yNERNEP283NZu5POux7Ya2O1HvjuE")
+# Get API key from environment (no fallback - must be set)
+GAMMA_API_KEY = os.environ.get("GAMMA_API_KEY")
+if not GAMMA_API_KEY:
+    raise ValueError("GAMMA_API_KEY environment variable must be set in mcp_servers/.env")
+
 BASE_URL = "https://public-api.gamma.app/v0.2"
 
 class GenerateRequest(BaseModel ):

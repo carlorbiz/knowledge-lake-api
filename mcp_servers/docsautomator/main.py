@@ -2,10 +2,20 @@ import os
 import requests
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from dotenv import load_dotenv
+from pathlib import Path
+
+# Load environment variables from .env file in parent directory
+env_path = Path(__file__).parent.parent / '.env'
+load_dotenv(dotenv_path=env_path)
 
 app = FastAPI()
 
-DOCSAUTOMATOR_API_KEY = os.environ.get("DOCSAUTOMATOR_API_KEY", "3e634bb0-452f-46b8-9ed2-d19ba4e0c1dc")
+# Get API key from environment (no fallback - must be set)
+DOCSAUTOMATOR_API_KEY = os.environ.get("DOCSAUTOMATOR_API_KEY")
+if not DOCSAUTOMATOR_API_KEY:
+    raise ValueError("DOCSAUTOMATOR_API_KEY environment variable must be set in mcp_servers/.env")
+
 BASE_URL = "https://api.docsautomator.co"
 
 class CreateDocumentRequest(BaseModel ):
