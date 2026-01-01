@@ -243,6 +243,103 @@ CREATE TRIGGER update_conversations_updated_at BEFORE UPDATE ON conversations
             limit=limit
         )
 
+    def search_conversations_metadata(
+        self,
+        user_id: int,
+        query: str = None,
+        agent: str = None,
+        limit: int = 100,
+        cursor: int = None
+    ) -> Dict[str, Any]:
+        """
+        Fast metadata-only search (excludes heavy content field).
+
+        Returns only: id, topic, date, agent, metadata, created_at
+        This is 10-100x faster than full search since content can be 10KB-100KB per row.
+
+        Supports cursor-based pagination for efficient large result sets.
+
+        Args:
+            user_id: User ID to filter by
+            query: Search term for topic/content (uses full-text search if available)
+            agent: Filter by agent name
+            limit: Max results per page (default 100)
+            cursor: Pagination cursor (last ID from previous page)
+
+        Returns:
+            {
+                'results': [...],
+                'nextCursor': int or None,
+                'hasMore': bool,
+                'count': int
+            }
+        """
+        with self.get_connection() as conn:
+            with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                # Check if full-text search column exists
+                cur.execute("""
+                    SELECT column_name
+                    FROM information_schema.columns
+                    WHERE table_name = 'conversations'
+                      AND column_name = 'content_search'
+                """)
+                has_fts = cur.fetchone() is not None
+
+                # Build query - exclude content for speed
+                sql = """
+                    SELECT id, user_id, agent, date, topic, metadata,
+                           created_at, processed_for_learning
+                    FROM conversations
+                    WHERE user_id = %s
+                      AND (archived_at IS NULL)
+                """
+                params = [user_id]
+
+                # Add cursor pagination
+                if cursor:
+                    sql += " AND id > %s"
+                    params.append(cursor)
+
+                # Add agent filter
+                if agent:
+                    sql += " AND LOWER(agent) = LOWER(%s)"
+                    params.append(agent)
+
+                # Add search query
+                if query:
+                    if has_fts:
+                        # Use full-text search (much faster)
+                        # Convert query to tsquery format: "knowledge lake" -> "knowledge & lake"
+                        tsquery = ' & '.join(query.split())
+                        sql += " AND content_search @@ to_tsquery('english', %s)"
+                        params.append(tsquery)
+                    else:
+                        # Fallback to LIKE (slower, but works without FTS)
+                        sql += " AND (LOWER(topic) LIKE %s OR LOWER(content) LIKE %s)"
+                        search_term = f"%{query.lower()}%"
+                        params.extend([search_term, search_term])
+
+                # Order and limit
+                sql += " ORDER BY id ASC LIMIT %s"
+                params.append(limit + 1)  # Fetch one extra to check if there's more
+
+                cur.execute(sql, params)
+                rows = cur.fetchall()
+
+                # Check if there are more results
+                has_more = len(rows) > limit
+                results = [dict(row) for row in rows[:limit]]
+
+                # Determine next cursor
+                next_cursor = results[-1]['id'] if has_more and results else None
+
+                return {
+                    'results': results,
+                    'nextCursor': next_cursor,
+                    'hasMore': has_more,
+                    'count': len(results)
+                }
+
     def get_unprocessed_conversations(
         self,
         user_id: int,
