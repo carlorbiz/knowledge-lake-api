@@ -123,23 +123,23 @@ def run_migration(migration_file: str):
 
             try:
                 cursor.execute(statement)
-                print("✓")
+                print("OK")
                 executed += 1
             except psycopg2.Error as e:
                 # Check if it's a harmless error (already exists)
                 error_msg = str(e)
                 if 'already exists' in error_msg.lower():
-                    print("⊘ (already exists)")
+                    print("SKIP (already exists)")
                     skipped += 1
                 else:
-                    print(f"✗ {error_msg}")
+                    print(f"FAIL {error_msg}")
                     errors.append((i, first_line, error_msg))
 
         # Commit all changes
         if not errors or len(errors) < len(statements) / 2:
             conn.commit()
             print(f"\n{'='*70}")
-            print(f"✓ Migration completed successfully!")
+            print(f"SUCCESS: Migration completed successfully!")
             print(f"  - Executed: {executed}")
             print(f"  - Skipped: {skipped}")
             if errors:
@@ -148,7 +148,7 @@ def run_migration(migration_file: str):
         else:
             conn.rollback()
             print(f"\n{'='*70}")
-            print(f"✗ Migration failed with {len(errors)} errors")
+            print(f"FAILED: Migration failed with {len(errors)} errors")
             print(f"{'='*70}\n")
             for i, stmt, err in errors[:5]:  # Show first 5 errors
                 print(f"Statement {i}: {stmt}")
@@ -175,7 +175,7 @@ def run_migration(migration_file: str):
         conn.close()
 
     except Exception as e:
-        print(f"\n✗ Migration failed: {e}")
+        print(f"\nERROR: Migration failed: {e}")
         import traceback
         traceback.print_exc()
         sys.exit(1)
