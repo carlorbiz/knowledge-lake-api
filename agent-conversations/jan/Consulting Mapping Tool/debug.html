@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - First Nations GP Training Project</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 p-8">
+    <h1 class="text-2xl font-bold mb-4">Debug Console</h1>
+    
+    <div class="grid grid-cols-2 gap-4">
+        <div>
+            <h2 class="text-lg font-semibold mb-2">Nodes Data</h2>
+            <div id="nodes-debug" class="bg-white p-4 rounded border max-h-96 overflow-y-auto">Loading...</div>
+        </div>
+        
+        <div>
+            <h2 class="text-lg font-semibold mb-2">Comments Data</h2>
+            <div id="comments-debug" class="bg-white p-4 rounded border max-h-96 overflow-y-auto">Loading...</div>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <h2 class="text-lg font-semibold mb-2">Project Metadata</h2>
+        <div id="metadata-debug" class="bg-white p-4 rounded border">Loading...</div>
+    </div>
+    
+    <div class="mt-4">
+        <button onclick="loadAllData()" class="bg-blue-600 text-white px-4 py-2 rounded">Reload Data</button>
+        <button onclick="window.location.href='index.html'" class="bg-green-600 text-white px-4 py-2 rounded ml-2">Back to Main App</button>
+    </div>
+
+    <script>
+        async function loadAllData() {
+            try {
+                // Load nodes
+                const nodesResponse = await fetch('tables/mindmap_nodes');
+                const nodesResult = await nodesResponse.json();
+                document.getElementById('nodes-debug').innerHTML = `
+                    <pre>${JSON.stringify(nodesResult, null, 2)}</pre>
+                `;
+                
+                // Load comments
+                const commentsResponse = await fetch('tables/node_comments');
+                const commentsResult = await commentsResponse.json();
+                document.getElementById('comments-debug').innerHTML = `
+                    <pre>${JSON.stringify(commentsResult, null, 2)}</pre>
+                `;
+                
+                // Load metadata
+                const metadataResponse = await fetch('tables/project_metadata/project_1');
+                const metadataResult = await metadataResponse.json();
+                document.getElementById('metadata-debug').innerHTML = `
+                    <pre>${JSON.stringify(metadataResult, null, 2)}</pre>
+                `;
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('nodes-debug').innerHTML = 'Error: ' + error.message;
+            }
+        }
+        
+        // Auto-load on page load
+        loadAllData();
+    </script>
+</body>
+</html>

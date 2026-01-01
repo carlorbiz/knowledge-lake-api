@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Nations GP Training Scoping Project - Simple Accordion</title>
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <style>
+        .accordion-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .accordion-header {
+            background: #f8fafc;
+            padding: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .accordion-header:hover {
+            background: #e2e8f0;
+        }
+        
+        .accordion-content {
+            display: none;
+            padding: 1rem;
+            background: white;
+        }
+        
+        .accordion-content.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                max-height: 500px;
+            }
+        }
+        
+        .progress-bar {
+            background: #e5e7eb;
+            border-radius: 9999px;
+            height: 8px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6 0%, #10b981 100%);
+            border-radius: 9999px;
+            transition: width 0.3s ease;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-not-started { background: #f3f4f6; color: #374151; }
+        .status-in-progress { background: #fef3c7; color: #92400e; }
+        .status-completed { background: #d1fae5; color: #065f46; }
+        .status-blocked { background: #fee2e2; color: #991b1b; }
+        
+        .priority-high { border-left: 4px solid #ef4444; }
+        .priority-medium { border-left: 4px solid #f59e0b; }
+        .priority-low { border-left: 4px solid #6b7280; }
+        
+        .sub-item {
+            background: #f9fafb;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border-left: 3px solid #d1d5db;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .sub-item:hover {
+            background: #f3f4f6;
+            border-left-color: #3b82f6;
+            transform: translateX(4px);
+        }
+        
+        .sub-item.selected {
+            background: #eff6ff;
+            border-left-color: #3b82f6;
+            box-shadow: 0 0 0 1px #3b82f6;
+        }
+        
+        .comment-count {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 0.125rem 0.375rem;
+            border-radius: 9999px;
+            font-size: 0.625rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">First Nations GP Training Scoping Project</h1>
+                    <p class="text-sm text-gray-600">Interactive Project Management Tool - GPSA Consulting</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="text-sm text-gray-600">
+                        <span class="font-medium">Overall Progress:</span>
+                        <span class="text-blue-600 font-bold">35%</span>
+                    </div>
+                    <button onclick="expandAll()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                        <i class="fas fa-expand mr-1"></i> Expand All
+                    </button>
+                    <button onclick="collapseAll()" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700">
+                        <i class="fas fa-compress mr-1"></i> Collapse All
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex">
+        <!-- Main Content -->
+        <div class="flex-1 p-6">
+            <!-- Project Root -->
+            <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg p-6 mb-6">
+                <h2 class="text-xl font-bold mb-2">Aboriginal and Torres Strait Islander GP Training Supports and Challenges</h2>
+                <p class="text-blue-100 mb-4">Comprehensive scoping study based on 19 sources examining training supports and challenges for Aboriginal and Torres Strait Islander GP trainees and supervisors</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm">Overall Project Progress</span>
+                    <span class="font-bold">35% Complete</span>
+                </div>
+                <div class="progress-bar mt-2 bg-blue-800">
+                    <div class="progress-fill bg-white" style="width: 35%"></div>
+                </div>
+            </div>
+
+            <!-- Research Areas -->
+            <div class="space-y-4">
+                <!-- Support for GP Training Supervisors -->
+                <div class="accordion-item priority-high">
+                    <div class="accordion-header" onclick="toggleAccordion('supervisor-support')">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <i id="icon-supervisor-support" class="fas fa-chevron-right text-blue-600 transition-transform"></i>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900">Support for GP Training Supervisors</h3>
+                                    <p class="text-sm text-gray-600">Programs, resources and institutional support available for GP training supervisors</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <span class="comment-count">2 notes</span>
+                                <span class="status-badge status-in-progress">IN PROGRESS</span>
+                                <span class="font-bold text-gray-700">30%</span>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex items-center justify-between">
+                            <div class="text-sm text-gray-600">
+                                <span class="mr-4"><i class="fas fa-book mr-1"></i>5 sources</span>
+                                <span class="mr-4"><i class="fas fa-user mr-1"></i>Carla</span>
+                                <span><i class="fas fa-flag mr-1"></i>High priority</span>
+                            </div>
+                            <div class="w-48">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 30%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="content-supervisor-support" class="accordion-content">
+                        <div class="space-y-3">
+                            <div class="sub-item" onclick="selectItem('team-cultural', this)">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-clock text-yellow-500"></i>
+                                        <h4 class="font-medium">Team-based cultural learning</h4>
+                                    </div>
+                                    <span class="text-sm font-bold">50%</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2">Team-based approaches to cultural learning and competency development for supervisors</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-gray-500">2 sources • Medium priority</span>
+                                    <div class="w-20 progress-bar">
+                                        <div class="progress-fill" style="width: 50%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="sub-item" onclick="selectItem('supervisor-programs', this)">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-check-circle text-green-500"></i>
+                                        <h4 class="font-medium">Specific supervisor programs</h4>
+                                        <span class="comment-count">1</span>
+                                    </div>
+                                    <span class="text-sm font-bold">60%</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2">Specialised training and support programs for GP supervisors</p>
+                                <div class="mb-2">
+                                    <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded mr-1">RACGP Faculty</span>
+                                    <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">ACCHO Support</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-gray-500">3 sources • Medium priority</span>
+                                    <div class="w-20 progress-bar">
+                                        <div class="progress-fill" style="width: 60%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Support for Trainees -->
+                <div class="accordion-item priority-high">
+                    <div class="accordion-header" onclick="toggleAccordion('trainee-support')">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <i id="icon-trainee-support" class="fas fa-chevron-right text-blue-600 transition-transform"></i>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900">Support for Trainees</h3>
+                                    <p class="text-sm text-gray-600">Direct support mechanisms, resources and programs available to trainees</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <span class="comment-count">1 note</span>
+                                <span class="status-badge status-in-progress">IN PROGRESS</span>
+                                <span class="font-bold text-gray-700">40%</span>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex items-center justify-between">
+                            <div class="text-sm text-gray-600">
+                                <span class="mr-4"><i class="fas fa-book mr-1"></i>8 sources</span>
+                                <span class="mr-4"><i class="fas fa-user mr-1"></i>Carla</span>
+                                <span><i class="fas fa-flag mr-1"></i>High priority</span>
+                            </div>
+                            <div class="w-48">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 40%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="content-trainee-support" class="accordion-content">
+                        <div class="space-y-3">
+                            <div class="sub-item" onclick="selectItem('indigenous-curriculum', this)">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-check-circle text-green-500"></i>
+                                        <h4 class="font-medium">Indigenous health curriculum supports</h4>
+                                    </div>
+                                    <span class="text-sm font-bold">70%</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2">Curriculum components and educational resources focused on Indigenous health</p>
+                                <div class="mb-2">
+                                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">RACGP Curriculum</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-gray-500">4 sources • High priority</span>
+                                    <div class="w-20 progress-bar">
+                                        <div class="progress-fill" style="width: 70%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="sub-item" onclick="selectItem('clinical-frameworks', this)">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-clock text-yellow-500"></i>
+                                        <h4 class="font-medium">Clinical support frameworks for registrars</h4>
+                                    </div>
+                                    <span class="text-sm font-bold">45%</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2">Clinical support frameworks specifically designed for registrars</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-gray-500">3 sources • Medium priority</span>
+                                    <div class="w-20 progress-bar">
+                                        <div class="progress-fill" style="width: 45%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="sub-item" onclick="selectItem('mentorship-programs', this)">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-clock text-yellow-500"></i>
+                                        <h4 class="font-medium">Mentorship programs</h4>
+                                        <span class="comment-count">1</span>
+                                    </div>
+                                    <span class="text-sm font-bold">55%</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2">Formal and informal mentoring programs available to trainees</p>
+                                <div class="mb-2">
+                                    <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">RACGP ACRRM Programs</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-gray-500">2 sources • High priority</span>
+                                    <div class="w-20 progress-bar">
+                                        <div class="progress-fill" style="width: 55%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- The GP Training Lifecycle Experience -->
+                <div class="accordion-item priority-medium">
+                    <div class="accordion-header" onclick="toggleAccordion('lifecycle-experience')">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <i id="icon-lifecycle-experience" class="fas fa-chevron-right text-blue-600 transition-transform"></i>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900">The GP Training Lifecycle Experience</h3>
+                                    <p class="text-sm text-gray-600">The journey and experiences through the GP training pathway</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <span class="status-badge status-not-started">NOT STARTED</span>
+                                <span class="font-bold text-gray-700">20%</span>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex items-center justify-between">
+                            <div class="text-sm text-gray-600">
+                                <span class="mr-4"><i class="fas fa-book mr-1"></i>4 sources</span>
+                                <span class="mr-4"><i class="fas fa-user mr-1"></i>Carla</span>
+                                <span><i class="fas fa-flag mr-1"></i>Medium priority</span>
+                            </div>
+                            <div class="w-48">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 20%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="content-lifecycle-experience" class="accordion-content">
+                        <div class="space-y-3">
+                            <div class="sub-item" onclick="selectItem('cultural-compatibility', this)">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-circle text-gray-400"></i>
+                                        <h4 class="font-medium">Cultural compatibility of training posts</h4>
+                                    </div>
+                                    <span class="text-sm font-bold">15%</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2">Compatibility between cultural needs and available training posts</p>
+                                <div class="mb-2">
+                                    <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded">ACCHO Placements</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-gray-500">2 sources • Medium priority</span>
+                                    <div class="w-20 progress-bar">
+                                        <div class="progress-fill" style="width: 15%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="sub-item" onclick="selectItem('rural-placements', this)">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-circle text-gray-400"></i>
+                                        <h4 class="font-medium">Rural placements for cultural immersion</h4>
+                                    </div>
+                                    <span class="text-sm font-bold">25%</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2">Rural placement opportunities for cultural immersion and learning</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-gray-500">2 sources • Medium priority</span>
+                                    <div class="w-20 progress-bar">
+                                        <div class="progress-fill" style="width: 25%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trainees Challenges -->
+                <div class="accordion-item priority-high">
+                    <div class="accordion-header" onclick="toggleAccordion('trainee-challenges')">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <i id="icon-trainee-challenges" class="fas fa-chevron-right text-blue-600 transition-transform"></i>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900">Trainees Challenges</h3>
+                                    <p class="text-sm text-gray-600">Barriers, obstacles and challenges faced by trainees</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <span class="comment-count">2 notes</span>
+                                <span class="status-badge status-in-progress">IN PROGRESS</span>
+                                <span class="font-bold text-gray-700">35%</span>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex items-center justify-between">
+                            <div class="text-sm text-gray-600">
+                                <span class="mr-4"><i class="fas fa-book mr-1"></i>6 sources</span>
+                                <span class="mr-4"><i class="fas fa-user mr-1"></i>Carla</span>
+                                <span><i class="fas fa-flag mr-1"></i>High priority</span>
+                            </div>
+                            <div class="w-48">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 35%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="content-trainee-challenges" class="accordion-content">
+                        <div class="space-y-3">
+                            <div class="sub-item" onclick="selectItem('cultural-isolation', this)">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-clock text-yellow-500"></i>
+                                        <h4 class="font-medium">Cultural isolation in non-community placements</h4>
+                                        <span class="comment-count">1</span>
+                                    </div>
+                                    <span class="text-sm font-bold">40%</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2">Isolation experienced when placed in non-community healthcare settings</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-gray-500">3 sources • High priority</span>
+                                    <div class="w-20 progress-bar">
+                                        <div class="progress-fill" style="width: 40%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="sub-item" onclick="selectItem('limited-phc', this)">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-clock text-yellow-500"></i>
+                                        <h4 class="font-medium">Lack of comprehensive primary healthcare opportunities</h4>
+                                        <span class="comment-count">1</span>
+                                    </div>
+                                    <span class="text-sm font-bold">30%</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2">Limited access to comprehensive primary healthcare training opportunities</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-gray-500">3 sources • High priority</span>
+                                    <div class="w-20 progress-bar">
+                                        <div class="progress-fill" style="width: 30%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="w-80 bg-white shadow-lg">
+            <div class="p-6 border-b bg-blue-50">
+                <h3 class="font-bold text-gray-900 mb-4">Project Overview</h3>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span>Total Sources:</span>
+                        <span class="font-medium">19</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Project Lead:</span>
+                        <span class="font-medium">Carla</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Target Completion:</span>
+                        <span class="font-medium">Jan 2026</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Client:</span>
+                        <span class="font-medium">GPSA</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="selected-item" class="p-6" style="display: none;">
+                <h4 class="font-bold text-gray-900 mb-3">Selected Item</h4>
+                <div id="item-details"></div>
+            </div>
+            
+            <div class="p-6">
+                <h4 class="font-bold text-gray-900 mb-3">Quick Actions</h4>
+                <div class="space-y-2">
+                    <button onclick="generateReport()" class="w-full bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">
+                        <i class="fas fa-file-alt mr-2"></i>Generate Report
+                    </button>
+                    <button onclick="exportData()" class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+                        <i class="fas fa-download mr-2"></i>Export Data
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedItem = null;
+        
+        // Sample comments data
+        const comments = {
+            'supervisor-programs': [
+                'Strong evidence base for RACGP faculty programs - multiple sources confirm effectiveness.'
+            ],
+            'mentorship-programs': [
+                'Need to explore effectiveness of current mentoring programs and identify gaps.'
+            ],
+            'cultural-isolation': [
+                'This appears to be a significant barrier - need to explore how ACCHOs can provide more placement opportunities.'
+            ],
+            'limited-phc': [
+                'What specific barriers exist to accessing comprehensive PHC opportunities? Need to dig deeper into systemic issues.'
+            ]
+        };
+
+        function toggleAccordion(id) {
+            const content = document.getElementById('content-' + id);
+            const icon = document.getElementById('icon-' + id);
+            
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                content.classList.add('show');
+                icon.style.transform = 'rotate(90deg)';
+            }
+        }
+
+        function expandAll() {
+            const contents = document.querySelectorAll('.accordion-content');
+            const icons = document.querySelectorAll('.accordion-header i[id^="icon-"]');
+            
+            contents.forEach(content => content.classList.add('show'));
+            icons.forEach(icon => icon.style.transform = 'rotate(90deg)');
+        }
+
+        function collapseAll() {
+            const contents = document.querySelectorAll('.accordion-content');
+            const icons = document.querySelectorAll('.accordion-header i[id^="icon-"]');
+            
+            contents.forEach(content => content.classList.remove('show'));
+            icons.forEach(icon => icon.style.transform = 'rotate(0deg)');
+        }
+
+        function selectItem(itemId, element) {
+            // Remove previous selection
+            document.querySelectorAll('.sub-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Add selection to current item
+            element.classList.add('selected');
+            selectedItem = itemId;
+            
+            // Show item details
+            showItemDetails(itemId);
+        }
+
+        function showItemDetails(itemId) {
+            const sidebar = document.getElementById('selected-item');
+            const details = document.getElementById('item-details');
+            
+            // Get item data (this would come from your actual data structure)
+            const itemData = getItemData(itemId);
+            
+            details.innerHTML = `
+                <div class="space-y-3">
+                    <div>
+                        <h5 class="font-medium">${itemData.title}</h5>
+                        <p class="text-sm text-gray-600 mt-1">${itemData.description}</p>
+                    </div>
+                    <div class="text-sm">
+                        <div class="mb-2">Progress: ${itemData.progress}%</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${itemData.progress}%"></div>
+                        </div>
+                    </div>
+                    ${comments[itemId] ? `
+                        <div>
+                            <h6 class="font-medium text-sm mb-2">Research Notes:</h6>
+                            <div class="space-y-1">
+                                ${comments[itemId].map(comment => `
+                                    <div class="text-sm bg-gray-50 p-2 rounded">${comment}</div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            sidebar.style.display = 'block';
+        }
+
+        function getItemData(itemId) {
+            // This would normally come from your data structure
+            const data = {
+                'team-cultural': { title: 'Team-based cultural learning', description: 'Team-based approaches to cultural learning', progress: 50 },
+                'supervisor-programs': { title: 'Specific supervisor programs', description: 'Specialised training and support programs', progress: 60 },
+                'indigenous-curriculum': { title: 'Indigenous health curriculum supports', description: 'Curriculum components focused on Indigenous health', progress: 70 },
+                'clinical-frameworks': { title: 'Clinical support frameworks', description: 'Clinical support frameworks for registrars', progress: 45 },
+                'mentorship-programs': { title: 'Mentorship programs', description: 'Formal and informal mentoring programs', progress: 55 },
+                'cultural-compatibility': { title: 'Cultural compatibility of training posts', description: 'Compatibility between cultural needs and training posts', progress: 15 },
+                'rural-placements': { title: 'Rural placements for cultural immersion', description: 'Rural placement opportunities for cultural immersion', progress: 25 },
+                'cultural-isolation': { title: 'Cultural isolation in non-community placements', description: 'Isolation in non-community healthcare settings', progress: 40 },
+                'limited-phc': { title: 'Lack of comprehensive PHC opportunities', description: 'Limited access to comprehensive primary healthcare training', progress: 30 }
+            };
+            
+            return data[itemId] || { title: 'Unknown', description: '', progress: 0 };
+        }
+
+        function generateReport() {
+            const reportWindow = window.open('', '_blank', 'width=800,height=600');
+            reportWindow.document.write(`
+                <html>
+                <head>
+                    <title>First Nations GP Training Project Report</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 2cm; line-height: 1.6; }
+                        h1, h2 { color: #333; }
+                        .summary { background: #f0f9ff; padding: 1em; border-left: 4px solid #0ea5e9; margin: 1em 0; }
+                    </style>
+                </head>
+                <body>
+                    <h1>First Nations GP Training Scoping Project Report</h1>
+                    <p><strong>Generated:</strong> ${new Date().toLocaleDateString('en-AU')}</p>
+                    <p><strong>Project Lead:</strong> Carla</p>
+                    <p><strong>Client:</strong> General Practice Supervision Australia (GPSA)</p>
+                    
+                    <div class="summary">
+                        <h2>Executive Summary</h2>
+                        <p>This scoping study examines Aboriginal and Torres Strait Islander GP training supports and challenges across 4 key research areas, based on analysis of 19 sources. Overall project completion is at 35%.</p>
+                    </div>
+                    
+                    <h2>Research Areas Progress</h2>
+                    <ul>
+                        <li><strong>Support for GP Training Supervisors:</strong> 30% complete (In Progress)</li>
+                        <li><strong>Support for Trainees:</strong> 40% complete (In Progress)</li>
+                        <li><strong>The GP Training Lifecycle Experience:</strong> 20% complete (Not Started)</li>
+                        <li><strong>Trainees Challenges:</strong> 35% complete (In Progress)</li>
+                    </ul>
+                    
+                    <h2>Key Findings</h2>
+                    <ul>
+                        <li>Strong evidence base for RACGP Faculty programs</li>
+                        <li>Cultural isolation identified as significant barrier</li>
+                        <li>Need for more ACCHO placement opportunities</li>
+                        <li>Gaps in comprehensive PHC training access</li>
+                    </ul>
+                </body>
+                </html>
+            `);
+            reportWindow.document.close();
+        }
+
+        function exportData() {
+            const data = {
+                project: 'First Nations GP Training Scoping Project',
+                generated: new Date().toISOString(),
+                overall_progress: 35,
+                areas: [
+                    { name: 'Support for GP Training Supervisors', progress: 30, status: 'in_progress' },
+                    { name: 'Support for Trainees', progress: 40, status: 'in_progress' },
+                    { name: 'The GP Training Lifecycle Experience', progress: 20, status: 'not_started' },
+                    { name: 'Trainees Challenges', progress: 35, status: 'in_progress' }
+                ],
+                comments: comments
+            };
+            
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'first-nations-gp-training-project.json';
+            link.click();
+        }
+    </script>
+</body>
+</html>

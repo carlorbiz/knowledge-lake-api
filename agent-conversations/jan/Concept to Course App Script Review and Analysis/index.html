@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concept-to-Course: Australian Healthcare Education Tool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .hero-gradient { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        .transition-all { transition: all 0.3s ease; }
+        .status-critical { color: #dc2626; background-color: #fee2e2; }
+        .status-fixed { color: #059669; background-color: #d1fae5; }
+        .status-pending { color: #d97706; background-color: #fed7aa; }
+        .code-block { background-color: #1f2937; color: #f9fafb; border-radius: 8px; padding: 1rem; overflow-x: auto; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-graduation-cap text-blue-600 text-2xl mr-3"></i>
+                    <span class="text-xl font-bold text-gray-900">Concept-to-Course</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#overview" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Overview</a>
+                    <a href="#workflow" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Workflow</a>
+                    <a href="#fixes" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Critical Fixes</a>
+                    <a href="#deployment" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Deployment</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-5xl font-bold mb-6">Concept-to-Course</h1>
+            <p class="text-xl mb-8 max-w-3xl mx-auto">
+                AI-powered Google Apps Script tool for Australian healthcare education content generation,
+                compliant with RACGP and ACRRM standards, featuring comprehensive workflow integration
+                and Gemini 1.5 Pro API integration.
+            </p>
+            <div class="flex justify-center space-x-4">
+                <span class="bg-white/20 px-4 py-2 rounded-full text-sm font-medium">
+                    <i class="fas fa-check-circle mr-2"></i>10-Step Professional Workflow
+                </span>
+                <span class="bg-white/20 px-4 py-2 rounded-full text-sm font-medium">
+                    <i class="fas fa-robot mr-2"></i>Gemini 1.5 Pro Integration
+                </span>
+                <span class="bg-white/20 px-4 py-2 rounded-full text-sm font-medium">
+                    <i class="fas fa-flag mr-2"></i>Australian Standards Compliant
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Critical Status Alert -->
+    <section class="bg-red-50 border-l-4 border-red-400 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center">
+                <i class="fas fa-exclamation-triangle text-red-600 text-2xl mr-4"></i>
+                <div>
+                    <h3 class="text-lg font-semibold text-red-800">Critical Integration Required</h3>
+                    <p class="text-red-700">
+                        Workflow optimisation pending: LMS generation must be integrated into Step 4 (generateFullSuiteOfResources) 
+                        and voiceover scripts repositioned as Step 5 to maintain 10-step efficiency.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section id="overview" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">System Overview</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Comprehensive AI-powered course creation system preserving hundreds of hours of development work
+                    while maintaining Australian healthcare education standards.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="card-hover transition-all bg-gray-50 p-6 rounded-lg">
+                    <div class="text-center">
+                        <i class="fas fa-cogs text-4xl text-blue-600 mb-4"></i>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">10-Step Workflow</h3>
+                        <p class="text-gray-600">
+                            Setup → Recommendation → Workspace → Content → LMS → Slides → Voice → Audio → Maintenance → Archive
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card-hover transition-all bg-gray-50 p-6 rounded-lg">
+                    <div class="text-center">
+                        <i class="fas fa-table text-4xl text-green-600 mb-4"></i>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Sheet Structure</h3>
+                        <p class="text-gray-600">
+                            Mapping (config) → Module-Resources-{Concept} (tracking) → TTS-{Concept} (audio)
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card-hover transition-all bg-gray-50 p-6 rounded-lg">
+                    <div class="text-center">
+                        <i class="fas fa-file-pdf text-4xl text-red-600 mb-4"></i>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Native PDF Processing</h3>
+                        <p class="text-gray-600">
+                            Gemini API integration avoiding Adobe namespace DNS errors for robust document processing
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workflow Integration Section -->
+    <section id="workflow" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">Corrected Workflow Integration</h2>
+            
+            <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-lightbulb text-yellow-500 mr-3"></i>
+                    Key Insight: Workflow Efficiency Optimisation
+                </h3>
+                <div class="bg-blue-50 border-l-4 border-blue-400 p-6 mb-6">
+                    <p class="text-blue-800 font-semibold mb-2">User Requirement:</p>
+                    <p class="text-blue-700">
+                        "Shouldn't the generateAbsorbLmsFile function be incorporated in/run as part of the generateFullSuiteOfResources function? 
+                        If this is already happening, the createVoiceoverScripts should be menu #5, which makes better sense as this needs to be 
+                        run while the user is still on the Module-resources tab. This way we stay with a 10-step workflow for the user and 
+                        maximise the efficiency of the script."
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                        <h4 class="font-bold text-red-800 mb-3">❌ Previous Structure (Inefficient)</h4>
+                        <ul class="text-red-700 space-y-2 text-sm">
+                            <li>Step 4: generateFullSuiteOfResources</li>
+                            <li>Step 5: generateAbsorbLmsFile (separate menu)</li>
+                            <li>Step 6: generateVoiceoverScripts</li>
+                            <li class="font-semibold">Result: 11-step workflow, tab switching required</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                        <h4 class="font-bold text-green-800 mb-3">✅ Corrected Structure (Efficient)</h4>
+                        <ul class="text-green-700 space-y-2 text-sm">
+                            <li>Step 4: generateFullSuiteOfResources <span class="font-semibold">(includes LMS)</span></li>
+                            <li>Step 5: generateVoiceoverScripts <span class="font-semibold">(while on Module-Resources)</span></li>
+                            <li>Step 6-10: Continue normal workflow</li>
+                            <li class="font-semibold">Result: Maintains 10-step efficiency</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column Mapping Reference -->
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Sheet Column Mapping Reference</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div><strong>A:</strong> Concept</div>
+                    <div><strong>B:</strong> Resources Folder</div>
+                    <div><strong>C:</strong> Audience</div>
+                    <div><strong>D:</strong> Recommendation</div>
+                    <div><strong>E:</strong> Approved</div>
+                    <div><strong>F:</strong> Modification Requests</div>
+                    <div><strong>G:</strong> Module List</div>
+                    <div><strong>H-S:</strong> Individual Modules</div>
+                    <div><strong>T:</strong> Project Folder</div>
+                    <div><strong>I:</strong> LMS Content (Step 4)</div>
+                    <div><strong>Various:</strong> Voiceover Scripts (Step 5)</div>
+                    <div><strong>TTS Sheets:</strong> Audio Management</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Critical Fixes Section -->
+    <section id="fixes" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">Critical Fixes & Resolutions</h2>
+            
+            <div class="space-y-6">
+                <!-- TypeError Fix -->
+                <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                    <div class="flex items-start justify-between mb-4">
+                        <h3 class="text-xl font-bold text-gray-900 flex items-center">
+                            <span class="status-fixed px-3 py-1 rounded-full text-sm font-medium mr-3">FIXED</span>
+                            TypeError: Cannot read properties of undefined (reading 'errors')
+                        </h3>
+                    </div>
+                    <p class="text-gray-700 mb-4">
+                        <strong>Root Cause:</strong> collectAllSourceMaterials_ function ended abruptly at line 1963 with no return statement, 
+                        causing undefined returns that broke subsequent operations.
+                    </p>
+                    <div class="bg-gray-100 rounded p-4 text-sm">
+                        <strong>Solution:</strong> Complete function replacement with proper return structure: 
+                        <code>{text, errors, sources, pdfFiles}</code> with comprehensive error handling.
+                    </div>
+                </div>
+
+                <!-- Prompt Assignment Fix -->
+                <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                    <div class="flex items-start justify-between mb-4">
+                        <h3 class="text-xl font-bold text-gray-900 flex items-center">
+                            <span class="status-fixed px-3 py-1 rounded-full text-sm font-medium mr-3">FIXED</span>
+                            Missing mappingPrompt Assignment in Modification Workflow
+                        </h3>
+                    </div>
+                    <p class="text-gray-700 mb-4">
+                        <strong>Impact:</strong> Quality degradation in modification requests due to undefined prompt variables.
+                        Enhanced constants were defined but never assigned to actual prompt.
+                    </p>
+                    <div class="bg-gray-100 rounded p-4 text-sm">
+                        <strong>Solution:</strong> Added missing mappingPrompt assignment in modification workflow branch
+                        to preserve quality whilst maintaining format compatibility.
+                    </div>
+                </div>
+
+                <!-- Module Extraction Regression -->
+                <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                    <div class="flex items-start justify-between mb-4">
+                        <h3 class="text-xl font-bold text-gray-900 flex items-center">
+                            <span class="status-fixed px-3 py-1 rounded-full text-sm font-medium mr-3">FIXED</span>
+                            Module Extraction Function Regression
+                        </h3>
+                    </div>
+                    <p class="text-gray-700 mb-4">
+                        <strong>Discovery:</strong> Current extractModuleNames_ function was inferior to earlier superior implementation
+                        with robust pattern matching and multiple section stoppers.
+                    </p>
+                    <div class="bg-gray-100 rounded p-4 text-sm">
+                        <strong>Solution:</strong> Restored better earlier version with enhanced regex pattern matching
+                        and greedy fallback for reliable module extraction across different content formats.
+                    </div>
+                </div>
+
+                <!-- Workflow Integration -->
+                <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                    <div class="flex items-start justify-between mb-4">
+                        <h3 class="text-xl font-bold text-gray-900 flex items-center">
+                            <span class="status-pending px-3 py-1 rounded-full text-sm font-medium mr-3">PENDING</span>
+                            Workflow Integration Optimisation
+                        </h3>
+                    </div>
+                    <p class="text-gray-700 mb-4">
+                        <strong>Current State:</strong> LMS generation integrated into generateFullSuiteOfResources (Step 4),
+                        generateVoiceoverScripts repositioned as Step 5 for optimal workflow efficiency.
+                    </p>
+                    <div class="bg-yellow-100 border border-yellow-200 rounded p-4 text-sm">
+                        <strong>Next Action:</strong> Deploy corrected workflow integration and update menu structure
+                        to remove separate LMS menu item, maintaining 10-step efficiency.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Deployment Section -->
+    <section id="deployment" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">Deployment Instructions</h2>
+            
+            <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
+                <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                    <h3 class="font-bold text-red-800 mb-2 flex items-center">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        CRITICAL: Complete Workflow Integration Required
+                    </h3>
+                    <p class="text-red-700 text-sm">
+                        The corrected workflow integration (CORRECTED-WORKFLOW-INTEGRATION.js) must be deployed to 
+                        maintain the hundreds of hours of development work and ensure optimal user workflow efficiency.
+                    </p>
+                </div>
+
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Implementation Steps</h3>
+                
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-4 p-4 bg-blue-50 rounded-lg">
+                        <span class="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">1</span>
+                        <div>
+                            <h4 class="font-semibold text-blue-900">Deploy Enhanced generateFullSuiteOfResources</h4>
+                            <p class="text-blue-800 text-sm">Replace existing function with version that includes LMS content generation in column I</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4 p-4 bg-green-50 rounded-lg">
+                        <span class="bg-green-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">2</span>
+                        <div>
+                            <h4 class="font-semibold text-green-900">Reposition generateVoiceoverScripts</h4>
+                            <p class="text-green-800 text-sm">Update menu structure to make voiceover scripts Step 5, running while on Module-Resources tab</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4 p-4 bg-yellow-50 rounded-lg">
+                        <span class="bg-yellow-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">3</span>
+                        <div>
+                            <h4 class="font-semibold text-yellow-900">Remove Separate LMS Menu Item</h4>
+                            <p class="text-yellow-800 text-sm">Eliminate "Generate Absorb LMS Upload Doc" from menu since it's now integrated into Step 4</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4 p-4 bg-purple-50 rounded-lg">
+                        <span class="bg-purple-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">4</span>
+                        <div>
+                            <h4 class="font-semibold text-purple-900">Test Complete Workflow</h4>
+                            <p class="text-purple-800 text-sm">Verify all 10 steps function correctly with integrated LMS generation and repositioned voiceover scripts</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- File References -->
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">Key Files for Deployment</h3>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold mb-2">CORRECTED-WORKFLOW-INTEGRATION.js</h4>
+                        <p class="text-sm text-gray-600">Enhanced generateFullSuiteOfResources with LMS integration and repositioned voiceover scripts</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold mb-2">EMERGENCY-FIX-collectAllSourceMaterials.js</h4>
+                        <p class="text-sm text-gray-600">Complete replacement for broken collectAllSourceMaterials_ function</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold mb-2">CRITICAL-FIX-MISSING-PROMPT-ASSIGNMENT.js</h4>
+                        <p class="text-sm text-gray-600">Missing mappingPrompt assignment for modification workflow quality preservation</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold mb-2">RESTORED-BETTER-MODULE-EXTRACTION.js</h4>
+                        <p class="text-sm text-gray-600">Superior earlier version of extractModuleNames_ with robust pattern matching</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Concept-to-Course</h3>
+                    <p class="text-gray-400">
+                        AI-powered healthcare education tool maintaining Australian standards compliance
+                        with comprehensive workflow integration and quality preservation.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Key Features</h3>
+                    <ul class="text-gray-400 space-y-2">
+                        <li>RACGP & ACRRM Compliance</li>
+                        <li>Gemini 1.5 Pro Integration</li>
+                        <li>10-Step Efficient Workflow</li>
+                        <li>Native PDF Processing</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Development Status</h3>
+                    <ul class="text-gray-400 space-y-2">
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Critical TypeError Fixed</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Module Extraction Restored</li>
+                        <li><i class="fas fa-clock text-yellow-400 mr-2"></i>Workflow Integration Pending</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Quality Preservation Active</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">
+                    Healthcare Education Excellence | Australian Standards Compliance | 
+                    Preserving hundreds of hours of development work
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add some interactivity to cards
+        document.querySelectorAll('.card-hover').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.classList.add('shadow-md');
+            } else {
+                nav.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body>
+</html>

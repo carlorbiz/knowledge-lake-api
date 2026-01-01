@@ -1,0 +1,1525 @@
+// ==== C) Menu & UI ====
+
+/**
+ * AESTHETICALLY PLEASING "HOW TO USE" TAB CREATION
+ * Creates a visually engaging instruction sheet within Google Sheets limitations
+ */
+
+function createHowToUseTab_() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName('How to Use');
+  
+  if (sheet) {
+    sheet.clear();
+  } else {
+    sheet = ss.insertSheet('How to Use');
+  }
+  
+  // Set up the visual design
+  setupHowToUseDesign_(sheet);
+  
+  // Add content sections
+  addHowToUseContent_(sheet);
+  
+  // Apply final formatting
+  finaliseHowToUseFormatting_(sheet);
+  
+  return sheet;
+}
+
+function setupHowToUseDesign_(sheet) {
+  // Set column widths for optimal display
+  sheet.setColumnWidths(1, 1, 60);  // A: Narrow for icons/bullets
+  sheet.setColumnWidths(2, 1, 500); // B: Main content
+  sheet.setColumnWidths(3, 1, 200); // C: Status/notes
+  sheet.setColumnWidths(4, 1, 150); // D: Time estimates
+  
+  // Set row heights
+  sheet.setRowHeights(1, 5, 35);    // Header rows
+  sheet.setRowHeights(6, 50, 30);   // Content rows
+  
+  // Freeze header
+  sheet.setFrozenRows(5);
+}
+
+function addHowToUseContent_(sheet) {
+  const content = [
+    // Header Section (Rows 1-5)
+    ['🎓', 'CONCEPT-TO-COURSE PROFESSIONAL TOOL', 'STATUS', 'TIME'],
+    ['', 'Transform Healthcare Education Ideas into Complete Course Materials', '', ''],
+    ['', '', '', ''],
+    ['📋', 'WORKFLOW OVERVIEW', 'READY ✓', 'TOTAL: ~3-4 HRS'],
+    ['', 'Follow the numbered steps below for professional course development', '', ''],
+    
+    // Step-by-step content (Rows 6+)
+    ['', '', '', ''],
+    ['1️⃣', 'INITIAL SETUP & COURSE PLANNING', '', ''],
+    ['📝', 'Setup & Add First Course', 'Required', '10 min'],
+    ['', '• Define your course concept and target audience', '', ''],
+    ['', '• Specify source materials (Drive folders, documents, URLs)', '', ''],
+    ['', '• Set course folder location and slides template', '', ''],
+    ['', 'OUTCOME: Foundation established for course development', '', ''],
+    
+    ['', '', '', ''],
+    ['2️⃣', 'AI-POWERED COURSE STRUCTURE', '', ''],
+    ['🤖', 'Generate Course Recommendation', 'Required', '15 min'],
+    ['', '• AI analyses your materials and creates 8-12 module structure', '', ''],
+    ['', '• Generates professional recommendation document', '', ''],
+    ['', '• Includes Vancouver-style citations and Australian context', '', ''],
+    ['', 'OUTCOME: Complete course blueprint with justified module breakdown', '', ''],
+    
+    ['', '', '', ''],
+    ['3️⃣', 'WORKSPACE PREPARATION', '', ''],
+    ['📁', 'Create Content Tabs & Subfolders', 'Required', '5 min'],
+    ['', '• Creates organised folder structure in Google Drive', '', ''],
+    ['', '• Sets up content tracking worksheets', '', ''],
+    ['', '• Prepares TTS (text-to-speech) management system', '', ''],
+    ['', 'OUTCOME: Organised workspace ready for content generation', '', ''],
+    
+    ['', '', '', ''],
+    ['4️⃣', 'COMPREHENSIVE CONTENT DEVELOPMENT', '', ''],
+    ['📚', 'Generate Full Suite of Resources', 'Per Module', '45-60 min'],
+    ['', '• Module descriptions and learning objectives', '', ''],
+    ['', '• Key concepts and slide specifications (12 slides per module)', '', ''],
+    ['', '• Interactive scenarios for role-play exercises', '', ''],
+    ['', '• Comprehensive assessments with detailed rationales', '', ''],
+    ['', '• Professional downloadable resources with research', '', ''],
+    ['', 'OUTCOME: Complete educational content suite per module', '', ''],
+    
+    ['', '', '', ''],
+    ['5️⃣', 'LMS-READY CONTENT', '', ''],
+    ['🎯', 'Generate LMS Upload Document', 'Per Module', '10 min'],
+    ['', '• Creates Absorb LMS-compatible content document', '', ''],
+    ['', '• Maintains educational flow and engagement standards', '', ''],
+    ['', '• Includes interactive elements and assessment integration', '', ''],
+    ['', 'OUTCOME: Ready-to-upload LMS content package', '', ''],
+    
+    ['', '', '', ''],
+    ['6️⃣', 'PRESENTATION DEVELOPMENT', '', ''],
+    ['📊', 'Generate Slides for Module', 'Per Module', '15 min'],
+    ['', '• Creates professional slide presentations', '', ''],
+    ['', '• Choice of standard or executive summary formats', '', ''],
+    ['', '• Organised in Drive subfolder with automated naming', '', ''],
+    ['', 'OUTCOME: Presentation-ready slides for training delivery', '', ''],
+    
+    ['', '', '', ''],
+    ['7️⃣', 'VOICE CUSTOMISATION', '', ''],
+    ['🎤', 'Set Voiceover Artist', 'Optional', '2 min'],
+    ['', '• Select from 6 professional voice options', '', ''],
+    ['', '• Applies to all audio generation for consistent experience', '', ''],
+    ['', '• Australian-accented professional delivery', '', ''],
+    ['', 'OUTCOME: Personalised audio branding for your courses', '', ''],
+    
+    ['', '', '', ''],
+    ['8️⃣', 'PROFESSIONAL AUDIO NARRATION', '', ''],
+    ['🎵', 'Generate All Audio for Module', 'Per Module', '30-45 min'],
+    ['', '• High-quality AI voiceover for each slide', '', ''],
+    ['', '• Executive-level narration scripts', '', ''],
+    ['', '• Organised audio files ready for LMS integration', '', ''],
+    ['', 'OUTCOME: Complete narrated course content', '', ''],
+    
+    ['', '', '', ''],
+    ['9️⃣', 'MAINTENANCE & UPDATES', '', ''],
+    ['🧹', 'Clean Module Audio Files', 'As Needed', '2 min'],
+    ['', '• Removes outdated audio files from Drive storage', '', ''],
+    ['', '• Maintains organised project folders', '', ''],
+    ['', '• Clears audio links from tracking sheets', '', ''],
+    ['', 'OUTCOME: Clean workspace for fresh audio generation', '', ''],
+    
+    ['', '', '', ''],
+    ['🔟', 'PROJECT COMPLETION', '', ''],
+    ['📦', 'Archive Course Project', 'Per Course', '5 min'],
+    ['', '• Creates backup of all course materials', '', ''],
+    ['', '• Removes working tabs from main spreadsheet', '', ''],
+    ['', '• Prepares project folder for long-term storage', '', ''],
+    ['', 'OUTCOME: Professional course archive ready for delivery', '', ''],
+    
+    ['', '', '', ''],
+    ['', '', '', ''],
+    ['💡', 'PROFESSIONAL WORKFLOW TIPS', '', ''],
+    ['', '', '', ''],
+    ['✅', 'QUALITY CONTROL', '', ''],
+    ['', '• Review each module recommendation before proceeding', '', ''],
+    ['', '• Test sample slides and audio before full generation', '', ''],
+    ['', '• Keep source materials organised and accessible', '', ''],
+    ['', '• Use modification requests between steps for refinements', '', ''],
+    
+    ['', '', '', ''],
+    ['⚡', 'EFFICIENCY OPTIMISATION', '', ''],
+    ['', '• Complete steps 1-3 for all courses first (bulk setup)', '', ''],
+    ['', '• Generate resources in batches to maximise API efficiency', '', ''],
+    ['', '• Archive completed courses to maintain workspace clarity', '', ''],
+    ['', '• Maintain consistent folder naming for easy navigation', '', ''],
+    
+    ['', '', '', ''],
+    ['🔧', 'TROUBLESHOOTING SUPPORT', '', ''],
+    ['', '• Status sheet tracks all operations and progress', '', ''],
+    ['', '• Toast notifications provide real-time feedback', '', ''],
+    ['', '• Contact Carla for any configuration or error issues', '', ''],
+    ['', '• Setup wizard available for initial configuration', '', ''],
+    
+    ['', '', '', ''],
+    ['📞', 'TECHNICAL SUPPORT', 'CONTACT CARLA', ''],
+    ['', 'For configuration issues, script errors, or advanced customisation', '', ''],
+    ['', 'Users should focus on content creation, not technical troubleshooting', '', '']
+  ];
+  
+  // Write content to sheet
+  const range = sheet.getRange(1, 1, content.length, 4);
+  range.setValues(content);
+}
+
+function finaliseHowToUseFormatting_(sheet) {
+  const maxRow = sheet.getLastRow();
+  
+  // Header formatting (rows 1-5)
+  const headerRange = sheet.getRange(1, 1, 5, 4);
+  headerRange.setBackground('#1c4587').setFontColor('white').setFontWeight('bold').setFontSize(11);
+  
+  // Title row special formatting
+  sheet.getRange(1, 2).setFontSize(14).setFontWeight('bold');
+  sheet.getRange(2, 2).setFontSize(10).setFontStyle('italic');
+  
+  // Step number formatting (emoji rows)
+  const stepRows = [7, 15, 23, 31, 39, 47, 55, 63, 71, 79];
+  stepRows.forEach(row => {
+    if (row <= maxRow) {
+      const stepRange = sheet.getRange(row, 1, 1, 4);
+      stepRange.setBackground('#e8f0fe').setFontWeight('bold').setFontSize(12);
+    }
+  });
+  
+  // Main action rows formatting
+  const actionRows = [8, 16, 24, 32, 40, 48, 56, 64, 72, 80];
+  actionRows.forEach(row => {
+    if (row <= maxRow) {
+      const actionRange = sheet.getRange(row, 1, 1, 4);
+      actionRange.setBackground('#f1f3f4').setFontWeight('bold');
+      
+      // Status column conditional formatting
+      const statusCell = sheet.getRange(row, 3);
+      const statusValue = statusCell.getValue();
+      if (statusValue === 'Required') {
+        statusCell.setBackground('#fce8e6').setFontColor('#d93025');
+      } else if (statusValue === 'Per Module') {
+        statusCell.setBackground('#e8f0fe').setFontColor('#1a73e8');
+      } else if (statusValue === 'Optional') {
+        statusCell.setBackground('#e6f4ea').setFontColor('#137333');
+      }
+    }
+  });
+  
+  // Outcome rows formatting
+  for (let row = 1; row <= maxRow; row++) {
+    const cellValue = sheet.getRange(row, 2).getValue();
+    if (typeof cellValue === 'string' && cellValue.startsWith('OUTCOME:')) {
+      const outcomeRange = sheet.getRange(row, 2, 1, 2);
+      outcomeRange.setFontStyle('italic').setBackground('#f8f9fa').setFontColor('#5f6368');
+    }
+  }
+  
+  // Tips section formatting
+  const tipsStartRow = findRowByContent_(sheet, 'PROFESSIONAL WORKFLOW TIPS');
+  if (tipsStartRow > 0) {
+    const tipsHeaderRange = sheet.getRange(tipsStartRow, 1, 1, 4);
+    tipsHeaderRange.setBackground('#34a853').setFontColor('white').setFontWeight('bold');
+    
+    // Sub-sections in tips
+    const subSectionRows = [
+      findRowByContent_(sheet, 'QUALITY CONTROL'),
+      findRowByContent_(sheet, 'EFFICIENCY OPTIMISATION'),
+      findRowByContent_(sheet, 'TROUBLESHOOTING SUPPORT'),
+      findRowByContent_(sheet, 'TECHNICAL SUPPORT')
+    ].filter(row => row > 0);
+    
+    subSectionRows.forEach(row => {
+      const subRange = sheet.getRange(row, 1, 1, 4);
+      subRange.setBackground('#e8f5e8').setFontWeight('bold');
+    });
+  }
+  
+  // Add borders and final touches
+  const allContent = sheet.getRange(1, 1, maxRow, 4);
+  allContent.setBorder(true, true, true, true, false, false, '#dadce0', SpreadsheetApp.BorderStyle.SOLID);
+  
+  // Alternating row backgrounds for better readability
+  for (let row = 6; row <= maxRow; row += 2) {
+    if (!isSpecialFormattedRow_(sheet, row)) {
+      sheet.getRange(row, 1, 1, 4).setBackground('#fafafa');
+    }
+  }
+  
+  // Center align status and time columns
+  sheet.getRange(1, 3, maxRow, 2).setHorizontalAlignment('center');
+  
+  // Wrap text in main content column
+  sheet.getRange(1, 2, maxRow, 1).setWrap(true);
+  
+  // Final row height adjustments
+  sheet.setRowHeights(1, 2, 40);  // Title rows
+  sheet.setRowHeights(3, 1, 20);  // Spacer
+  sheet.setRowHeights(4, 2, 35);  // Overview
+}
+
+function findRowByContent_(sheet, searchText) {
+  const data = sheet.getDataRange().getValues();
+  for (let i = 0; i < data.length; i++) {
+    for (let j = 0; j < data[i].length; j++) {
+      if (typeof data[i][j] === 'string' && data[i][j].includes(searchText)) {
+        return i + 1; // Convert to 1-based row number
+      }
+    }
+  }
+  return -1;
+}
+
+function isSpecialFormattedRow_(sheet, row) {
+  const cellValue = sheet.getRange(row, 2).getValue();
+  if (typeof cellValue !== 'string') return false;
+  
+  return cellValue.includes('OUTCOME:') || 
+         cellValue.includes('WORKFLOW TIPS') ||
+         cellValue.includes('QUALITY CONTROL') ||
+         cellValue.includes('EFFICIENCY') ||
+         cellValue.includes('TROUBLESHOOTING') ||
+         cellValue.includes('TECHNICAL SUPPORT') ||
+         /^[1-9]️⃣/.test(sheet.getRange(row, 1).getValue());
+}
+
+// Function to refresh the How to Use tab (useful for updates)
+function refreshHowToUseTab() {
+  const ui = SpreadsheetApp.getUi();
+  const response = ui.alert(
+    'Refresh Instructions',
+    'This will update the "How to Use" tab with the latest formatting and content.\n\nContinue?',
+    ui.ButtonSet.YES_NO
+  );
+  
+  if (response === ui.Button.YES) {
+    createHowToUseTab_();
+    ui.alert('✓ How to Use tab refreshed successfully');
+  }
+}
+
+// ---- Menu initialisation ----
+function onOpen() {
+  const ui = SpreadsheetApp.getUi();
+  ui.createMenu('Concept-to-Course')
+      .addItem('#1 Setup & Add First Course', 'setupMappingTab')
+      .addItem('#2 Generate Course Recommendation', 'generateCourseRecommendation')
+      .addItem('#3 Create Content Tabs & Subfolders', 'createCourseContentTabs')
+      .addSeparator()
+      .addItem('#4 Generate Full Suite of Resources', 'generateFullSuiteOfResources')
+      .addItem('#5 Generate LMS Upload Doc', 'generateAbsorbLmsFile')
+      .addSeparator()
+      .addSubMenu(ui.createMenu('SLIDES & AUDIO')
+          .addItem('#6 Generate Slides for Module', 'generateSlidesForSelectedModule')
+          .addItem('#7 Set Voiceover Artist', 'setTtsVoice_')
+          .addItem('#8 Generate All Audio for Module', 'generateAllAudioForModule'))
+      .addSeparator()
+      .addSubMenu(ui.createMenu('DATA & ARCHIVAL')
+          .addItem('#9 Clean Module Audio Files', 'cleanModuleAudioFiles')
+          .addItem('#10 Archive Course Project', 'archiveCourse'))
+      .addToUi();
+}
+
+function addMenu_(menu, label, fnName) {
+  try {
+    if (typeof this[fnName] === 'function') menu.addItem(label, fnName);
+  } catch(_) { /* skip if missing */ }
+}
+/**
+ * COURSE CREATION WIZARD FOR CONCEPT-TO-COURSE
+ * Guides configured users through the complete course development workflow
+ * with intelligent progress tracking and contextual assistance
+ */
+
+// ==== COURSE CREATION WIZARD ====
+
+function launchCourseCreationWizard() {
+  const ui = SpreadsheetApp.getUi();
+  
+  // Verify system is configured
+  try {
+    CFG.validateConfiguration();
+  } catch (error) {
+    ui.alert(
+      'Configuration Required',
+      'The tool needs to be configured before creating courses.\n\n' +
+      'Please contact Carla for system setup, or run the Setup Wizard if you have administrator access.',
+      ui.ButtonSet.OK
+    );
+    return;
+  }
+  
+  // Welcome and course selection
+  const wizardChoice = ui.alert(
+    'Course Creation Wizard',
+    'Welcome to guided course development!\n\n' +
+    'This wizard will walk you through creating professional healthcare education courses from concept to completion.\n\n' +
+    'Choose your path:\n' +
+    'YES = Start a new course from scratch\n' +
+    'NO = Continue working on an existing course\n' +
+    'CANCEL = Exit wizard',
+    ui.ButtonSet.YES_NO_CANCEL
+  );
+  
+  if (wizardChoice === ui.Button.CANCEL) return;
+  
+  if (wizardChoice === ui.Button.YES) {
+    startNewCourseWizard_();
+  } else {
+    continueExistingCourseWizard_();
+  }
+}
+
+function startNewCourseWizard_() {
+  const ui = SpreadsheetApp.getUi();
+  
+  ui.alert(
+    'New Course Creation',
+    'Great! Let\'s create a new professional course.\n\n' +
+    'The wizard will guide you through each step, explain what to expect, and help you make quality decisions along the way.\n\n' +
+    'Estimated total time: 3-4 hours (spread across multiple sessions)\n' +
+    'You can stop and resume at any point.',
+    ui.ButtonSet.OK
+  );
+  
+  // Start with Step 1
+  executeWizardStep_(1, null);
+}
+
+function continueExistingCourseWizard_() {
+  const ui = SpreadsheetApp.getUi();
+  
+  // Detect existing courses and their progress
+  const courseStatus = analyseExistingCourses_();
+  
+  if (courseStatus.courses.length === 0) {
+    const startNew = ui.alert(
+      'No Existing Courses Found',
+      'I couldn\'t find any courses in progress.\n\n' +
+      'Would you like to start a new course instead?',
+      ui.ButtonSet.YES_NO
+    );
+    
+    if (startNew === ui.Button.YES) {
+      startNewCourseWizard_();
+    }
+    return;
+  }
+  
+  // Present course options
+  let message = 'Found courses in progress:\n\n';
+  courseStatus.courses.forEach((course, index) => {
+    message += `${index + 1}. "${course.name}" - ${course.status}\n`;
+  });
+  message += '\nWhich course would you like to continue?';
+  
+  const courseChoice = ui.prompt(
+    'Continue Existing Course',
+    message + '\n\nEnter the number (1, 2, etc.):',
+    ui.ButtonSet.OK_CANCEL
+  );
+  
+  if (courseChoice.getSelectedButton() !== ui.Button.OK) return;
+  
+  const selectedIndex = parseInt(courseChoice.getResponseText().trim()) - 1;
+  if (selectedIndex >= 0 && selectedIndex < courseStatus.courses.length) {
+    const selectedCourse = courseStatus.courses[selectedIndex];
+    continueWizardForCourse_(selectedCourse);
+  } else {
+    ui.alert('Invalid selection. Please try again.');
+  }
+}
+
+function executeWizardStep_(stepNumber, courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  switch (stepNumber) {
+    case 1:
+      return executeStep1_Setup_(courseContext);
+    case 2:
+      return executeStep2_Recommendation_(courseContext);
+    case 3:
+      return executeStep3_Workspace_(courseContext);
+    case 4:
+      return executeStep4_Content_(courseContext);
+    case 5:
+      return executeStep5_LMS_(courseContext);
+    case 6:
+      return executeStep6_Slides_(courseContext);
+    case 7:
+      return executeStep7_Voice_(courseContext);
+    case 8:
+      return executeStep8_Audio_(courseContext);
+    case 9:
+      return executeStep9_Maintenance_(courseContext);
+    case 10:
+      return executeStep10_Archive_(courseContext);
+    default:
+      ui.alert('Course Creation Complete!', 'Congratulations! Your professional course is ready for delivery.', ui.ButtonSet.OK);
+      return false;
+  }
+}
+
+// ==== STEP 1: SETUP & COURSE PLANNING ====
+
+function executeStep1_Setup_(courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  // Introduction to Step 1
+  ui.alert(
+    'Step 1: Setup & Course Planning',
+    'Time Required: ~10 minutes\n\n' +
+    'In this step, you\'ll:\n' +
+    '• Define your course concept clearly\n' +
+    '• Identify your target audience\n' +
+    '• Organise your source materials\n' +
+    '• Set up the foundation for AI analysis\n\n' +
+    'This step is crucial - good planning makes everything else smoother!',
+    ui.ButtonSet.OK
+  );
+  
+  // Navigate to Mapping sheet
+  navigateToSheet_('Mapping');
+  
+  ui.alert(
+    'Course Concept Definition',
+    'You\'re now on the Mapping sheet.\n\n' +
+    'WHAT TO DO NOW:\n' +
+    '1. Click on cell A2 (first empty row)\n' +
+    '2. Enter your course concept (e.g., "Clinical Supervision Excellence")\n' +
+    '3. Be specific and professional - this drives all AI generation\n\n' +
+    'TIPS:\n' +
+    '• Use clear, descriptive language\n' +
+    '• Think about your end goal\n' +
+    '• Consider your professional audience\n\n' +
+    'Click OK when you\'ve entered your course concept.',
+    ui.ButtonSet.OK
+  );
+  
+  // Validate course concept was entered
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const mappingSheet = ss.getSheetByName('Mapping');
+  const concept = mappingSheet.getRange('A2').getValue();
+  
+  if (!concept || String(concept).trim().length < 5) {
+    const retry = ui.alert(
+      'Course Concept Needed',
+      'I don\'t see a course concept in cell A2 yet.\n\n' +
+      'Would you like to:\n' +
+      'YES = Continue anyway (you can add it later)\n' +
+      'NO = Go back and add the concept now',
+      ui.ButtonSet.YES_NO
+    );
+    
+    if (retry === ui.Button.NO) {
+      return executeStep1_Setup_(courseContext);
+    }
+  }
+  
+  // Target audience selection
+  ui.alert(
+    'Target Audience Selection',
+    'Now let\'s define your target audience.\n\n' +
+    'WHAT TO DO NOW:\n' +
+    '1. Click on cell C2 (Target Audience column)\n' +
+    '2. Choose from: Clinical, Administrative, Combined, or Other\n' +
+    '3. This affects how the AI generates content tone and examples\n\n' +
+    'AUDIENCE GUIDE:\n' +
+    '• Clinical: Practicing healthcare professionals\n' +
+    '• Administrative: Healthcare managers and support staff\n' +
+    '• Combined: Mixed clinical and administrative learners\n' +
+    '• Other: Specify your unique audience\n\n' +
+    'Click OK when you\'ve selected your audience.',
+    ui.ButtonSet.OK
+  );
+  
+  // Source materials guidance
+  ui.alert(
+    'Source Materials Organisation',
+    'Now for the most important part - your source materials!\n\n' +
+    'WHAT TO DO NOW:\n' +
+    '1. Click on cell B2 (Course Drive Folder column)\n' +
+    '2. Add your PRIMARY source material:\n' +
+    '   - Google Drive folder URL (with all your documents)\n' +
+    '   - Single Google Doc URL\n' +
+    '   - Website URL with relevant content\n' +
+    '   - Or paste text content directly\n\n' +
+    'QUALITY TIP:\n' +
+    'Better source materials = better AI-generated courses!\n' +
+    'Include research, guidelines, existing content, and your expertise.\n\n' +
+    'Click OK when your primary source is added.',
+    ui.ButtonSet.OK
+  );
+  
+  // Additional sources
+  const additionalSources = ui.alert(
+    'Additional Source Materials',
+    'Do you have additional source materials to add?\n\n' +
+    'You can add multiple sources in rows B3, B4, etc.\n' +
+    'This gives the AI more context for better recommendations.\n\n' +
+    'YES = I\'ll add more sources now\n' +
+    'NO = I\'m ready to proceed with what I have',
+    ui.ButtonSet.YES_NO
+  );
+  
+  if (additionalSources === ui.Button.YES) {
+    ui.alert(
+      'Adding Additional Sources',
+      'WHAT TO DO NOW:\n' +
+      '1. Click on cells B3, B4, B5, etc. to add more sources\n' +
+      '2. Each row can contain:\n' +
+      '   - Another folder or document URL\n' +
+      '   - Website URLs with relevant content\n' +
+      '   - Additional text content\n\n' +
+      'ORGANISATION TIP:\n' +
+      'Keep related materials together and use clear, descriptive sources.\n\n' +
+      'Click OK when you\'re finished adding sources.',
+      ui.ButtonSet.OK
+    );
+  }
+  
+  // Completion and next step
+  const step1Complete = ui.alert(
+    'Step 1 Complete - Ready for AI Analysis!',
+    'Excellent! You\'ve set up the foundation:\n\n' +
+    '✓ Course concept defined\n' +
+    '✓ Target audience selected\n' +
+    '✓ Source materials organised\n\n' +
+    'WHAT HAPPENS NEXT:\n' +
+    'The AI will analyse your materials and create a professional course structure with 8-12 modules.\n\n' +
+    'Ready to proceed to Step 2: AI-Powered Course Structure?',
+    ui.ButtonSet.YES_NO
+  );
+  
+  if (step1Complete === ui.Button.YES) {
+    return executeWizardStep_(2, { concept: concept });
+  }
+  
+  return true; // Step completed, user can continue later
+}
+
+// ==== STEP 2: AI-POWERED COURSE STRUCTURE ====
+
+function executeStep2_Recommendation_(courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  ui.alert(
+    'Step 2: AI-Powered Course Structure',
+    'Time Required: ~15 minutes\n\n' +
+    'In this step, the AI will:\n' +
+    '• Analyse all your source materials\n' +
+    '• Create a professional course structure\n' +
+    '• Generate 8-12 logical learning modules\n' +
+    '• Provide educational justification\n' +
+    '• Include Vancouver-style citations\n\n' +
+    'This is where your source materials are transformed into a professional course blueprint!',
+    ui.ButtonSet.OK
+  );
+  
+  // Check if user is on correct row
+  const mappingSheet = ensureCorrectRow_('Mapping');
+  if (!mappingSheet) return false;
+  
+  ui.alert(
+    'Generate Course Recommendation',
+    'WHAT TO DO NOW:\n' +
+    '1. Ensure you\'re on the correct row with your course data\n' +
+    '2. From the menu, select: Concept-to-Course → #2 Generate Course Recommendation\n' +
+    '3. Wait for the AI analysis (this takes 2-3 minutes)\n' +
+    '4. A new Google Doc will be created with your course structure\n\n' +
+    'WHAT TO EXPECT:\n' +
+    '• Professional recommendation document\n' +
+    '• Detailed module breakdown with rationale\n' +
+    '• Research-backed educational design\n\n' +
+    'Click OK, then run the menu function.',
+    ui.ButtonSet.OK
+  );
+  
+  // Wait for completion and validate
+  const completed = waitForStepCompletion_('recommendation', 
+    'Waiting for AI Analysis...',
+    'The AI is analysing your materials and generating the course structure.\n' +
+    'This process takes 2-3 minutes.\n\n' +
+    'You\'ll see toast notifications showing progress.\n' +
+    'A new document will appear in your Drive folder when complete.'
+  );
+  
+  if (!completed) return false;
+  
+  // Review guidance
+  ui.alert(
+    'Review Your Course Structure',
+    'The AI has created your course recommendation!\n\n' +
+    'WHAT TO DO NOW:\n' +
+    '1. Open the new recommendation document from your Drive folder\n' +
+    '2. Review the proposed module structure carefully\n' +
+    '3. Check that modules flow logically\n' +
+    '4. Ensure the educational rationale makes sense\n\n' +
+    'QUALITY CHECK:\n' +
+    '• Do the 8-12 modules cover your topic comprehensively?\n' +
+    '• Is the learning progression logical?\n' +
+    '• Does each module justify its place in the course?\n\n' +
+    'Click OK when you\'ve reviewed the recommendation.',
+    ui.ButtonSet.OK
+  );
+  
+  // Modification option
+  const needsChanges = ui.alert(
+    'Course Structure Approval',
+    'How does the generated course structure look?\n\n' +
+    'YES = Perfect! Ready to proceed with this structure\n' +
+    'NO = Needs changes - I\'d like to request modifications',
+    ui.ButtonSet.YES_NO_CANCEL
+  );
+  
+  if (needsChanges === ui.Button.CANCEL) return false;
+  
+  if (needsChanges === ui.Button.NO) {
+    handleModificationRequest_();
+    // After modification, re-run this step
+    return executeStep2_Recommendation_(courseContext);
+  }
+  
+  // Success - proceed to next step
+  const step2Complete = ui.alert(
+    'Step 2 Complete - Course Structure Approved!',
+    'Excellent! Your course structure is approved:\n\n' +
+    '✓ AI analysis complete\n' +
+    '✓ Professional course structure created\n' +
+    '✓ Module breakdown approved\n\n' +
+    'WHAT HAPPENS NEXT:\n' +
+    'We\'ll set up organised workspaces for developing each module\'s content.\n\n' +
+    'Ready to proceed to Step 3: Workspace Preparation?',
+    ui.ButtonSet.YES_NO
+  );
+  
+  if (step2Complete === ui.Button.YES) {
+    return executeWizardStep_(3, courseContext);
+  }
+  
+  return true;
+}
+
+// ==== STEP 3: WORKSPACE PREPARATION ====
+
+function executeStep3_Workspace_(courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  ui.alert(
+    'Step 3: Workspace Preparation',
+    'Time Required: ~5 minutes\n\n' +
+    'This step creates your organised development workspace:\n' +
+    '• Individual folders for each module in Google Drive\n' +
+    '• Content tracking worksheets\n' +
+    '• Audio management system\n' +
+    '• Progress monitoring tools\n\n' +
+    'Think of this as setting up your professional course development office!',
+    ui.ButtonSet.OK
+  );
+  
+  ui.alert(
+    'Create Organised Workspace',
+    'WHAT TO DO NOW:\n' +
+    '1. Ensure you\'re on the correct row in the Mapping sheet\n' +
+    '2. From the menu, select: Concept-to-Course → #3 Create Content Tabs & Subfolders\n' +
+    '3. Wait for the workspace creation (about 1 minute)\n\n' +
+    'WHAT WILL BE CREATED:\n' +
+    '• Module subfolders in your Drive project folder\n' +
+    '• Module-Resources worksheet for tracking content\n' +
+    '• TTS worksheet for audio management\n' +
+    '• Organised structure for professional development\n\n' +
+    'Click OK, then run the menu function.',
+    ui.ButtonSet.OK
+  );
+  
+  const completed = waitForStepCompletion_('workspace',
+    'Creating Workspace...',
+    'Setting up your organised development environment.\n\n' +
+    'This creates all the folders and worksheets you\'ll need for professional course development.'
+  );
+  
+  if (!completed) return false;
+  
+  ui.alert(
+    'Explore Your New Workspace',
+    'Your development workspace is ready!\n\n' +
+    'WHAT TO EXPLORE:\n' +
+    '1. Check your Drive folder - you\'ll see new module subfolders\n' +
+    '2. Look at the new worksheet tabs in this spreadsheet\n' +
+    '3. Notice the organised structure for tracking progress\n\n' +
+    'WORKSPACE BENEFITS:\n' +
+    '• Each module has its own organised folder\n' +
+    '• Progress tracking keeps you on track\n' +
+    '• Audio files will be systematically organised\n' +
+    '• Professional project management built-in\n\n' +
+    'Click OK when you\'ve explored the workspace.',
+    ui.ButtonSet.OK
+  );
+  
+  const step3Complete = ui.alert(
+    'Step 3 Complete - Workspace Ready!',
+    'Perfect! Your development workspace is organised:\n\n' +
+    '✓ Module folders created in Drive\n' +
+    '✓ Content tracking worksheets ready\n' +
+    '✓ Audio management system prepared\n\n' +
+    'WHAT HAPPENS NEXT:\n' +
+    'We\'ll start generating comprehensive content for each module.\n' +
+    'This is where your course really comes to life!\n\n' +
+    'Ready to proceed to Step 4: Content Development?',
+    ui.ButtonSet.YES_NO
+  );
+  
+  if (step3Complete === ui.Button.YES) {
+    return executeWizardStep_(4, courseContext);
+  }
+  
+  return true;
+}
+
+// ==== STEP 4: COMPREHENSIVE CONTENT DEVELOPMENT ====
+
+function executeStep4_Content_(courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  ui.alert(
+    'Step 4: Comprehensive Content Development',
+    'Time Required: ~45-60 minutes per module\n\n' +
+    'This is the heart of course creation! For each module, you\'ll generate:\n' +
+    '• Detailed learning objectives and descriptions\n' +
+    '• Key concepts with practical applications\n' +
+    '• 12-slide presentation specifications\n' +
+    '• Interactive scenarios for role-play\n' +
+    '• Comprehensive assessments with rationales\n' +
+    '• Professional downloadable resources\n\n' +
+    'IMPORTANT: Complete one full module before starting the next!',
+    ui.ButtonSet.OK
+  );
+  
+  // Navigate to Module Resources sheet
+  const courseResourceSheet = findModuleResourcesSheet_();
+  if (!courseResourceSheet) {
+    ui.alert('Error', 'Cannot find Module Resources sheet. Please ensure Step 3 was completed successfully.', ui.ButtonSet.OK);
+    return false;
+  }
+  
+  navigateToSheet_(courseResourceSheet);
+  
+  ui.alert(
+    'Select Your First Module',
+    'You\'re now on the Module Resources worksheet.\n\n' +
+    'WHAT TO DO NOW:\n' +
+    '1. Click on row 2 (your first module)\n' +
+    '2. Review the module name - this is from your approved course structure\n' +
+    '3. This module will be your focus for the next 45-60 minutes\n\n' +
+    'PROFESSIONAL TIP:\n' +
+    'Complete one module completely (Steps 4-8) before starting another.\n' +
+    'This ensures quality and prevents confusion.\n\n' +
+    'Click OK when you\'ve selected your first module row.',
+    ui.ButtonSet.OK
+  );
+  
+  ui.alert(
+    'Generate Complete Module Content',
+    'WHAT TO DO NOW:\n' +
+    '1. Ensure you\'re on the module row you want to develop\n' +
+    '2. From the menu, select: Concept-to-Course → #4 Generate Full Suite of Resources\n' +
+    '3. Wait for content generation (this takes 15-20 minutes)\n\n' +
+    'WHAT WILL BE GENERATED:\n' +
+    '• Professional module description and learning objectives\n' +
+    '• Key concepts with healthcare context\n' +
+    '• Detailed 12-slide specifications\n' +
+    '• Interactive scenarios for workplace application\n' +
+    '• Comprehensive assessments with expert rationales\n' +
+    '• Research-backed downloadable resources\n\n' +
+    'Click OK, then run the menu function.',
+    ui.ButtonSet.OK
+  );
+  
+  const completed = waitForStepCompletion_('content',
+    'Generating Module Content...',
+    'The AI is creating comprehensive educational content for your module.\n\n' +
+    'This includes learning objectives, slide specs, scenarios, assessments, and downloadable resources.\n\n' +
+    'Process time: 15-20 minutes with progress notifications.'
+  );
+  
+  if (!completed) return false;
+  
+  ui.alert(
+    'Review Your Module Content',
+    'Your module content suite is complete!\n\n' +
+    'WHAT TO REVIEW:\n' +
+    '1. Module Description (Column C) - engaging and professional?\n' +
+    '2. Key Concepts (Column D) - comprehensive coverage?\n' +
+    '3. Slide Specifications (Column H) - logical flow and appropriate depth?\n' +
+    '4. Interactive Scenarios (Column E) - realistic workplace applications?\n' +
+    '5. Assessments (Column F) - appropriate difficulty and clear rationales?\n' +
+    '6. Downloadable Resources (Column G) - click link to review document\n\n' +
+    'QUALITY STANDARDS:\n' +
+    '• Content should meet professional healthcare education standards\n' +
+    '• All elements should align with learning objectives\n' +
+    '• Australian context and cultural safety throughout\n\n' +
+    'Click OK when you\'ve reviewed the content.',
+    ui.ButtonSet.OK
+  );
+  
+  // Quality check
+  const contentApproved = ui.alert(
+    'Content Quality Approval',
+    'How does the generated module content look?\n\n' +
+    'YES = Excellent! Ready to proceed with this content\n' +
+    'NO = Needs improvement - I\'d like to regenerate or modify\n\n' +
+    'Remember: It\'s better to get the content right now than fix it later!',
+    ui.ButtonSet.YES_NO_CANCEL
+  );
+  
+  if (contentApproved === ui.Button.CANCEL) return false;
+  
+  if (contentApproved === ui.Button.NO) {
+    ui.alert(
+      'Content Refinement',
+      'For content modifications:\n\n' +
+      '1. You can regenerate individual sections by running Step 4 again\n' +
+      '2. For major changes, consider modifying your source materials\n' +
+      '3. Contact Carla if you need help with specific improvements\n\n' +
+      'Would you like to try regenerating now, or continue with current content?',
+      ui.ButtonSet.OK
+    );
+    // Could add regeneration logic here
+  }
+  
+  const step4Complete = ui.alert(
+    'Step 4 Complete - Module Content Ready!',
+    'Outstanding! Your first module content is complete:\n\n' +
+    '✓ Professional module description and objectives\n' +
+    '✓ Comprehensive key concepts\n' +
+    '✓ Detailed slide specifications (12 slides)\n' +
+    '✓ Interactive workplace scenarios\n' +
+    '✓ Expert-level assessments\n' +
+    '✓ Research-backed downloadable resources\n\n' +
+    'WHAT HAPPENS NEXT:\n' +
+    'We\'ll create LMS-ready content for easy upload to your learning system.\n\n' +
+    'Ready to proceed to Step 5: LMS-Ready Content?',
+    ui.ButtonSet.YES_NO
+  );
+  
+  if (step4Complete === ui.Button.YES) {
+    return executeWizardStep_(5, courseContext);
+  }
+  
+  return true;
+}
+
+// ==== STEP 5: LMS-READY CONTENT ====
+
+function executeStep5_LMS_(courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  ui.alert(
+    'Step 5: LMS-Ready Content Creation',
+    'Time Required: ~10 minutes\n\n' +
+    'This step packages your module content for Learning Management Systems:\n' +
+    '• Converts slide specs into flowing narrative content\n' +
+    '• Adds interactive elements and engagement prompts\n' +
+    '• Creates proper navigation and progress indicators\n' +
+    '• Ensures accessibility compliance\n' +
+    '• Formats for Absorb LMS compatibility\n\n' +
+    'The result: Upload-ready content that maintains learner engagement!',
+    ui.ButtonSet.OK
+  );
+  
+  ui.alert(
+    'Generate LMS Upload Document',
+    'WHAT TO DO NOW:\n' +
+    '1. Ensure you\'re on the same module row from Step 4\n' +
+    '2. From the menu, select: Concept-to-Course → #5 Generate LMS Upload Doc\n' +
+    '3. Wait for document creation (about 2-3 minutes)\n\n' +
+    'WHAT WILL BE CREATED:\n' +
+    '• Comprehensive LMS-compatible document\n' +
+    '• Flowing narrative content from your slide specs\n' +
+    '• Interactive elements and learner engagement prompts\n' +
+    '• Professional online learning experience design\n\n' +
+    'Click OK, then run the menu function.',
+    ui.ButtonSet.OK
+  );
+  
+  const completed = waitForStepCompletion_('lms',
+    'Creating LMS Content...',
+    'Converting your professional slide specifications into engaging, LMS-ready content.\n\n' +
+    'This creates flowing narrative suitable for online learning platforms.'
+  );
+  
+  if (!completed) return false;
+  
+  ui.alert(
+    'Review LMS-Ready Content',
+    'Your LMS upload document is ready!\n\n' +
+    'WHAT TO REVIEW:\n' +
+    '1. Click the link in Column I to open the LMS document\n' +
+    '2. Read through as if you were a learner\n' +
+    '3. Check for smooth flow and engagement\n' +
+    '4. Verify interactive elements are well-placed\n' +
+    '5. Ensure content maintains professional tone\n\n' +
+    'QUALITY CHECK:\n' +
+    '• Does the content read smoothly online?\n' +
+    '• Are there enough engagement points to maintain attention?\n' +
+    '• Is the learning progression clear and logical?\n\n' +
+    'Click OK when you\'ve reviewed the LMS content.',
+    ui.ButtonSet.OK
+  );
+  
+  const step5Complete = ui.alert(
+    'Step 5 Complete - LMS Content Ready!',
+    'Excellent! Your module is ready for LMS upload:\n\n' +
+    '✓ Professional narrative content created\n' +
+    '✓ Interactive elements integrated\n' +
+    '✓ Absorb LMS compatibility ensured\n' +
+    '✓ Learner engagement optimised\n\n' +
+    'WHAT HAPPENS NEXT:\n' +
+    'We\'ll create professional slide presentations for instructor-led or self-paced delivery.\n\n' +
+    'Ready to proceed to Step 6: Slide Presentation Creation?',
+    ui.ButtonSet.YES_NO
+  );
+  
+  if (step5Complete === ui.Button.YES) {
+    return executeWizardStep_(6, courseContext);
+  }
+  
+  return true;
+}
+
+// ==== STEP 6: PRESENTATION DEVELOPMENT ====
+
+function executeStep6_Slides_(courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  ui.alert(
+    'Step 6: Professional Presentation Development',
+    'Time Required: ~15 minutes\n\n' +
+    'This step creates professional slide presentations:\n' +
+    '• Uses your configured Google Slides template\n' +
+    '• Creates 12 slides with professional content\n' +
+    '• Choice of detailed or executive summary formats\n' +
+    '• Organised storage in appropriate module folder\n' +
+    '• Ready for instructor-led or self-paced delivery\n\n' +
+    'Perfect for training sessions, webinars, or learner reference!',
+    ui.ButtonSet.OK
+  );
+  
+  ui.alert(
+    'Generate Professional Slides',
+    'WHAT TO DO NOW:\n' +
+    '1. Ensure you\'re on the same module row\n' +
+    '2. From the menu, select: Concept-to-Course → SLIDES & AUDIO → #6 Generate Slides for Module\n' +
+    '3. Choose your content format when prompted:\n' +
+    '   - Standard: Detailed content (recommended for most uses)\n' +
+    '   - Abbreviated: Executive summary format\n' +
+    '4. Wait for slide generation (about 3-5 minutes)\n\n' +
+    'TIP: Standard format works best for comprehensive training.',
+    ui.ButtonSet.OK
+  );
+  
+  const completed = waitForStepCompletion_('slides',
+    'Creating Professional Slides...',
+    'Generating your slide presentation using the configured template.\n\n' +
+    'This creates a complete 12-slide presentation ready for delivery.'
+  );
+  
+  if (!completed) return false;
+  
+  ui.alert(
+    'Review Your Presentation',
+    'Your slide presentation is complete!\n\n' +
+    'WHAT TO REVIEW:\n' +
+    '1. Open the presentation link from the completion message\n' +
+    '2. Review each slide for content and visual appeal\n' +
+    '3. Check slide progression and learning flow\n' +
+    '4. Ensure branding and template are applied correctly\n' +
+    '5. Verify content matches your quality standards\n\n' +
+    'PRESENTATION CHECKLIST:\n' +
+    '• Professional visual design throughout\n' +
+    '• Clear, readable content on each slide\n' +
+    '• Logical progression from slide to slide\n' +
+    '• Appropriate level of detail for your audience\n\n' +
+    'Click OK when you\'ve reviewed the presentation.',
+    ui.ButtonSet.OK
+  );
+  
+  const step6Complete = ui.alert(
+    'Step 6 Complete - Presentation Ready!',
+    'Fantastic! Your presentation is ready for delivery:\n\n' +
+    '✓ Professional 12-slide presentation created\n' +
+    '✓ Template branding applied consistently\n' +
+    '✓ Content optimised for your chosen format\n' +
+    '✓ Organised in appropriate Drive folder\n\n' +
+    'WHAT HAPPENS NEXT:\n' +
+    'Optional: We can set up voice customisation and generate professional audio narration.\n\n' +
+    'Ready to proceed to Step 7: Voice Customisation (Optional)?',
+    ui.ButtonSet.YES_NO
+  );
+  
+  if (step6Complete === ui.Button.YES) {
+    return executeWizardStep_(7, courseContext);
+  }
+  
+  return true;
+}
+
+// ==== STEP 7: VOICE CUSTOMISATION ====
+
+function executeStep7_Voice_(courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  const skipVoice = ui.alert(
+    'Step 7: Voice Customisation (Optional)',
+    'Time Required: ~2 minutes\n\n' +
+    'This optional step lets you customise the voice for audio narration:\n' +
+    '• Choose from 6 professional Australian voices\n' +
+    '• Apply consistent voice across all modules\n' +
+    '• Personalise your course audio branding\n\n' +
+    'Would you like to customise the voice, or use the default professional voice?\n\n' +
+    'YES = Customise voice selection\n' +
+    'NO = Skip and use default (Schedar - Female, Professional)',
+    ui.ButtonSet.YES_NO_CANCEL
+  );
+  
+  if (skipVoice === ui.Button.CANCEL) return false;
+  
+  if (skipVoice === ui.Button.YES) {
+    ui.alert(
+      'Voice Selection Process',
+      'WHAT TO DO NOW:\n' +
+      '1. From the menu, select: Concept-to-Course → SLIDES & AUDIO → #7 Set Voiceover Artist\n' +
+      '2. You\'ll see a list of available professional voices\n' +
+      '3. Enter the voice name when prompted (e.g., "Schedar", "Charon")\n' +
+      '4. The voice will be applied to all future audio generation\n\n' +
+      'VOICE OPTIONS:\n' +
+      '• Schedar: Female, even, professional (default)\n' +
+      '• Vindemiatrix: Female, gentle\n' +
+      '• Gacrux: Female, mature authority\n' +
+      '• Puck: Male, upbeat, engaging\n' +
+      '• Charon: Male, informative, deep\n' +
+      '• Orus: Male, firm, authoritative\n\n' +
+      'Click OK, then run the menu function.',
+      ui.ButtonSet.OK
+    );
+    
+    // Wait for voice selection
+    waitForStepCompletion_('voice',
+      'Setting Voice Preference...',
+      'Applying your voice selection for consistent audio branding across all modules.'
+    );
+  }
+  
+  const step7Complete = ui.alert(
+    'Step 7 Complete - Voice Configured!',
+    'Voice customisation complete:\n\n' +
+    '✓ Professional voice selected for audio narration\n' +
+    '✓ Consistent branding across all modules\n' +
+    '✓ Australian professional delivery ensured\n\n' +
+    'WHAT HAPPENS NEXT:\n' +
+    'Generate high-quality audio narration for your slide presentation.\n\n' +
+    'Ready to proceed to Step 8: Professional Audio Generation?',
+    ui.ButtonSet.YES_NO
+  );
+  
+  if (step7Complete === ui.Button.YES) {
+    return executeWizardStep_(8, courseContext);
+  }
+  
+  return true;
+}
+
+// ==== STEP 8: PROFESSIONAL AUDIO NARRATION ====
+
+function executeStep8_Audio_(courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  ui.alert(
+    'Step 8: Professional Audio Narration',
+    'Time Required: ~30-45 minutes\n\n' +
+    'This step creates professional voiceover for your presentation:\n' +
+    '• Executive-level narration scripts for each slide\n' +
+    '• High-quality AI voice with Australian professional delivery\n' +
+    '• WAV audio files organised in your module folder\n' +
+    '• Ready for LMS integration or presentation use\n\n' +
+    'The result: Fully narrated course content with professional audio quality!',
+    ui.ButtonSet.OK
+  );
+  
+  ui.alert(
+    'Generate Professional Audio',
+    'WHAT TO DO NOW:\n' +
+    '1. Ensure you\'re on the same module row\n' +
+    '2. From the menu, select: Concept-to-Course → SLIDES & AUDIO → #8 Generate All Audio for Module\n' +
+    '3. Wait for audio generation (this takes 20-30 minutes)\n' +
+    '4. Monitor progress through toast notifications\n\n' +
+    'WHAT WILL BE CREATED:\n' +
+    '• Professional voiceover script for each slide (12 total)\n' +
+    '• High-quality WAV audio files\n' +
+    '• Executive-level delivery suitable for senior professionals\n' +
+    '• Organised file storage with systematic naming\n\n' +
+    'Click OK, then run the menu function.',
+    ui.ButtonSet.OK
+  );
+  
+  const completed = waitForStepCompletion_('audio',
+    'Generating Professional Audio...',
+    'Creating executive-level voiceover narration for all slides.\n\n' +
+    'This process generates professional scripts and high-quality audio files.\n\n' +
+    'Time required: 20-30 minutes with progress updates.'
+  );
+  
+  if (!completed) return false;
+  
+  ui.alert(
+    'Review Audio Quality',
+    'Your professional audio narration is complete!\n\n' +
+    'WHAT TO REVIEW:\n' +
+    '1. Check your module folder in Google Drive for audio files\n' +
+    '2. Listen to a few sample files to verify quality\n' +
+    '3. Ensure voice and delivery meet your standards\n' +
+    '4. Verify all slides have corresponding audio files\n\n' +
+    'AUDIO QUALITY CHECKLIST:\n' +
+    '• Clear, professional delivery\n' +
+    '• Appropriate pace for learning\n' +
+    '• Consistent voice across all files\n' +
+    '• Executive-level tone and authority\n\n' +
+    'Click OK when you\'ve reviewed the audio quality.',
+    ui.ButtonSet.OK
+  );
+  
+  const moduleComplete = ui.alert(
+    'Module Development Complete!',
+    'Congratulations! Your first module is completely developed:\n\n' +
+    '✓ Professional content suite generated\n' +
+    '✓ LMS-ready content package created\n' +
+    '✓ Presentation slides with professional design\n' +
+    '✓ High-quality audio narration completed\n\n' +
+    'YOUR MODULE IS READY FOR DELIVERY!\n\n' +
+    'Do you want to:\n' +
+    'YES = Develop another module (repeat Steps 4-8)\n' +
+    'NO = Proceed to final course completion steps',
+    ui.ButtonSet.YES_NO_CANCEL
+  );
+  
+  if (moduleComplete === ui.Button.CANCEL) return false;
+  
+  if (moduleComplete === ui.Button.YES) {
+    // Return to Step 4 for next module
+    ui.alert(
+      'Develop Next Module',
+      'Excellent! Let\'s develop another module.\n\n' +
+      'WORKFLOW TIP:\n' +
+      'Select the next module row in your Module Resources sheet, then we\'ll repeat Steps 4-8 for comprehensive development.\n\n' +
+      'This ensures each module receives the same professional quality and attention to detail.',
+      ui.ButtonSet.OK
+    );
+    return executeWizardStep_(4, courseContext);
+  }
+  
+  // Proceed to maintenance/completion steps
+  return executeWizardStep_(9, courseContext);
+}
+
+// ==== STEP 9: MAINTENANCE & QUALITY CONTROL ====
+
+function executeStep9_Maintenance_(courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  const needsMaintenance = ui.alert(
+    'Step 9: Maintenance & Quality Control (Optional)',
+    'Time Required: ~2 minutes as needed\n\n' +
+    'This optional step helps maintain organised project files:\n' +
+    '• Clean outdated audio files\n' +
+    '• Remove superseded versions\n' +
+    '• Maintain folder organisation\n' +
+    '• Prepare for final course completion\n\n' +
+    'Do you need to clean up any outdated files?\n\n' +
+    'YES = Run cleanup process\n' +
+    'NO = Skip to final course completion',
+    ui.ButtonSet.YES_NO_CANCEL
+  );
+  
+  if (needsMaintenance === ui.Button.CANCEL) return false;
+  
+  if (needsMaintenance === ui.Button.YES) {
+    ui.alert(
+      'File Cleanup Process',
+      'WHAT TO DO NOW:\n' +
+      '1. Select the module row that needs cleanup\n' +
+      '2. From the menu, select: Concept-to-Course → DATA & ARCHIVAL → #9 Clean Module Audio Files\n' +
+      '3. Confirm the cleanup when prompted\n\n' +
+      'WHAT WILL BE CLEANED:\n' +
+      '• Outdated audio files moved to trash\n' +
+      '• Audio links cleared from tracking sheets\n' +
+      '• Clean workspace for fresh generation if needed\n\n' +
+      'Use this when you\'ve regenerated content and want to remove old versions.\n\n' +
+      'Click OK, then run the menu function if needed.',
+      ui.ButtonSet.OK
+    );
+  }
+  
+  return executeWizardStep_(10, courseContext);
+}
+
+// ==== STEP 10: PROFESSIONAL COURSE COMPLETION ====
+
+function executeStep10_Archive_(courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  const readyToComplete = ui.alert(
+    'Step 10: Professional Course Completion',
+    'Time Required: ~5 minutes\n\n' +
+    'Congratulations! You\'re ready to complete your professional course:\n' +
+    '• Archive all course materials for long-term storage\n' +
+    '• Create comprehensive backup spreadsheet\n' +
+    '• Clean main workspace for new course development\n' +
+    '• Prepare final deliverable package\n\n' +
+    'This creates a complete, professional course archive ready for delivery or storage.\n\n' +
+    'Are you ready to complete and archive this course?',
+    ui.ButtonSet.YES_NO_CANCEL
+  );
+  
+  if (readyToComplete !== ui.Button.YES) return false;
+  
+  ui.alert(
+    'Archive Course Project',
+    'WHAT TO DO NOW:\n' +
+    '1. Ensure you\'re on the correct course row in the Mapping sheet\n' +
+    '2. From the menu, select: Concept-to-Course → DATA & ARCHIVAL → #10 Archive Course Project\n' +
+    '3. Confirm archival when prompted\n\n' +
+    'WHAT WILL BE CREATED:\n' +
+    '• Complete backup spreadsheet with all course content\n' +
+    '• All materials preserved in your Drive project folder\n' +
+    '• Clean workspace ready for your next course\n' +
+    '• Professional archive suitable for delivery\n\n' +
+    'This is the final step - your course will be complete!\n\n' +
+    'Click OK, then run the menu function.',
+    ui.ButtonSet.OK
+  );
+  
+  const completed = waitForStepCompletion_('archive',
+    'Archiving Course...',
+    'Creating comprehensive backup and cleaning workspace for future projects.\n\n' +
+    'Your complete course archive will be ready in your Drive folder.'
+  );
+  
+  if (!completed) return false;
+  
+  // Final celebration
+  ui.alert(
+    '🎉 Course Creation Complete! 🎉',
+    'CONGRATULATIONS!\n\n' +
+    'You have successfully created a professional healthcare education course:\n\n' +
+    '✓ Complete course structure with 8-12 modules\n' +
+    '✓ Professional content suite for each module\n' +
+    '✓ LMS-ready content packages\n' +
+    '✓ Professional slide presentations\n' +
+    '✓ High-quality audio narration\n' +
+    '✓ Comprehensive course archive\n\n' +
+    'Your course materials are ready for:\n' +
+    '• LMS upload and delivery\n' +
+    '• Instructor-led training sessions\n' +
+    '• Professional development programs\n' +
+    '• Accreditation submissions\n\n' +
+    'NEXT STEPS:\n' +
+    '• Review final materials in your Drive folder\n' +
+    '• Upload to your LMS or delivery platform\n' +
+    '• Begin delivery to your professional audience\n\n' +
+    'Ready to create another course? Run the Course Creation Wizard again!',
+    ui.ButtonSet.OK
+  );
+  
+  return false; // Wizard complete
+}
+
+// ==== HELPER FUNCTIONS ====
+
+function analyseExistingCourses_() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const mappingSheet = ss.getSheetByName('Mapping');
+  
+  if (!mappingSheet) return { courses: [] };
+  
+  const courses = [];
+  const lastRow = mappingSheet.getLastRow();
+  
+  for (let row = 2; row <= lastRow; row++) {
+    const concept = mappingSheet.getRange(row, 1).getValue();
+    if (!concept) continue;
+    
+    // Determine status based on what exists
+    let status = 'Setup Complete';
+    
+    // Check if recommendation exists
+    const hasRecommendation = mappingSheet.getRange(row, 4).getValue();
+    if (hasRecommendation) status = 'Structure Created';
+    
+    // Check if workspace exists
+    const conceptName = String(concept).trim();
+    if (ss.getSheetByName(`Module-Resources-${conceptName}`)) {
+      status = 'Workspace Ready';
+    }
+    
+    // Check if content exists
+    const resourceSheet = ss.getSheetByName(`Module-Resources-${conceptName}`);
+    if (resourceSheet && resourceSheet.getLastRow() > 1) {
+      status = 'Content Development';
+    }
+    
+    courses.push({
+      name: conceptName,
+      row: row,
+      status: status
+    });
+  }
+  
+  return { courses: courses };
+}
+
+function continueWizardForCourse_(courseInfo) {
+  const ui = SpreadsheetApp.getUi();
+  
+  // Determine appropriate next step based on course status
+  let nextStep = 1;
+  
+  switch (courseInfo.status) {
+    case 'Setup Complete':
+      nextStep = 2;
+      break;
+    case 'Structure Created':
+      nextStep = 3;
+      break;
+    case 'Workspace Ready':
+      nextStep = 4;
+      break;
+    case 'Content Development':
+      nextStep = 5;
+      break;
+    default:
+      nextStep = 1;
+  }
+  
+  ui.alert(
+    `Continue Course: "${courseInfo.name}"`,
+    `Course status: ${courseInfo.status}\n\n` +
+    `I recommend continuing from Step ${nextStep}.\n\n` +
+    'The wizard will guide you through the remaining steps to complete your professional course development.',
+    ui.ButtonSet.OK
+  );
+  
+  // Navigate to appropriate sheet and row
+  const mappingSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Mapping');
+  mappingSheet.getRange(courseInfo.row, 1).activate();
+  
+  executeWizardStep_(nextStep, { concept: courseInfo.name });
+}
+
+function navigateToSheet_(sheetName) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName(sheetName);
+  if (sheet) {
+    ss.setActiveSheet(sheet);
+  }
+}
+
+function ensureCorrectRow_(sheetName) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName(sheetName);
+  if (!sheet) return null;
+  
+  // Ensure user is on a data row (not header)
+  const activeRange = sheet.getActiveRange();
+  if (!activeRange || activeRange.getRow() < 2) {
+    sheet.getRange('A2').activate();
+  }
+  
+  return sheet;
+}
+
+function findModuleResourcesSheet_() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheets = ss.getSheets();
+  
+  for (const sheet of sheets) {
+    if (sheet.getName().startsWith('Module-Resources-')) {
+      return sheet.getName();
+    }
+  }
+  
+  return null;
+}
+
+function waitForStepCompletion_(stepType, progressTitle, progressMessage) {
+  const ui = SpreadsheetApp.getUi();
+  
+  // Show progress dialog
+  ui.alert(
+    progressTitle,
+    progressMessage + '\n\nClick OK to continue when the process is complete.\n\n' +
+    'You\'ll see toast notifications showing progress, and a completion message when finished.',
+    ui.ButtonSet.OK
+  );
+  
+  // In a real implementation, this could poll for completion
+  // For now, we assume the user clicked OK after completion
+  return true;
+}
+
+function handleModificationRequest_() {
+  const ui = SpreadsheetApp.getUi();
+  
+  ui.alert(
+    'Request Course Structure Changes',
+    'To modify the course structure:\n\n' +
+    '1. In the Mapping sheet, find the "Modification Request" column\n' +
+    '2. Describe the specific changes you want\n' +
+    '3. Run the modification process from the menu\n' +
+    '4. Review the updated recommendation\n\n' +
+    'EXAMPLE REQUESTS:\n' +
+    '• "Combine modules 3 and 4 into one comprehensive module"\n' +
+    '• "Add a module on cultural safety considerations"\n' +
+    '• "Reorder modules to start with practical applications"\n\n' +
+    'Be specific about what changes you want to see.',
+    ui.ButtonSet.OK
+  );
+}
+
+// Add menu item for the wizard
+function addCourseWizardToMenu_() {
+  const ui = SpreadsheetApp.getUi();
+  
+  // This would be integrated into your existing onOpen function
+  ui.createMenu('🧙‍♂️ Course Wizard')
+      .addItem('🚀 Start Course Creation Wizard', 'launchCourseCreationWizard')
+      .addSeparator()
+      .addItem('📋 Check Course Progress', 'showCourseProgressSummary')
+      .addItem('🔄 Resume Course Development', 'continueExistingCourseWizard_')
+      .addToUi();
+}
+
+function showCourseProgressSummary() {
+  const ui = SpreadsheetApp.getUi();
+  const courseStatus = analyseExistingCourses_();
+  
+  if (courseStatus.courses.length === 0) {
+    ui.alert(
+      'No Courses Found',
+      'No courses found in development.\n\nUse the Course Creation Wizard to start your first course!',
+      ui.ButtonSet.OK
+    );
+    return;
+  }
+  
+  let summary = 'COURSE DEVELOPMENT PROGRESS:\n\n';
+  courseStatus.courses.forEach((course, index) => {
+    summary += `${index + 1}. "${course.name}"\n   Status: ${course.status}\n\n`;
+  });
+  
+  summary += 'Use "Resume Course Development" to continue any course.';
+  
+  ui.alert('Course Progress Summary', summary, ui.ButtonSet.OK);
+}

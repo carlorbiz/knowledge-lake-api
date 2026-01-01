@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Nations GP Training Project - Fully Functional</title>
+    
+    <style>
+        /* WordPress-compatible styles with full functionality */
+        * { box-sizing: border-box; }
+        .gp-container { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            line-height: 1.6;
+            background: #f8fafc;
+            padding: 20px;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* Loading overlay */
+        .gp-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .gp-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e5e7eb;
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Header */
+        .gp-header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .gp-header h1 {
+            color: #1e40af;
+            margin: 0 0 5px 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .gp-controls {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .gp-btn {
+            background: #3b82f6;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .gp-btn:hover { background: #2563eb; }
+        .gp-btn.secondary { background: #6b7280; }
+        .gp-btn.success { background: #10b981; }
+        .gp-btn.danger { background: #ef4444; }
+        
+        /* Accordion */
+        .gp-accordion-item {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .gp-accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            background: #f8fafc;
+            border: none;
+            width: 100%;
+            text-align: left;
+        }
+        
+        .gp-accordion-header:hover { background: #f1f5f9; }
+        
+        .gp-accordion-content {
+            display: none;
+            padding: 0 20px 20px 20px;
+        }
+        
+        .gp-accordion-content.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Sub-items */
+        .gp-sub-item {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .gp-sub-item:hover {
+            background: #f3f4f6;
+            border-color: #3b82f6;
+            transform: translateX(4px);
+        }
+        
+        .gp-sub-item.selected {
+            background: #eff6ff;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 1px #3b82f6;
+        }
+        
+        /* Progress bars */
+        .gp-progress-bar {
+            background: #e5e7eb;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .gp-progress-fill {
+            background: linear-gradient(90deg, #3b82f6 0%, #10b981 100%);
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        /* Forms */
+        .gp-form-group {
+            margin-bottom: 15px;
+        }
+        
+        .gp-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #374151;
+        }
+        
+        .gp-input, .gp-select, .gp-textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .gp-input:focus, .gp-select:focus, .gp-textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 1px #3b82f6;
+        }
+        
+        /* Modal */
+        .gp-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+        
+        .gp-modal-content {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .gp-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .gp-modal-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .gp-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6b7280;
+        }
+        
+        .gp-close:hover { color: #374151; }
+        
+        /* Comments */
+        .gp-comment {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .gp-comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .gp-comment-type {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .gp-comment-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .gp-btn-small {
+            padding: 4px 8px;
+            font-size: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .gp-btn-small.edit { background: #f59e0b; color: white; }
+        .gp-btn-small.delete { background: #ef4444; color: white; }
+        
+        /* Status badges */
+        .gp-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .gp-badge.status-not-started { background: #f3f4f6; color: #374151; }
+        .gp-badge.status-in-progress { background: #fef3c7; color: #92400e; }
+        .gp-badge.status-completed { background: #d1fae5; color: #065f46; }
+        .gp-badge.status-blocked { background: #fee2e2; color: #991b1b; }
+        
+        /* Sidebar */
+        .gp-main { display: flex; gap: 20px; flex-wrap: wrap; }
+        .gp-content { flex: 1; min-width: 300px; }
+        .gp-sidebar {
+            width: 300px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 20px;
+            height: fit-content;
+        }
+        
+        /* Notifications */
+        .gp-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 16px;
+            border-radius: 6px;
+            color: white;
+            font-size: 14px;
+            z-index: 1001;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .gp-notification.success { background: #10b981; }
+        .gp-notification.error { background: #ef4444; }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .gp-main { flex-direction: column; }
+            .gp-sidebar { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="gp-container">
+        <!-- Loading overlay -->
+        <div id="gp-loading" class="gp-loading">
+            <div>
+                <div class="gp-spinner"></div>
+                <p style="margin-top: 10px; text-align: center;">Loading project data...</p>
+            </div>
+        </div>
+        
+        <!-- Header -->
+        <div class="gp-header">
+            <h1>First Nations GP Training Scoping Project</h1>
+            <p style="color: #6b7280; margin: 0; font-size: 14px;">Interactive Project Management Tool - GPSA Consulting</p>
+            
+            <div class="gp-controls">
+                <div style="color: #374151; font-size: 14px; margin-right: 20px;">
+                    <strong>Overall Progress: <span id="gp-overall-progress">0%</span></strong>
+                </div>
+                <button class="gp-btn" onclick="gpExpandAll()">▼ Expand All</button>
+                <button class="gp-btn secondary" onclick="gpCollapseAll()">▲ Collapse All</button>
+                <button class="gp-btn success" onclick="gpGenerateReport()">📄 Generate Report</button>
+                <button class="gp-btn" onclick="gpSyncData()">🔄 Refresh Data</button>
+            </div>
+        </div>
+
+        <div class="gp-main">
+            <!-- Content -->
+            <div class="gp-content">
+                <!-- Project root will be loaded here -->
+                <div id="gp-project-root"></div>
+                
+                <!-- Research areas will be loaded here -->
+                <div id="gp-research-areas"></div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="gp-sidebar">
+                <div id="gp-project-overview"></div>
+                
+                <div id="gp-selected-item" style="display: none;">
+                    <h4>Selected Item</h4>
+                    <div id="gp-item-details"></div>
+                    
+                    <div style="margin-top: 20px;">
+                        <button class="gp-btn" onclick="gpEditItem()" style="width: 100%; margin-bottom: 8px;">✏️ Edit Progress</button>
+                        <button class="gp-btn success" onclick="gpAddComment()" style="width: 100%;">💬 Add Comment</button>
+                    </div>
+                </div>
+                
+                <div id="gp-comments-section" style="margin-top: 20px;">
+                    <h4>Research Notes</h4>
+                    <div id="gp-comments-list">
+                        <p style="text-align: center; color: #6b7280; font-size: 14px;">Select an item to view comments</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Item Modal -->
+        <div id="gp-edit-modal" class="gp-modal" style="display: none;">
+            <div class="gp-modal-content">
+                <div class="gp-modal-header">
+                    <h3>Edit Progress & Status</h3>
+                    <button class="gp-close" onclick="gpCloseEditModal()">&times;</button>
+                </div>
+                <form id="gp-edit-form">
+                    <div class="gp-form-group">
+                        <label class="gp-label">Progress Percentage</label>
+                        <input type="range" id="gp-progress-slider" class="gp-input" min="0" max="100" 
+                               oninput="document.getElementById('gp-progress-value').textContent = this.value + '%'">
+                        <div style="text-align: center; margin-top: 5px;">
+                            <span id="gp-progress-value">0%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="gp-form-group">
+                        <label class="gp-label">Status</label>
+                        <select id="gp-status-select" class="gp-select">
+                            <option value="not_started">Not Started</option>
+                            <option value="in_progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                            <option value="blocked">Blocked</option>
+                            <option value="deferred">Deferred</option>
+                        </select>
+                    </div>
+                    
+                    <div class="gp-form-group">
+                        <label class="gp-label">Priority</label>
+                        <select id="gp-priority-select" class="gp-select">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                        <button type="button" class="gp-btn secondary" onclick="gpCloseEditModal()">Cancel</button>
+                        <button type="submit" class="gp-btn">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Add Comment Modal -->
+        <div id="gp-comment-modal" class="gp-modal" style="display: none;">
+            <div class="gp-modal-content">
+                <div class="gp-modal-header">
+                    <h3>Add Research Note</h3>
+                    <button class="gp-close" onclick="gpCloseCommentModal()">&times;</button>
+                </div>
+                <form id="gp-comment-form">
+                    <div class="gp-form-group">
+                        <label class="gp-label">Comment Type</label>
+                        <select id="gp-comment-type" class="gp-select">
+                            <option value="observation">Observation</option>
+                            <option value="question">Research Question</option>
+                            <option value="source">Source Reference</option>
+                            <option value="recommendation">Recommendation</option>
+                            <option value="barrier">Identified Barrier</option>
+                            <option value="opportunity">Opportunity</option>
+                        </select>
+                    </div>
+                    
+                    <div class="gp-form-group">
+                        <label class="gp-label">Research Note</label>
+                        <textarea id="gp-comment-text" class="gp-textarea" rows="4" 
+                                  placeholder="Enter your research note, observation, or finding..."></textarea>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                        <button type="button" class="gp-btn secondary" onclick="gpCloseCommentModal()">Cancel</button>
+                        <button type="submit" class="gp-btn">Add Note</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let gpData = {
+            nodes: new Map(),
+            comments: new Map(),
+            selectedItem: null,
+            projectMetadata: {}
+        };
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', async function() {
+            await gpLoadData();
+            gpRenderInterface();
+            gpHideLoading();
+        });
+        
+        // API Functions
+        async function gpApiCall(endpoint, options = {}) {
+            try {
+                const response = await fetch(endpoint, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    },
+                    ...options
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`API call failed: ${response.status}`);
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error('API Error:', error);
+                gpShowNotification('Error communicating with server', 'error');
+                throw error;
+            }
+        }
+        
+        async function gpLoadData() {
+            try {
+                // Load nodes
+                const nodesResult = await gpApiCall('tables/mindmap_nodes?limit=100');
+                gpData.nodes.clear();
+                if (nodesResult.data) {
+                    nodesResult.data.forEach(node => {
+                        gpData.nodes.set(node.id, node);
+                    });
+                }
+                
+                // Load comments
+                const commentsResult = await gpApiCall('tables/node_comments?limit=1000');
+                gpData.comments.clear();
+                if (commentsResult.data) {
+                    commentsResult.data.forEach(comment => {
+                        if (!gpData.comments.has(comment.node_id)) {
+                            gpData.comments.set(comment.node_id, []);
+                        }
+                        gpData.comments.get(comment.node_id).push(comment);
+                    });
+                }
+                
+                // Load project metadata
+                try {
+                    gpData.projectMetadata = await gpApiCall('tables/project_metadata/project_1');
+                } catch (error) {
+                    console.log('Project metadata not found, using defaults');
+                    gpData.projectMetadata = {
+                        project_name: 'First Nations GP Training Scoping Project',
+                        project_lead: 'Carla',
+                        target_completion: '2026-01-31',
+                        total_sources: 19,
+                        overall_progress: 35
+                    };
+                }
+                
+                console.log('Data loaded successfully');
+            } catch (error) {
+                console.error('Error loading data:', error);
+                gpShowNotification('Failed to load project data', 'error');
+            }
+        }
+        
+        async function gpSaveNode(nodeData) {
+            try {
+                gpShowLoading();
+                
+                const result = await gpApiCall(`tables/mindmap_nodes/${nodeData.id}`, {
+                    method: 'PATCH',
+                    body: JSON.stringify(nodeData)
+                });
+                
+                // Update local data
+                gpData.nodes.set(nodeData.id, {...gpData.nodes.get(nodeData.id), ...nodeData});
+                
+                // Update overall progress
+                await gpUpdateOverallProgress();
+                
+                gpShowNotification('Progress updated successfully', 'success');
+                return result;
+            } catch (error) {
+                gpShowNotification('Failed to save progress', 'error');
+                throw error;
+            } finally {
+                gpHideLoading();
+            }
+        }
+        
+        async function gpSaveComment(commentData) {
+            try {
+                gpShowLoading();
+                
+                const result = await gpApiCall('tables/node_comments', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        ...commentData,
+                        timestamp: new Date().toISOString(),
+                        author: 'Carla',
+                        is_resolved: false
+                    })
+                });
+                
+                // Update local data
+                if (!gpData.comments.has(commentData.node_id)) {
+                    gpData.comments.set(commentData.node_id, []);
+                }
+                gpData.comments.get(commentData.node_id).push(result);
+                
+                gpShowNotification('Research note added successfully', 'success');
+                return result;
+            } catch (error) {
+                gpShowNotification('Failed to save research note', 'error');
+                throw error;
+            } finally {
+                gpHideLoading();
+            }
+        }
+        
+        async function gpDeleteComment(commentId, nodeId) {
+            try {
+                gpShowLoading();
+                
+                await gpApiCall(`tables/node_comments/${commentId}`, {
+                    method: 'DELETE'
+                });
+                
+                // Update local data
+                const comments = gpData.comments.get(nodeId) || [];
+                const filtered = comments.filter(c => c.id !== commentId);
+                gpData.comments.set(nodeId, filtered);
+                
+                gpShowNotification('Research note deleted', 'success');
+            } catch (error) {
+                gpShowNotification('Failed to delete research note', 'error');
+                throw error;
+            } finally {
+                gpHideLoading();
+            }
+        }
+        
+        async function gpUpdateOverallProgress() {
+            const nodes = Array.from(gpData.nodes.values());
+            const totalProgress = nodes.reduce((sum, node) => sum + (node.completion_percentage || 0), 0);
+            const overallProgress = Math.round(totalProgress / nodes.length);
+            
+            document.getElementById('gp-overall-progress').textContent = overallProgress + '%';
+            
+            // Update project metadata
+            try {
+                await gpApiCall('tables/project_metadata/project_1', {
+                    method: 'PATCH',
+                    body: JSON.stringify({ overall_progress: overallProgress })
+                });
+            } catch (error) {
+                console.log('Could not update project metadata');
+            }
+        }
+        
+        // Interface Functions
+        function gpRenderInterface() {
+            gpRenderProjectOverview();
+            gpRenderProjectRoot();
+            gpRenderResearchAreas();
+        }
+        
+        function gpRenderProjectOverview() {
+            const overview = document.getElementById('gp-project-overview');
+            const metadata = gpData.projectMetadata;
+            
+            overview.innerHTML = `
+                <div style="background: #f0f9ff; padding: 16px; border-radius: 6px; margin-bottom: 20px;">
+                    <h3 style="margin: 0 0 15px 0; font-weight: 600;">Project Overview</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 14px;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Total Sources:</span>
+                            <strong>${metadata.total_sources || 19}</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Project Lead:</span>
+                            <strong>${metadata.project_lead || 'Carla'}</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Target Date:</span>
+                            <strong>Jan 2026</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Client:</span>
+                            <strong>GPSA</strong>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function gpRenderProjectRoot() {
+            const container = document.getElementById('gp-project-root');
+            const rootNode = Array.from(gpData.nodes.values()).find(n => n.parent_id === null);
+            const overallProgress = gpData.projectMetadata.overall_progress || 35;
+            
+            container.innerHTML = `
+                <div style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; padding: 24px; border-radius: 8px; margin-bottom: 20px;">
+                    <h2 style="margin: 0 0 10px 0; font-size: 20px; font-weight: bold;">
+                        ${rootNode ? rootNode.title : 'Aboriginal and Torres Strait Islander GP Training Supports and Challenges'}
+                    </h2>
+                    <p style="margin: 0 0 15px 0; opacity: 0.9; font-size: 14px;">
+                        ${rootNode ? rootNode.description : 'Comprehensive scoping study based on 19 sources examining training supports and challenges'}
+                    </p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px; margin-bottom: 8px;">
+                        <span>Overall Project Progress</span>
+                        <strong>${overallProgress}% Complete</strong>
+                    </div>
+                    <div class="gp-progress-bar" style="background: rgba(255,255,255,0.2);">
+                        <div class="gp-progress-fill" style="background: white; width: ${overallProgress}%"></div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function gpRenderResearchAreas() {
+            const container = document.getElementById('gp-research-areas');
+            const areas = Array.from(gpData.nodes.values()).filter(n => n.level === 1);
+            
+            container.innerHTML = areas.map(area => gpCreateAreaHTML(area)).join('');
+        }
+        
+        function gpCreateAreaHTML(area) {
+            const subareas = Array.from(gpData.nodes.values()).filter(n => n.parent_id === area.id);
+            const commentCount = (gpData.comments.get(area.id) || []).length;
+            const totalSubareaComments = subareas.reduce((sum, sub) => sum + (gpData.comments.get(sub.id) || []).length, 0);
+            const totalComments = commentCount + totalSubareaComments;
+            
+            const statusClasses = {
+                'not_started': 'status-not-started',
+                'in_progress': 'status-in-progress',
+                'completed': 'status-completed',
+                'blocked': 'status-blocked',
+                'deferred': 'status-deferred'
+            };
+            
+            return `
+                <div class="gp-accordion-item">
+                    <button class="gp-accordion-header" onclick="gpToggleAccordion('${area.id}', this)" 
+                            style="border-left: 4px solid ${gpGetPriorityColor(area.priority)};">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; gap: 15px;">
+                            <div style="display: flex; align-items: flex-start; gap: 12px;">
+                                <span id="chevron-${area.id}" style="color: #3b82f6; font-size: 16px; margin-top: 2px; transition: transform 0.2s;">▶</span>
+                                <div>
+                                    <h3 style="margin: 0 0 5px 0; font-size: 18px; font-weight: 600; color: #111827;">${area.title}</h3>
+                                    <p style="margin: 0; font-size: 14px; color: #6b7280;">${area.description}</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                                ${totalComments > 0 ? `<span class="gp-badge" style="background: #dbeafe; color: #1e40af;">${totalComments} notes</span>` : ''}
+                                <span class="gp-badge ${statusClasses[area.status] || 'status-not-started'}">${(area.status || 'not_started').replace('_', ' ').toUpperCase()}</span>
+                                <span style="font-weight: 600; color: #374151; min-width: 35px;">${area.completion_percentage || 0}%</span>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; gap: 20px;">
+                            <div style="font-size: 14px; color: #6b7280; display: flex; gap: 16px;">
+                                <span>📚 ${area.source_count || 0} sources</span>
+                                <span>👤 ${area.assigned_to || 'Unassigned'}</span>
+                                <span>🔥 ${(area.priority || 'medium').charAt(0).toUpperCase() + (area.priority || 'medium').slice(1)} priority</span>
+                            </div>
+                            
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div class="gp-progress-bar" style="width: 120px; height: 6px;">
+                                    <div class="gp-progress-fill" style="width: ${area.completion_percentage || 0}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </button>
+                    <div id="content-${area.id}" class="gp-accordion-content">
+                        ${subareas.map(subarea => gpCreateSubareaHTML(subarea)).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function gpCreateSubareaHTML(subarea) {
+            const comments = gpData.comments.get(subarea.id) || [];
+            const statusIcons = {
+                'not_started': '⚪',
+                'in_progress': '🕒',
+                'completed': '✅',
+                'blocked': '🚫',
+                'deferred': '⏸️'
+            };
+            
+            return `
+                <div class="gp-sub-item" onclick="gpSelectItem('${subarea.id}', this)">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 14px;">${statusIcons[subarea.status] || '⚪'}</span>
+                            <h4 style="font-weight: 600; color: #111827; margin: 0; font-size: 15px;">${subarea.title}</h4>
+                            ${comments.length > 0 ? `<span class="gp-badge" style="background: #dbeafe; color: #1e40af; font-size: 10px;">${comments.length}</span>` : ''}
+                        </div>
+                        <span style="font-weight: 600; color: #374151;">${subarea.completion_percentage || 0}%</span>
+                    </div>
+                    
+                    <p style="color: #6b7280; font-size: 14px; margin: 0 0 12px 0;">${subarea.description}</p>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 12px; color: #9ca3af;">${subarea.source_count || 0} sources • ${(subarea.priority || 'medium').charAt(0).toUpperCase() + (subarea.priority || 'medium').slice(1)} priority</span>
+                        <div class="gp-progress-bar" style="width: 60px; height: 6px;">
+                            <div class="gp-progress-fill" style="width: ${subarea.completion_percentage || 0}%"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Event Handlers
+        function gpToggleAccordion(id, button) {
+            const content = document.getElementById('content-' + id);
+            const chevron = document.getElementById('chevron-' + id);
+            
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                chevron.style.transform = 'rotate(0deg)';
+                chevron.textContent = '▶';
+            } else {
+                content.classList.add('show');
+                chevron.style.transform = 'rotate(90deg)';
+                chevron.textContent = '▼';
+            }
+        }
+
+        function gpExpandAll() {
+            document.querySelectorAll('.gp-accordion-content').forEach(content => {
+                content.classList.add('show');
+            });
+            document.querySelectorAll('[id^="chevron-"]').forEach(chevron => {
+                chevron.style.transform = 'rotate(90deg)';
+                chevron.textContent = '▼';
+            });
+        }
+
+        function gpCollapseAll() {
+            document.querySelectorAll('.gp-accordion-content').forEach(content => {
+                content.classList.remove('show');
+            });
+            document.querySelectorAll('[id^="chevron-"]').forEach(chevron => {
+                chevron.style.transform = 'rotate(0deg)';
+                chevron.textContent = '▶';
+            });
+        }
+
+        function gpSelectItem(itemId, element) {
+            // Remove previous selection
+            document.querySelectorAll('.gp-sub-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Add selection to current item
+            element.classList.add('selected');
+            gpData.selectedItem = gpData.nodes.get(itemId);
+            
+            // Show item details
+            gpShowItemDetails(gpData.selectedItem);
+            gpLoadItemComments(itemId);
+        }
+
+        function gpShowItemDetails(item) {
+            const sidebar = document.getElementById('gp-selected-item');
+            const details = document.getElementById('gp-item-details');
+            
+            if (!item) return;
+
+            details.innerHTML = `
+                <div>
+                    <h5 style="margin: 0 0 8px 0; font-weight: 600;">${item.title}</h5>
+                    <p style="margin: 0 0 12px 0; font-size: 14px; color: #6b7280;">${item.description}</p>
+                </div>
+                
+                <div style="margin: 12px 0;">
+                    <div style="font-size: 14px; color: #6b7280; margin-bottom: 4px;">Progress: ${item.completion_percentage || 0}%</div>
+                    <div class="gp-progress-bar">
+                        <div class="gp-progress-fill" style="width: ${item.completion_percentage || 0}%"></div>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 14px; color: #6b7280;">
+                    <div>Status: <strong>${(item.status || 'not_started').replace('_', ' ')}</strong></div>
+                    <div>Priority: <strong>${item.priority || 'medium'}</strong></div>
+                    <div>Sources: <strong>${item.source_count || 0}</strong></div>
+                    <div>Assigned: <strong>${item.assigned_to || 'Unassigned'}</strong></div>
+                </div>
+            `;
+            
+            sidebar.style.display = 'block';
+        }
+
+        function gpLoadItemComments(itemId) {
+            const comments = gpData.comments.get(itemId) || [];
+            const container = document.getElementById('gp-comments-list');
+            
+            if (comments.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #6b7280; font-size: 14px;">No research notes yet.<br>Click "Add Comment" to add one.</p>';
+                return;
+            }
+
+            container.innerHTML = comments.map(comment => `
+                <div class="gp-comment">
+                    <div class="gp-comment-header">
+                        <span class="gp-comment-type">${comment.comment_type.toUpperCase()}</span>
+                        <div class="gp-comment-actions">
+                            <button class="gp-btn-small delete" onclick="gpDeleteCommentConfirm('${comment.id}', '${itemId}')">Delete</button>
+                        </div>
+                    </div>
+                    <p style="margin: 0; font-size: 14px; color: #374151;">${comment.comment_text}</p>
+                    <div style="margin-top: 8px; font-size: 12px; color: #9ca3af; display: flex; justify-content: space-between;">
+                        <span>${comment.author || 'Carla'}</span>
+                        <span>${gpFormatDate(comment.timestamp)}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Modal Functions
+        function gpEditItem() {
+            if (!gpData.selectedItem) return;
+            
+            const modal = document.getElementById('gp-edit-modal');
+            const item = gpData.selectedItem;
+            
+            document.getElementById('gp-progress-slider').value = item.completion_percentage || 0;
+            document.getElementById('gp-progress-value').textContent = (item.completion_percentage || 0) + '%';
+            document.getElementById('gp-status-select').value = item.status || 'not_started';
+            document.getElementById('gp-priority-select').value = item.priority || 'medium';
+            
+            modal.style.display = 'flex';
+        }
+
+        function gpCloseEditModal() {
+            document.getElementById('gp-edit-modal').style.display = 'none';
+        }
+
+        function gpAddComment() {
+            if (!gpData.selectedItem) return;
+            
+            document.getElementById('gp-comment-modal').style.display = 'flex';
+            document.getElementById('gp-comment-text').focus();
+        }
+
+        function gpCloseCommentModal() {
+            document.getElementById('gp-comment-modal').style.display = 'none';
+            document.getElementById('gp-comment-form').reset();
+        }
+
+        // Form Handlers
+        document.getElementById('gp-edit-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!gpData.selectedItem) return;
+            
+            const newData = {
+                completion_percentage: parseInt(document.getElementById('gp-progress-slider').value),
+                status: document.getElementById('gp-status-select').value,
+                priority: document.getElementById('gp-priority-select').value
+            };
+            
+            try {
+                await gpSaveNode(newData);
+                gpCloseEditModal();
+                gpRenderInterface();
+                gpShowItemDetails(gpData.selectedItem);
+            } catch (error) {
+                console.error('Error saving item:', error);
+            }
+        });
+
+        document.getElementById('gp-comment-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!gpData.selectedItem) return;
+            
+            const commentData = {
+                node_id: gpData.selectedItem.id,
+                comment_type: document.getElementById('gp-comment-type').value,
+                comment_text: document.getElementById('gp-comment-text').value.trim()
+            };
+            
+            if (!commentData.comment_text) return;
+            
+            try {
+                await gpSaveComment(commentData);
+                gpCloseCommentModal();
+                gpLoadItemComments(gpData.selectedItem.id);
+                gpRenderInterface(); // Refresh to show updated comment counts
+            } catch (error) {
+                console.error('Error saving comment:', error);
+            }
+        });
+
+        // Utility Functions
+        function gpGetPriorityColor(priority) {
+            const colors = {
+                'high': '#ef4444',
+                'medium': '#f59e0b',
+                'low': '#6b7280'
+            };
+            return colors[priority] || colors.medium;
+        }
+
+        function gpFormatDate(dateString) {
+            if (!dateString) return 'Unknown date';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-AU');
+        }
+
+        function gpDeleteCommentConfirm(commentId, nodeId) {
+            if (confirm('Are you sure you want to delete this research note?')) {
+                gpDeleteComment(commentId, nodeId).then(() => {
+                    gpLoadItemComments(nodeId);
+                    gpRenderInterface(); // Refresh to show updated comment counts
+                });
+            }
+        }
+
+        function gpShowNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `gp-notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 3000);
+        }
+
+        function gpShowLoading() {
+            document.getElementById('gp-loading').style.display = 'flex';
+        }
+
+        function gpHideLoading() {
+            document.getElementById('gp-loading').style.display = 'none';
+        }
+
+        async function gpSyncData() {
+            await gpLoadData();
+            gpRenderInterface();
+            gpShowNotification('Data refreshed successfully', 'success');
+        }
+
+        function gpGenerateReport() {
+            const nodes = Array.from(gpData.nodes.values());
+            const areas = nodes.filter(n => n.level === 1);
+            const totalComments = Array.from(gpData.comments.values()).flat().length;
+            
+            const reportWindow = window.open('', '_blank', 'width=800,height=600');
+            reportWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>First Nations GP Training Project Report</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 2cm; line-height: 1.6; }
+                        h1, h2 { color: #333; }
+                        .summary { background: #f0f9ff; padding: 1em; border-left: 4px solid #0ea5e9; margin: 1em 0; }
+                        .area { margin-bottom: 2em; padding: 1em; border: 1px solid #ddd; border-radius: 4px; }
+                    </style>
+                </head>
+                <body>
+                    <h1>First Nations GP Training Scoping Project Report</h1>
+                    <p><strong>Generated:</strong> ${new Date().toLocaleDateString('en-AU')}</p>
+                    <p><strong>Project Lead:</strong> ${gpData.projectMetadata.project_lead || 'Carla'}</p>
+                    <p><strong>Client:</strong> General Practice Supervision Australia (GPSA)</p>
+                    
+                    <div class="summary">
+                        <h2>Executive Summary</h2>
+                        <p>This scoping study examines Aboriginal and Torres Strait Islander GP training supports and challenges across ${areas.length} key research areas, based on analysis of ${gpData.projectMetadata.total_sources || 19} sources. Overall project completion is at ${gpData.projectMetadata.overall_progress || 0}%.</p>
+                        <ul>
+                            <li><strong>Total Research Areas:</strong> ${areas.length}</li>
+                            <li><strong>Total Research Notes:</strong> ${totalComments}</li>
+                            <li><strong>Target Completion:</strong> January 2026</li>
+                        </ul>
+                    </div>
+                    
+                    <h2>Research Areas Progress</h2>
+                    ${areas.map(area => `
+                        <div class="area">
+                            <h3>${area.title} (${area.completion_percentage || 0}% complete)</h3>
+                            <p><strong>Status:</strong> ${(area.status || 'not_started').replace('_', ' ')} | <strong>Priority:</strong> ${area.priority || 'medium'} | <strong>Sources:</strong> ${area.source_count || 0}</p>
+                            <p>${area.description}</p>
+                            ${(gpData.comments.get(area.id) || []).length > 0 ? `
+                                <h4>Research Notes:</h4>
+                                <ul>
+                                    ${(gpData.comments.get(area.id) || []).map(comment => `
+                                        <li><strong>${comment.comment_type}:</strong> ${comment.comment_text}</li>
+                                    `).join('')}
+                                </ul>
+                            ` : ''}
+                        </div>
+                    `).join('')}
+                </body>
+                </html>
+            `);
+            reportWindow.document.close();
+        }
+    </script>
+</body>
+</html>

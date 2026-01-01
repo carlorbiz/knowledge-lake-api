@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Nations GP Training Project - WordPress Compatible</title>
+    
+    <!-- Inline CSS to avoid CDN dependency issues -->
+    <style>
+        /* Reset and base styles */
+        * { box-sizing: border-box; }
+        .gp-training-container { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            line-height: 1.6;
+            background: #f8fafc;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        .gp-header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .gp-header h1 {
+            color: #1e40af;
+            margin: 0 0 5px 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .gp-header p {
+            color: #6b7280;
+            margin: 0;
+            font-size: 14px;
+        }
+        
+        .gp-controls {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .gp-progress-info {
+            color: #374151;
+            font-size: 14px;
+            margin-right: 20px;
+        }
+        
+        .gp-btn {
+            background: #3b82f6;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .gp-btn:hover { background: #2563eb; }
+        .gp-btn.secondary { background: #6b7280; }
+        .gp-btn.secondary:hover { background: #4b5563; }
+        .gp-btn.success { background: #10b981; }
+        .gp-btn.success:hover { background: #059669; }
+        
+        /* Main layout */
+        .gp-main {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .gp-content {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .gp-sidebar {
+            width: 300px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 20px;
+            height: fit-content;
+        }
+        
+        /* Project root */
+        .gp-root {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .gp-root h2 {
+            margin: 0 0 10px 0;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .gp-root p {
+            margin: 0 0 15px 0;
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .gp-root-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .gp-progress-bar {
+            background: rgba(255,255,255,0.2);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .gp-progress-fill {
+            background: white;
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        /* Accordion */
+        .gp-accordion-item {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        
+        .gp-accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            background: #f8fafc;
+            transition: background-color 0.2s;
+            border: none;
+            width: 100%;
+            text-align: left;
+        }
+        
+        .gp-accordion-header:hover {
+            background: #f1f5f9;
+        }
+        
+        .gp-accordion-header.priority-high {
+            border-left: 4px solid #ef4444;
+        }
+        
+        .gp-accordion-header.priority-medium {
+            border-left: 4px solid #f59e0b;
+        }
+        
+        .gp-accordion-header.priority-low {
+            border-left: 4px solid #6b7280;
+        }
+        
+        .gp-header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            gap: 15px;
+        }
+        
+        .gp-header-left {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .gp-chevron {
+            color: #3b82f6;
+            font-size: 16px;
+            margin-top: 2px;
+            transition: transform 0.2s;
+        }
+        
+        .gp-chevron.expanded {
+            transform: rotate(90deg);
+        }
+        
+        .gp-header-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #111827;
+        }
+        
+        .gp-header-info p {
+            margin: 0;
+            font-size: 14px;
+            color: #6b7280;
+        }
+        
+        .gp-header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .gp-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .gp-badge.status-not-started { background: #f3f4f6; color: #374151; }
+        .gp-badge.status-in-progress { background: #fef3c7; color: #92400e; }
+        .gp-badge.status-completed { background: #d1fae5; color: #065f46; }
+        .gp-badge.status-blocked { background: #fee2e2; color: #991b1b; }
+        
+        .gp-badge.comment-count {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .gp-header-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .gp-meta-info {
+            font-size: 14px;
+            color: #6b7280;
+            display: flex;
+            gap: 16px;
+        }
+        
+        .gp-progress-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .gp-progress-bar.small {
+            width: 120px;
+            height: 6px;
+            background: #e5e7eb;
+        }
+        
+        .gp-progress-bar.small .gp-progress-fill {
+            background: linear-gradient(90deg, #3b82f6 0%, #10b981 100%);
+        }
+        
+        .gp-percentage {
+            font-weight: 600;
+            color: #374151;
+            min-width: 35px;
+        }
+        
+        /* Accordion content */
+        .gp-accordion-content {
+            display: none;
+            padding: 0 20px 20px 20px;
+        }
+        
+        .gp-accordion-content.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Sub-items */
+        .gp-sub-item {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .gp-sub-item:hover {
+            background: #f3f4f6;
+            border-color: #3b82f6;
+            transform: translateX(4px);
+        }
+        
+        .gp-sub-item.selected {
+            background: #eff6ff;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 1px #3b82f6;
+        }
+        
+        .gp-sub-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .gp-sub-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .gp-status-icon {
+            font-size: 14px;
+        }
+        
+        .gp-status-icon.not-started { color: #9ca3af; }
+        .gp-status-icon.in-progress { color: #f59e0b; }
+        .gp-status-icon.completed { color: #10b981; }
+        .gp-status-icon.blocked { color: #ef4444; }
+        
+        .gp-sub-title {
+            font-weight: 600;
+            color: #111827;
+            margin: 0;
+            font-size: 15px;
+        }
+        
+        .gp-sub-description {
+            color: #6b7280;
+            font-size: 14px;
+            margin: 0 0 12px 0;
+        }
+        
+        .gp-programs {
+            margin-bottom: 12px;
+        }
+        
+        .gp-program-tag {
+            background: #e0f2fe;
+            color: #0891b2;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            margin-right: 6px;
+            margin-bottom: 4px;
+            display: inline-block;
+        }
+        
+        .gp-sub-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .gp-sub-meta {
+            font-size: 12px;
+            color: #9ca3af;
+        }
+        
+        /* Sidebar styles */
+        .gp-sidebar h3, .gp-sidebar h4 {
+            color: #111827;
+            margin: 0 0 15px 0;
+            font-weight: 600;
+        }
+        
+        .gp-overview {
+            background: #f0f9ff;
+            padding: 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        
+        .gp-overview-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: 14px;
+        }
+        
+        .gp-overview-item {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .gp-selected-item {
+            display: none;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            margin-top: 20px;
+        }
+        
+        .gp-selected-item.show {
+            display: block;
+        }
+        
+        .gp-item-progress {
+            margin: 12px 0;
+        }
+        
+        .gp-item-progress-label {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+        
+        .gp-comments {
+            margin-top: 16px;
+        }
+        
+        .gp-comment {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #374151;
+        }
+        
+        .gp-actions {
+            margin-top: 20px;
+        }
+        
+        .gp-actions .gp-btn {
+            width: 100%;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .gp-main {
+                flex-direction: column;
+            }
+            
+            .gp-sidebar {
+                width: 100%;
+            }
+            
+            .gp-header-main {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .gp-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .gp-btn {
+                text-align: center;
+            }
+        }
+        
+        /* WordPress compatibility fixes */
+        .gp-training-container p {
+            margin-bottom: 0 !important;
+        }
+        
+        .gp-training-container h1,
+        .gp-training-container h2,
+        .gp-training-container h3,
+        .gp-training-container h4 {
+            margin-top: 0 !important;
+        }
+        
+        .gp-training-container * {
+            box-sizing: border-box !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="gp-training-container">
+        <!-- Header -->
+        <div class="gp-header">
+            <h1>First Nations GP Training Scoping Project</h1>
+            <p>Interactive Project Management Tool - GPSA Consulting</p>
+            
+            <div class="gp-controls">
+                <div class="gp-progress-info">
+                    <strong>Overall Progress: 35%</strong>
+                </div>
+                <button class="gp-btn" onclick="gpExpandAll()">▼ Expand All</button>
+                <button class="gp-btn secondary" onclick="gpCollapseAll()">▲ Collapse All</button>
+                <button class="gp-btn success" onclick="gpGenerateReport()">📄 Generate Report</button>
+            </div>
+        </div>
+
+        <div class="gp-main">
+            <!-- Content -->
+            <div class="gp-content">
+                <!-- Project Root -->
+                <div class="gp-root">
+                    <h2>Aboriginal and Torres Strait Islander GP Training Supports and Challenges</h2>
+                    <p>Comprehensive scoping study based on 19 sources examining training supports and challenges for Aboriginal and Torres Strait Islander GP trainees and supervisors</p>
+                    <div class="gp-root-progress">
+                        <span>Overall Project Progress</span>
+                        <strong>35% Complete</strong>
+                    </div>
+                    <div class="gp-progress-bar">
+                        <div class="gp-progress-fill" style="width: 35%"></div>
+                    </div>
+                </div>
+
+                <!-- Research Areas -->
+                <div class="gp-areas">
+                    <!-- Support for GP Training Supervisors -->
+                    <div class="gp-accordion-item">
+                        <button class="gp-accordion-header priority-high" onclick="gpToggleAccordion('supervisor-support', this)">
+                            <div class="gp-header-main">
+                                <div class="gp-header-left">
+                                    <span class="gp-chevron">▶</span>
+                                    <div class="gp-header-info">
+                                        <h3>Support for GP Training Supervisors</h3>
+                                        <p>Programs, resources and institutional support available for GP training supervisors</p>
+                                    </div>
+                                </div>
+                                <div class="gp-header-right">
+                                    <span class="gp-badge comment-count">2 notes</span>
+                                    <span class="gp-badge status-in-progress">In Progress</span>
+                                    <span class="gp-percentage">30%</span>
+                                </div>
+                            </div>
+                            <div class="gp-header-meta">
+                                <div class="gp-meta-info">
+                                    <span>📚 5 sources</span>
+                                    <span>👤 Carla</span>
+                                    <span>🔥 High priority</span>
+                                </div>
+                                <div class="gp-progress-container">
+                                    <div class="gp-progress-bar small">
+                                        <div class="gp-progress-fill" style="width: 30%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </button>
+                        <div id="content-supervisor-support" class="gp-accordion-content">
+                            <div class="gp-sub-item" onclick="gpSelectItem('team-cultural', this)">
+                                <div class="gp-sub-header">
+                                    <div class="gp-sub-left">
+                                        <span class="gp-status-icon in-progress">🕒</span>
+                                        <h4 class="gp-sub-title">Team-based cultural learning</h4>
+                                    </div>
+                                    <span class="gp-percentage">50%</span>
+                                </div>
+                                <p class="gp-sub-description">Team-based approaches to cultural learning and competency development for supervisors</p>
+                                <div class="gp-sub-footer">
+                                    <span class="gp-sub-meta">2 sources • Medium priority</span>
+                                    <div class="gp-progress-bar small" style="width: 60px;">
+                                        <div class="gp-progress-fill" style="width: 50%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="gp-sub-item" onclick="gpSelectItem('supervisor-programs', this)">
+                                <div class="gp-sub-header">
+                                    <div class="gp-sub-left">
+                                        <span class="gp-status-icon completed">✅</span>
+                                        <h4 class="gp-sub-title">Specific supervisor programs</h4>
+                                        <span class="gp-badge comment-count">1</span>
+                                    </div>
+                                    <span class="gp-percentage">60%</span>
+                                </div>
+                                <p class="gp-sub-description">Specialised training and support programs for GP supervisors</p>
+                                <div class="gp-programs">
+                                    <span class="gp-program-tag">RACGP Faculty</span>
+                                    <span class="gp-program-tag">ACCHO Support</span>
+                                </div>
+                                <div class="gp-sub-footer">
+                                    <span class="gp-sub-meta">3 sources • Medium priority</span>
+                                    <div class="gp-progress-bar small" style="width: 60px;">
+                                        <div class="gp-progress-fill" style="width: 60%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Support for Trainees -->
+                    <div class="gp-accordion-item">
+                        <button class="gp-accordion-header priority-high" onclick="gpToggleAccordion('trainee-support', this)">
+                            <div class="gp-header-main">
+                                <div class="gp-header-left">
+                                    <span class="gp-chevron">▶</span>
+                                    <div class="gp-header-info">
+                                        <h3>Support for Trainees</h3>
+                                        <p>Direct support mechanisms, resources and programs available to trainees</p>
+                                    </div>
+                                </div>
+                                <div class="gp-header-right">
+                                    <span class="gp-badge comment-count">1 note</span>
+                                    <span class="gp-badge status-in-progress">In Progress</span>
+                                    <span class="gp-percentage">40%</span>
+                                </div>
+                            </div>
+                            <div class="gp-header-meta">
+                                <div class="gp-meta-info">
+                                    <span>📚 8 sources</span>
+                                    <span>👤 Carla</span>
+                                    <span>🔥 High priority</span>
+                                </div>
+                                <div class="gp-progress-container">
+                                    <div class="gp-progress-bar small">
+                                        <div class="gp-progress-fill" style="width: 40%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </button>
+                        <div id="content-trainee-support" class="gp-accordion-content">
+                            <div class="gp-sub-item" onclick="gpSelectItem('indigenous-curriculum', this)">
+                                <div class="gp-sub-header">
+                                    <div class="gp-sub-left">
+                                        <span class="gp-status-icon completed">✅</span>
+                                        <h4 class="gp-sub-title">Indigenous health curriculum supports</h4>
+                                    </div>
+                                    <span class="gp-percentage">70%</span>
+                                </div>
+                                <p class="gp-sub-description">Curriculum components and educational resources focused on Indigenous health</p>
+                                <div class="gp-programs">
+                                    <span class="gp-program-tag">RACGP Curriculum</span>
+                                </div>
+                                <div class="gp-sub-footer">
+                                    <span class="gp-sub-meta">4 sources • High priority</span>
+                                    <div class="gp-progress-bar small" style="width: 60px;">
+                                        <div class="gp-progress-fill" style="width: 70%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="gp-sub-item" onclick="gpSelectItem('clinical-frameworks', this)">
+                                <div class="gp-sub-header">
+                                    <div class="gp-sub-left">
+                                        <span class="gp-status-icon in-progress">🕒</span>
+                                        <h4 class="gp-sub-title">Clinical support frameworks for registrars</h4>
+                                    </div>
+                                    <span class="gp-percentage">45%</span>
+                                </div>
+                                <p class="gp-sub-description">Clinical support frameworks specifically designed for registrars</p>
+                                <div class="gp-sub-footer">
+                                    <span class="gp-sub-meta">3 sources • Medium priority</span>
+                                    <div class="gp-progress-bar small" style="width: 60px;">
+                                        <div class="gp-progress-fill" style="width: 45%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="gp-sub-item" onclick="gpSelectItem('mentorship-programs', this)">
+                                <div class="gp-sub-header">
+                                    <div class="gp-sub-left">
+                                        <span class="gp-status-icon in-progress">🕒</span>
+                                        <h4 class="gp-sub-title">Mentorship programs</h4>
+                                        <span class="gp-badge comment-count">1</span>
+                                    </div>
+                                    <span class="gp-percentage">55%</span>
+                                </div>
+                                <p class="gp-sub-description">Formal and informal mentoring programs available to trainees</p>
+                                <div class="gp-programs">
+                                    <span class="gp-program-tag">RACGP ACRRM Programs</span>
+                                </div>
+                                <div class="gp-sub-footer">
+                                    <span class="gp-sub-meta">2 sources • High priority</span>
+                                    <div class="gp-progress-bar small" style="width: 60px;">
+                                        <div class="gp-progress-fill" style="width: 55%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Training Lifecycle Experience -->
+                    <div class="gp-accordion-item">
+                        <button class="gp-accordion-header priority-medium" onclick="gpToggleAccordion('lifecycle-experience', this)">
+                            <div class="gp-header-main">
+                                <div class="gp-header-left">
+                                    <span class="gp-chevron">▶</span>
+                                    <div class="gp-header-info">
+                                        <h3>The GP Training Lifecycle Experience</h3>
+                                        <p>The journey and experiences through the GP training pathway</p>
+                                    </div>
+                                </div>
+                                <div class="gp-header-right">
+                                    <span class="gp-badge status-not-started">Not Started</span>
+                                    <span class="gp-percentage">20%</span>
+                                </div>
+                            </div>
+                            <div class="gp-header-meta">
+                                <div class="gp-meta-info">
+                                    <span>📚 4 sources</span>
+                                    <span>👤 Carla</span>
+                                    <span>⚡ Medium priority</span>
+                                </div>
+                                <div class="gp-progress-container">
+                                    <div class="gp-progress-bar small">
+                                        <div class="gp-progress-fill" style="width: 20%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </button>
+                        <div id="content-lifecycle-experience" class="gp-accordion-content">
+                            <div class="gp-sub-item" onclick="gpSelectItem('cultural-compatibility', this)">
+                                <div class="gp-sub-header">
+                                    <div class="gp-sub-left">
+                                        <span class="gp-status-icon not-started">⚪</span>
+                                        <h4 class="gp-sub-title">Cultural compatibility of training posts</h4>
+                                    </div>
+                                    <span class="gp-percentage">15%</span>
+                                </div>
+                                <p class="gp-sub-description">Compatibility between cultural needs and available training posts</p>
+                                <div class="gp-programs">
+                                    <span class="gp-program-tag">ACCHO Placements</span>
+                                </div>
+                                <div class="gp-sub-footer">
+                                    <span class="gp-sub-meta">2 sources • Medium priority</span>
+                                    <div class="gp-progress-bar small" style="width: 60px;">
+                                        <div class="gp-progress-fill" style="width: 15%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="gp-sub-item" onclick="gpSelectItem('rural-placements', this)">
+                                <div class="gp-sub-header">
+                                    <div class="gp-sub-left">
+                                        <span class="gp-status-icon not-started">⚪</span>
+                                        <h4 class="gp-sub-title">Rural placements for cultural immersion</h4>
+                                    </div>
+                                    <span class="gp-percentage">25%</span>
+                                </div>
+                                <p class="gp-sub-description">Rural placement opportunities for cultural immersion and learning</p>
+                                <div class="gp-sub-footer">
+                                    <span class="gp-sub-meta">2 sources • Medium priority</span>
+                                    <div class="gp-progress-bar small" style="width: 60px;">
+                                        <div class="gp-progress-fill" style="width: 25%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trainees Challenges -->
+                    <div class="gp-accordion-item">
+                        <button class="gp-accordion-header priority-high" onclick="gpToggleAccordion('trainee-challenges', this)">
+                            <div class="gp-header-main">
+                                <div class="gp-header-left">
+                                    <span class="gp-chevron">▶</span>
+                                    <div class="gp-header-info">
+                                        <h3>Trainees Challenges</h3>
+                                        <p>Barriers, obstacles and challenges faced by trainees</p>
+                                    </div>
+                                </div>
+                                <div class="gp-header-right">
+                                    <span class="gp-badge comment-count">2 notes</span>
+                                    <span class="gp-badge status-in-progress">In Progress</span>
+                                    <span class="gp-percentage">35%</span>
+                                </div>
+                            </div>
+                            <div class="gp-header-meta">
+                                <div class="gp-meta-info">
+                                    <span>📚 6 sources</span>
+                                    <span>👤 Carla</span>
+                                    <span>🔥 High priority</span>
+                                </div>
+                                <div class="gp-progress-container">
+                                    <div class="gp-progress-bar small">
+                                        <div class="gp-progress-fill" style="width: 35%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </button>
+                        <div id="content-trainee-challenges" class="gp-accordion-content">
+                            <div class="gp-sub-item" onclick="gpSelectItem('cultural-isolation', this)">
+                                <div class="gp-sub-header">
+                                    <div class="gp-sub-left">
+                                        <span class="gp-status-icon in-progress">🕒</span>
+                                        <h4 class="gp-sub-title">Cultural isolation in non-community placements</h4>
+                                        <span class="gp-badge comment-count">1</span>
+                                    </div>
+                                    <span class="gp-percentage">40%</span>
+                                </div>
+                                <p class="gp-sub-description">Isolation experienced when placed in non-community healthcare settings</p>
+                                <div class="gp-sub-footer">
+                                    <span class="gp-sub-meta">3 sources • High priority</span>
+                                    <div class="gp-progress-bar small" style="width: 60px;">
+                                        <div class="gp-progress-fill" style="width: 40%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="gp-sub-item" onclick="gpSelectItem('limited-phc', this)">
+                                <div class="gp-sub-header">
+                                    <div class="gp-sub-left">
+                                        <span class="gp-status-icon in-progress">🕒</span>
+                                        <h4 class="gp-sub-title">Lack of comprehensive primary healthcare opportunities</h4>
+                                        <span class="gp-badge comment-count">1</span>
+                                    </div>
+                                    <span class="gp-percentage">30%</span>
+                                </div>
+                                <p class="gp-sub-description">Limited access to comprehensive primary healthcare training opportunities</p>
+                                <div class="gp-sub-footer">
+                                    <span class="gp-sub-meta">3 sources • High priority</span>
+                                    <div class="gp-progress-bar small" style="width: 60px;">
+                                        <div class="gp-progress-fill" style="width: 30%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="gp-sidebar">
+                <div class="gp-overview">
+                    <h3>Project Overview</h3>
+                    <div class="gp-overview-grid">
+                        <div class="gp-overview-item">
+                            <span>Total Sources:</span>
+                            <strong>19</strong>
+                        </div>
+                        <div class="gp-overview-item">
+                            <span>Project Lead:</span>
+                            <strong>Carla</strong>
+                        </div>
+                        <div class="gp-overview-item">
+                            <span>Target Date:</span>
+                            <strong>Jan 2026</strong>
+                        </div>
+                        <div class="gp-overview-item">
+                            <span>Client:</span>
+                            <strong>GPSA</strong>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="gp-selected-item" class="gp-selected-item">
+                    <h4>Selected Item</h4>
+                    <div id="gp-item-details"></div>
+                </div>
+                
+                <div class="gp-actions">
+                    <button class="gp-btn success" onclick="gpGenerateReport()">📄 Generate Report</button>
+                    <button class="gp-btn" onclick="gpExportData()">💾 Export Data</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // WordPress-safe JavaScript (no external dependencies)
+        let gpSelectedItem = null;
+        
+        // Sample comments data
+        const gpComments = {
+            'supervisor-programs': ['Strong evidence base for RACGP faculty programs - multiple sources confirm effectiveness.'],
+            'mentorship-programs': ['Need to explore effectiveness of current mentoring programs and identify gaps.'],
+            'cultural-isolation': ['This appears to be a significant barrier - need to explore how ACCHOs can provide more placement opportunities.'],
+            'limited-phc': ['What specific barriers exist to accessing comprehensive PHC opportunities? Need to dig deeper into systemic issues.']
+        };
+
+        function gpToggleAccordion(id, button) {
+            const content = document.getElementById('content-' + id);
+            const chevron = button.querySelector('.gp-chevron');
+            
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                chevron.classList.remove('expanded');
+                chevron.textContent = '▶';
+            } else {
+                content.classList.add('show');
+                chevron.classList.add('expanded');
+                chevron.textContent = '▼';
+            }
+        }
+
+        function gpExpandAll() {
+            const contents = document.querySelectorAll('.gp-accordion-content');
+            const chevrons = document.querySelectorAll('.gp-chevron');
+            
+            contents.forEach(content => content.classList.add('show'));
+            chevrons.forEach(chevron => {
+                chevron.classList.add('expanded');
+                chevron.textContent = '▼';
+            });
+        }
+
+        function gpCollapseAll() {
+            const contents = document.querySelectorAll('.gp-accordion-content');
+            const chevrons = document.querySelectorAll('.gp-chevron');
+            
+            contents.forEach(content => content.classList.remove('show'));
+            chevrons.forEach(chevron => {
+                chevron.classList.remove('expanded');
+                chevron.textContent = '▶';
+            });
+        }
+
+        function gpSelectItem(itemId, element) {
+            // Remove previous selection
+            document.querySelectorAll('.gp-sub-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Add selection to current item
+            element.classList.add('selected');
+            gpSelectedItem = itemId;
+            
+            // Show item details
+            gpShowItemDetails(itemId);
+        }
+
+        function gpShowItemDetails(itemId) {
+            const sidebar = document.getElementById('gp-selected-item');
+            const details = document.getElementById('gp-item-details');
+            
+            const itemData = gpGetItemData(itemId);
+            
+            details.innerHTML = `
+                <div>
+                    <h5 style="margin: 0 0 8px 0; font-weight: 600;">${itemData.title}</h5>
+                    <p style="margin: 0 0 12px 0; font-size: 14px; color: #6b7280;">${itemData.description}</p>
+                </div>
+                <div class="gp-item-progress">
+                    <div class="gp-item-progress-label">Progress: ${itemData.progress}%</div>
+                    <div class="gp-progress-bar">
+                        <div class="gp-progress-fill" style="width: ${itemData.progress}%"></div>
+                    </div>
+                </div>
+                ${gpComments[itemId] ? `
+                    <div class="gp-comments">
+                        <h6 style="margin: 0 0 8px 0; font-size: 14px; font-weight: 600;">Research Notes:</h6>
+                        ${gpComments[itemId].map(comment => `
+                            <div class="gp-comment">${comment}</div>
+                        `).join('')}
+                    </div>
+                ` : ''}
+            `;
+            
+            sidebar.classList.add('show');
+        }
+
+        function gpGetItemData(itemId) {
+            const data = {
+                'team-cultural': { title: 'Team-based cultural learning', description: 'Team-based approaches to cultural learning', progress: 50 },
+                'supervisor-programs': { title: 'Specific supervisor programs', description: 'Specialised training and support programs', progress: 60 },
+                'indigenous-curriculum': { title: 'Indigenous health curriculum supports', description: 'Curriculum components focused on Indigenous health', progress: 70 },
+                'clinical-frameworks': { title: 'Clinical support frameworks', description: 'Clinical support frameworks for registrars', progress: 45 },
+                'mentorship-programs': { title: 'Mentorship programs', description: 'Formal and informal mentoring programs', progress: 55 },
+                'cultural-compatibility': { title: 'Cultural compatibility of training posts', description: 'Compatibility between cultural needs and training posts', progress: 15 },
+                'rural-placements': { title: 'Rural placements for cultural immersion', description: 'Rural placement opportunities for cultural immersion', progress: 25 },
+                'cultural-isolation': { title: 'Cultural isolation in non-community placements', description: 'Isolation in non-community healthcare settings', progress: 40 },
+                'limited-phc': { title: 'Lack of comprehensive PHC opportunities', description: 'Limited access to comprehensive primary healthcare training', progress: 30 }
+            };
+            
+            return data[itemId] || { title: 'Unknown', description: '', progress: 0 };
+        }
+
+        function gpGenerateReport() {
+            const reportWindow = window.open('', '_blank', 'width=800,height=600');
+            reportWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>First Nations GP Training Project Report</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 2cm; line-height: 1.6; }
+                        h1, h2 { color: #333; }
+                        .summary { background: #f0f9ff; padding: 1em; border-left: 4px solid #0ea5e9; margin: 1em 0; }
+                        .area { margin-bottom: 2em; padding: 1em; border: 1px solid #ddd; border-radius: 4px; }
+                    </style>
+                </head>
+                <body>
+                    <h1>First Nations GP Training Scoping Project Report</h1>
+                    <p><strong>Generated:</strong> ${new Date().toLocaleDateString('en-AU')}</p>
+                    <p><strong>Project Lead:</strong> Carla</p>
+                    <p><strong>Client:</strong> General Practice Supervision Australia (GPSA)</p>
+                    
+                    <div class="summary">
+                        <h2>Executive Summary</h2>
+                        <p>This scoping study examines Aboriginal and Torres Strait Islander GP training supports and challenges across 4 key research areas, based on analysis of 19 sources. Overall project completion is at 35%.</p>
+                    </div>
+                    
+                    <h2>Research Areas Progress</h2>
+                    
+                    <div class="area">
+                        <h3>Support for GP Training Supervisors (30% complete)</h3>
+                        <p>Status: In Progress | Priority: High | Sources: 5</p>
+                        <ul>
+                            <li>Team-based cultural learning - 50%</li>
+                            <li>Specific supervisor programs - 60% (RACGP Faculty, ACCHO Support)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="area">
+                        <h3>Support for Trainees (40% complete)</h3>
+                        <p>Status: In Progress | Priority: High | Sources: 8</p>
+                        <ul>
+                            <li>Indigenous health curriculum supports - 70% (RACGP Curriculum)</li>
+                            <li>Clinical support frameworks - 45%</li>
+                            <li>Mentorship programs - 55% (RACGP ACRRM Programs)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="area">
+                        <h3>The GP Training Lifecycle Experience (20% complete)</h3>
+                        <p>Status: Not Started | Priority: Medium | Sources: 4</p>
+                        <ul>
+                            <li>Cultural compatibility of training posts - 15% (ACCHO Placements)</li>
+                            <li>Rural placements for cultural immersion - 25%</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="area">
+                        <h3>Trainees Challenges (35% complete)</h3>
+                        <p>Status: In Progress | Priority: High | Sources: 6</p>
+                        <ul>
+                            <li>Cultural isolation in non-community placements - 40%</li>
+                            <li>Lack of comprehensive primary healthcare opportunities - 30%</li>
+                        </ul>
+                    </div>
+                    
+                    <h2>Key Research Notes</h2>
+                    <ul>
+                        <li>Strong evidence base for RACGP Faculty programs</li>
+                        <li>Cultural isolation identified as significant barrier</li>
+                        <li>Need for more ACCHO placement opportunities</li>
+                        <li>Gaps in comprehensive PHC training access identified</li>
+                    </ul>
+                    
+                    <h2>Recommendations</h2>
+                    <ul>
+                        <li>Prioritise completion of lifecycle experience research</li>
+                        <li>Address cultural isolation through increased ACCHO partnerships</li>
+                        <li>Validate RACGP Faculty program effectiveness findings</li>
+                        <li>Develop strategies to improve PHC training access</li>
+                    </ul>
+                </body>
+                </html>
+            `);
+            reportWindow.document.close();
+            reportWindow.print();
+        }
+
+        function gpExportData() {
+            const data = {
+                project: 'First Nations GP Training Scoping Project',
+                generated: new Date().toISOString(),
+                overall_progress: 35,
+                target_completion: 'January 2026',
+                project_lead: 'Carla',
+                client: 'GPSA',
+                total_sources: 19,
+                areas: [
+                    { name: 'Support for GP Training Supervisors', progress: 30, status: 'in_progress', priority: 'high' },
+                    { name: 'Support for Trainees', progress: 40, status: 'in_progress', priority: 'high' },
+                    { name: 'The GP Training Lifecycle Experience', progress: 20, status: 'not_started', priority: 'medium' },
+                    { name: 'Trainees Challenges', progress: 35, status: 'in_progress', priority: 'high' }
+                ],
+                comments: gpComments
+            };
+            
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'first-nations-gp-training-project-' + new Date().toISOString().split('T')[0] + '.json';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

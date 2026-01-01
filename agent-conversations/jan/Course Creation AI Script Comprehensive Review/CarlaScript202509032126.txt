@@ -1,0 +1,1909 @@
+/**
+ * GPSA / HPSA Concept‑to‑Course — created by Carla Taylor 20250904-19-55
+ * Script Properties in place: GEMINI_API_KEY, DRIVE_FOLDER_ID, SLIDES_TEMPLATE_ID
+ */
+
+// ===================== Config & Brand =====================
+const CFG = {
+  get GEMINI_API_KEY() {
+    const v = PropertiesService.getScriptProperties().getProperty('GEMINI_API_KEY');
+    if (!v) throw new Error('Set GEMINI_API_KEY in Script Properties.');
+    return v;
+  },
+  get DRIVE_FOLDER_ID() {
+    const v = PropertiesService.getScriptProperties().getProperty('DRIVE_FOLDER_ID');
+    if (!v) throw new Error('Set DRIVE_FOLDER_ID in Script Properties.');
+    return v;
+  },
+  get SLIDES_TEMPLATE_ID() {
+    const v = PropertiesService.getScriptProperties().getProperty('SLIDES_TEMPLATE_ID');
+    if (!v) throw new Error('Set SLIDES_TEMPLATE_ID in Script Properties.');
+    return v;
+  },
+  AU_PROMPT: 'Use Australian English and professional healthcare tone suitable for CPD. Prefer Australian guidelines and RACGP where relevant.',
+  BRAND_HEADER: [
+    'You are writing on behalf of GPSA / HPSA — the peak Australasian authority on best-practice supervision of medical learners and the healthcare workforce.',
+    'Use Australian English (en-AU) and a practical, supportive, non-judgemental tone consistent with GPSA/HPSA.',
+    'Anchor content in general practice / primary care contexts including rural and remote settings.',
+    'Emphasise safe, effective supervision; coaching; feedback; assessment for learning; psychological safety.',
+    'Respect cultural safety, including Aboriginal and Torres Strait Islander health; avoid stereotypes and patient-identifiable data.',
+    'Prefer RACGP, ACRRM and AHPRA-aligned terminology and concepts; do not fabricate citations or guideline numbers.',
+    'Terminology preferences: "general practice", "supervisor", "registrar", "learner", "clinical supervision", "CPD". Avoid US spellings.',
+    'Outputs must be original and tailored for GPSA/HPSA; avoid generic boilerplate.'
+  ].join('\n'),
+   TTS_WPM: 150,
+  
+  // Enhanced configuration validation
+  validateConfiguration() {
+    const required = ['GEMINI_API_KEY', 'DRIVE_FOLDER_ID', 'SLIDES_TEMPLATE_ID'];
+    const missing = required.filter(key => {
+      try { return !this[key]; } catch (e) { return true; }
+    });
+    if (missing.length > 0) {
+      throw new Error(`Configuration incomplete. Please set in Script Properties: ${missing.join(', ')}`);
+    }
+    // Test Drive folder access
+    try { DriveApp.getFolderById(this.DRIVE_FOLDER_ID).getName(); } 
+    catch (e) { throw new Error('Cannot access Drive folder. Check DRIVE_FOLDER_ID.'); }
+    // Test template access
+    try { DriveApp.getFileById(this.SLIDES_TEMPLATE_ID).getName(); } 
+    catch (e) { throw new Error('Cannot access slides template. Check SLIDES_TEMPLATE_ID.'); }
+    return true;
+  },
+  
+  // Track API usage to prevent quota exhaustion
+  trackApiUsage(endpoint, tokens = 0) {
+    const props = PropertiesService.getScriptProperties();
+    const today = new Date().toDateString();
+    const key = `usage_${endpoint}_${today}`;
+    const current = parseInt(props.getProperty(key) || '0');
+    props.setProperty(key, String(current + tokens));
+    if (endpoint === 'gemini' && current > 800000) {
+      console.warn('Approaching Gemini API daily quota limit');
+    }
+  },
+  
+  // Configurable batch processing settings
+  getBatchSize() {
+    const customSize = PropertiesService.getScriptProperties().getProperty('BATCH_SIZE');
+    return customSize ? parseInt(customSize) : 3; // Default to 3 modules per batch
+  },
+  
+  setBatchSize(size) {
+    PropertiesService.getScriptProperties().setProperty('BATCH_SIZE', String(size));
+  }
+};
+
+
+// ===== Bespoke prompts (restored) =====
+const COURSE_MAPPING_PROMPT = `You are an expert course designer for Australian healthcare education. Analyze the provided concept and source materials to create a comprehensive course structure with detailed justification.
+
+AUDIENCE CONTEXT:
+- Clinical: Clinical supervisors, practicing clinicians in supervisory roles
+- Combined: Both clinical and administrative perspectives  
+- Administrative: Healthcare administrators, non-clinical staff, system managers
+- Other: General healthcare education support roles
+
+REQUIREMENTS:
+1. Analyze the concept and justify why it should be broken into separate modules
+2. Recommend 6-12 modules based on content depth and audience needs
+3. Each module should be substantial enough for 45-60 minutes of learning
+4. Ensure logical progression and skill building
+5. Include practical, workplace-applicable content
+6. Consider Australian healthcare context and regulations
+7. Explain how modules combine to form a high-quality micro-credentialing course
+
+OUTPUT FORMAT:
+COURSE RECOMMENDATION:
+[3-4 paragraph detailed recommendation explaining:]
+- Why this concept warrants a structured course approach
+- How breaking it into modules enhances learning effectiveness
+- Target audience fit and learning progression
+- Value as a micro-credentialing opportunity
+
+RECOMMENDED MODULES:
+1. [Module Name] - [Detailed description with learning focus and practical applications]
+2. [Module Name] - [Detailed description with learning focus and practical applications]
+[Continue for all recommended modules - up to 12 for comprehensive courses]
+
+COURSE STRUCTURE RATIONALE:
+[2-3 paragraphs explaining:]
+- Why this specific module breakdown serves the audience effectively
+- How modules build upon each other progressively
+- Integration points and practical application opportunities
+- Assessment and credentialing considerations
+
+MICRO-CREDENTIALING VALUE:
+[Explanation of how this course structure provides valuable professional development and recognition]`;
+
+const RESEARCH_ENHANCEMENT_PROMPT = `You are a research specialist for Australian healthcare education. Enhance the provided source materials by identifying additional high-quality resources.
+
+REQUIREMENTS:
+1. Find 5-8 additional peer-reviewed articles or industry resources
+2. Focus on Australian healthcare context where possible
+3. Include recent publications (last 5 years preferred)
+4. Ensure sources are accessible and credible
+5. Provide brief relevance explanations
+
+SOURCE MATERIALS PROVIDED:
+[EXISTING_SOURCES]
+
+OUTPUT FORMAT:
+ADDITIONAL RECOMMENDED SOURCES:
+
+1. [Title] - [Author/Organization] ([Year])
+   URL: [if available]
+   Relevance: [2-3 sentences explaining why this source enhances the course]
+
+2. [Continue pattern...]
+
+RESEARCH SUMMARY:
+[2-3 sentences summarizing how these additional sources strengthen the course development]`;
+
+// Voice direction for scripts & CSV
+const VOICE_NAME = 'Kore';
+const SPEECH_TEMPERATURE = 0.5;
+const AUSTRALIAN_PROMPT =
+  "You are a highly educated Australian woman with a warm, personable delivery. Speak with the refined Australian accent of educated professionals - a subtle blend of American, western European and British influences with softer jaw movement than American English, but more open than formal British. Maintain professional warmth without any exaggerated regional characteristics. Read this with conversational inflection as if the listener is a valued member of your team:";
+
+// Safe text formatting helper
+function safeClearTextStyle(textElement) {
+  try {
+    if (textElement && textElement.getTextStyle && typeof textElement.getTextStyle === 'function') {
+      textElement.getTextStyle().clear();
+    }
+  } catch (e) {
+    // Skip formatting if not supported by this template
+  }
+}
+
+function safeClearRangeStyle(paragraph) {
+  try {
+    if (paragraph && paragraph.getRange && typeof paragraph.getRange === 'function') {
+      const range = paragraph.getRange();
+      if (range && range.getTextStyle && typeof range.getTextStyle === 'function') {
+        range.getTextStyle().clear();
+      }
+    }
+  } catch (e) {
+    // Skip formatting if not supported by this template
+  }
+}
+
+// ===================== Menu =====================
+function onOpen() {
+  const ui = SpreadsheetApp.getUi();
+  const root = ui.createMenu('GPSA Course Creator');
+
+  // ── Setup / Core flow ──────────────────────────────────────────────────────
+  addMenu_(root, 'Setup: Create Mapping Tab',                  'createMappingTabStructure');
+  root.addSeparator();
+  addMenu_(root, 'Validate Configuration',                     'validateSetup');
+  root.addSeparator();
+  addMenu_(root, '1. Generate Course Recommendation (Enhanced)', 'generateCourseRecommendationEnhanced');
+  addMenu_(root, '2. Process Modification Request',            'processModificationRequest');
+
+  // NOTE: 2b (Refresh Module List) is deprecated and intentionally removed.
+
+  addMenu_(root, '3. Create Approved Course Tab',              'createApprovedCourseTab');
+  addMenu_(root, '4. Generate Full Module Suite (Enhanced)',   'generateModuleSuiteEnhanced');
+  addMenu_(root, '5. Generate AI Voiceover Scripts (per slide)','populateTTSWithAIGeneratedVoiceovers');
+
+  addMenu_(root, '6. Resync: Seed TTS rows from Slide Specs',  'menuSeedTTSForAll');       // wrapper
+  root.addSeparator();
+
+  // ── Slides & Presentations ─────────────────────────────────────────────────
+  const slides = ui.createMenu('Slides & Presentations');
+  addMenu_(slides, 'Create Slides for Selected Row',           'menuCreateSlidesSelected'); // wrapper
+  addMenu_(slides, 'Create Slides for All Rows',               'menuCreateSlidesAll');      // wrapper
+  addMenu_(slides, 'Export PPTX for Selected Row',             'menuExportPptxSelected');   // wrapper
+  addMenu_(slides, 'Export All Decks to PPTX',                 'exportAllDecksToPptx');
+  addMenu_(slides, 'Generate Image Prompts',                   'generateImagePromptsForTab');
+  root.addSubMenu(slides);
+
+  // ── Voiceover (Gemini TTS) ────────────────────────────────────────────────
+  const gemTts = ui.createMenu('Voiceover (Gemini TTS)');
+  addMenu_(gemTts, 'Generate Audio for Selected Module',       'generateGeminiAudioForSelectedModule');
+  addMenu_(gemTts, 'Generate Audio for All Modules',           'generateGeminiAudioForAllModules');
+  root.addSubMenu(gemTts);
+
+  // ── Voiceover (External TTS) ──────────────────────────────────────────────
+  const extTts = ui.createMenu('Voiceover (External TTS)');
+  addMenu_(extTts, 'Export CSV for Selected Module',           'exportTTSForSelectedModuleToCSV');
+  addMenu_(extTts, 'Export CSV for All Modules',               'exportTTSForAllModulesToCSV');
+  root.addSubMenu(extTts);
+  addMenu_(root, 'Maintenance: Clean audio files (Trash)', 'purgeTtsAudioWithConfirm');
+  
+  // ── Data Integrity & Maintenance ─────────────────────────────────────────────
+  const maintenance = ui.createMenu('Data Integrity & Maintenance');
+  addMenu_(maintenance, 'Validate Data Integrity',             'runDataIntegrityCheck');
+  addMenu_(maintenance, 'Create Backup',                       'createManualBackup');
+  addMenu_(maintenance, 'View API Usage Stats',                'showApiUsageStats');
+  root.addSubMenu(maintenance);
+
+  root.addToUi();
+}
+
+/**
+ * Adds a menu item only if the handler exists (prevents “Function not found”).
+ */
+function addMenu_(menu, label, fnName) {
+  try {
+    if (typeof this[fnName] === 'function') menu.addItem(label, fnName);
+  } catch(_) { /* skip if missing */ }
+}
+
+/* ── Wrappers so the menu works with either old or new function names ─────── */
+
+function menuGenerateModuleSuite(){
+  if (typeof generateModuleSuite === 'function') return generateModuleSuite();
+  if (typeof generateFullModuleResourceSuite === 'function') return generateFullModuleResourceSuite();
+  SpreadsheetApp.getUi().alert('No module-suite function found.');
+}
+
+function menuSeedTTSForAll(){
+  if (typeof seedTTSFromSpecsForAllModules === 'function') return seedTTSFromSpecsForAllModules();
+  if (typeof menuReseedTTSForAll === 'function') return menuReseedTTSForAll();
+  SpreadsheetApp.getUi().alert('No TTS reseed function found.');
+}
+
+function menuCreateSlidesSelected(){
+  if (typeof createSlidesForSelectedRow === 'function') return createSlidesForSelectedRow();
+  if (typeof buildSlidesForSelectedRow === 'function') return buildSlidesForSelectedRow();
+  SpreadsheetApp.getUi().alert('No “create slides (selected)” function found.');
+}
+
+function menuCreateSlidesAll(){
+  if (typeof createSlidesForAllRows === 'function') return createSlidesForAllRows();
+  if (typeof buildSlidesForAllRows === 'function') return buildSlidesForAllRows();
+  SpreadsheetApp.getUi().alert('No “create slides (all)” function found.');
+}
+
+function menuExportPptxSelected(){
+  if (typeof exportSelectedDeckToPptx === 'function') return exportSelectedDeckToPptx();
+  if (typeof exportSlidesAsPptxForSelectedRow === 'function') return exportSlidesAsPptxForSelectedRow();
+  SpreadsheetApp.getUi().alert('No “export PPTX (selected)” function found.');
+}
+
+// ===================== Utils =====================
+function brandHeader_(){ return CFG.BRAND_HEADER + '\n\n' + CFG.AU_PROMPT + '\n'; }
+
+function au(txt) {
+  if (!txt) return txt;
+  let t = String(txt);
+  t = t.replace(/\borganize(d|s|r|)\b/gi, m => m.replace('ize','ise').replace('ized','ised').replace('izes','ises'));
+  t = t.replace(/\borganization(s)?\b/gi,'organisation$1');
+  t = t.replace(/\banalyz(e|ed|ing|es)\b/gi, m => m.replace('yze','yse'));
+  t = t.replace(/\bbehavior(s)?\b/gi,'behaviour$1');
+  t = t.replace(/\bcolor(s|ed|ing)?\b/gi,'colour$1');
+  t = t.replace(/\bcenter(s|ed|ing)?\b/gi,'centre$1');
+  t = t.replace(/\bmodeling\b/gi,'modelling');
+  return t;
+}
+
+function presIdFromUrl(u) { const m = String(u||'').match(/\/d\/([a-zA-Z0-9_-]+)/); return m ? m[1] : null; }
+function extractIdFromUrl_(url){
+  const patterns = [
+    /\/folders\/([a-zA-Z0-9-_]+)/,
+    /\/document\/d\/([a-zA-Z0-9-_]+)/,
+    /\/d\/([a-zA-Z0-9-_]+)/,
+    /id=([a-zA-Z0-9-_]+)/
+  ];
+  for (const p of patterns){ const m = String(url).match(p); if (m) return m[1]; }
+  return null;
+}
+// Enhanced Gemini API call with retry mechanism
+function callGeminiWithRetry(prompt, maxTokens, retries = 3) {
+  CFG.validateConfiguration();
+  
+  // Rate limiting: ensure minimum 6 seconds between requests
+  const lastCall = PropertiesService.getScriptProperties().getProperty('LAST_GEMINI_CALL');
+  if (lastCall) {
+    const elapsed = Date.now() - parseInt(lastCall);
+    const minDelay = 6000; // 6 seconds minimum
+    if (elapsed < minDelay) {
+      const waitTime = minDelay - elapsed;
+      console.log(`Rate limiting: waiting ${waitTime}ms`);
+      Utilities.sleep(waitTime);
+    }
+  }
+  PropertiesService.getScriptProperties().setProperty('LAST_GEMINI_CALL', String(Date.now()));
+  
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const result = callGemini(prompt, maxTokens);
+      CFG.trackApiUsage('gemini', maxTokens || 8192);
+      return result;
+    } catch (error) {
+      console.warn(`Gemini API attempt ${attempt}/${retries} failed: ${error.message}`);
+      if (attempt === retries) throw new Error(`Gemini API failed after ${retries} attempts: ${error.message}`);
+      const delay = (1000 * Math.pow(2, attempt - 1)) + (Math.random() * 1000);
+      Utilities.sleep(delay);
+    }
+  }
+}
+
+// Progress tracking system
+function trackProgress(operation, current, total, status) {
+  const progress = Math.round((current / total) * 100);
+  const message = `${operation}: ${progress}% complete (${current}/${total})`;
+  SpreadsheetApp.getActive().toast(status, message, 5);
+  console.log(`${message} - ${status}`);
+}
+
+// Input validation
+function validateRequiredInputs(inputs, requiredFields, context = '') {
+  const missing = requiredFields.filter(field => {
+    const value = inputs[field];
+    return !value || (typeof value === 'string' && !value.trim());
+  });
+  if (missing.length > 0) {
+    const contextStr = context ? ` for ${context}` : '';
+    throw new Error(`Missing required fields${contextStr}: ${missing.join(', ')}`);
+  }
+  return true;
+}
+
+// Create workflow backup
+function createWorkflowBackup(concept) {
+  try {
+    const timestamp = new Date().toISOString().slice(0, 16).replace('T', '_');
+    const backupName = `${concept}_Backup_${timestamp}`;
+    const originalFile = SpreadsheetApp.getActiveSpreadsheet();
+    const backup = DriveApp.getFileById(originalFile.getId())
+      .makeCopy(backupName, DriveApp.getFolderById(CFG.DRIVE_FOLDER_ID));
+    console.log(`Backup created: ${backupName}`);
+    return backup.getUrl();
+  } catch (error) {
+    console.warn(`Backup creation failed: ${error.message}`);
+    return null;
+  }
+}
+
+function callGemini(prompt, maxTokens) {
+  const body = {
+    contents: [{ parts: [{ text: prompt }]}],
+    generationConfig: { temperature: 0.7, topK: 40, topP: 0.95, maxOutputTokens: maxTokens || 8192 }
+  };
+  const resp = UrlFetchApp.fetch(
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=' + CFG.GEMINI_API_KEY,
+    { method: 'post', contentType: 'application/json', payload: JSON.stringify(body), muteHttpExceptions: true }
+  );
+  if (resp.getResponseCode() !== 200) throw new Error('Gemini API error: ' + resp.getContentText());
+  const data = JSON.parse(resp.getContentText());
+  const text = data?.candidates?.[0]?.content?.parts?.map(p => p.text).join('\n') || '';
+  return text.trim();
+}
+
+// ===================== URL & PDF Fetch Helpers =====================
+const URL_FETCH_MAX_PER_COURSE = 10;
+const URL_FETCH_MAX_CHARS_PER_URL = 12000;
+
+function extractUrls_(text){
+  if (!text) return [];
+  const rx = new RegExp('(https?:\\/\\/[^\\s)\\]>]+)','gi');
+  const set = new Set();
+  (String(text).match(rx) || []).forEach(function(u){
+    set.add(u.replace(/[),.]+$/, ''));
+  });
+  return Array.from(set);
+}
+
+function htmlToText_(html){
+  let t = String(html||'');
+  t = t.replace(/<script[\s\S]*?<\/script>/gi, ' ');
+  t = t.replace(/<style[\s\S]*?<\/style>/gi, ' ');
+  t = t.replace(/<[^>]+>/g, ' ');
+  const entities = { '&nbsp;':' ', '&amp;':'&', '&lt;':'<', '&gt;':'>', '&quot;':'"', '&#39;':"'" };
+  t = t.replace(/&[a-zA-Z#0-9]+;/g, function(m){ return entities[m] || m; });
+  t = t.replace(/\s+/g,' ').trim();
+  return t;
+}
+
+function fetchUrlText_(url){
+  try{
+    const resp = UrlFetchApp.fetch(url, { followRedirects: true, muteHttpExceptions: true, headers: { 'User-Agent': 'AppsScript-GPSA' }, validateHttpsCertificates: true, timeout: 30000 });
+    if (resp.getResponseCode() !== 200) return `[[FETCH FAILED ${resp.getResponseCode()}]]`;
+    const ct = String(resp.getHeaders()['Content-Type'] || resp.getHeaders()['content-type'] || '').toLowerCase();
+    const bytes = resp.getBlob().getBytes();
+    if (ct.includes('text/html') || ct.includes('application/xhtml') || ct.includes('text/plain')){
+      const text = ct.includes('text/plain') ? resp.getContentText() : htmlToText_(resp.getContentText());
+      return text.slice(0, URL_FETCH_MAX_CHARS_PER_URL);
+    } else if (ct.includes('pdf')){
+      try {
+        const blob = Utilities.newBlob(bytes, 'application/pdf', 'tmp.pdf');
+        const resource = { title: 'Imported PDF (GPSA) '+new Date().toISOString(), mimeType: 'application/pdf', parents: [{ id: CFG.DRIVE_FOLDER_ID }] };
+        const file = Drive.Files.insert(resource, blob, { convert: true });
+        const docId = file.id;
+        const text = DocumentApp.openById(docId).getBody().getText() || '';
+        return text.slice(0, URL_FETCH_MAX_CHARS_PER_URL);
+      } catch(e){
+        return '[[PDF CONVERSION NOT AVAILABLE]]';
+      }
+    } else {
+      return '[[UNSUPPORTED CONTENT TYPE]]';
+    }
+  }catch(e){
+    return '[[FETCH ERROR '+e.message+']]';
+  }
+}
+
+function fetchUrlsBundle_(urls){
+  const cap = Math.min(URL_FETCH_MAX_PER_COURSE, urls.length);
+  let out = '\n=== URL EXTRACTS (AUTO-FETCHED) ===\n';
+  for (let i=0;i<cap;i++){
+    const u = urls[i];
+    const txt = fetchUrlText_(u);
+    out += `\n--- ${u} ---\n${txt}\n`;
+  }
+  return out;
+}
+
+// ===================== Mapping / Recommendations =====================
+function createMappingTabStructure(){
+  const ss = SpreadsheetApp.getActive();
+  let sh = ss.getSheetByName('Mapping');
+  if (sh) ss.deleteSheet(sh);
+  sh = ss.insertSheet('Mapping');
+
+  const headers = [
+    'Concept Name','Resources Folder/Doc/URLs','Target Audience',
+    'Recommendations Doc Link','Approved','Modification Requests',
+    'Module List','Module 1','Module 2','Module 3','Module 4','Module 5','Module 6',
+    'Module 7','Module 8','Module 9','Module 10','Module 11','Module 12'
+  ];
+  sh.getRange(1,1,1,headers.length).setValues([headers]).setFontWeight('bold');
+
+  const opts = ['Clinical','Combined','Administrative','Other'];
+  const dv = SpreadsheetApp.newDataValidation().requireValueInList(opts).build();
+  sh.getRange(2,3,1000,1).setDataValidation(dv);
+
+  const cb = SpreadsheetApp.newDataValidation().requireCheckbox().build();
+  sh.getRange(2,5,1000,1).setDataValidation(cb).setValue(false);
+
+  sh.autoResizeColumns(1, headers.length);
+  sh.setFrozenRows(1);
+}
+
+function readSourceMaterials_(resourcesLink){
+  let collected = '=== SOURCE MATERIALS ===\n\n';
+  let urlText = '';
+
+  const directUrls = extractUrls_(resourcesLink);
+  if (directUrls.length) urlText += fetchUrlsBundle_(directUrls);
+
+  try{
+    const id = extractIdFromUrl_(resourcesLink);
+    if (id){
+      try {
+        const folder = DriveApp.getFolderById(id);
+        collected += readFromFolder_(folder);
+      } catch(e1){
+        try {
+          const docText = DocumentApp.openById(id).getBody().getText();
+          collected += docText ? (docText + '\n') : '';
+          const urlsInDoc = extractUrls_(docText);
+          if (urlsInDoc.length) urlText += fetchUrlsBundle_(urlsInDoc);
+        } catch(e2){}
+      }
+    }
+  }catch(e){}
+
+  return collected + urlText;
+}
+
+function readFromFolder_(folder){
+  const files = folder.getFiles();
+  let content = '=== FOLDER DOCS ===\n\n';
+  let urlText = '';
+  while (files.hasNext()){
+    const f = files.next();
+    const name = f.getName();
+    try{
+      if (String(f.getMimeType()).indexOf('document')>=0){
+        const doc = DocumentApp.openById(f.getId());
+        const t = doc.getBody().getText() || '';
+        content += `--- ${name} ---\n` + t + '\n\n';
+        const urls = extractUrls_(t);
+        if (urls.length) urlText += fetchUrlsBundle_(urls);
+      }
+    }catch(e){}
+  }
+  return content + urlText;
+}
+
+function generateCourseRecommendation(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  if (sh.getName() !== 'Mapping') return SpreadsheetApp.getUi().alert('Run on the Mapping tab.');
+  const r = sh.getActiveRange().getRow();
+  if (r === 1) return SpreadsheetApp.getUi().alert('Select a data row.');
+
+  const concept = sh.getRange(r,1).getValue();
+  const sourceLink = sh.getRange(r,2).getValue();
+  const audience = sh.getRange(r,3).getValue() || 'Clinical';
+  if (!concept || !sourceLink) return SpreadsheetApp.getUi().alert('Fill Concept (A) and Resources (B).');
+
+  const srcText = readSourceMaterials_(sourceLink);
+
+  const mappingPrompt = brandHeader_() + '\n' + COURSE_MAPPING_PROMPT +
+    `\n\nCONCEPT: ${concept}\nSELECTED TARGET AUDIENCE: ${audience}\n\nSOURCE MATERIALS PROVIDED:\n${String(srcText).slice(0,12000)}`;
+  const rec = callGemini(mappingPrompt, 7000);
+
+  const doc = DocumentApp.create(`${concept}_Recommendations_${new Date().toISOString().slice(0,16).replace('T','_')}`);
+  let file = DriveApp.getFileById(doc.getId());
+  DriveApp.getFolderById(CFG.DRIVE_FOLDER_ID).addFile(file);
+  DriveApp.getRootFolder().removeFile(file);
+  doc.getBody().appendParagraph(rec);
+  doc.saveAndClose();
+
+  try{
+    const rPrompt = brandHeader_() + '\n' + RESEARCH_ENHANCEMENT_PROMPT.replace('[EXISTING_SOURCES]', String(srcText).slice(0,8000));
+    const rOut = callGemini(rPrompt, 2800);
+    const d2 = DocumentApp.openById(doc.getId());
+    d2.getBody().appendParagraph('\n\nADDITIONAL RECOMMENDED SOURCES (AI‑assisted)\n').appendParagraph(rOut);
+    d2.saveAndClose();
+  } catch(e){}
+
+  sh.getRange(r,4).setValue(doc.getUrl());
+
+  const names = extractModuleNames_(rec);
+  sh.getRange(r,7).setValue(names.join('\n'));
+  for (let i=0;i<12;i++){ sh.getRange(r,8+i).setValue(names[i]||''); }
+
+  SpreadsheetApp.getUi().alert('Course recommendation generated and document created.');
+}
+
+
+// Enhanced course recommendation with progress tracking
+function generateCourseRecommendationEnhanced() {
+  const sh = SpreadsheetApp.getActiveSheet();
+  if (sh.getName() !== 'Mapping') return SpreadsheetApp.getUi().alert('Run on the Mapping tab.');
+  const r = sh.getActiveRange().getRow();
+  if (r === 1) return SpreadsheetApp.getUi().alert('Select a data row.');
+
+  try {
+    CFG.validateConfiguration();
+    
+    const inputs = {
+      concept: sh.getRange(r, 1).getValue(),
+      sourceLink: sh.getRange(r, 2).getValue(),
+      audience: sh.getRange(r, 3).getValue() || 'Clinical'
+    };
+    
+    validateRequiredInputs(inputs, ['concept', 'sourceLink'], 'course recommendation');
+    
+    const backupUrl = createWorkflowBackup(inputs.concept);
+    
+    trackProgress('Course Recommendation', 1, 4, 'Reading source materials...');
+    const srcText = readSourceMaterials_(inputs.sourceLink);
+    
+    trackProgress('Course Recommendation', 2, 4, 'Generating recommendation...');
+    const mappingPrompt = brandHeader_() + '\n' + COURSE_MAPPING_PROMPT +
+      `\n\nCONCEPT: ${inputs.concept}\nSELECTED TARGET AUDIENCE: ${inputs.audience}\n\nSOURCE MATERIALS PROVIDED:\n${String(srcText).slice(0,12000)}`;
+    
+    const rec = callGeminiWithRetry(mappingPrompt, 7000);
+    
+    trackProgress('Course Recommendation', 3, 4, 'Creating documentation...');
+    const doc = DocumentApp.create(`${inputs.concept}_Recommendations_${new Date().toISOString().slice(0,16).replace('T','_')}`);
+    let file = DriveApp.getFileById(doc.getId());
+    DriveApp.getFolderById(CFG.DRIVE_FOLDER_ID).addFile(file);
+    DriveApp.getRootFolder().removeFile(file);
+    doc.getBody().appendParagraph(rec);
+    doc.saveAndClose();
+
+    try {
+      const rPrompt = brandHeader_() + '\n' + RESEARCH_ENHANCEMENT_PROMPT.replace('[EXISTING_SOURCES]', String(srcText).slice(0,8000));
+      const rOut = callGeminiWithRetry(rPrompt, 2800);
+      const d2 = DocumentApp.openById(doc.getId());
+      d2.getBody().appendParagraph('\n\nADDITIONAL RECOMMENDED SOURCES (AI‑assisted)\n').appendParagraph(rOut);
+      d2.saveAndClose();
+    } catch (e) {
+      console.warn('Research enhancement failed:', e.message);
+    }
+
+    sh.getRange(r, 4).setValue(doc.getUrl());
+
+    trackProgress('Course Recommendation', 4, 4, 'Extracting module names...');
+    const names = extractModuleNames_(rec);
+    sh.getRange(r, 7).setValue(names.join('\n'));
+    for (let i = 0; i < 12; i++) { sh.getRange(r, 8 + i).setValue(names[i] || ''); }
+
+    const message = `✅ Course recommendation generated successfully!\n\nDocument: ${doc.getUrl()}\nModules identified: ${names.length}` +
+      (backupUrl ? `\n\nBackup created: ${backupUrl}` : '');
+    
+    SpreadsheetApp.getUi().alert(message);
+    
+  } catch (error) {
+    SpreadsheetApp.getUi().alert(`Error generating course recommendation: ${error.message}`);
+    console.error('Course recommendation error:', error);
+  }
+}
+
+function processModificationRequest(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  if (sh.getName() !== 'Mapping') return SpreadsheetApp.getUi().alert('Run on the Mapping tab.');
+  const r = sh.getActiveRange().getRow();
+  const concept = sh.getRange(r,1).getValue();
+  const request = sh.getRange(r,6).getValue();
+  const docUrl = sh.getRange(r,4).getValue();
+  if (!request || !docUrl) return SpreadsheetApp.getUi().alert('Need Modification Request (F) and Recommendations link (D).');
+
+  const docId = presIdFromUrl(docUrl) || extractIdFromUrl_(docUrl);
+  let currentText = '';
+  try{ currentText = DocumentApp.openById(docId).getBody().getText(); }catch(e){}
+
+  const prompt = brandHeader_() + `
+Revise the existing course recommendation for "${concept}" based on this request:
+
+${request}
+
+Current document text:
+${currentText}
+
+Return the complete revised recommendation with the same headings and refreshed module list.`;
+  const revised = callGemini(prompt, 7000);
+  const doc = DocumentApp.openById(docId);
+  doc.getBody().clear(); doc.getBody().appendParagraph(revised); doc.saveAndClose();
+
+  const names = extractModuleNames_(revised);
+  sh.getRange(r,7).setValue(names.join('\n'));
+  for (let i=0;i<12;i++){ sh.getRange(r,8+i).setValue(names[i]||''); }
+  sh.getRange(r,6).clearContent();
+  SpreadsheetApp.getUi().alert('Recommendation updated and module list refreshed.');
+}
+
+// ---- Robust Module name extraction ----
+function extractModuleNames_(text){
+  const src = String(text||'');
+
+  // 1) Isolate the "RECOMMENDED MODULES" block up to next section heading
+  const blockMatch = src.match(/RECOMMENDED MODULES\s*:?\s*([\s\S]*?)(?:\n{1,2}(?:COURSE STRUCTURE RATIONALE|MICRO[-–— ]CREDENTIALING VALUE|COURSE RATIONALE|ADDITIONAL RECOMMENDED SOURCES|ASSESSMENTS?|REFERENCES|SOURCES)\b|$)/i);
+  const block = blockMatch ? blockMatch[1] : src;
+
+  // 2) Split into lines and normalise markdown/bullets
+  const lines = block
+    .replace(/\r/g,'')
+    .split('\n')
+    .map(l => l.replace(/\*\*/g,'').trim())
+    .filter(Boolean);
+
+  const names = [];
+  const seen = new Set();
+
+  function pushName(raw){
+    if (!raw) return;
+    let name = String(raw).trim();
+
+    const dashIdx = name.search(/\s[-–—]\s/);
+    if (dashIdx > 0) name = name.slice(0, dashIdx);
+
+    name = name.replace(/^(?:\d+[\.\)]\s*|[-•*]\s*|Module\s*\d+\s*:\s*)/i, '').trim();
+    name = name.replace(/\s*[-–—:|]\s*$/, '').trim();
+
+    if (name && !seen.has(name)) { seen.add(name); names.push(name); }
+  }
+
+  // 3) Primary: numbered / bulleted lines
+  lines.forEach(function(l){
+    if (/^(?:\d+[\.\)]\s*|[-•*]\s*|Module\s*\d+\s*:)/i.test(l)) pushName(l);
+  });
+
+  // 4) Greedy capture if nothing found
+  if (!names.length){
+    lines.forEach(function(l){
+      const m = l.match(/^[A-Z].{4,120}$/);
+      if (m) pushName(l);
+    });
+  }
+
+  return names.slice(0,12);
+}
+
+function refreshModulesFromRecommendation(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  if (sh.getName() !== 'Mapping') return SpreadsheetApp.getUi().alert('Run on the Mapping tab.');
+  const r = sh.getActiveRange().getRow();
+  if (r === 1) return SpreadsheetApp.getUi().alert('Select a data row.');
+
+  const docUrl = sh.getRange(r,4).getValue();
+  if (!docUrl) return SpreadsheetApp.getUi().alert('No Recommendations Doc link in Column D.');
+  const docId = presIdFromUrl(docUrl) || extractIdFromUrl_(docUrl);
+  if (!docId) return SpreadsheetApp.getUi().alert('Could not extract Doc ID from Column D.');
+
+  let text='';
+  try { text = DocumentApp.openById(docId).getBody().getText(); } catch(e){
+    return SpreadsheetApp.getUi().alert('Could not open the document: ' + e.message);
+  }
+
+  const names = extractModuleNames_(text);
+  if (!names.length) return SpreadsheetApp.getUi().alert('No module names detected. Check the numbering/format in the doc.');
+
+  sh.getRange(r,7).setValue(names.join('\n'));
+  for (let i=0;i<12;i++){ sh.getRange(r,8+i).setValue(names[i]||''); }
+  SpreadsheetApp.getUi().alert('Module list refreshed from the Recommendation document.');
+}
+
+// ===================== Approved Course Tab & Module Suite =====================
+function createApprovedCourseTab(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  if (sh.getName() !== 'Mapping') return SpreadsheetApp.getUi().alert('Run on the Mapping tab.');
+  const r = sh.getActiveRange().getRow();
+  const approvedVal = sh.getRange(r,5).getValue();
+  if(!(approvedVal===true || String(approvedVal).toString().trim().toUpperCase()==='TRUE' || String(approvedVal).toString().trim().toUpperCase()==='YES' || String(approvedVal).toString().trim()==='✓')){
+    return SpreadsheetApp.getUi().alert('Tick Approved (E) (checkbox) — or type TRUE.');
+  }
+  const concept = sh.getRange(r,1).getValue();
+  const ss = SpreadsheetApp.getActive();
+
+  const tabName = `Module-Resources-${concept}`;
+  if (ss.getSheetByName(tabName)) ss.deleteSheet(ss.getSheetByName(tabName));
+  const t = ss.insertSheet(tabName);
+  const headers = ['Module Name','Course Name','Module Description','Key Concepts','Scenarios','Assessments','Downloadable Resources','Slide Specs'];
+  t.getRange(1,1,1,headers.length).setValues([headers]).setFontWeight('bold');
+
+  for (let c=8;c<=19;c++){ const v = sh.getRange(r,c).getValue(); if (v) { const R=t.getLastRow()+1; t.getRange(R,1).setValue(v); t.getRange(R,2).setValue(concept);} }
+
+  const ttsName = `TTS-${concept}`;
+  if (ss.getSheetByName(ttsName)) ss.deleteSheet(ss.getSheetByName(ttsName));
+  const tts = ss.insertSheet(ttsName);
+  tts.getRange(1,1,1,7).setValues([[ 'Module Name','Slide Number','Slide Content','Speaker Notes','Duration','Slides (PPT-ready)','Audio (WAV)' ]]).setFontWeight('bold');
+
+  SpreadsheetApp.getUi().alert(`Created:\n${tabName}\n${ttsName}\n\nNext: run "Generate Full Module Resource Suite" on each row (or all rows).`);
+}
+
+function normalizeSpecsText(text){
+  let t = String(text||'').replace(/\r/g,'');
+  t = t.replace(/#\s*Slide\s+\d+\s*:/g, '\n$&');
+  t = t.replace(/([^\n])#\s*(?=[A-Za-z])/g, '$1\n# ');
+  t = t.replace(/^[ \t]*[•▪●➔▶►]\s+/gm, '- ');
+  return t.trim();
+}
+
+// ---- Slide specs parsing & resources helpers (drop-in) ----
+function parseSlideSpecs(text){
+  const t = normalizeSpecsText(text);
+  const re = /(?:^|\n)#\s*(?:Slide\s+\d+\s*:\s*)?([^\n]+)\s*\n?([\s\S]*?)(?=(?:\n#\s*(?:Slide\s+\d+\s*:)?|$))/g;
+  const slides = [];
+  let m;
+  while ((m = re.exec(t)) !== null) {
+    const title = m[1].trim();
+    const bodyBlock = (m[2] || '').trim();
+    const body = bodyBlock ? bodyBlock.split('\n').map(x => x.trim()).filter(Boolean) : [];
+    slides.push({ title, body });
+  }
+  return slides;
+}
+
+function fixShortSpecs_(specText, desiredCount, concept, moduleName, sourcePack){
+  // Ensure at least desiredCount slides; if short, ask Gemini to continue.
+  let combined = String(specText || '').trim();
+  let tries = 0;
+  while (tries < 2){
+    const slides = parseSlideSpecs(combined);
+    if (slides.length >= desiredCount) break;
+    const next = slides.length + 1;
+    const prompt = brandHeader_() + `
+Continue the SLIDE SPECIFICATIONS for the "${concept}" course, module "${moduleName}".
+Start at "# Slide ${next}:" and continue sequentially until there are at least ${desiredCount} total slides.
+Return ONLY the additional slides in this exact format:
+# Slide N: <short title>
+- bullet
+- bullet
+(Use '---' on its own line to indicate a two-column split if needed.)
+
+Earlier slides:
+${combined.slice(0, 4000)}
+
+SOURCE MATERIALS PROVIDED:
+${String(sourcePack || '').slice(0, 6000)}`;
+    const add = callGemini(prompt, 2400);
+    combined = (combined + '\n' + add).trim();
+    tries++;
+  }
+  return combined;
+}
+
+function createModuleResourcesDoc_(concept, moduleName, desc, keys, scns, asmt, sourcePack){
+  const prompt = brandHeader_() + `
+Create a concise, printable "Module Resources Pack" for the course "${concept}", module "${moduleName}".
+Audience: Australian general practice supervisors (GPSA/HPSA context). Use Australian English.
+Structure with these headings (ALL CAPS, exactly):
+OVERVIEW
+IMPLEMENTATION CHECKLIST
+TOOLS & TEMPLATES
+REFERENCES & FURTHER READING
+
+Guidance:
+- OVERVIEW: 4–6 bullet summary tailored to busy supervisors.
+- IMPLEMENTATION CHECKLIST: 10–14 steps to apply learning in practice (actionable, clinic-friendly).
+- TOOLS & TEMPLATES: dot points for practical artefacts (e.g., feedback script, debrief template) with one-line usage notes.
+- REFERENCES & FURTHER READING: 8–12 items favouring Australian (RACGP/ACRRM/AHPRA) plus high-quality international sources; 1–2 line relevance. Do not invent URLs or guideline numbers.
+
+Base your output on this module content:
+DESCRIPTION:
+${desc}
+
+KEY CONCEPTS:
+${keys}
+
+CLINICAL SCENARIOS:
+${scns}
+
+ASSESSMENT METHODS:
+${asmt}
+
+You may incorporate useful items from these materials:
+${String(sourcePack || '').slice(0, 8000)}
+
+Return plain text only.`;
+
+  const bodyText = callGemini(prompt, 3600);
+
+  const doc = DocumentApp.create(`${concept} — ${moduleName} — Resources Pack`);
+  const file = DriveApp.getFileById(doc.getId());
+  DriveApp.getFolderById(CFG.DRIVE_FOLDER_ID).addFile(file);
+  DriveApp.getRootFolder().removeFile(file);
+
+  const body = doc.getBody();
+  body.clear();
+  body.appendParagraph(`${concept} — ${moduleName}`).setHeading(DocumentApp.ParagraphHeading.HEADING1);
+  body.appendParagraph('Module Resources Pack (GPSA/HPSA)').setHeading(DocumentApp.ParagraphHeading.HEADING2);
+  body.appendParagraph(' ').setSpacingAfter(6);
+
+  // Split by ALL-CAPS headings (single line regex; no wraps)
+  const sections = bodyText.split(/\n(?=[A-Z][A-Z &/]+(?:\n|$))/);
+  sections.forEach(function(s){
+    const lines = s.trim().split('\n');
+    if (!lines.length) return;
+    const heading = lines.shift().trim();
+    if (!heading) return;
+    body.appendParagraph(heading).setHeading(DocumentApp.ParagraphHeading.HEADING3);
+    lines.forEach(function(line){ body.appendParagraph(line); });
+    body.appendParagraph(' ');
+  });
+
+  doc.saveAndClose();
+  return doc.getUrl();
+}
+
+function ensureTTSSheet(concept){
+  const ss = SpreadsheetApp.getActive();
+  let tts = ss.getSheetByName(`TTS-${concept}`);
+  if (!tts) {
+    tts = ss.insertSheet(`TTS-${concept}`);
+    tts.getRange(1,1,1,7).setValues([[ 'Module Name','Slide Number','Slide Content','Speaker Notes','Duration','Slides (PPT-ready)','Audio (WAV)' ]]).setFontWeight('bold');
+  }
+  return tts;
+}
+
+function seedTTSFromSpecs(concept, moduleName, specText){
+  const tts = ensureTTSSheet(concept);
+  const norm = s => String(s||'').replace(/\s+/g,' ').trim();
+
+  // Keep header + rows for other modules, remove rows for this one
+  const last = tts.getLastRow();
+  const header = [['Module Name','Slide Number','Slide Content','Speaker Notes','Duration','Slides (PPT-ready)','Audio (WAV)']];
+  const keep = [];
+  for (let r=2; r<=last; r++){
+    const mod = norm(tts.getRange(r,1).getValue());
+    if (mod !== norm(moduleName)){
+      keep.push(tts.getRange(r,1,1,7).getValues()[0]);
+    }
+  }
+  tts.clearContents();
+  tts.getRange(1,1,1,7).setValues(header);
+  if (keep.length) tts.getRange(2,1,keep.length,7).setValues(keep);
+
+  // Rebuild rows from Column H specs with individual slide content
+  const slides = parseSlideSpecs(specText);
+  const rows = slides.map((slide, i) => {
+    // Format slide content for PowerPoint
+    const slideContent = `${slide.title}\n${(slide.body || []).map(b => `• ${b.replace(/^\s*[-*•]\s*/, '')}`).join('\n')}`;
+    return [moduleName, i+1, slideContent, '', '', '', ''];
+  });
+  if (rows.length){
+    const start = tts.getLastRow()+1;
+    tts.getRange(start,1,rows.length,7).setValues(rows);
+  }
+
+  SpreadsheetApp.getActive().toast(
+    `Seeded ${rows.length} TTS row(s) for “${moduleName}”. Next: Generate AI Voiceover Scripts (per slide).`,
+    'TTS rows seeded', 5
+  );
+}
+
+function ttsPreflightCheck(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  if (!sh.getName().startsWith('Module-Resources-')) {
+    SpreadsheetApp.getUi().alert('Run on a Module-Resources-{Concept} tab (select a module row).'); 
+    return;
+  }
+  const r = sh.getActiveRange().getRow();
+  const concept = sh.getName().replace(/^Module-Resources-/, '');
+  const moduleName = sh.getRange(r,1).getValue();
+  const spec = sh.getRange(r,8).getValue();
+
+  const slides = parseSlideSpecs(spec);
+  const tts = ensureTTSSheet(concept);
+  let ttsRows = 0;
+  for (let i=2;i<=tts.getLastRow();i++){
+    if (String(tts.getRange(i,1).getValue()).trim() === String(moduleName).trim()) ttsRows++;
+  }
+  SpreadsheetApp.getUi().alert(
+    `Preflight for “${moduleName}”:\nSlides parsed from H: ${slides.length}\nCurrent TTS rows for module: ${ttsRows}\n\nNext: Resync rows, then Generate AI Voiceover Scripts.`
+  );
+}
+
+function seedTTSFromSpecsForAllModules(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  if (!sh.getName().startsWith('Module-Resources-')) return SpreadsheetApp.getUi().alert('Run on Module-Resources-{Concept}.');
+  const concept = sh.getName().replace('Module-Resources-','');
+  const last = sh.getLastRow();
+  for (let r=2; r<=last; r++) {
+    const mod = sh.getRange(r,1).getValue();
+    const spec = sh.getRange(r,8).getValue();
+    if (mod && spec) seedTTSFromSpecs(concept, mod, spec);
+  }
+  SpreadsheetApp.getUi().alert('TTS rows were seeded for every module based on Column H Slide Specs.');
+}
+
+function generateModuleSuite(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  if (!sh.getName().startsWith('Module-Resources-')) return SpreadsheetApp.getUi().alert('Run on a Module-Resources-{Concept} tab.');
+  const concept = sh.getName().replace('Module-Resources-','');
+  const last = sh.getLastRow();
+
+  const map = SpreadsheetApp.getActive().getSheetByName('Mapping');
+  let resourcesLink = '';
+  if (map) {
+    const mLast = map.getLastRow();
+    for (let rr=2; rr<=mLast; rr++) {
+      if (String(map.getRange(rr,1).getValue()).trim() === String(concept).trim()) {
+        resourcesLink = map.getRange(rr,2).getValue();
+        break;
+      }
+    }
+  }
+  const sourcePack = resourcesLink ? readSourceMaterials_(resourcesLink) : '';
+
+  for (let r=2; r<=last; r++){
+    const moduleName = sh.getRange(r,1).getValue();
+    if (!moduleName) continue;
+    const prompt = brandHeader_() + `
+Create module content for:
+MODULE: ${moduleName}
+COURSE: ${concept}
+
+Return plain text sections with these exact headings:
+MODULE DESCRIPTION
+KEY CONCEPTS
+CLINICAL SCENARIOS
+ASSESSMENT METHODS
+SLIDE SPECIFICATIONS
+
+In SLIDE SPECIFICATIONS produce 8–12 slides using this format:
+# Slide N: <short title>
+- bullet
+- bullet (keep bullets compact, 4–6 per slide)
+(Use '---' on a single line to indicate two-column split on that slide.)
+
+SOURCE MATERIALS PROVIDED:
+${String(sourcePack).slice(0,12000)}`;
+
+    const out = callGemini(prompt, 5000);
+
+    function sec(label){
+      const rx = new RegExp(label + '\\s*\\n([\\s\\S]*?)(?=\\n[A-Z ]{3,}|$)', 'i');
+      const m = out.match(rx); return m ? m[1].trim() : '';
+    }
+    const desc = au(sec('MODULE DESCRIPTION'));
+    const keys = au(sec('KEY CONCEPTS'));
+    const scns = au(sec('CLINICAL SCENARIOS'));
+    const asmt = au(sec('ASSESSMENT METHODS'));
+    let spec = au(sec('SLIDE SPECIFICATIONS'));
+
+    // Ensure at least 8 slides; auto-continue if short
+    spec = fixShortSpecs_(spec, 8, concept, moduleName, sourcePack);
+
+    sh.getRange(r,3).setValue(desc);
+    sh.getRange(r,4).setValue(keys);
+    sh.getRange(r,5).setValue(scns);
+    sh.getRange(r,6).setValue(asmt);
+    
+    // Create Resources Pack doc and write link to Column G
+    try{
+      const resUrl = createModuleResourcesDoc_(concept, moduleName, desc, keys, scns, asmt, sourcePack);
+      sh.getRange(r,7).setValue(resUrl);
+    }catch(e){ sh.getRange(r,7).setValue('Resources pack error: '+e.message); }
+
+    sh.getRange(r,8).setValue(spec);
+
+    seedTTSFromSpecs(concept, moduleName, spec);
+    Utilities.sleep(120);
+  }
+  SpreadsheetApp.getUi().alert('Module Suite generated. TTS rows have been seeded per slide for each module.');
+}
+
+
+// Enhanced module suite generation with batch processing and better error handling
+function generateModuleSuiteEnhanced() {
+  const sh = SpreadsheetApp.getActiveSheet();
+  if (!sh.getName().startsWith('Module-Resources-')) return SpreadsheetApp.getUi().alert('Run on a Module-Resources-{Concept} tab.');
+  const concept = sh.getName().replace('Module-Resources-', '');
+  const last = sh.getLastRow();
+  
+  if (last < 2) {
+    return SpreadsheetApp.getUi().alert('No modules found to process.');
+  }
+  
+  try {
+    CFG.validateConfiguration();
+    
+    // Create backup before major operation
+    const backupUrl = createWorkflowBackup(concept);
+    
+    // Get source materials once (cached approach)
+    trackProgress('Module Suite Generation', 1, last - 1, 'Loading source materials...');
+    
+    const map = SpreadsheetApp.getActive().getSheetByName('Mapping');
+    let sourcePack = '';
+    if (map) {
+      const mLast = map.getLastRow();
+      for (let rr = 2; rr <= mLast; rr++) {
+        if (String(map.getRange(rr, 1).getValue()).trim() === String(concept).trim()) {
+          const resourcesLink = map.getRange(rr, 2).getValue();
+          sourcePack = resourcesLink ? readSourceMaterials_(resourcesLink) : '';
+          break;
+        }
+      }
+    }
+    
+    // Process modules in smaller batches to prevent timeouts
+    const batchSize = CFG.getBatchSize();
+    let successCount = 0;
+    let errorCount = 0;
+    
+    for (let batchStart = 2; batchStart <= last; batchStart += batchSize) {
+      const batchEnd = Math.min(batchStart + batchSize - 1, last);
+      
+      for (let r = batchStart; r <= batchEnd; r++) {
+        const moduleName = sh.getRange(r, 1).getValue();
+        if (!moduleName) continue;
+        
+        try {
+          trackProgress('Module Suite Generation', r - 1, last - 1, `Processing: ${moduleName}`);
+          
+          const prompt = brandHeader_() + `
+Create module content for:
+MODULE: ${moduleName}
+COURSE: ${concept}
+
+Return plain text sections with these exact headings:
+MODULE DESCRIPTION
+KEY CONCEPTS
+CLINICAL SCENARIOS
+ASSESSMENT METHODS
+SLIDE SPECIFICATIONS
+
+In SLIDE SPECIFICATIONS produce 8–12 slides using this format:
+# Slide N: <short title>
+- bullet
+- bullet (keep bullets compact, 4–6 per slide)
+(Use '---' on a single line to indicate two-column split on that slide.)
+
+SOURCE MATERIALS PROVIDED:
+${String(sourcePack).slice(0, 12000)}`;
+
+          const out = callGeminiWithRetry(prompt, 5000);
+          
+          // Extract sections with enhanced error handling
+          function sec(label) {
+            const rx = new RegExp(label + '\\s*\\n([\\s\\S]*?)(?=\\n[A-Z ]{3,}|$)', 'i');
+            const m = out.match(rx);
+            return m ? m[1].trim() : `[${label} not found in generated content]`;
+          }
+          
+          const desc = au(sec('MODULE DESCRIPTION'));
+          const keys = au(sec('KEY CONCEPTS'));
+          const scns = au(sec('CLINICAL SCENARIOS'));
+          const asmt = au(sec('ASSESSMENT METHODS'));
+          let spec = au(sec('SLIDE SPECIFICATIONS'));
+          
+          // Ensure adequate slide count
+          spec = fixShortSpecs_(spec, 8, concept, moduleName, sourcePack);
+          
+          // Update spreadsheet
+          sh.getRange(r, 3).setValue(desc);
+          sh.getRange(r, 4).setValue(keys);
+          sh.getRange(r, 5).setValue(scns);
+          sh.getRange(r, 6).setValue(asmt);
+          sh.getRange(r, 8).setValue(spec);
+          
+          // Create resources pack with error handling
+          try {
+            const resUrl = createModuleResourcesDoc_(concept, moduleName, desc, keys, scns, asmt, sourcePack);
+            sh.getRange(r, 7).setValue(resUrl);
+          } catch (e) {
+            console.warn(`Resource pack creation failed for ${moduleName}:`, e.message);
+            sh.getRange(r, 7).setValue(`Resource pack error: ${e.message}`);
+          }
+          
+          // Seed TTS entries
+          seedTTSFromSpecs(concept, moduleName, spec);
+          
+          successCount++;
+          
+        } catch (error) {
+          console.error(`Module processing failed for ${moduleName}:`, error.message);
+          sh.getRange(r, 3).setValue(`ERROR: ${error.message}`);
+          errorCount++;
+        }
+        
+        // Brief pause between modules
+        Utilities.sleep(120);
+      }
+      
+      // Longer pause between batches if not the last batch
+      if (batchEnd < last) {
+        console.log(`Batch ${Math.ceil((batchStart - 1) / batchSize)} complete. Pausing before next batch...`);
+        Utilities.sleep(2000);
+      }
+    }
+    
+    const message = `✅ Module Suite Generation Complete!\n\n` +
+      `Successfully processed: ${successCount}\n` +
+      `Errors encountered: ${errorCount}\n` +
+      `TTS rows seeded for all successful modules.` +
+      (backupUrl ? `\n\nBackup: ${backupUrl}` : '');
+    
+    SpreadsheetApp.getUi().alert(message);
+    
+  } catch (error) {
+    SpreadsheetApp.getUi().alert(`Module suite generation failed: ${error.message}`);
+    console.error('Module suite generation error:', error);
+  }
+}
+
+// ===================== New Enhanced Menu Functions =====================
+
+function validateSetup() {
+  try {
+    CFG.validateConfiguration();
+    SpreadsheetApp.getUi().alert('✅ Configuration Valid!\n\nAll required settings are properly configured.');
+  } catch (error) {
+    SpreadsheetApp.getUi().alert(`❌ Configuration Error:\n\n${error.message}`);
+  }
+}
+
+function runDataIntegrityCheck() {
+  const sh = SpreadsheetApp.getActiveSheet();
+  if (!sh.getName().startsWith('Module-Resources-')) {
+    return SpreadsheetApp.getUi().alert('Please run this on a Module-Resources-{Concept} tab.');
+  }
+  
+  const concept = sh.getName().replace('Module-Resources-', '');
+  const issues = validateDataIntegrity(concept);
+  
+  if (issues.length === 0) {
+    SpreadsheetApp.getUi().alert('✅ Data Integrity Check Passed!\n\nNo issues detected.');
+  } else {
+    SpreadsheetApp.getUi().alert(`⚠️ Data Integrity Issues Detected:\n\n${issues.join('\n\n')}`);
+  }
+}
+
+function createManualBackup() {
+  const result = SpreadsheetApp.getUi().prompt('Enter concept name for backup:', 'Backup Creation', SpreadsheetApp.getUi().ButtonSet.OK_CANCEL);
+  if (result.getSelectedButton() !== SpreadsheetApp.getUi().Button.OK) return;
+  
+  const concept = result.getResponseText().trim();
+  if (!concept) return SpreadsheetApp.getUi().alert('Please enter a concept name.');
+  
+  const backupUrl = createWorkflowBackup(concept);
+  if (backupUrl) {
+    SpreadsheetApp.getUi().alert(`✅ Backup Created Successfully!\n\n${backupUrl}`);
+  } else {
+    SpreadsheetApp.getUi().alert('❌ Backup creation failed. Check console for details.');
+  }
+}
+
+function showApiUsageStats() {
+  try {
+    const props = PropertiesService.getScriptProperties().getProperties();
+    const today = new Date().toDateString();
+    
+    const usageStats = Object.keys(props)
+      .filter(key => key.startsWith('usage_') && key.includes(today))
+      .map(key => {
+        const parts = key.split('_');
+        const endpoint = parts[1];
+        return `${endpoint}: ${props[key]} tokens`;
+      });
+    
+    if (usageStats.length === 0) {
+      SpreadsheetApp.getUi().alert('No API usage recorded for today.');
+    } else {
+      SpreadsheetApp.getUi().alert(`API Usage Today:\n\n${usageStats.join('\n')}`);
+    }
+  } catch (error) {
+    SpreadsheetApp.getUi().alert(`Error retrieving usage stats: ${error.message}`);
+  }
+}
+
+// Data integrity validation function
+function validateDataIntegrity(concept) {
+  const issues = [];
+  
+  try {
+    const moduleSheet = SpreadsheetApp.getActive().getSheetByName(`Module-Resources-${concept}`);
+    if (!moduleSheet) {
+      issues.push('Module-Resources sheet missing');
+      return issues;
+    }
+    
+    const ttsSheet = SpreadsheetApp.getActive().getSheetByName(`TTS-${concept}`);
+    if (!ttsSheet) {
+      issues.push('TTS sheet missing');
+      return issues;
+    }
+    
+    // Get module names from both sheets
+    const moduleNames = [];
+    for (let r = 2; r <= moduleSheet.getLastRow(); r++) {
+      const name = moduleSheet.getRange(r, 1).getValue();
+      if (name) moduleNames.push(String(name).trim());
+    }
+    
+    const ttsModuleNames = new Set();
+    for (let r = 2; r <= ttsSheet.getLastRow(); r++) {
+      const name = ttsSheet.getRange(r, 1).getValue();
+      if (name) ttsModuleNames.add(String(name).trim());
+    }
+    
+    // Check for orphaned TTS entries
+    const orphaned = Array.from(ttsModuleNames).filter(name => !moduleNames.includes(name));
+    if (orphaned.length > 0) {
+      issues.push(`Orphaned TTS entries: ${orphaned.join(', ')}`);
+    }
+    
+    // Check for modules without TTS entries
+    const missingTTS = moduleNames.filter(name => !ttsModuleNames.has(name));
+    if (missingTTS.length > 0) {
+      issues.push(`Modules missing TTS entries: ${missingTTS.join(', ')}`);
+    }
+    
+  } catch (error) {
+    issues.push(`Integrity check failed: ${error.message}`);
+  }
+  
+  return issues;
+}
+
+function populateTTSWithAIGeneratedVoiceovers(){
+  const mres = SpreadsheetApp.getActiveSheet();
+  if (!mres.getName().startsWith('Module-Resources-')) {
+    SpreadsheetApp.getUi().alert('Run this on a Module-Resources-{Concept} tab (select a module row).');
+    return;
+  }
+  const concept = mres.getName().replace(/^Module-Resources-/, '');
+  const row = mres.getActiveRange().getRow();
+  const moduleName = mres.getRange(row, 1).getValue();
+  const spec = mres.getRange(row, 8).getValue();
+  const norm = s => String(s||'').replace(/\s+/g,' ').trim();
+
+  if (!norm(moduleName)) { SpreadsheetApp.getUi().alert('No Module Name in Column A for the selected row.'); return; }
+  if (!norm(spec)) { SpreadsheetApp.getUi().alert('No Slide Specs in Column H for this module.'); return; }
+
+  // Parse slides from Column H
+  const slides = parseSlideSpecs(spec);
+  if (!slides.length){
+    SpreadsheetApp.getUi().alert('Could not parse any slides from Column H. Expect "# Slide N: Title" followed by "- bullets".');
+    return;
+  }
+
+  // Skip auto-seeding - assume rows already exist from Create Approved Course Tab
+  // seedTTSFromSpecs(concept, moduleName, spec);
+
+  // Locate TTS rows for this module in order
+  const tts = ensureTTSSheet(concept);
+  const last = tts.getLastRow();
+  const rows = [];
+  for (let r=2; r<=last; r++){
+    if (norm(tts.getRange(r,1).getValue()) === norm(moduleName)) {
+      const n = Number(tts.getRange(r,2).getValue()) || r;
+      rows.push({ r, n });
+    }
+  }
+  if (!rows.length) { SpreadsheetApp.getUi().alert('No TTS rows found after seeding.'); return; }
+  rows.sort((a,b)=>a.n-b.n);
+
+  // Build prompts → one per slide
+  const prompts = slides.map((s,i)=>{
+    const bullets = (s.body||[])
+      .map(b=>'- '+String(b).replace(/^\s*[-*•]\s*/, '').trim())
+      .join('\n');
+    return brandHeader_() + `
+Write a clear, engaging voiceover script (60–90 seconds) for a training slide in the "${concept}" course.
+
+Slide ${i+1} title: ${s.title}
+Key points:
+${bullets}
+
+Write in a professional, conversational tone suitable for Australian healthcare professionals. Focus on making the content engaging, not engaging the listener with unnecessary and tacky greeting phrases.
+
+Return ONLY the script text - no introductory phrases or greetings, no colloquialisms or cheesy phrasing as may be more suited to a salesperson.`;
+  });
+  if (!prompts.length){ SpreadsheetApp.getUi().alert('No prompts built for this module.'); return; }
+
+  // Call Gemini → collect scripts + durations (with rate limiting)
+  const scripts = [];
+  const durations = [];
+  
+  // Show progress
+  trackProgress('Voiceover Generation', 0, prompts.length, 'Starting voiceover script generation...');
+  
+  for (let i=0;i<prompts.length;i++){
+    try{
+      trackProgress('Voiceover Generation', i + 1, prompts.length, `Generating script for slide ${i + 1}...`);
+      const script = au(callGeminiWithRetry(prompts[i], 1000)); // Use enhanced retry
+      const trimmed = String(script||'').trim();
+      if (!trimmed) throw new Error('Empty response from model');
+      scripts.push([trimmed]);
+      const words = trimmed.split(/\s+/).filter(Boolean).length;
+      const mins = Math.max(0.5, Math.round((words / CFG.TTS_WPM) * 10) / 10);
+      durations.push([`${mins} min`]);
+    }catch(e){
+      scripts.push([`[[ERROR: ${e.message}]]`]);
+      durations.push(['']);
+    }
+    Utilities.sleep(8000); // 8 seconds between requests to stay under 10/minute
+  }
+
+  // Sanity checks & write
+  if (rows.length < scripts.length){
+    SpreadsheetApp.getUi().alert(
+      `Parsed ${scripts.length} slides but found only ${rows.length} TTS rows for “${moduleName}”. Re-run “Resync: Seed TTS rows…” and try again.`
+    );
+    return;
+  }
+  const start = rows[0].r;
+  tts.getRange(start, 4, scripts.length, 1).setValues(scripts);   // Column D: speaker notes
+  tts.getRange(start, 5, durations.length, 1).setValues(durations); // Column E: duration
+
+  const wrote = scripts.filter(x => String(x[0]||'').trim() && !/^\[\[ERROR:/.test(x[0])).length;
+  if (!wrote){
+    SpreadsheetApp.getUi().alert('No voiceover text was generated (responses were empty or errors). Check Slide Specs formatting or API quota and try again.');
+    return;
+  }
+  SpreadsheetApp.getUi().alert(`Generated ${wrote} voiceover script(s) for “${moduleName}” and saved them to the TTS tab.`);
+}
+
+// ===================== Slides (Alt‑text aware) =====================
+function createSlidesForSelectedRow(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  let concept, moduleName;
+  
+  if (sh.getName().startsWith('TTS-')) {
+    concept = sh.getName().replace('TTS-','');
+    const r = sh.getActiveRange().getRow();
+    moduleName = sh.getRange(r,1).getValue();
+  } else if (sh.getName().startsWith('Module-Resources-')) {
+    concept = sh.getName().replace('Module-Resources-','');
+    const r = sh.getActiveRange().getRow();
+    moduleName = sh.getRange(r,1).getValue();
+  } else {
+    return SpreadsheetApp.getUi().alert('Run on TTS-{Concept} or Module-Resources-{Concept} tab.');
+  }
+  
+  if (!moduleName) return SpreadsheetApp.getUi().alert('Select a row with a module name.');
+
+  // Get individual slide content from TTS tab instead of batched specs
+  const tts = ensureTTSSheet(concept);
+  const slideContents = [];
+  for (let ttsRow = 2; ttsRow <= tts.getLastRow(); ttsRow++) {
+    if (String(tts.getRange(ttsRow, 1).getValue()).trim() === String(moduleName).trim()) {
+      const slideContent = tts.getRange(ttsRow, 3).getValue(); // Column C
+      slideContents.push(slideContent);
+    }
+  }
+  
+  if (!slideContents.length) {
+    return SpreadsheetApp.getUi().alert('No slide content found in TTS tab. Run "Generate Full Module Resource Suite" first.');
+  }
+
+  const pres = createDeckFromTemplate(`${concept} — ${moduleName}`);
+  buildSlidesFromTTSContent(pres, slideContents);
+  const protos = pres.getSlides().slice(0,2);
+  protos.forEach(function(s){ s.remove(); });
+
+  const url = 'https://docs.google.com/presentation/d/' + pres.getId() + '/edit';
+  writeSlidesLinkToTTS(concept, moduleName, url);
+  SpreadsheetApp.getUi().alert('Slides created:\n' + url + '\n(link saved to TTS Column F)');
+}
+
+function createSlidesForAllRows(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  // Accept either TTS or Module-Resources tab
+  let concept;
+  if (sh.getName().startsWith('TTS-')) {
+    concept = sh.getName().replace('TTS-','');
+  } else if (sh.getName().startsWith('Module-Resources-')) {
+    concept = sh.getName().replace('Module-Resources-','');
+  } else {
+    return SpreadsheetApp.getUi().alert('Run on TTS-{Concept} or Module-Resources-{Concept} tab.');
+  }
+  
+  // Work from TTS tab regardless of where we started
+  const tts = ensureTTSSheet(concept);
+  const processedModules = new Set();
+  
+  for (let r = 2; r <= tts.getLastRow(); r++) {
+    const moduleName = tts.getRange(r, 1).getValue();
+    if (!moduleName || processedModules.has(moduleName)) continue;
+    
+    // Get all slide contents for this module
+    const slideContents = [];
+    for (let ttsRow = 2; ttsRow <= tts.getLastRow(); ttsRow++) {
+      if (String(tts.getRange(ttsRow, 1).getValue()).trim() === String(moduleName).trim()) {
+        const slideContent = tts.getRange(ttsRow, 3).getValue();
+        if (slideContent && String(slideContent).trim()) {
+          slideContents.push(String(slideContent).trim());
+        }
+      }
+    }
+    
+    if (slideContents.length > 0) {
+      try {
+        const pres = createDeckFromTemplate(`${concept} — ${moduleName}`);
+        buildSlidesFromTTSContent(pres, slideContents);
+        pres.getSlides().slice(0, 2).forEach(function(s){ s.remove(); });
+        writeSlidesLinkToTTS(concept, moduleName, 'https://docs.google.com/presentation/d/'+pres.getId()+'/edit');
+        processedModules.add(moduleName);
+        console.log(`Created slides for: ${moduleName}`);
+      } catch (error) {
+        console.error(`Failed to create slides for ${moduleName}:`, error.message);
+      }
+    }
+    
+    Utilities.sleep(150);
+  }
+  
+  SpreadsheetApp.getUi().alert(`Slides created for ${processedModules.size} modules.`);
+}
+
+function createDeckFromTemplate(name){
+  const copy = DriveApp.getFileById(CFG.SLIDES_TEMPLATE_ID).makeCopy(name, DriveApp.getFolderById(CFG.DRIVE_FOLDER_ID));
+  return SlidesApp.openById(copy.getId());
+}
+
+function buildSlidesFromSpecs(pres, specText){
+  const slides = parseSlideSpecs(specText);
+  if (!slides.length) throw new Error('Could not parse slide specs in Column H.');
+  const intro = duplicatePrototype(pres, true);
+  fillSlide(intro, slides[0]);
+  for (let i=1;i<slides.length;i++){
+    const s = duplicatePrototype(pres, false);
+    fillSlide(s, slides[i]);
+  }
+}
+
+// New function to build slides from individual TTS content
+function buildSlidesFromTTSContent(pres, slideContents) {
+  if (!slideContents.length) throw new Error('No slide contents provided.');
+  
+  console.log(`Building ${slideContents.length} slides from TTS content...`);
+  
+  // Enhanced TTS content parsing with better error handling
+  const slideSpecs = slideContents.map(content => {
+    const lines = String(content).split('\n').filter(Boolean);
+    const title = lines[0] || 'Untitled Slide';
+    const body = lines.slice(1).map(line => line.replace(/^•\s*/, '')); // Remove bullet formatting
+    return { title, body };
+  });
+  
+  // Create slides using existing, working fillSlide function
+  const intro = duplicatePrototype(pres, true);
+  fillSlide(intro, slideSpecs[0]);
+  
+  for (let i = 1; i < slideSpecs.length; i++) {
+    const slide = duplicatePrototype(pres, false);
+    fillSlide(slide, slideSpecs[i]);
+  }
+}
+
+function duplicatePrototype(pres, intro){ const idx = intro ? 0 : 1; return pres.getSlides()[idx].duplicate(); }
+
+function findShape(slide, placeholderType, altList){
+  try { const ph = slide.getPlaceholder(placeholderType); if (ph) return ph.asShape(); } catch(e){}
+  const shapes = slide.getPageElements()
+    .filter(function(pe){ return pe.getPageElementType()===SlidesApp.PageElementType.SHAPE; })
+    .map(function(pe){ return pe.asShape(); });
+  for (let i=0;i<(altList||[]).length;i++){
+    const alt = altList[i];
+    const hit = shapes.find(function(s){
+      const a = (s.getAltTextTitle && s.getAltTextTitle()) || '';
+      const t = (s.getTitle && s.getTitle()) || '';
+      return a===alt || t===alt;
+    });
+    if (hit) return hit;
+  }
+  return shapes[0] || null;
+}
+
+function replaceImages(slide, imageMap){
+  if (!imageMap) return;
+  slide.getPageElements().forEach(function(el){
+    if (el.getPageElementType()!==SlidesApp.PageElementType.SHAPE) return;
+    const tag = (el.getTitle && el.getTitle()) || (el.asShape && el.asShape().getAltTextTitle && el.asShape().getAltTextTitle()) || '';
+    if (!tag || !imageMap[tag]) return;
+    const left=el.getLeft(), top=el.getTop(), w=el.getWidth(), h=el.getHeight();
+    const blob = DriveApp.getFileById(imageMap[tag]).getBlob();
+    el.remove();
+    slide.insertImage(blob,left,top,w,h);
+  });
+}
+
+function fillSlide(slide, spec){
+  if (!spec) return;
+  
+  // Handle images if present
+  const imgLine = (spec.body||[]).find(function(l){ return /^IMAGES\s*:/i.test(String(l||'')); });
+  const imageMap = {};
+  if (imgLine) {
+    String(imgLine).replace(/^IMAGES\s*:\s*/i,'').split(';').forEach(function(pair){
+      const kv = pair.split('=');
+      const k = String(kv[0]||'').trim();
+      const v = String(kv[1]||'').trim();
+      if (k && v) imageMap[k]=v;
+    });
+  }
+
+  // Handle split content
+  const splitIndex = (spec.body||[]).findIndex(function(l){ return /^---\s*$/.test(String(l||'').trim()); });
+  const bodyLeft  = splitIndex>=0 ? spec.body.slice(0,splitIndex) : spec.body;
+  const bodyRight = splitIndex>=0 ? spec.body.slice(splitIndex+1) : null;
+
+  // Set title
+  const titleShape = findShape(slide, SlidesApp.PlaceholderType.TITLE, ['TITLE','HEADING_TEXT']);
+  if (titleShape) {
+    try {
+      const t = titleShape.getText();
+      t.setText(au(spec.title||''));
+      // Skip text formatting
+    } catch (e) {
+      console.warn('Could not set title:', e.message);
+    }
+  }
+
+  // Handle body content
+  if (bodyRight){
+    // Two-column layout
+    const left  = findShape(slide, SlidesApp.PlaceholderType.BODY, ['TEXT_LEFT','TEXT_PARAGRAPH','LIST_TEXTBOX','BODY']);
+    const right = findShape(slide, SlidesApp.PlaceholderType.BODY, ['TEXT_RIGHT','TEXT_PARAGRAPH','LIST_TEXTBOX','BODY']);
+    
+    if (left) {
+      try {
+        const tx = left.getText();
+        const leftText = bodyLeft.map(line => `• ${String(line).replace(/^\s*[-*•]\s*/, '').trim()}`).join('\n');
+        tx.setText(leftText);
+      } catch (e) {
+        console.warn('Could not set left column:', e.message);
+      }
+    }
+    
+    if (right) {
+      try {
+        const tx = right.getText();
+        const rightText = bodyRight.map(line => `• ${String(line).replace(/^\s*[-*•]\s*/, '').trim()}`).join('\n');
+        tx.setText(rightText);
+      } catch (e) {
+        console.warn('Could not set right column:', e.message);
+      }
+    }
+  } else {
+    // Single column layout
+    const bodyShape = findShape(slide, SlidesApp.PlaceholderType.BODY, ['LIST_TEXTBOX','TEXT_PARAGRAPH','BODY']);
+    if (bodyShape){
+      try {
+        const tx = bodyShape.getText();
+        const bodyText = (spec.body||[]).map(line => `• ${String(line).replace(/^\s*[-*•]\s*/, '').trim()}`).join('\n');
+        tx.setText(bodyText);
+        // Skip bullet formatting to avoid template conflicts
+      } catch (e) {
+        console.warn('Could not set body content:', e.message);
+      }
+    }
+  }
+
+  // Handle image replacement
+  replaceImages(slide, imageMap);
+}
+
+function writeSlidesLinkToTTS(concept, module, url){
+  const tts = ensureTTSSheet(concept);
+  for (let r=2; r<=tts.getLastRow(); r++){
+    if (String(tts.getRange(r,1).getValue()).trim()===String(module).trim()){
+      tts.getRange(r,6).setValue(url);
+    }
+  }
+}
+
+// ===================== PPTX Export =====================
+function exportSelectedDeckToPptx(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  let concept, moduleName;
+  
+  if (sh.getName().startsWith('TTS-')) {
+    concept = sh.getName().replace('TTS-','');
+    const r = sh.getActiveRange().getRow();
+    moduleName = sh.getRange(r,1).getValue();
+  } else if (sh.getName().startsWith('Module-Resources-')) {
+    concept = sh.getName().replace('Module-Resources-','');
+    const r = sh.getActiveRange().getRow();
+    moduleName = sh.getRange(r,1).getValue();
+  } else {
+    return SpreadsheetApp.getUi().alert('Run on TTS-{Concept} or Module-Resources-{Concept} tab.');
+  }
+  
+  if (!moduleName) return SpreadsheetApp.getUi().alert('Select a row with a module name.');
+  const tts = ensureTTSSheet(concept);
+  let slidesUrl = '';
+  for (let i=2;i<=tts.getLastRow();i++){
+    if (String(tts.getRange(i,1).getValue()).trim()===String(moduleName).trim()){
+      slidesUrl = tts.getRange(i,6).getValue();
+      if (slidesUrl) break;
+    }
+  }
+  if (!slidesUrl) return SpreadsheetApp.getUi().alert('No Slides link found in TTS. Create slides first.');
+  const id = presIdFromUrl(slidesUrl);
+  const token = ScriptApp.getOAuthToken();
+  const url = 'https://www.googleapis.com/drive/v3/files/'+id+'/export?mimeType=application/vnd.openxmlformats-officedocument.presentationml.presentation';
+  const resp = UrlFetchApp.fetch(url, { headers: { Authorization: 'Bearer ' + token }, muteHttpExceptions: true });
+  if (resp.getResponseCode() !== 200) throw new Error('PPTX export failed: ' + resp.getContentText());
+  const blob = resp.getBlob().setName(`${concept} — ${moduleName}.pptx`);
+  const file = DriveApp.getFolderById(CFG.DRIVE_FOLDER_ID).createFile(blob);
+  SpreadsheetApp.getUi().alert('PPTX saved:\n' + file.getUrl());
+}
+
+function exportAllDecksToPptx(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  if (!sh.getName().startsWith('Module-Resources-')) return;
+  const last = sh.getLastRow();
+  for (let r=2;r<=last;r++){ sh.setActiveSelection(sh.getRange(r,1)); exportSelectedDeckToPptx(); Utilities.sleep(120); }
+}
+
+// ===================== Image prompts =====================
+function generateImagePromptsForTab(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  if (!sh.getName().startsWith('Module-Resources-')) return SpreadsheetApp.getUi().alert('Run on Module-Resources-{Concept}.');
+  const concept = sh.getName().replace('Module-Resources-','');
+  let img = SpreadsheetApp.getActive().getSheetByName(`IMG-${concept}`);
+  if (!img){ img=SpreadsheetApp.getActive().insertSheet(`IMG-${concept}`); img.getRange(1,1,1,4).setValues([[ 'Module Name','Slide #','Prompt (AU context)','Drive File ID (optional)' ]]).setFontWeight('bold'); }
+  const last = sh.getLastRow();
+  for (let r=2; r<=last; r++){
+    const module = sh.getRange(r,1).getValue();
+    const spec = sh.getRange(r,8).getValue();
+    if (!module || !spec) continue;
+    const slides = parseSlideSpecs(spec);
+    slides.forEach(function(s,i){
+      const phrases = s.body.map(function(l){ return String(l).replace(/^\s*[-*•]\s*/,'').trim(); }).filter(Boolean).slice(0,6).join('; ');
+      const p = `AU healthcare visual for "${s.title}". Emphasise clinical context; accessible contrast; no baked-in text; culturally safe. Ideas: ${phrases}.`;
+      img.appendRow([module, i+1, p, '']);
+    });
+  }
+  SpreadsheetApp.getUi().alert('Image prompts written.');
+}
+
+// ===================== External TTS CSV (optional) =====================
+function exportTTSForSelectedModuleToCSV(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  let concept, module;
+  
+  if (sh.getName().startsWith('TTS-')) {
+    concept = sh.getName().replace('TTS-','');
+    const row = sh.getActiveRange().getRow();
+    module = sh.getRange(row,1).getValue();
+  } else if (sh.getName().startsWith('Module-Resources-')) {
+    concept = sh.getName().replace('Module-Resources-','');
+    const row = sh.getActiveRange().getRow();
+    module = sh.getRange(row,1).getValue();
+  } else {
+    return SpreadsheetApp.getUi().alert('Run on TTS-{Concept} or Module-Resources-{Concept} tab.');
+  }
+  
+  if (!module) return SpreadsheetApp.getUi().alert('Select a row with a module name.');
+  const url = exportTTSModuleToCSV_(concept, module);
+  SpreadsheetApp.getUi().alert('CSV saved:\n' + url);
+}
+
+function exportTTSForAllModulesToCSV(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  let concept;
+  
+  if (sh.getName().startsWith('TTS-')) {
+    concept = sh.getName().replace('TTS-','');
+  } else if (sh.getName().startsWith('Module-Resources-')) {
+    concept = sh.getName().replace('Module-Resources-','');
+  } else {
+    return SpreadsheetApp.getUi().alert('Run on TTS-{Concept} or Module-Resources-{Concept} tab.');
+  }
+  
+  // Work from TTS tab to get unique modules
+  const tts = ensureTTSSheet(concept);
+  const processedModules = new Set();
+  let count = 0, lastUrl = '';
+  
+  for (let r = 2; r <= tts.getLastRow(); r++) {
+    const module = tts.getRange(r, 1).getValue();
+    if (module && !processedModules.has(module)) {
+      lastUrl = exportTTSModuleToCSV_(concept, module);
+      processedModules.add(module);
+      count++;
+      Utilities.sleep(120);
+    }
+  }
+  
+  SpreadsheetApp.getUi().alert(`CSV files created for ${count} modules. Last file:\n${lastUrl}`);
+}
+
+function exportTTSModuleToCSV_(concept, module){
+  const tts = ensureTTSSheet(concept);
+  const rows = [];
+  for (let r=2; r<=tts.getLastRow(); r++){
+    if (String(tts.getRange(r,1).getValue()).trim() !== String(module).trim()) continue;
+    const slideNo = tts.getRange(r,2).getValue();
+    const script  = tts.getRange(r,3).getValue();
+    rows.push([module, slideNo, script, VOICE_NAME, SPEECH_TEMPERATURE, AUSTRALIAN_PROMPT]);
+  }
+  if (!rows.length) throw new Error('No TTS rows found for module: '+module);
+  const csvLines = [['Module Name','Slide Number','Script','Voice','Temperature','Voice Direction']].concat(rows).map(function(cols){
+    return cols.map(function(v){
+      const s = (v==null?'':String(v)).replace(/"/g,'""');
+      return '"' + s + '"';
+    }).join(',');
+  });
+  const blob = Utilities.newBlob(csvLines.join('\n'), 'text/csv', `${concept} — ${module} — TTS.csv`);
+  const file = DriveApp.getFolderById(CFG.DRIVE_FOLDER_ID).createFile(blob);
+  return file.getUrl();
+}
+
+// ===================== Gemini TTS (WAV) =====================
+function generateGeminiAudioForSelectedModule(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  let concept, module;
+  
+  if (sh.getName().startsWith('TTS-')) {
+    concept = sh.getName().replace('TTS-','');
+    const row = sh.getActiveRange().getRow();
+    module = sh.getRange(row,1).getValue();
+  } else if (sh.getName().startsWith('Module-Resources-')) {
+    concept = sh.getName().replace('Module-Resources-','');
+    const row = sh.getActiveRange().getRow();
+    module = sh.getRange(row,1).getValue();
+  } else {
+    return SpreadsheetApp.getUi().alert('Run on TTS-{Concept} or Module-Resources-{Concept} tab.');
+  }
+  
+  if (!module) return SpreadsheetApp.getUi().alert('Select a row with a module name.');
+  return generateGeminiAudioForModule_(concept, module);
+}
+
+function generateGeminiAudioForAllModules(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  let concept;
+  
+  if (sh.getName().startsWith('TTS-')) {
+    concept = sh.getName().replace('TTS-','');
+  } else if (sh.getName().startsWith('Module-Resources-')) {
+    concept = sh.getName().replace('Module-Resources-','');
+  } else {
+    return SpreadsheetApp.getUi().alert('Run on TTS-{Concept} or Module-Resources-{Concept} tab.');
+  }
+  
+  // Work from TTS tab to get unique modules
+  const tts = ensureTTSSheet(concept);
+  const processedModules = new Set();
+  
+  for (let r = 2; r <= tts.getLastRow(); r++) {
+    const module = tts.getRange(r, 1).getValue();
+    if (module && !processedModules.has(module)) {
+      generateGeminiAudioForModule_(concept, module);
+      processedModules.add(module);
+      Utilities.sleep(120);
+    }
+  }
+  
+  SpreadsheetApp.getUi().alert(`Audio generated for ${processedModules.size} modules.`);
+}
+
+function generateGeminiAudioForModule_(concept, module){
+  const tts = ensureTTSSheet(concept);
+  const folder = DriveApp.getFolderById(CFG.DRIVE_FOLDER_ID);
+  let count=0;
+  for (let r=2;r<=tts.getLastRow();r++){
+    const mod = String(tts.getRange(r,1).getValue()).trim();
+    if (mod !== String(module).trim()) continue;
+    const slideNo = tts.getRange(r,2).getValue();
+    const script = tts.getRange(r,3).getValue();
+    if (!script) continue;
+    try{
+      const audioBlob = callGeminiTTS_(AUSTRALIAN_PROMPT + ' ' + script, VOICE_NAME, SPEECH_TEMPERATURE);
+      if (!audioBlob) { tts.getRange(r,7).setValue('TTS error'); continue; }
+      const name = `${concept} — ${module} — Slide ${slideNo}.wav`;
+      const file = folder.createFile(audioBlob.setName(name));
+      tts.getRange(r,7).setValue(file.getUrl());
+      count++;
+    }catch(e){
+      tts.getRange(r,7).setValue('ERROR: '+e.message);
+    }
+  }
+  SpreadsheetApp.getUi().alert(`Audio generation complete for "${module}". Files created: ${count}`);
+}
+
+function callGeminiTTS_(text, voiceName, temperature){
+  const model = "gemini-2.5-flash-preview-tts";
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${CFG.GEMINI_API_KEY}`;
+  const payload = {
+    contents: [{ parts: [{ text: text }]}],
+    generationConfig: {
+      temperature: temperature,
+      responseModalities: ["AUDIO"],
+      speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: voiceName } } }
+    }
+  };
+  const resp = UrlFetchApp.fetch(apiUrl, { method: 'post', contentType: 'application/json', payload: JSON.stringify(payload), muteHttpExceptions: true });
+  if (resp.getResponseCode() !== 200) throw new Error('Gemini TTS error: ' + resp.getContentText());
+  const data = JSON.parse(resp.getContentText());
+  const part = data?.candidates?.[0]?.content?.parts?.find(function(p){ return p.inlineData && p.inlineData.data; });
+  if (!part) return null;
+  const bytes = Utilities.base64Decode(part.inlineData.data);
+  const mime = part.inlineData.mimeType || "audio/L16;codec=pcm;rate=24000";
+  const wav = convertL16ToWav_(bytes, mime);
+  return Utilities.newBlob(wav, 'audio/wav', 'voiceover.wav');
+}
+
+function convertL16ToWav_(inputData, mimeType = "audio/L16;codec=pcm;rate=24000", numChannels = 1) {
+  const [typeAndMaybe, codecPart, ratePart] = mimeType.split(";");
+  const type = (typeAndMaybe||'').trim();
+  const codec = (codecPart||'').split('=').pop();
+  const sampleRate = (ratePart||'').split('=').pop();
+  if (type !== "audio/L16" || codec !== "pcm") throw new Error('Unsupported audio format from TTS.');
+  const bitsPerSample = 16, blockAlign = numChannels * bitsPerSample / 8,
+    byteRate = Number(sampleRate) * blockAlign, dataSize = inputData.length, fileSize = 36 + dataSize;
+  const header = new ArrayBuffer(44), view = new DataView(header);
+  const writeStr = function(off, s){ for (let i=0;i<s.length;i++) view.setUint8(off+i, s.charCodeAt(i)); };
+  writeStr(0,"RIFF"); view.setUint32(4,fileSize,true); writeStr(8,"WAVE"); writeStr(12,"fmt "); view.setUint32(16,16,true);
+  view.setUint16(20,1,true); view.setUint16(22,numChannels,true); view.setUint32(24,Number(sampleRate),true); view.setUint32(28,byteRate,true);
+  view.setUint16(32,blockAlign,true); view.setUint16(34,bitsPerSample,true); writeStr(36,"data"); view.setUint32(40,dataSize,true);
+  const out = new Uint8Array(44 + dataSize); out.set(new Uint8Array(header),0); out.set(new Uint8Array(inputData),44);
+  return out;
+}
+
+// Purge audio files (MP3/WAV) from the working folder.
+// Optional: pass a concept name to only purge files that start with that concept.
+function purgeTtsAudioInWorkingFolder(conceptFilter){
+  const folder = DriveApp.getFolderById(CFG.DRIVE_FOLDER_ID);
+  const it = folder.getFiles();
+  const re = conceptFilter
+    ? new RegExp('^' + String(conceptFilter).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s—\\s.*\\.(mp3|wav)$','i')
+    : /\.(mp3|wav)$/i;
+
+  let removed = 0, kept = 0;
+  while (it.hasNext()){
+    const f = it.next();
+    const name = f.getName();
+    const mime = String(f.getMimeType()||'').toLowerCase();
+    if (re.test(name) || mime.startsWith('audio/')){
+      try { f.setTrashed(true); removed++; } catch(_) { kept++; }
+    } else {
+      kept++;
+    }
+  }
+  SpreadsheetApp.getUi().alert(`Audio clean-out complete.\nRemoved: ${removed}\nKept: ${kept}\nFolder: ${folder.getName()}`);
+}
+
+function purgeTtsAudioWithConfirm(){
+  const ui = SpreadsheetApp.getUi();
+  const resp = ui.alert('Purge audio files?', 'This will move MP3/WAV files in the working folder to Trash. Continue?', ui.ButtonSet.YES_NO);
+  if (resp !== ui.Button.YES) return;
+  purgeTtsAudioInWorkingFolder(); // or pass a concept: purgeTtsAudioInWorkingFolder('Feedback Skills for GP Supervisors')
+}

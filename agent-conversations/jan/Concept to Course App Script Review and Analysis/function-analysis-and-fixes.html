@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Function Analysis: Quality & PDF Issues | Concept-to-Course</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .code-block { background-color: #1e293b; color: #e2e8f0; border-radius: 8px; padding: 16px; font-family: 'Monaco', 'Consolas', monospace; font-size: 0.9em; overflow-x: auto; }
+        .issue-critical { border-left: 4px solid #ef4444; background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); }
+        .issue-warning { border-left: 4px solid #f59e0b; background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); }
+        .fix-solution { border-left: 4px solid #10b981; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); }
+        .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .diff-removed { background-color: #fee2e2; color: #991b1b; text-decoration: line-through; }
+        .diff-added { background-color: #dcfce7; color: #166534; font-weight: 500; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-red-600 to-orange-600 text-white shadow-lg">
+        <div class="container mx-auto px-6 py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold mb-1">Critical Function Analysis</h1>
+                    <p class="text-red-100">Quality degradation and PDF processing issues in generateCourseRecommendation()</p>
+                </div>
+                <a href="concept-to-course-manager.html" class="bg-white text-red-600 px-4 py-2 rounded-lg hover:bg-gray-100 transition">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Hub
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-6 py-8">
+        
+        <!-- Executive Summary -->
+        <section class="mb-8">
+            <div class="issue-critical rounded-lg p-6">
+                <h2 class="text-xl font-bold mb-4">
+                    <i class="fas fa-exclamation-triangle text-red-600 mr-2"></i>
+                    Critical Issues Identified
+                </h2>
+                <div class="space-y-3">
+                    <p><strong>Quality Degradation:</strong> The modification workflow is inadvertently replacing high-quality original recommendations with simplified versions.</p>
+                    <p><strong>PDF Processing:</strong> PDFs are detected but not being referenced in the final recommendations due to prompt structure issues.</p>
+                    <p><strong>B2 Folder Issue:</strong> The function correctly scans B2 folder for PDFs but the prompt doesn't emphasise their importance sufficiently.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Issue Analysis -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Detailed Issue Analysis</h2>
+            
+            <div class="space-y-6">
+                
+                <!-- Issue 1: Quality Degradation -->
+                <div class="issue-critical rounded-lg p-6">
+                    <h3 class="font-bold text-lg mb-4">
+                        <i class="fas fa-chart-line-down text-red-600 mr-2"></i>
+                        Issue 1: Quality Degradation in Modifications
+                    </h3>
+                    
+                    <div class="bg-white rounded-lg p-4 mb-4">
+                        <h4 class="font-semibold mb-2">Root Cause Analysis:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li>The modification prompt asks Gemini to "revise" the existing recommendation</li>
+                            <li>AI tends to simplify and summarise when asked to revise, rather than enhance</li>
+                            <li>The prompt structure doesn't preserve the original's sophistication level</li>
+                            <li>Quality markers from the original are being lost in translation</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="text-xs text-gray-400 mb-2">Current Problematic Approach:</div>
+                        <pre><span class="diff-removed">mappingPrompt = brandHeader_() + '\n' + 
+    `You are an expert in Australian healthcare education revising a course recommendation.
+    
+ORIGINAL RECOMMENDATION TO ENHANCE: ${existingRecommendation}
+ENHANCEMENT REQUESTS: ${modificationRequests}`</span></pre>
+                    </div>
+                </div>
+
+                <!-- Issue 2: PDF Processing -->
+                <div class="issue-critical rounded-lg p-6">
+                    <h3 class="font-bold text-lg mb-4">
+                        <i class="fas fa-file-pdf text-red-600 mr-2"></i>
+                        Issue 2: PDF Content Not Being Referenced
+                    </h3>
+                    
+                    <div class="bg-white rounded-lg p-4 mb-4">
+                        <h4 class="font-semibold mb-2">Root Cause Analysis:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li>PDFs are correctly detected and passed to callGeminiWithPDFs</li>
+                            <li>However, the prompt doesn't strongly emphasise PDF content utilisation</li>
+                            <li>Gemini may prioritise text sources over PDF content</li>
+                            <li>No explicit instruction to reference specific PDF documents by name</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="text-xs text-gray-400 mb-2">Current Weak PDF Instruction:</div>
+                        <pre><span class="diff-removed">if (srcPack.pdfFiles && srcPack.pdfFiles.length > 0) {
+    mappingPrompt += `\n\nPDF DOCUMENTS PROVIDED: ${srcPack.pdfFiles.length} PDF file(s) attached for analysis. Please extract relevant information from these documents to inform the course development.`;
+}</span></pre>
+                    </div>
+                </div>
+
+                <!-- Issue 3: Folder Scanning Confusion -->
+                <div class="issue-warning rounded-lg p-6">
+                    <h3 class="font-bold text-lg mb-4">
+                        <i class="fas fa-folder-open text-yellow-600 mr-2"></i>
+                        Issue 3: B2 vs T2 Column Confusion
+                    </h3>
+                    
+                    <div class="bg-white rounded-lg p-4">
+                        <p class="text-sm mb-2"><strong>Confirmed:</strong> The function correctly scans Column B (B2) for source materials, not Column T (T20) which is for project folders.</p>
+                        <div class="code-block mt-3">
+                            <pre>const courseFolderUrl = sh.getRange(r,20).getValue(); // Column T - Project folder ✅
+// The collectAllSourceMaterials_(r) function scans B2 for source files ✅</pre>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">This part is working correctly - the issue is in PDF content utilisation, not detection.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Solutions -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Comprehensive Solution</h2>
+            
+            <!-- Enhanced Function -->
+            <div class="fix-solution rounded-lg p-6">
+                <h3 class="font-bold text-lg mb-4">
+                    <i class="fas fa-tools text-green-600 mr-2"></i>
+                    Enhanced generateCourseRecommendation() Function
+                </h3>
+                
+                <div class="bg-white rounded-lg p-4 mb-4">
+                    <h4 class="font-semibold mb-2">Key Improvements:</h4>
+                    <ul class="list-disc list-inside space-y-1 text-sm">
+                        <li><strong>Quality Preservation:</strong> Modification prompts now explicitly preserve and enhance original quality</li>
+                        <li><strong>Strong PDF Integration:</strong> Enhanced PDF prompting with specific content extraction requirements</li>
+                        <li><strong>Document-Specific Instructions:</strong> PDF filenames listed explicitly in prompts</li>
+                        <li><strong>Evidence-Based Enhancement:</strong> Modification requests framed as evidence expansion rather than replacement</li>
+                    </ul>
+                </div>
+                
+                <div class="code-block mb-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs text-gray-400">enhanced-generateCourseRecommendation.js</span>
+                        <button onclick="copyToClipboard('enhanced-function')" class="text-xs bg-green-600 text-white px-2 py-1 rounded">
+                            <i class="fas fa-copy mr-1"></i>Copy Enhanced Function
+                        </button>
+                    </div>
+                    <pre id="enhanced-function">/**
+ * ENHANCED generateCourseRecommendation() - Fixes quality and PDF issues
+ * Replace your existing function with this enhanced version
+ */
+function generateCourseRecommendation(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  if (sh.getName() !== 'Mapping') return SpreadsheetApp.getUi().alert('Run on the Mapping tab.');
+  const r = sh.getActiveRange().getRow();
+  if (r === 1) return SpreadsheetApp.getUi().alert('Select a data row.');
+
+  const concept = sh.getRange(r,1).getValue();
+  const audience = sh.getRange(r,3).getValue() || 'Clinical';
+  const existingRecommendation = sh.getRange(r,4).getValue(); // Column D - existing rec
+  const modificationRequests = sh.getRange(r,6).getValue(); // Column F - modification requests
+  const courseFolderUrl = sh.getRange(r,20).getValue(); // Column T - project folder
+  
+  if (!concept) return SpreadsheetApp.getUi().alert('Fill Concept (A).');
+  if (!courseFolderUrl) return SpreadsheetApp.getUi().alert('Missing Course Project Folder (Column T).');
+
+  // Check if this is a modification request
+  const isModificationRequest = existingRecommendation && 
+                               String(existingRecommendation).trim() && 
+                               modificationRequests && 
+                               String(modificationRequests).trim();
+
+  let ui = SpreadsheetApp.getUi();
+  let userChoice = 'new'; // default
+
+  if (isModificationRequest) {
+    const response = ui.alert(
+      'Existing Recommendation Found',
+      `This course already has a recommendation document.\n\n` +
+      `Modification requests found: "${String(modificationRequests).substring(0, 100)}${String(modificationRequests).length > 100 ? '...' : ''}"\n\n` +
+      `What would you like to do?\n\n` +
+      `• YES: Create ENHANCED recommendation incorporating modification requests\n` +
+      `• NO: Create completely new recommendation (ignores modifications)\n` +
+      `• CANCEL: Stop and review modifications first`,
+      ui.ButtonSet.YES_NO_CANCEL
+    );
+    
+    if (response === ui.Button.CANCEL) return;
+    userChoice = response === ui.Button.YES ? 'modify' : 'new';
+    
+  } else if (existingRecommendation && String(existingRecommendation).trim()) {
+    const response = ui.alert(
+      'Existing Recommendation Found', 
+      `This course already has a recommendation document.\n\n` +
+      `Do you want to create a new recommendation?\n\n` +
+      `TIP: To modify the existing recommendation, enter your requests in Column F (Modification Requests) first.`,
+      ui.ButtonSet.YES_NO
+    );
+    
+    if (response === ui.Button.NO) return;
+    userChoice = 'new';
+  }
+
+  // Multi-source pack WITH PDF support (scans B2 folder correctly)
+  const srcPack = collectAllSourceMaterials_(r);
+  
+  // Enhanced error display with better UX
+  if (srcPack.errors.length) {
+    const permissionErrors = srcPack.errors.filter(err => err.includes('FILE ACCESS ISSUE') || err.includes('FOLDER ACCESS ISSUE'));
+    const otherErrors = srcPack.errors.filter(err => !err.includes('FILE ACCESS ISSUE') && !err.includes('FOLDER ACCESS ISSUE'));
+    
+    let errorMessage = '';
+    
+    if (permissionErrors.length > 0) {
+      errorMessage += '🔒 SHARING PERMISSION ISSUES:\n\n' + permissionErrors.join('\n\n') + '\n\n';
+    }
+    
+    if (otherErrors.length > 0) {
+      errorMessage += '⚠️ OTHER ISSUES:\n\n' + otherErrors.join('\n');
+    }
+    
+    const response = ui.alert(
+      'Source File Issues Detected',
+      errorMessage + '\n\nDo you want to continue generating the recommendation with the available files?',
+      ui.ButtonSet.YES_NO
+    );
+    
+    if (response === ui.Button.NO) return;
+  }
+
+  // ENHANCED prompt building with quality preservation and strong PDF integration
+  let mappingPrompt;
+  let docSuffix = '';
+
+  if (userChoice === 'modify') {
+    // QUALITY-PRESERVING MODIFICATION MODE - Major enhancement
+    docSuffix = '_ENHANCED';
+    
+    // Build comprehensive PDF context
+    let pdfContext = '';
+    if (srcPack.pdfFiles && srcPack.pdfFiles.length > 0) {
+      const pdfNames = srcPack.pdfFiles.map(pdf => pdf.name).join(', ');
+      pdfContext = `
+
+CRITICAL: ${srcPack.pdfFiles.length} PDF DOCUMENTS PROVIDED FOR ANALYSIS:
+Files: ${pdfNames}
+
+MANDATORY PDF INTEGRATION REQUIREMENTS:
+• You MUST extract and integrate specific information from each PDF document
+• Explicitly reference PDF documents by name in your recommendation
+• Use PDF content to strengthen evidence base and module development
+• PDF content should be prominently featured, not secondary to text sources
+• Each PDF should contribute meaningfully to the final recommendation
+• Include specific quotes, data, or frameworks from the PDF materials where relevant
+
+PDF CONTENT PRIORITY: The PDF documents are primary source materials - treat them as the foundation for course development, not supplementary materials.`;
+    }
+    
+    mappingPrompt = brandHeaderWithCitations_() + `
+
+CRITICAL MISSION: ENHANCE AND EXPAND THE EXISTING RECOMMENDATION
+
+You are Australia's leading medical education expert tasked with ENHANCING an existing course recommendation. This is NOT a revision or rewrite - this is an ENHANCEMENT that must EXCEED the original in every measurable dimension.
+
+CONCEPT: ${concept}
+TARGET AUDIENCE: ${audience}
+
+ENHANCEMENT IMPERATIVES:
+1. The enhanced recommendation must be MORE sophisticated, comprehensive, and academically rigorous than the original
+2. PRESERVE all quality elements of the original while adding substantial new value
+3. EXPAND module count and depth - never reduce scope or complexity
+4. ADD more evidence, references, and Australian healthcare frameworks
+5. The result must demonstrate clear enhancement, not simplification
+
+ORIGINAL RECOMMENDATION (TO BE ENHANCED, NOT REPLACED): 
+${existingRecommendation}
+
+ENHANCEMENT REQUESTS TO INCORPORATE:
+${modificationRequests}
+
+ENHANCEMENT STRATEGY:
+• First, identify and preserve all sophistication markers from the original
+• Then, ADD value through the enhancement requests without losing existing quality
+• Expand evidence base with additional RACGP, ACRRM, and Medical Board of Australia sources
+• Enhance module descriptions with more detailed learning objectives and practical applications
+• Strengthen Australian healthcare context and compliance elements
+• Ensure the RECOMMENDED MODULES section is more comprehensive than the original
+
+QUALITY ASSURANCE CHECKLIST:
+✓ More modules than original (never fewer)
+✓ More sophisticated language and analysis
+✓ Expanded evidence base with minimum 15 high-quality Australian references
+✓ Enhanced pedagogical frameworks
+✓ Strengthened compliance with Australian healthcare standards
+✓ More detailed practical applications and case scenarios
+
+TONE REQUIREMENTS:
+• Professional academic tone suitable for senior medical educators
+• NO casual language like "Okay," "Here's," "I have analysed," etc.
+• Evidence-based assertions with integrated citations
+• Sophisticated analysis demonstrating deep expertise in Australian healthcare education
+
+STRUCTURE REQUIREMENTS:
+• Comprehensive "RECOMMENDED MODULES:" section with detailed descriptions
+• Each module must have clear learning objectives and practical applications
+• Module descriptions should be substantial and pedagogically sound
+• Maintain or exceed the structural sophistication of the original document
+
+${pdfContext}` + (srcPack.text && srcPack.text.trim() ? `
+
+ADDITIONAL TEXT SOURCE MATERIALS:
+${String(srcPack.text).slice(0,6000)}` : '');
+
+  } else {
+    // NEW RECOMMENDATION MODE with enhanced PDF integration
+    let pdfContext = '';
+    if (srcPack.pdfFiles && srcPack.pdfFiles.length > 0) {
+      const pdfNames = srcPack.pdfFiles.map(pdf => pdf.name).join(', ');
+      pdfContext = `
+
+CRITICAL: ${srcPack.pdfFiles.length} PDF DOCUMENTS PROVIDED FOR COMPREHENSIVE ANALYSIS:
+Files: ${pdfNames}
+
+PDF INTEGRATION REQUIREMENTS:
+• Extract key concepts, frameworks, and evidence from each PDF document
+• Reference PDF documents explicitly by name throughout your recommendation
+• Use PDF content as primary foundation for course structure and modules
+• Include specific data, quotes, or frameworks from the PDF materials
+• Each PDF should contribute substantially to the final recommendation
+• PDF content takes priority over general knowledge - use provided materials first`;
+    }
+    
+    mappingPrompt = brandHeaderWithCitations_() + '\n' + COURSE_MAPPING_PROMPT +
+      `\n\nCONCEPT: ${concept}\nSELECTED TARGET AUDIENCE: ${audience}` + 
+      pdfContext +
+      (srcPack.text && srcPack.text.trim() ? `\n\nADDITIONAL TEXT SOURCE MATERIALS:\n${String(srcPack.text).slice(0,8000)}` : '');
+  }
+
+  // Call Gemini with enhanced PDF integration
+  let rec;
+  if (srcPack.pdfFiles && srcPack.pdfFiles.length > 0) {
+    Logger.log(`Calling Gemini with ${srcPack.pdfFiles.length} PDF files for concept: ${concept}`);
+    rec = callGeminiWithPDFs(mappingPrompt, 8000, srcPack.pdfFiles);
+  } else {
+    Logger.log(`Calling Gemini without PDFs for concept: ${concept}`);
+    rec = callGemini_(mappingPrompt, 8000);
+  }
+
+  // Create document with appropriate naming
+  const timestamp = new Date().toISOString().slice(0,16).replace('T','_');
+  const docName = `${concept}_Recommendations${docSuffix}_${timestamp}`;
+  const doc = DocumentApp.create(docName);
+  
+  let file = DriveApp.getFileById(doc.getId());
+  const targetFolder = DriveApp.getFolderById(courseFolderUrl.split('/folders/')[1]);
+  targetFolder.addFile(file);
+  DriveApp.getRootFolder().removeFile(file);
+
+  // Add enhancement context to the document if applicable
+  if (userChoice === 'modify') {
+    doc.getBody().appendParagraph(`ENHANCED RECOMMENDATION - ${new Date().toLocaleString()}`).setHeading(DocumentApp.ParagraphHeading.HEADING1);
+    doc.getBody().appendParagraph(`Enhancement requests addressed: ${modificationRequests}`);
+    
+    if (srcPack.pdfFiles && srcPack.pdfFiles.length > 0) {
+      const pdfNames = srcPack.pdfFiles.map(pdf => pdf.name).join(', ');
+      doc.getBody().appendParagraph(`PDF documents integrated: ${pdfNames}`);
+    }
+    
+    const body = doc.getBody();
+    body.appendParagraph('');
+    const subheadingPara = body.appendParagraph('ENHANCED RECOMMENDATION:');
+    subheadingPara.setHeading(DocumentApp.ParagraphHeading.HEADING2);
+  } else if (srcPack.pdfFiles && srcPack.pdfFiles.length > 0) {
+    // For new recommendations with PDFs, note the source materials
+    const pdfNames = srcPack.pdfFiles.map(pdf => pdf.name).join(', ');
+    doc.getBody().appendParagraph(`Source PDF Documents: ${pdfNames}`).setHeading(DocumentApp.ParagraphHeading.HEADING3);
+    doc.getBody().appendParagraph('');
+  }
+
+  doc.getBody().appendParagraph(rec);
+  doc.saveAndClose();
+
+  // Update the mapping sheet
+  sh.getRange(r,4).setValue(doc.getUrl());
+
+  // Extract and populate module names (Columns G-S) - enhanced extraction
+  try {
+    Logger.log('Starting enhanced module extraction...');
+    
+    const moduleNames = extractModuleNames_(rec);
+    
+    if (moduleNames && moduleNames.length > 0) {
+      // Column G: Module List (all module names)
+      sh.getRange(r, 7).setValue(moduleNames.join('\n'));
+      
+      // Columns H-S: Individual module names (up to 12 modules)
+      for (let i = 0; i < 12; i++) {
+        const moduleName = moduleNames[i] || '';
+        sh.getRange(r, 8 + i).setValue(moduleName);
+      }
+      
+      Logger.log(`Successfully extracted ${moduleNames.length} modules for concept: ${concept}`);
+      
+    } else {
+      Logger.log('No modules found in recommendation text - check RECOMMENDED MODULES section format');
+      
+      // Try alternative extraction if standard format fails
+      const alternativeModules = rec.match(/Module \d+[:\-\s]+([^\n]+)/gi);
+      if (alternativeModules) {
+        const cleanModules = alternativeModules.map(m => m.replace(/Module \d+[:\-\s]+/i, '').trim());
+        sh.getRange(r, 7).setValue(cleanModules.join('\n'));
+        Logger.log(`Alternative extraction found ${cleanModules.length} modules`);
+      }
+    }
+    
+  } catch (moduleError) {
+    Logger.log('Error extracting modules: ' + moduleError.toString());
+  }
+
+  // Success notification with PDF confirmation
+  let successMessage = `Course recommendation generated successfully!\n\nDocument: ${docName}`;
+  if (srcPack.pdfFiles && srcPack.pdfFiles.length > 0) {
+    const pdfNames = srcPack.pdfFiles.map(pdf => pdf.name).join(', ');
+    successMessage += `\n\nPDF documents integrated: ${pdfNames}`;
+  }
+  
+  ui.alert('Success', successMessage, ui.ButtonSet.OK);
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Changes Summary -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Key Changes Summary</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- Quality Preservation Changes -->
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                    <h3 class="font-bold text-lg mb-4 text-green-600">
+                        <i class="fas fa-star mr-2"></i>Quality Preservation
+                    </h3>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start">
+                            <span class="text-green-600 mr-2">✓</span>
+                            <span>Changed "revise" to "enhance" in modification prompts</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-600 mr-2">✓</span>
+                            <span>Added explicit quality preservation requirements</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-600 mr-2">✓</span>
+                            <span>Mandated expansion rather than replacement approach</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-600 mr-2">✓</span>
+                            <span>Enhanced document suffix from "_REVISED" to "_ENHANCED"</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- PDF Integration Changes -->
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                    <h3 class="font-bold text-lg mb-4 text-blue-600">
+                        <i class="fas fa-file-pdf mr-2"></i>PDF Integration
+                    </h3>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-start">
+                            <span class="text-blue-600 mr-2">✓</span>
+                            <span>PDF filenames explicitly listed in prompts</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-600 mr-2">✓</span>
+                            <span>Mandatory PDF integration requirements added</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-600 mr-2">✓</span>
+                            <span>PDF content prioritised over general knowledge</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-600 mr-2">✓</span>
+                            <span>Success notifications confirm PDF integration</span>
+                        </li>
+                    </ul>
+                </div>
+                
+            </div>
+        </section>
+
+        <!-- Deployment Instructions -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Deployment Instructions</h2>
+            <div class="bg-white rounded-lg p-6 shadow-md">
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-3">
+                        <span class="bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">1</span>
+                        <div>
+                            <h4 class="font-semibold">Backup Current Function</h4>
+                            <p class="text-sm text-gray-600">Copy your current generateCourseRecommendation() function as a backup</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <span class="bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">2</span>
+                        <div>
+                            <h4 class="font-semibold">Replace Function</h4>
+                            <p class="text-sm text-gray-600">Replace the entire generateCourseRecommendation() function with the enhanced version above</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <span class="bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">3</span>
+                        <div>
+                            <h4 class="font-semibold">Test Enhancement</h4>
+                            <p class="text-sm text-gray-600">Test with a course that has existing recommendation and modification requests</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <span class="bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">4</span>
+                        <div>
+                            <h4 class="font-semibold">Verify PDF Integration</h4>
+                            <p class="text-sm text-gray-600">Check that new recommendations explicitly reference PDF documents by name and content</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Expected Results -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Expected Results After Deployment</h2>
+            
+            <div class="space-y-4">
+                <div class="fix-solution rounded-lg p-4">
+                    <h4 class="font-semibold mb-2">✅ Quality Enhancement</h4>
+                    <p class="text-sm">Modified recommendations will now EXPAND on the original rather than replace it, preserving sophisticated language and academic rigour whilst adding new value.</p>
+                </div>
+                
+                <div class="fix-solution rounded-lg p-4">
+                    <h4 class="font-semibold mb-2">✅ PDF Integration</h4>
+                    <p class="text-sm">Course recommendations will explicitly reference PDF documents by name and integrate their content prominently throughout the document.</p>
+                </div>
+                
+                <div class="fix-solution rounded-lg p-4">
+                    <h4 class="font-semibold mb-2">✅ Evidence Expansion</h4>
+                    <p class="text-sm">Enhanced recommendations will include more Australian healthcare references and stronger evidence bases drawn from uploaded PDF materials.</p>
+                </div>
+                
+                <div class="fix-solution rounded-lg p-4">
+                    <h4 class="font-semibold mb-2">✅ Module Preservation</h4>
+                    <p class="text-sm">Module extraction will maintain or increase the number of modules, ensuring no reduction in course scope or complexity.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Copy to clipboard function
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent || element.innerText;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const button = event.target.closest('button');
+                const originalHTML = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-check mr-1"></i>Copied!';
+                button.classList.add('bg-green-700');
+                button.classList.remove('bg-green-600');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalHTML;
+                    button.classList.remove('bg-green-700');
+                    button.classList.add('bg-green-600');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Nations GP Training Scoping Project - Accordion View</title>
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .accordion-section {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .accordion-section.expanded {
+            border-left-color: #3b82f6;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        
+        .accordion-header {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .accordion-header:hover {
+            background-color: #f1f5f9;
+            transform: translateX(4px);
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            opacity: 0;
+        }
+        
+        .accordion-content.expanded {
+            max-height: 2000px;
+            opacity: 1;
+        }
+        
+        .progress-ring {
+            transition: stroke-dasharray 0.3s ease;
+        }
+        
+        .node-card {
+            transition: all 0.2s ease;
+        }
+        
+        .node-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .status-not-started { border-left: 4px solid #6b7280; }
+        .status-in-progress { border-left: 4px solid #f59e0b; }
+        .status-completed { border-left: 4px solid #10b981; }
+        .status-blocked { border-left: 4px solid #ef4444; }
+        .status-deferred { border-left: 4px solid #8b5cf6; }
+        
+        .priority-high { border-top: 3px solid #ef4444; }
+        .priority-medium { border-top: 3px solid #f59e0b; }
+        .priority-low { border-top: 3px solid #6b7280; }
+        
+        .comment-badge {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .tree-line {
+            border-left: 2px solid #d1d5db;
+            margin-left: 1rem;
+            padding-left: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">First Nations GP Training Scoping Project</h1>
+                <p class="text-sm text-gray-600">Interactive Project Management Tool - GPSA Consulting</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="text-sm text-gray-600">
+                    <span class="font-medium">Overall Progress:</span>
+                    <span id="overall-progress" class="text-blue-600 font-bold">35%</span>
+                </div>
+                <button id="expand-all" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    <i class="fas fa-expand-arrows-alt mr-2"></i>Expand All
+                </button>
+                <button id="collapse-all" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors">
+                    <i class="fas fa-compress-arrows-alt mr-2"></i>Collapse All
+                </button>
+                <button id="generate-report" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                    <i class="fas fa-file-alt mr-2"></i>Generate Report
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="flex">
+        <!-- Main Research Areas -->
+        <div class="flex-1 p-6">
+            <div id="research-areas" class="space-y-4">
+                <!-- Research areas will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="w-80 bg-white shadow-lg border-l">
+            <!-- Project Overview -->
+            <div class="p-4 border-b bg-blue-50">
+                <h3 class="font-semibold text-gray-900 mb-4">Project Overview</h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600">Total Sources</span>
+                        <span class="font-medium">19</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600">Project Lead</span>
+                        <span class="font-medium">Carla</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600">Target Completion</span>
+                        <span class="font-medium">Jan 2026</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600">Client</span>
+                        <span class="font-medium">GPSA</span>
+                    </div>
+                </div>
+                
+                <!-- Overall Progress Ring -->
+                <div class="mt-4 flex items-center justify-center">
+                    <div class="relative w-20 h-20">
+                        <svg class="w-20 h-20 transform -rotate-90" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="40" stroke="#e5e7eb" stroke-width="8" fill="transparent"/>
+                            <circle cx="50" cy="50" r="40" stroke="#3b82f6" stroke-width="8" fill="transparent"
+                                    stroke-dasharray="251.2" stroke-dashoffset="163.28" class="progress-ring"/>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center text-lg font-bold text-blue-600">
+                            35%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Selected Item Details -->
+            <div id="selected-details" class="p-4 border-b" style="display: none;">
+                <h4 class="font-semibold text-gray-900 mb-3">Selected Item</h4>
+                <div id="selected-info"></div>
+            </div>
+            
+            <!-- Comments Section -->
+            <div class="p-4">
+                <div class="flex items-center justify-between mb-4">
+                    <h4 class="font-semibold text-gray-900">Comments & Notes</h4>
+                    <button id="add-comment-btn" class="text-blue-600 hover:text-blue-700" disabled>
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div id="comments-section" class="text-sm text-gray-500 text-center py-4">
+                    Select an item to view comments
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comment Modal -->
+    <div id="comment-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Add Comment</h3>
+                    <button id="close-modal" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <form id="comment-form">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Comment Type</label>
+                        <select id="comment-type" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            <option value="observation">Observation</option>
+                            <option value="question">Question</option>
+                            <option value="source">Source Reference</option>
+                            <option value="recommendation">Recommendation</option>
+                            <option value="barrier">Identified Barrier</option>
+                            <option value="opportunity">Opportunity</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Comment</label>
+                        <textarea id="comment-text" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Enter your research note or observation..."></textarea>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" id="cancel-comment" class="px-4 py-2 text-gray-600 hover:text-gray-800">Cancel</button>
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Add Comment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Research data structure based on your mindmap
+        const researchData = {
+            root: {
+                id: 'root',
+                title: 'Aboriginal and Torres Strait Islander GP Training Supports and Challenges',
+                description: 'Comprehensive scoping study based on 19 sources examining training supports and challenges for Aboriginal and Torres Strait Islander GP trainees and supervisors',
+                level: 0,
+                status: 'in_progress',
+                priority: 'high',
+                completion_percentage: 35,
+                source_count: 19,
+                assigned_to: 'Carla',
+                category: 'root'
+            },
+            areas: [
+                {
+                    id: 'supervisor_support',
+                    title: 'Support for GP Training Supervisors',
+                    description: 'Programs, resources and institutional support available for GP training supervisors working with Aboriginal and Torres Strait Islander trainees',
+                    level: 1,
+                    parent_id: 'root',
+                    status: 'in_progress',
+                    priority: 'high',
+                    completion_percentage: 30,
+                    source_count: 5,
+                    assigned_to: 'Carla',
+                    category: 'support_systems',
+                    subareas: [
+                        {
+                            id: 'team_cultural_learning',
+                            title: 'Team-based cultural learning',
+                            description: 'Team-based approaches to cultural learning and competency development for supervisors',
+                            status: 'in_progress',
+                            priority: 'medium',
+                            completion_percentage: 50,
+                            source_count: 2
+                        },
+                        {
+                            id: 'supervisor_programs',
+                            title: 'Specific supervisor programs',
+                            description: 'Specialised training and support programs for GP supervisors',
+                            status: 'completed',
+                            priority: 'medium',
+                            completion_percentage: 60,
+                            source_count: 3,
+                            programs: [
+                                'RACGP Aboriginal & Torres Strait Islander Health Faculty',
+                                'ACCHOs GP Training Cultural Mentor Support'
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: 'trainee_support',
+                    title: 'Support for Trainees',
+                    description: 'Direct support mechanisms, resources and programs available to Aboriginal and Torres Strait Islander GP trainees',
+                    level: 1,
+                    parent_id: 'root',
+                    status: 'in_progress',
+                    priority: 'high',
+                    completion_percentage: 40,
+                    source_count: 8,
+                    assigned_to: 'Carla',
+                    category: 'support_systems',
+                    subareas: [
+                        {
+                            id: 'indigenous_curriculum',
+                            title: 'Indigenous health curriculum supports',
+                            description: 'Curriculum components and educational resources focused on Indigenous health',
+                            status: 'completed',
+                            priority: 'high',
+                            completion_percentage: 70,
+                            source_count: 4,
+                            programs: ['RACGP Curriculum & Remote Training']
+                        },
+                        {
+                            id: 'clinical_frameworks',
+                            title: 'Clinical support frameworks for registrars',
+                            description: 'Clinical support frameworks specifically designed for registrars',
+                            status: 'in_progress',
+                            priority: 'medium',
+                            completion_percentage: 45,
+                            source_count: 3
+                        },
+                        {
+                            id: 'mentorship_programs',
+                            title: 'Mentorship programs',
+                            description: 'Formal and informal mentoring programs available to trainees',
+                            status: 'in_progress',
+                            priority: 'high',
+                            completion_percentage: 55,
+                            source_count: 2,
+                            programs: ['Mentoring Programs (RACGP ACRRM)']
+                        }
+                    ]
+                },
+                {
+                    id: 'lifecycle_experience',
+                    title: 'The GP Training Lifecycle Experience',
+                    description: 'The journey and experiences of Aboriginal and Torres Strait Islander individuals through the GP training pathway',
+                    level: 1,
+                    parent_id: 'root',
+                    status: 'not_started',
+                    priority: 'medium',
+                    completion_percentage: 20,
+                    source_count: 4,
+                    assigned_to: 'Carla',
+                    category: 'experience',
+                    subareas: [
+                        {
+                            id: 'cultural_compatibility',
+                            title: 'Cultural compatibility of training posts',
+                            description: 'Compatibility between cultural needs and available training posts',
+                            status: 'not_started',
+                            priority: 'medium',
+                            completion_percentage: 15,
+                            source_count: 2,
+                            programs: ['ACCHOs as Placement Settings']
+                        },
+                        {
+                            id: 'rural_placements',
+                            title: 'Rural placements for cultural immersion',
+                            description: 'Rural placement opportunities for cultural immersion and learning',
+                            status: 'not_started',
+                            priority: 'medium',
+                            completion_percentage: 25,
+                            source_count: 2
+                        }
+                    ]
+                },
+                {
+                    id: 'trainee_challenges',
+                    title: 'Trainees Challenges',
+                    description: 'Barriers, obstacles and challenges faced by Aboriginal and Torres Strait Islander GP trainees',
+                    level: 1,
+                    parent_id: 'root',
+                    status: 'in_progress',
+                    priority: 'high',
+                    completion_percentage: 35,
+                    source_count: 6,
+                    assigned_to: 'Carla',
+                    category: 'challenges',
+                    subareas: [
+                        {
+                            id: 'cultural_isolation',
+                            title: 'Cultural isolation in non-community placements',
+                            description: 'Isolation experienced when placed in non-community healthcare settings',
+                            status: 'in_progress',
+                            priority: 'high',
+                            completion_percentage: 40,
+                            source_count: 3
+                        },
+                        {
+                            id: 'limited_phc',
+                            title: 'Lack of comprehensive primary healthcare opportunities',
+                            description: 'Limited access to comprehensive primary healthcare training opportunities',
+                            status: 'in_progress',
+                            priority: 'high',
+                            completion_percentage: 30,
+                            source_count: 3
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // Sample comments data
+        const commentsData = {
+            'cultural_isolation': [
+                {
+                    id: 'comment_1',
+                    author: 'Carla',
+                    comment_type: 'observation',
+                    comment_text: 'This appears to be a significant barrier - need to explore how ACCHOs can provide more placement opportunities to address cultural isolation.',
+                    timestamp: '2024-12-24',
+                    is_resolved: false
+                }
+            ],
+            'supervisor_programs': [
+                {
+                    id: 'comment_2',
+                    author: 'Carla',
+                    comment_type: 'source',
+                    comment_text: 'Strong evidence base for RACGP faculty programs - multiple sources confirm effectiveness. Consider highlighting this as a model for other colleges.',
+                    timestamp: '2024-12-20',
+                    is_resolved: true
+                }
+            ],
+            'limited_phc': [
+                {
+                    id: 'comment_3',
+                    author: 'Carla',
+                    comment_type: 'question',
+                    comment_text: 'What specific barriers exist to accessing comprehensive PHC opportunities? Need to dig deeper into systemic issues.',
+                    timestamp: '2024-12-22',
+                    is_resolved: false
+                }
+            ]
+        };
+
+        class AccordionMindMap {
+            constructor() {
+                this.selectedItem = null;
+                this.expandedSections = new Set();
+                this.init();
+            }
+
+            init() {
+                this.renderResearchAreas();
+                this.setupEventListeners();
+            }
+
+            setupEventListeners() {
+                // Expand/Collapse All
+                document.getElementById('expand-all').addEventListener('click', () => {
+                    this.expandAll();
+                });
+
+                document.getElementById('collapse-all').addEventListener('click', () => {
+                    this.collapseAll();
+                });
+
+                // Comment modal
+                document.getElementById('add-comment-btn').addEventListener('click', () => {
+                    if (this.selectedItem) {
+                        this.showCommentModal();
+                    }
+                });
+
+                document.getElementById('close-modal').addEventListener('click', () => {
+                    this.hideCommentModal();
+                });
+
+                document.getElementById('cancel-comment').addEventListener('click', () => {
+                    this.hideCommentModal();
+                });
+
+                document.getElementById('comment-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.addComment();
+                });
+
+                // Generate report
+                document.getElementById('generate-report').addEventListener('click', () => {
+                    this.generateReport();
+                });
+            }
+
+            renderResearchAreas() {
+                const container = document.getElementById('research-areas');
+                
+                // Root node
+                const rootHTML = this.createRootNodeHTML(researchData.root);
+                
+                // Main areas
+                const areasHTML = researchData.areas.map(area => 
+                    this.createAreaHTML(area)
+                ).join('');
+
+                container.innerHTML = rootHTML + areasHTML;
+
+                // Add click listeners
+                this.addClickListeners();
+            }
+
+            createRootNodeHTML(root) {
+                return `
+                    <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg p-6 mb-6 shadow-lg">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-xl font-bold">${root.title}</h2>
+                            <div class="flex items-center space-x-4">
+                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
+                                    ${root.source_count} Sources
+                                </span>
+                                <span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm font-bold">
+                                    ${root.completion_percentage}% Complete
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-blue-100 mb-4">${root.description}</p>
+                        <div class="w-full bg-blue-800 rounded-full h-3">
+                            <div class="bg-white h-3 rounded-full transition-all duration-500" style="width: ${root.completion_percentage}%"></div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            createAreaHTML(area) {
+                const statusColors = {
+                    'not_started': 'bg-gray-100 text-gray-800 border-gray-300',
+                    'in_progress': 'bg-yellow-100 text-yellow-800 border-yellow-300',
+                    'completed': 'bg-green-100 text-green-800 border-green-300',
+                    'blocked': 'bg-red-100 text-red-800 border-red-300',
+                    'deferred': 'bg-purple-100 text-purple-800 border-purple-300'
+                };
+
+                const priorityColors = {
+                    'high': 'border-red-400',
+                    'medium': 'border-yellow-400',
+                    'low': 'border-gray-400'
+                };
+
+                const isExpanded = this.expandedSections.has(area.id);
+                const commentCount = this.getCommentCount(area);
+
+                return `
+                    <div class="accordion-section bg-white rounded-lg shadow-md border ${isExpanded ? 'expanded' : ''} mb-4">
+                        <div class="accordion-header p-6 ${priorityColors[area.priority]}" data-area-id="${area.id}">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-4">
+                                    <i class="fas ${isExpanded ? 'fa-chevron-down' : 'fa-chevron-right'} text-blue-600 transition-transform duration-200"></i>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-900">${area.title}</h3>
+                                        <p class="text-sm text-gray-600 mt-1">${area.description}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    ${commentCount > 0 ? `<span class="comment-badge bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">${commentCount} notes</span>` : ''}
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium border ${statusColors[area.status]}">
+                                        ${area.status.replace('_', ' ').toUpperCase()}
+                                    </span>
+                                    <span class="text-sm font-bold text-gray-700">${area.completion_percentage}%</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4 flex items-center justify-between">
+                                <div class="flex items-center space-x-4 text-sm text-gray-600">
+                                    <span><i class="fas fa-book mr-1"></i>${area.source_count} sources</span>
+                                    <span><i class="fas fa-user mr-1"></i>${area.assigned_to}</span>
+                                    <span><i class="fas fa-flag mr-1"></i>${area.priority} priority</span>
+                                </div>
+                                
+                                <div class="w-48 bg-gray-200 rounded-full h-2">
+                                    <div class="bg-gradient-to-r from-blue-500 to-green-500 h-2 rounded-full transition-all duration-500" 
+                                         style="width: ${area.completion_percentage}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-content ${isExpanded ? 'expanded' : ''}" data-area-id="${area.id}">
+                            <div class="px-6 pb-6">
+                                <div class="tree-line">
+                                    ${area.subareas ? area.subareas.map(subarea => this.createSubareaHTML(subarea, area.id)).join('') : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            createSubareaHTML(subarea, parentId) {
+                const statusIcons = {
+                    'not_started': 'fa-circle text-gray-400',
+                    'in_progress': 'fa-clock text-yellow-500',
+                    'completed': 'fa-check-circle text-green-500',
+                    'blocked': 'fa-exclamation-circle text-red-500',
+                    'deferred': 'fa-pause-circle text-purple-500'
+                };
+
+                const commentCount = this.getCommentCount(subarea);
+
+                return `
+                    <div class="node-card bg-gray-50 rounded-lg p-4 mb-3 border-l-4 ${this.getStatusBorderClass(subarea.status)} cursor-pointer hover:bg-gray-100"
+                         data-item-id="${subarea.id}" data-item-type="subarea">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center space-x-2">
+                                <i class="fas ${statusIcons[subarea.status]}"></i>
+                                <h4 class="font-medium text-gray-900">${subarea.title}</h4>
+                                ${commentCount > 0 ? `<span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">${commentCount}</span>` : ''}
+                            </div>
+                            <span class="text-sm font-bold text-gray-700">${subarea.completion_percentage}%</span>
+                        </div>
+                        
+                        <p class="text-sm text-gray-600 mb-3">${subarea.description}</p>
+                        
+                        ${subarea.programs ? `
+                            <div class="mb-3">
+                                <h5 class="text-xs font-medium text-gray-700 mb-1">Key Programs:</h5>
+                                <div class="flex flex-wrap gap-1">
+                                    ${subarea.programs.map(program => `
+                                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">${program}</span>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="text-xs text-gray-500">
+                                <span class="mr-3"><i class="fas fa-book mr-1"></i>${subarea.source_count} sources</span>
+                                <span><i class="fas fa-flag mr-1"></i>${subarea.priority}</span>
+                            </div>
+                            <div class="w-24 bg-gray-200 rounded-full h-2">
+                                <div class="bg-gradient-to-r from-blue-400 to-green-400 h-2 rounded-full" 
+                                     style="width: ${subarea.completion_percentage}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            addClickListeners() {
+                // Area headers for expand/collapse
+                document.querySelectorAll('.accordion-header').forEach(header => {
+                    header.addEventListener('click', (e) => {
+                        // Don't expand if clicking on a subarea item
+                        if (e.target.closest('[data-item-id]')) {
+                            return;
+                        }
+                        
+                        const areaId = header.dataset.areaId;
+                        console.log('Clicking area:', areaId); // Debug
+                        this.toggleArea(areaId);
+                    });
+                });
+
+                // Individual items for selection
+                document.querySelectorAll('[data-item-id]').forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const itemId = item.dataset.itemId;
+                        const itemType = item.dataset.itemType;
+                        console.log('Selecting item:', itemId); // Debug
+                        this.selectItem(itemId, itemType);
+                    });
+                });
+            }
+
+            toggleArea(areaId) {
+                console.log('Toggling area:', areaId); // Debug
+                
+                const section = document.querySelector(`div.accordion-section .accordion-header[data-area-id="${areaId}"]`).parentElement;
+                const content = document.querySelector(`div.accordion-content[data-area-id="${areaId}"]`);
+                const icon = section.querySelector('.accordion-header .fas');
+                
+                console.log('Found section:', section); // Debug
+                console.log('Found content:', content); // Debug
+                console.log('Found icon:', icon); // Debug
+                
+                if (this.expandedSections.has(areaId)) {
+                    this.expandedSections.delete(areaId);
+                    section.classList.remove('expanded');
+                    content.classList.remove('expanded');
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-right');
+                    console.log('Collapsed:', areaId);
+                } else {
+                    this.expandedSections.add(areaId);
+                    section.classList.add('expanded');
+                    content.classList.add('expanded');
+                    icon.classList.remove('fa-chevron-right');
+                    icon.classList.add('fa-chevron-down');
+                    console.log('Expanded:', areaId);
+                }
+            }
+
+            expandAll() {
+                researchData.areas.forEach(area => {
+                    if (!this.expandedSections.has(area.id)) {
+                        this.toggleArea(area.id);
+                    }
+                });
+            }
+
+            collapseAll() {
+                Array.from(this.expandedSections).forEach(areaId => {
+                    this.toggleArea(areaId);
+                });
+            }
+
+            selectItem(itemId, itemType) {
+                // Remove previous selection
+                document.querySelectorAll('[data-item-id]').forEach(item => {
+                    item.classList.remove('ring-2', 'ring-blue-500');
+                });
+
+                // Add selection to current item
+                const selectedElement = document.querySelector(`[data-item-id="${itemId}"]`);
+                selectedElement.classList.add('ring-2', 'ring-blue-500');
+
+                // Find the item data
+                let itemData = null;
+                if (itemType === 'subarea') {
+                    researchData.areas.forEach(area => {
+                        if (area.subareas) {
+                            const found = area.subareas.find(sub => sub.id === itemId);
+                            if (found) itemData = found;
+                        }
+                    });
+                }
+
+                this.selectedItem = { id: itemId, type: itemType, data: itemData };
+                this.showItemDetails(itemData);
+                this.loadComments(itemId);
+
+                // Enable add comment button
+                document.getElementById('add-comment-btn').disabled = false;
+            }
+
+            showItemDetails(item) {
+                const detailsPanel = document.getElementById('selected-details');
+                const infoPanel = document.getElementById('selected-info');
+                
+                if (!item) return;
+
+                detailsPanel.style.display = 'block';
+                
+                infoPanel.innerHTML = `
+                    <div class="space-y-3">
+                        <div>
+                            <h5 class="font-medium text-gray-900">${item.title}</h5>
+                            <p class="text-sm text-gray-600 mt-1">${item.description}</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-3 text-sm">
+                            <div>
+                                <span class="text-gray-500">Status:</span>
+                                <div class="font-medium capitalize">${item.status.replace('_', ' ')}</div>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Priority:</span>
+                                <div class="font-medium capitalize">${item.priority}</div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <span class="text-gray-500 text-sm">Progress: ${item.completion_percentage}%</span>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                <div class="bg-blue-500 h-2 rounded-full" style="width: ${item.completion_percentage}%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-xs text-gray-500">
+                            <div>Sources: ${item.source_count}</div>
+                            ${item.programs ? `<div>Programs: ${item.programs.join(', ')}</div>` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+
+            loadComments(itemId) {
+                const comments = commentsData[itemId] || [];
+                const commentsSection = document.getElementById('comments-section');
+                
+                if (comments.length === 0) {
+                    commentsSection.innerHTML = '<div class="text-sm text-gray-500 text-center py-4">No comments yet.<br>Click + to add one.</div>';
+                    return;
+                }
+
+                const commentsHTML = comments.map(comment => this.renderComment(comment)).join('');
+                commentsSection.innerHTML = commentsHTML;
+            }
+
+            renderComment(comment) {
+                const typeColors = {
+                    observation: 'bg-blue-100 text-blue-800',
+                    question: 'bg-yellow-100 text-yellow-800',
+                    source: 'bg-green-100 text-green-800',
+                    recommendation: 'bg-purple-100 text-purple-800',
+                    barrier: 'bg-red-100 text-red-800',
+                    opportunity: 'bg-indigo-100 text-indigo-800'
+                };
+
+                const colorClass = typeColors[comment.comment_type] || 'bg-gray-100 text-gray-800';
+
+                return `
+                    <div class="bg-white border rounded-lg p-3 mb-3 ${comment.is_resolved ? 'opacity-60' : ''}">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="px-2 py-1 rounded-full text-xs font-medium ${colorClass}">
+                                ${comment.comment_type.toUpperCase()}
+                            </span>
+                            ${comment.is_resolved ? '<span class="text-xs text-green-600"><i class="fas fa-check mr-1"></i>Resolved</span>' : ''}
+                        </div>
+                        <p class="text-sm text-gray-700 mb-2">${comment.comment_text}</p>
+                        <div class="flex items-center justify-between text-xs text-gray-500">
+                            <span>${comment.author}</span>
+                            <span>${comment.timestamp}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getCommentCount(item) {
+                const comments = commentsData[item.id] || [];
+                return comments.length;
+            }
+
+            getStatusBorderClass(status) {
+                const classes = {
+                    'not_started': 'border-gray-400',
+                    'in_progress': 'border-yellow-400',
+                    'completed': 'border-green-400',
+                    'blocked': 'border-red-400',
+                    'deferred': 'border-purple-400'
+                };
+                return classes[status] || 'border-gray-400';
+            }
+
+            showCommentModal() {
+                document.getElementById('comment-modal').style.display = 'flex';
+                document.getElementById('comment-text').focus();
+            }
+
+            hideCommentModal() {
+                document.getElementById('comment-modal').style.display = 'none';
+                document.getElementById('comment-form').reset();
+            }
+
+            addComment() {
+                const type = document.getElementById('comment-type').value;
+                const text = document.getElementById('comment-text').value.trim();
+                
+                if (!text || !this.selectedItem) return;
+
+                // Add to comments data (in real app, this would save to API)
+                if (!commentsData[this.selectedItem.id]) {
+                    commentsData[this.selectedItem.id] = [];
+                }
+
+                commentsData[this.selectedItem.id].push({
+                    id: 'comment_' + Date.now(),
+                    author: 'Carla',
+                    comment_type: type,
+                    comment_text: text,
+                    timestamp: new Date().toISOString().split('T')[0],
+                    is_resolved: false
+                });
+
+                this.hideCommentModal();
+                this.loadComments(this.selectedItem.id);
+                
+                // Update display to show new comment count
+                this.renderResearchAreas();
+                this.addClickListeners();
+                
+                // Reselect the item
+                setTimeout(() => {
+                    this.selectItem(this.selectedItem.id, this.selectedItem.type);
+                }, 100);
+            }
+
+            generateReport() {
+                // Create a simple report
+                const reportWindow = window.open('', '_blank', 'width=800,height=600');
+                const totalAreas = researchData.areas.length;
+                const completedAreas = researchData.areas.filter(a => a.status === 'completed').length;
+                const inProgressAreas = researchData.areas.filter(a => a.status === 'in_progress').length;
+                
+                reportWindow.document.write(`
+                    <html>
+                    <head>
+                        <title>First Nations GP Training Scoping Project Report</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; line-height: 1.6; margin: 2cm; }
+                            h1, h2 { color: #333; }
+                            .summary { background: #f0f9ff; padding: 1em; border-left: 4px solid #0ea5e9; }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>First Nations GP Training Scoping Project Report</h1>
+                        <p><strong>Generated:</strong> ${new Date().toLocaleDateString('en-AU')}</p>
+                        <p><strong>Project Lead:</strong> Carla</p>
+                        
+                        <div class="summary">
+                            <h2>Executive Summary</h2>
+                            <p>This scoping study examines Aboriginal and Torres Strait Islander GP training supports and challenges across ${totalAreas} key research areas, based on analysis of ${researchData.root.source_count} sources.</p>
+                            <ul>
+                                <li><strong>Overall Progress:</strong> ${researchData.root.completion_percentage}%</li>
+                                <li><strong>Completed Areas:</strong> ${completedAreas} of ${totalAreas}</li>
+                                <li><strong>In Progress:</strong> ${inProgressAreas} areas</li>
+                                <li><strong>Total Research Notes:</strong> ${Object.values(commentsData).flat().length}</li>
+                            </ul>
+                        </div>
+                        
+                        <h2>Research Areas Progress</h2>
+                        ${researchData.areas.map(area => `
+                            <div style="margin-bottom: 2em; padding: 1em; border: 1px solid #ddd;">
+                                <h3>${area.title} (${area.completion_percentage}%)</h3>
+                                <p>${area.description}</p>
+                                <p><strong>Status:</strong> ${area.status.replace('_', ' ').toUpperCase()} | <strong>Priority:</strong> ${area.priority} | <strong>Sources:</strong> ${area.source_count}</p>
+                                ${area.subareas ? `
+                                    <h4>Sub-areas:</h4>
+                                    <ul>
+                                        ${area.subareas.map(sub => `
+                                            <li>${sub.title} - ${sub.completion_percentage}% (${sub.status.replace('_', ' ')})</li>
+                                        `).join('')}
+                                    </ul>
+                                ` : ''}
+                            </div>
+                        `).join('')}
+                    </body>
+                    </html>
+                `);
+                reportWindow.document.close();
+            }
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', () => {
+            new AccordionMindMap();
+        });
+    </script>
+</body>
+</html>

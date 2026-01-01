@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deployment Guide - Workflow Integration Fix</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .code-block { 
+            background-color: #1f2937; 
+            color: #f9fafb; 
+            border-radius: 8px; 
+            padding: 1.5rem; 
+            overflow-x: auto; 
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .step-number {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        .diff-remove { background-color: #fee2e2; color: #dc2626; }
+        .diff-add { background-color: #d1fae5; color: #059669; }
+        .warning-box { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <i class="fas fa-arrow-left text-blue-600 text-lg mr-3"></i>
+                        <i class="fas fa-graduation-cap text-blue-600 text-2xl mr-3"></i>
+                        <span class="text-xl font-bold text-gray-900">Concept-to-Course</span>
+                    </a>
+                </div>
+                <div class="flex items-center">
+                    <span class="text-gray-700 font-medium">Deployment Guide</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="bg-blue-600 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-4xl font-bold mb-4">Workflow Integration Deployment Guide</h1>
+            <p class="text-xl text-blue-100">
+                Step-by-step instructions for deploying the corrected workflow integration,
+                preserving 10-step efficiency and hundreds of hours of development work.
+            </p>
+        </div>
+    </section>
+
+    <!-- Critical Warning -->
+    <section class="warning-box text-white py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center">
+                <i class="fas fa-exclamation-triangle text-3xl mr-4"></i>
+                <div>
+                    <h3 class="text-xl font-bold mb-2">CRITICAL: Backup Your Current Script First</h3>
+                    <p class="text-yellow-100">
+                        Before implementing these changes, create a backup copy of your current Google Apps Script.
+                        This deployment addresses fundamental workflow efficiency issues identified in your analysis.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <!-- Problem Statement -->
+        <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Problem Analysis</h2>
+            
+            <div class="bg-red-50 border-l-4 border-red-400 p-6 mb-6">
+                <h3 class="font-bold text-red-800 mb-2">Current Inefficiency</h3>
+                <p class="text-red-700 mb-4">
+                    "I have an issue with the addition of the extra menu item - shouldn't the generateAbsorbLmsFile function 
+                    be incorporated in/run as part of the generateFullSuiteOfResources function?"
+                </p>
+                <ul class="text-red-700 list-disc list-inside space-y-1">
+                    <li>Separate menu item for LMS generation breaks workflow efficiency</li>
+                    <li>Forces 11-step process instead of optimal 10-step workflow</li>
+                    <li>Requires tab switching and additional user actions</li>
+                    <li>Contradicts design principle of maximising script efficiency</li>
+                </ul>
+            </div>
+
+            <div class="bg-green-50 border-l-4 border-green-400 p-6">
+                <h3 class="font-bold text-green-800 mb-2">Solution Requirements</h3>
+                <ul class="text-green-700 list-disc list-inside space-y-1">
+                    <li>Integrate LMS generation into Step 4 (generateFullSuiteOfResources)</li>
+                    <li>Reposition voiceover scripts as Step 5 (while on Module-Resources tab)</li>
+                    <li>Remove separate "Generate Absorb LMS Upload Doc" menu item</li>
+                    <li>Maintain 10-step workflow efficiency</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Implementation Steps -->
+        <section class="space-y-8">
+            
+            <!-- Step 1 -->
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <div class="flex items-start space-x-6">
+                    <div class="step-number">1</div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Deploy Enhanced generateFullSuiteOfResources Function</h3>
+                        
+                        <p class="text-gray-700 mb-4">
+                            Replace the existing generateFullSuiteOfResources function with the enhanced version that includes 
+                            LMS content generation. This eliminates the need for a separate menu item.
+                        </p>
+
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                            <h4 class="font-semibold text-yellow-800 mb-2">Key Change: LMS Integration in Column I</h4>
+                            <p class="text-yellow-700 text-sm">
+                                The enhanced function includes LMS content generation directly within the main resource generation loop,
+                                populating column I with proper Google Docs URLs while maintaining all existing functionality.
+                            </p>
+                        </div>
+
+                        <div class="code-block mb-4">
+<pre><code>// *** INTEGRATED: LMS CONTENT GENERATION (Column I) ***
+if (!sheet.getRange(row, 9).getValue()) {
+  const absorbLmsPrompt = buildAbsorbLmsPrompt_(
+    moduleName, 
+    slideSpecs, 
+    'Note: Downloadable resources are provided in a separate document linked in the course.'
+  );
+  const markdownContent = callGeminiApi_(absorbLmsPrompt);
+  const docId = createGoogleDocFromMarkdown_(moduleSubfolder, conceptName, moduleName, markdownContent);
+  const docUrl = `https://docs.google.com/document/d/${docId}/edit`;
+  sheet.getRange(row, 9).setValue(docUrl);
+}</code></pre>
+                        </div>
+
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <h4 class="font-semibold text-blue-800 mb-2">File Reference</h4>
+                            <p class="text-blue-700 text-sm">
+                                <code>CORRECTED-WORKFLOW-INTEGRATION.js</code> - Contains the complete enhanced function
+                                with proper integration and error handling.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <div class="flex items-start space-x-6">
+                    <div class="step-number">2</div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Update Menu Structure</h3>
+                        
+                        <p class="text-gray-700 mb-4">
+                            Modify the onOpen function to remove the separate LMS menu item and reposition 
+                            the voiceover scripts as Step 5.
+                        </p>
+
+                        <div class="grid md:grid-cols-2 gap-6 mb-4">
+                            <div class="diff-remove p-4 rounded-lg">
+                                <h4 class="font-semibold mb-2">❌ Remove (Current Structure)</h4>
+                                <div class="text-sm font-mono">
+                                    <div>.addItem('Step 4: Generate Full Suite', 'generateFullSuiteOfResources')</div>
+                                    <div>.addItem('Step 5: Generate Absorb LMS Upload Doc', 'generateAbsorbLmsFile')</div>
+                                    <div>.addItem('Step 6: Generate Voiceover Scripts', 'generateVoiceoverScripts')</div>
+                                </div>
+                            </div>
+                            
+                            <div class="diff-add p-4 rounded-lg">
+                                <h4 class="font-semibold mb-2">✅ Replace (Corrected Structure)</h4>
+                                <div class="text-sm font-mono">
+                                    <div>.addItem('Step 4: Generate Full Suite (inc. LMS)', 'generateFullSuiteOfResources')</div>
+                                    <div>.addItem('Step 5: Generate Voiceover Scripts', 'generateVoiceoverScripts')</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="code-block">
+<pre><code>function onOpen() {
+  const ui = SpreadsheetApp.getUi();
+  ui.createMenu('Concept to Course')
+    .addItem('Step 1: Setup Mapping Tab', 'setupMappingTab')
+    .addItem('Step 2: Generate Course Recommendation', 'generateCourseRecommendation')
+    .addItem('Step 3: Setup Workspace', 'setupWorkspace')
+    .addItem('Step 4: Generate Full Suite (inc. LMS)', 'generateFullSuiteOfResources')
+    .addItem('Step 5: Generate Voiceover Scripts', 'generateVoiceoverScripts')
+    .addItem('Step 6: Generate Slide Presentations', 'generateSlidePresentations')
+    // ... remaining steps remain unchanged
+    .addToUi();
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <div class="flex items-start space-x-6">
+                    <div class="step-number">3</div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Remove Obsolete generateAbsorbLmsFile Function</h3>
+                        
+                        <p class="text-gray-700 mb-4">
+                            Since LMS generation is now integrated into Step 4, the standalone generateAbsorbLmsFile 
+                            function is no longer needed and should be removed to avoid confusion.
+                        </p>
+
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                            <h4 class="font-semibold text-red-800 mb-2">Functions to Remove</h4>
+                            <ul class="text-red-700 text-sm list-disc list-inside">
+                                <li><code>generateAbsorbLmsFile()</code> - Main function (now redundant)</li>
+                                <li>Any helper functions specifically created for standalone LMS generation</li>
+                                <li>Related menu item handlers (if any)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                            <h4 class="font-semibold text-green-800 mb-2">Functions to Preserve</h4>
+                            <ul class="text-green-700 text-sm list-disc list-inside">
+                                <li><code>buildAbsorbLmsPrompt_()</code> - Still used in integrated workflow</li>
+                                <li><code>createGoogleDocFromMarkdown_()</code> - Still used in integrated workflow</li>
+                                <li>All other LMS-related helper functions used by Step 4</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <div class="flex items-start space-x-6">
+                    <div class="step-number">4</div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Verify Workflow Integration</h3>
+                        
+                        <p class="text-gray-700 mb-4">
+                            Test the complete workflow to ensure LMS content is generated properly in Step 4 
+                            and voiceover scripts function correctly as Step 5.
+                        </p>
+
+                        <div class="space-y-4">
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                                <h4 class="font-semibold text-blue-800 mb-2">Testing Checklist</h4>
+                                <ul class="text-blue-700 text-sm space-y-1">
+                                    <li><input type="checkbox" class="mr-2">Step 4 generates all resources including LMS content in column I</li>
+                                    <li><input type="checkbox" class="mr-2">LMS documents are created with proper Google Docs URLs</li>
+                                    <li><input type="checkbox" class="mr-2">Step 5 (voiceover scripts) runs while on Module-Resources tab</li>
+                                    <li><input type="checkbox" class="mr-2">No separate LMS menu item appears</li>
+                                    <li><input type="checkbox" class="mr-2">All subsequent steps (6-10) function normally</li>
+                                    <li><input type="checkbox" class="mr-2">Error handling works properly for all integrated functions</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                                <h4 class="font-semibold text-yellow-800 mb-2">Expected Behaviour</h4>
+                                <p class="text-yellow-700 text-sm">
+                                    After Step 4 completes, column I should be populated with LMS content URLs, 
+                                    and the user should be able to proceed directly to Step 5 (voiceover scripts) 
+                                    without changing tabs or running additional menu items.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Implementation Code -->
+        <section class="bg-white rounded-lg shadow-lg p-8 mt-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Complete Implementation Code</h2>
+            
+            <p class="text-gray-700 mb-4">
+                Here's the complete enhanced generateFullSuiteOfResources function with integrated LMS generation:
+            </p>
+
+            <div class="code-block">
+<pre><code>function generateFullSuiteOfResources() {
+  try {
+    const { sheet, conceptName, audience } = getActiveModuleInfo_();
+    if (!sheet) return;
+
+    showProgressToast_('Generating full suite of resources...', 'This may take several minutes.');
+
+    // Get all modules (rows with Module names in Column A, excluding header)
+    const dataRange = sheet.getDataRange();
+    const values = dataRange.getValues();
+    
+    for (let row = 2; row <= values.length; row++) {
+      const moduleName = values[row - 1][0]; // Column A (Module Name)
+      if (!moduleName) continue;
+
+      try {
+        // Get or create module subfolder
+        const moduleSubfolder = getOrCreateModuleSubfolder_(conceptName, moduleName);
+        
+        // *** LEARNING OBJECTIVES (Column B) ***
+        if (!sheet.getRange(row, 2).getValue()) {
+          const learningPrompt = buildLearningObjectivesPrompt_(moduleName, audience);
+          const objectives = callGeminiApi_(learningPrompt);
+          const docId = createGoogleDocFromMarkdown_(moduleSubfolder, conceptName, moduleName + '_Learning_Objectives', objectives);
+          const docUrl = `https://docs.google.com/document/d/${docId}/edit`;
+          sheet.getRange(row, 2).setValue(docUrl);
+        }
+
+        // *** SLIDE SPECIFICATIONS (Column C) ***
+        if (!sheet.getRange(row, 3).getValue()) {
+          const slidePrompt = buildSlideSpecsPrompt_(moduleName, audience);
+          const slideSpecs = callGeminiApi_(slidePrompt);
+          const docId = createGoogleDocFromMarkdown_(moduleSubfolder, conceptName, moduleName + '_Slide_Specifications', slideSpecs);
+          const docUrl = `https://docs.google.com/document/d/${docId}/edit`;
+          sheet.getRange(row, 3).setValue(docUrl);
+        }
+
+        // Get slide specs for LMS generation
+        const slideSpecs = getDocumentContent_(sheet.getRange(row, 3).getValue());
+
+        // *** INTEGRATED: LMS CONTENT GENERATION (Column I) ***
+        if (!sheet.getRange(row, 9).getValue()) {
+          const absorbLmsPrompt = buildAbsorbLmsPrompt_(moduleName, slideSpecs, 'Note: Downloadable resources are provided in a separate document linked in the course.');
+          const markdownContent = callGeminiApi_(absorbLmsPrompt);
+          const docId = createGoogleDocFromMarkdown_(moduleSubfolder, conceptName, moduleName + '_LMS_Content', markdownContent);
+          const docUrl = `https://docs.google.com/document/d/${docId}/edit`;
+          sheet.getRange(row, 9).setValue(docUrl);
+        }
+
+        // *** ASSESSMENT ITEMS (Column D) ***
+        if (!sheet.getRange(row, 4).getValue()) {
+          const assessmentPrompt = buildAssessmentItemsPrompt_(moduleName, audience);
+          const assessments = callGeminiApi_(assessmentPrompt);
+          const docId = createGoogleDocFromMarkdown_(moduleSubfolder, conceptName, moduleName + '_Assessment_Items', assessments);
+          const docUrl = `https://docs.google.com/document/d/${docId}/edit`;
+          sheet.getRange(row, 4).setValue(docUrl);
+        }
+
+        // *** CASE STUDIES (Column E) ***
+        if (!sheet.getRange(row, 5).getValue()) {
+          const casePrompt = buildCaseStudiesPrompt_(moduleName, audience);
+          const caseStudies = callGeminiApi_(casePrompt);
+          const docId = createGoogleDocFromMarkdown_(moduleSubfolder, conceptName, moduleName + '_Case_Studies', caseStudies);
+          const docUrl = `https://docs.google.com/document/d/${docId}/edit`;
+          sheet.getRange(row, 5).setValue(docUrl);
+        }
+
+        // *** INTERACTIVE ACTIVITIES (Column F) ***
+        if (!sheet.getRange(row, 6).getValue()) {
+          const interactivePrompt = buildInteractiveActivitiesPrompt_(moduleName, audience);
+          const activities = callGeminiApi_(interactivePrompt);
+          const docId = createGoogleDocFromMarkdown_(moduleSubfolder, conceptName, moduleName + '_Interactive_Activities', activities);
+          const docUrl = `https://docs.google.com/document/d/${docId}/edit`;
+          sheet.getRange(row, 6).setValue(docUrl);
+        }
+
+        // *** PRACTICAL EXERCISES (Column G) ***
+        if (!sheet.getRange(row, 7).getValue()) {
+          const practicalPrompt = buildPracticalExercisesPrompt_(moduleName, audience);
+          const exercises = callGeminiApi_(practicalPrompt);
+          const docId = createGoogleDocFromMarkdown_(moduleSubfolder, conceptName, moduleName + '_Practical_Exercises', exercises);
+          const docUrl = `https://docs.google.com/document/d/${docId}/edit`;
+          sheet.getRange(row, 7).setValue(docUrl);
+        }
+
+        // *** DOWNLOADABLE RESOURCES (Column H) ***
+        if (!sheet.getRange(row, 8).getValue()) {
+          const resourcePrompt = buildDownloadableResourcesPrompt_(moduleName, audience);
+          const resources = callGeminiApi_(resourcePrompt);
+          const docId = createGoogleDocFromMarkdown_(moduleSubfolder, conceptName, moduleName + '_Downloadable_Resources', resources);
+          const docUrl = `https://docs.google.com/document/d/${docId}/edit`;
+          sheet.getRange(row, 8).setValue(docUrl);
+        }
+
+      } catch (error) {
+        Logger.log(`Error processing module ${moduleName}: ${error.toString()}`);
+        SpreadsheetApp.getUi().alert(`Error processing module ${moduleName}: ${error.message}`);
+      }
+    }
+
+    SpreadsheetApp.getUi().alert('Full suite of resources generated successfully! LMS content included in column I.');
+    
+  } catch (error) {
+    Logger.log(`Error in generateFullSuiteOfResources: ${error.toString()}`);
+    SpreadsheetApp.getUi().alert(`Error generating resources: ${error.message}`);
+  }
+}</code></pre>
+            </div>
+        </section>
+
+        <!-- Success Verification -->
+        <section class="bg-green-50 border border-green-200 rounded-lg p-8 mt-8">
+            <h2 class="text-2xl font-bold text-green-800 mb-4">Success Verification</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-semibold text-green-800 mb-3">Workflow Efficiency Achieved</h3>
+                    <ul class="text-green-700 space-y-2 text-sm">
+                        <li><i class="fas fa-check mr-2"></i>10-step workflow maintained</li>
+                        <li><i class="fas fa-check mr-2"></i>No unnecessary tab switching</li>
+                        <li><i class="fas fa-check mr-2"></i>Single comprehensive Step 4</li>
+                        <li><i class="fas fa-check mr-2"></i>Optimal user experience</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-green-800 mb-3">Technical Integration Complete</h3>
+                    <ul class="text-green-700 space-y-2 text-sm">
+                        <li><i class="fas fa-check mr-2"></i>LMS content in column I populated</li>
+                        <li><i class="fas fa-check mr-2"></i>Proper Google Docs URLs generated</li>
+                        <li><i class="fas fa-check mr-2"></i>Error handling preserved</li>
+                        <li><i class="fas fa-check mr-2"></i>All existing functionality maintained</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-6 bg-white border border-green-300 rounded-lg p-4">
+                <h4 class="font-semibold text-green-800 mb-2">Result</h4>
+                <p class="text-green-700">
+                    The workflow now operates with maximum efficiency, preserving the hundreds of hours of development work 
+                    whilst eliminating the inefficiency of separate menu items. Users can complete the entire course 
+                    generation process in the optimal 10-step sequence without interruption.
+                </p>
+            </div>
+        </section>
+
+    </div>
+</body>
+</html>

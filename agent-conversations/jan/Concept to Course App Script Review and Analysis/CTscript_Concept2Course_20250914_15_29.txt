@@ -1,0 +1,5005 @@
+/**
+ * Concept‑to‑Course — created by Carla Taylor t/as Carlorbiz 20250830-06-55, enhanced 20250914_15_29
+ * Script Properties in place: GEMINI_API_KEY, DRIVE_FOLDER_ID, SLIDES_TEMPLATE_ID
+ */
+
+// ==== A) Config & Brand ====
+
+const CFG = {
+  get GEMINI_API_KEY() {
+    const v = PropertiesService.getScriptProperties().getProperty('GEMINI_API_KEY');
+    if (!v) throw new Error('Set GEMINI_API_KEY in Script Properties.');
+    return v;
+  },
+  get DRIVE_FOLDER_ID() {
+    const v = PropertiesService.getScriptProperties().getProperty('DRIVE_FOLDER_ID');
+    if (!v) throw new Error('Set DRIVE_FOLDER_ID in Script Properties.');
+    return v;
+  },
+  get SLIDES_TEMPLATE_ID() {
+    const v = PropertiesService.getScriptProperties().getProperty('SLIDES_TEMPLATE_ID');
+    if (!v) throw new Error('Set SLIDES_TEMPLATE_ID in Script Properties.');
+    return v;
+  },
+  AU_PROMPT: 'Use Australian English and professional healthcare tone suitable for CPD. Prefer Australian guidelines and RACGP where relevant.',
+  BRAND_HEADER: [
+    'You are writing on behalf of GPSA / HPSA — the peak Australasian authority on best-practice supervision of medical learners and the healthcare workforce.',
+    'Use Australian English (en-AU) and a practical, supportive, non-judgemental tone consistent with GPSA/HPSA.',
+    'Anchor content in general practice / primary care contexts including rural and remote settings.',
+    'Emphasise safe, effective supervision; coaching; feedback; assessment for learning; psychological safety.',
+    'Respect cultural safety, including Aboriginal and Torres Strait Islander health; avoid stereotypes and patient-identifiable data.',
+    'Prefer RACGP, ACRRM and AHPRA-aligned terminology and concepts; do not fabricate citations or guideline numbers.',
+    'Terminology preferences: "general practice", "supervisor", "registrar", "learner", "clinical supervision", "CPD". Avoid US spellings.',
+    'Outputs must be original and tailored for GPSA/HPSA; avoid generic boilerplate.'
+  ].join('\n'),
+  TTS_WPM: 150,
+
+  // Enhanced configuration validation
+  validateConfiguration() {
+    const required = ['GEMINI_API_KEY', 'DRIVE_FOLDER_ID', 'SLIDES_TEMPLATE_ID'];
+    const missing = required.filter(key => {
+      try { return !this[key]; } catch (e) { return true; }
+    });
+    if (missing.length > 0) {
+      throw new Error(`Configuration incomplete. Please set in Script Properties: ${missing.join(', ')}`);
+    }
+    // Test Drive folder access
+    try { DriveApp.getFolderById(this.DRIVE_FOLDER_ID).getName(); } 
+    catch (e) { throw new Error('Cannot access Drive folder. Check DRIVE_FOLDER_ID.'); }
+    // Test template access
+    try { DriveApp.getFileById(this.SLIDES_TEMPLATE_ID).getName(); } 
+    catch (e) { throw new Error('Cannot access slides template. Check SLIDES_TEMPLATE_ID.'); }
+    return true;
+  },
+
+  // Track API usage to prevent quota exhaustion
+  trackApiUsage(endpoint, tokens = 0) {
+    const props = PropertiesService.getScriptProperties();
+    const today = new Date().toDateString();
+    const key = `usage_${endpoint}_${today}`;
+    const current = parseInt(props.getProperty(key) || '0');
+    props.setProperty(key, String(current + tokens));
+    if (endpoint === 'gemini' && current > 800000) {
+      console.warn('Approaching Gemini API daily quota limit');
+    }
+  },
+
+  // Configurable batch processing settings
+  getBatchSize() {
+    const customSize = PropertiesService.getScriptProperties().getProperty('BATCH_SIZE');
+    return customSize ? parseInt(customSize) : 3; // Default to 3 modules per batch
+  },
+
+  setBatchSize(size) {
+    PropertiesService.getScriptProperties().setProperty('BATCH_SIZE', String(size));
+  }
+};
+
+function brandHeader_(){ return CFG.BRAND_HEADER + '\n\n' + CFG.AU_PROMPT + '\n'; }
+
+function brandHeaderWithCitations_() { 
+  return CFG.BRAND_HEADER + '\n\n' + CFG.AU_PROMPT + '\n\n' + `
+VANCOUVER CITATION REQUIREMENTS:
+When referencing clinical evidence, guidelines, or research:
+- Use numerical citations in square brackets: [1], [2], [3]
+- Multiple sources: [1,3,5] or consecutive: [2–4]
+- Include reference list at end when appropriate
+- Use proper journal abbreviations (N Engl J Med, BMJ, Med J Aust, etc.)
+- Format: Author(s). Title. Journal. Year;Volume(Issue):Pages.
+- For guidelines: Organisation. Title. Place: Publisher; Year.
+- Prefer authoritative Australian sources: RACGP, ACRRM, AHPRA, Medical Board of Australia
+- Only cite real, verifiable sources - never fabricate citations
+` + '\n';
+}
+
+const VANCOUVER_CITATION_INSTRUCTIONS = `
+CITATIONS & REFERENCES (MANDATORY):
+- Use numeric in-text citations like [1], [2] at the end of the relevant sentence(s).
+- At the end of the document, include a "References" section using Vancouver style.
+- Vancouver formatting guidance:
+  • Journal article: Surname Initials. Title. Journal. Year;Volume(Issue):Pages.
+  • Web page: Surname/Org. Title [Internet]. Publisher; Year [cited YEAR MONTH DAY]. Available from: URL
+  • Report/Doc: Author/Org. Title. Place: Publisher; Year. Available from: URL
+- Only cite items provided in the source pack; do not fabricate references.
+- Keep references concise but complete enough to identify the source.
+`;
+
+// -- AU English normalisation utility --
+function au(txt) {
+  if (!txt) return txt;
+  let t = String(txt);
+  t = t.replace(/\borganize(d|s|r|)\b/gi, m => m.replace('ize','ise').replace('ized','ised').replace('izes','ises'));
+  t = t.replace(/\borganization(s)?\b/gi,'organisation$1');
+  t = t.replace(/\banalyz(e|ed|ing|es)\b/gi, m => m.replace('yze','yse'));
+  t = t.replace(/\bbehavior(s)?\b/gi,'behaviour$1');
+  t = t.replace(/\bcolor(s|ed|ing)?\b/gi,'colour$1');
+  t = t.replace(/\bcenter(s|ed|ing)?\b/gi,'centre$1');
+  t = t.replace(/\bmodeling\b/gi,'modelling');
+  return t;
+}
+
+// -- TTS voice setting function for TTS tab --
+function setTtsVoice_(){
+  const ui = SpreadsheetApp.getUi();
+  const voices = ['Schedar','Vindemiatrix','Gacrux','Puck','Charon','Orus'];
+  const msg = 'Enter voice name (Schedar, Puck, Charon, etc.)';
+  const res = ui.prompt('Set TTS Voice (global)', msg, ui.ButtonSet.OK_CANCEL);
+  if (res.getSelectedButton() !== ui.Button.OK) return;
+  const v = String(res.getResponseText() || '').trim();
+  if (!voices.some(x => x.toLowerCase() === v.toLowerCase())){
+    return ui.alert(`Unknown voice "${v}". Try one of: ${voices.join(', ')}`);
+  }
+  PropertiesService.getScriptProperties().setProperty('VOICE_NAME_OVERRIDE', v);
+  ui.alert(`Voice set to ${v}. This will apply to new audio generations.`);
+}
+
+function showTtsSettings_(){
+  const ui = SpreadsheetApp.getUi();
+  ui.alert(
+    'Voiceover settings',
+    `Voice: ${getVoiceName_()}\nTemperature: ${getSpeechTemperature_()}`,
+    ui.ButtonSet.OK
+  );
+}
+
+// ==== Inline-URL crawl controls (safe defaults) ====
+const URL_CRAWL_LIMIT = 12;        // max number of distinct URLs to fetch
+const URL_CRAWL_TIMEOUT_MS = 20000; // per-request timeout (ms)
+const URL_MAX_APPEND_CHARS = 20000; // cap text added from crawled pages
+
+
+// ==== B) Custom Prompts & API ====
+
+// ---- Enhanced Prompt Constants ----
+const COURSE_MAPPING_PROMPT = `You are an expert course designer for Australian healthcare education. Analyze the provided concept and source materials to create a comprehensive course structure with detailed justification.
+
+AUDIENCE CONTEXT:
+- Clinical: Clinical supervisors, practicing clinicians in supervisory roles
+- Combined: Both clinical and administrative perspectives  
+- Administrative: Healthcare administrators, non-clinical staff, system managers
+- Other: General healthcare education support roles
+
+REQUIREMENTS:
+1. Analyze the concept and justify why it should be broken into separate modules
+2. Recommend 8-12 modules based on content depth and audience needs
+3. Each module should be substantial enough for 45-60 minutes of learning as a standalone topic
+4. Ensure logical progression and skill building
+5. Include practical, workplace-applicable content
+6. Consider Australian healthcare context and regulations
+7. Explain how modules combine to form a high-quality micro-credentialing course
+
+OUTPUT FORMAT:
+COURSE RECOMMENDATION:
+[6 paragraph detailed recommendation explaining:]
+- Why this concept warrants a structured course approach
+- How breaking it into modules enhances learning effectiveness
+- Why this specific module breakdown serves the audience effectively
+- How modules build upon each other progressively
+- Target audience fit and learning progression
+- Value as a micro-credentialing opportunity
+
+RECOMMENDED MODULES:
+1. [Module Name] - [Detailed description with learning focus and practical applications]
+2. [Module Name] - [Detailed description with learning focus and practical applications]
+[Continue for all recommended modules - up to 12 for comprehensive courses]
+
+COURSE STRUCTURE RATIONALE:
+[500 words for each separate module explaining:]
+- Educational value of this module in the context of the course topic and relevance to the audience 
+- Integration points and practical application opportunities
+- Assessment and credentialing considerations
+
+MICRO-CREDENTIALING VALUE:
+[Explanation of how this course structure provides valuable professional development and recognition]`;
+
+const RESEARCH_ENHANCEMENT_PROMPT = `You are a research specialist for Australian healthcare education. Enhance the provided source materials by identifying additional high-quality resources.
+
+REQUIREMENTS:
+1. Find 5-8 additional peer-reviewed articles or industry resources
+2. Focus on Australian healthcare context where possible
+3. Include recent publications (published since 2021)
+4. Ensure sources are accessible and credible
+5. Provide 2-3 sentences summarising the relevance of each source material added through your research
+6. Create single comprehensive list of References using Chicago-Style Citation
+
+SOURCE MATERIALS PROVIDED:
+[EXISTING_SOURCES]
+
+OUTPUT FORMAT:
+ADDITIONAL RECOMMENDED SOURCES:
+
+1. [Title] - [Author/Organization] ([Year])
+   URL: [if available]
+   Relevance: [2-3 sentences explaining why this source enhances the course]
+
+2. [Continue pattern...]
+
+RESEARCH SUMMARY:
+[2-3 sentences summarizing how these additional sources strengthen the course development]`;
+
+const ENHANCED_SCENARIOS_CONTENT = `
+**INTERACTIVE SCENARIO DEVELOPMENT - Australian Healthcare Supervision**
+
+**Target Audience**: Clinical supervisors and non-clinical staff supporting medical learners in Australian healthcare placements
+**Delivery Platform**: iSpring Role Plays (SCORM 2004 compatible for Absorb LMS)
+
+**SCENARIO REQUIREMENTS**:
+- Australian healthcare environment (public hospitals, community health, GP clinics, aged care)
+- Diverse, multicultural teams reflecting contemporary Australian healthcare workforce
+- Real-world supervision challenges faced by clinical and non-clinical staff
+- Contemporary placement coordination scenarios with authentic complexity
+
+**Character Development**:
+- Include Aboriginal and Torres Strait Islander, multicultural backgrounds authentically
+- Specify roles: nurse, allied health, admin coordinator
+- Diverse team members, patients, family members as contextually appropriate
+
+**Branching Dialogue Structure** (3 decision points minimum):
+1. Initial response to supervision challenge
+2. Escalation or follow-up management  
+3. Resolution and learning integration
+
+Generate 2-3 comprehensive interactive scenarios with complete dialogue scripts, character profiles, and learning objectives.`;
+
+const ENHANCED_ASSESSMENTS_CONTENT = `
+**COMPREHENSIVE ASSESSMENT DEVELOPMENT - Australian Healthcare Supervision Training**
+
+**Assessment Design Principles**:
+- Knowledge Application: Test practical understanding, not rote memorization
+- Cultural Competency: Include scenarios requiring inclusive, culturally safe approaches
+- Professional Judgment: Evaluate decision-making in complex supervision situations
+- Evidence-Based Practice: Assess integration of contemporary research and best practices
+
+**Assessment Type Distribution**:
+- Multiple Choice Questions (40%): Scenario-based, real Australian healthcare supervision situations
+- True/False with Rationale (20%): Professional standards, best practices, cultural safety
+- Drag-and-Drop Interactive (20%): Process sequencing, priority ranking, resource matching
+- Scenario Reflection Questions (20%): Complex supervision situations requiring written responses
+
+**Quality Standards**: Evidence-based rationales, Australian healthcare context, inclusive design, professional credibility... Generate comprehensive assessment battery (15-20 questions) with detailed rationales and learning objective alignment.`;
+
+const ENHANCED_DOWNLOADABLES_CONTENT = `
+**PROFESSIONAL DOWNLOADABLE RESOURCE DEVELOPMENT - Australian Healthcare Supervision**
+
+**Resource Type**: Comprehensive PDF supplement (1500-2500 words)
+**Purpose**: Extend module learning with practical implementation tools and evidence-based frameworks
+
+**Content Architecture**:
+- Executive Summary (200-300 words): Module integration, practical value, evidence foundation
+- Theoretical Foundation (400-500 words): Evidence-based framework, Australian healthcare context, cultural competency
+- Practical Implementation Guide (600-800 words): Step-by-step procedures, real-world applications, team integration
+- Tools and Templates (300-400 words): Assessment frameworks, communication templates, escalation procedures
+- Case Study Applications (400-500 words): Diverse scenarios, cultural considerations, problem-solving examples
+
+**Quality Standards**: Evidence-based content, practical applicability, Australian healthcare alignment, adult learning principles
+
+Generate comprehensive downloadable resource with immediate workplace implementation focus.`;
+
+// ---- Enhanced API Rate Limiting & Error Handling ----
+const API_RATE_LIMITS = {
+  GEMINI: { requestsPerMinute: 10, tokensPerDay: 1000000 },
+  MINIMUM_DELAY: 6000, // 6 seconds between requests
+  RETRY_DELAYS: [2000, 5000, 10000] // Progressive backoff
+};
+
+// ---- Core API Helpers with Advanced Features ----
+function callGeminiWithRetry(prompt, maxTokens = 8192, retries = 3, temperature = 0.7) {
+  CFG.validateConfiguration();
+  
+  // Enhanced rate limiting with usage tracking
+  const lastCall = PropertiesService.getScriptProperties().getProperty('LAST_GEMINI_CALL');
+  if (lastCall) {
+    const elapsed = Date.now() - parseInt(lastCall);
+    const minDelay = API_RATE_LIMITS.MINIMUM_DELAY;
+    if (elapsed < minDelay) {
+      const waitTime = minDelay - elapsed;
+      console.log(`Rate limiting: waiting ${waitTime}ms`);
+      Utilities.sleep(waitTime);
+    }
+  }
+  PropertiesService.getScriptProperties().setProperty('LAST_GEMINI_CALL', String(Date.now()));
+  
+  // Track daily usage
+  const today = new Date().toDateString();
+  const usageKey = `gemini_tokens_${today}`;
+  const currentUsage = parseInt(PropertiesService.getScriptProperties().getProperty(usageKey) || '0');
+  
+  if (currentUsage > API_RATE_LIMITS.GEMINI.tokensPerDay * 0.9) {
+    console.warn('Approaching Gemini API daily quota limit');
+  }
+  
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const result = callGemini(prompt, maxTokens, temperature);
+      
+      // Track token usage (estimate)
+      const estimatedTokens = Math.ceil((prompt.length + result.length) / 3);
+      PropertiesService.getScriptProperties().setProperty(usageKey, String(currentUsage + estimatedTokens));
+      
+      return result;
+    } catch (error) {
+      console.warn(`Gemini API attempt ${attempt}/${retries} failed: ${error.message}`);
+      if (attempt === retries) {
+        throw new Error(`Gemini API failed after ${retries} attempts: ${error.message}`);
+      }
+      
+      // Progressive backoff with jitter
+      const baseDelay = API_RATE_LIMITS.RETRY_DELAYS[attempt - 1] || 10000;
+      const jitter = Math.random() * 2000; // 0-2 seconds jitter
+      Utilities.sleep(baseDelay + jitter);
+    }
+  }
+}
+
+function callGemini(prompt, maxTokens = 8192, temperature = 0.7) {
+  const body = {
+    contents: [{ parts: [{ text: prompt }]}],
+    generationConfig: { 
+      temperature: temperature, 
+      topK: 40, 
+      topP: 0.95, 
+      maxOutputTokens: maxTokens 
+    }
+  };
+  
+  const resp = UrlFetchApp.fetch(
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=' + CFG.GEMINI_API_KEY,
+    { 
+      method: 'post', 
+      contentType: 'application/json', 
+      payload: JSON.stringify(body), 
+      muteHttpExceptions: true,
+      timeout: 60000 // 60 second timeout
+    }
+  );
+  
+  if (resp.getResponseCode() !== 200) {
+    throw new Error('Gemini API error: ' + resp.getContentText());
+  }
+  
+  const data = JSON.parse(resp.getContentText());
+  const text = data?.candidates?.[0]?.content?.parts?.map(p => p.text).join('\n') || '';
+  
+  if (!text.trim()) {
+    throw new Error('Empty response from Gemini API');
+  }
+  
+  return text.trim();
+}
+
+function callGeminiApi_(prompt, temperature = 0.5, useSearch = false, maxTokens = 8192) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${CFG.GEMINI_API_KEY}`;
+  
+  const payload = {
+    "contents": [{"parts": [{"text": prompt}]}],
+    "generationConfig": {
+      "temperature": temperature, 
+      "maxOutputTokens": maxTokens,
+      "topK": 40,
+      "topP": 0.95
+    }
+  };
+
+  // Enhanced search capabilities
+  if (useSearch) {
+    payload.tools = [{"google_search_retrieval": {}}];
+  }
+
+  const options = {
+    'method': 'post',
+    'contentType': 'application/json',
+    'payload': JSON.stringify(payload),
+    'muteHttpExceptions': true,
+    'timeout': 60000
+  };
+  
+  const response = UrlFetchApp.fetch(url, options);
+  const responseData = JSON.parse(response.getContentText());
+  
+  if (response.getResponseCode() === 200 && responseData.candidates && responseData.candidates[0].content.parts[0].text) {
+    return responseData.candidates[0].content.parts[0].text.trim();
+  } else {
+    Logger.log("Gemini API Error: " + response.getContentText());
+    throw new Error("Invalid or empty response from Gemini API. Check the execution logs for details.");
+  }
+}
+
+/**
+ * Gemini 2.5 Flash TTS (Generative Language API) → Blob (WAV).
+ * Default voice/temperature come from your constants.
+ * Callers should pass AUSTRALIAN_PROMPT + script as `text`.
+ */
+function callGeminiTTS_(text, voiceName, temperature) {
+  // Defaults from your constants; no hard-coding
+  voiceName   = (voiceName !== undefined && voiceName !== null && String(voiceName).trim() !== '')
+                ? String(voiceName) : VOICE_NAME;              // e.g. 'Schedar' via your constant
+  temperature = (typeof temperature === 'number')
+                ? temperature : SPEECH_TEMPERATURE;            // e.g. 0.5 via your constant
+
+  const model  = 'gemini-2.5-flash-preview-tts';
+  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${CFG.GEMINI_API_KEY}`;
+
+  const payload = {
+    contents: [{ parts: [{ text: String(text || '') }]}],
+    generationConfig: {
+      temperature: temperature,
+      responseModalities: ["AUDIO"],          // keep your current schema
+      responseMimeType: "audio/wav",          // ask for WAV when possible
+      speechConfig: {
+        voiceConfig: {
+          prebuiltVoiceConfig: { voiceName: voiceName }
+        }
+      }
+    }
+  };
+
+  const resp = UrlFetchApp.fetch(apiUrl, {
+    method: 'post',
+    contentType: 'application/json',
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true,
+    timeout: 120000
+  });
+
+  if (resp.getResponseCode() !== 200) {
+    throw new Error('Gemini TTS error: ' + resp.getContentText());
+  }
+
+  const data = JSON.parse(resp.getContentText());
+  const part = data?.candidates?.[0]?.content?.parts?.find(p => p.inlineData && p.inlineData.data);
+  if (!part) throw new Error('No audio data in TTS response');
+
+  const mime  = String(part.inlineData.mimeType || '').toLowerCase();
+  const bytes = Utilities.base64Decode(part.inlineData.data);
+
+  // If WAV was returned, use it; otherwise wrap PCM/L16 as WAV
+  if (mime.includes('wav')) {
+    return Utilities.newBlob(bytes, 'audio/wav', 'voiceover.wav');
+  } else {
+    // Your helper already accepts (bytes, mime) -> wavBytes
+    const wavBytes = convertL16ToWav_(bytes, mime || "audio/L16;codec=pcm;rate=24000");
+    return Utilities.newBlob(wavBytes, 'audio/wav', 'voiceover.wav');
+  }
+}
+
+/** Back-compat shim: keep function name alive but delegate to the canonical one. */
+function textToSpeech_(text, voiceName, temperature) {
+  return callGeminiTTS_(text, voiceName, temperature);
+}
+
+// ---- Audio Processing Utility ----
+function convertL16ToWav_(bytes, mimeType) {
+  // Enhanced WAV conversion with proper header
+  const sampleRate = 24000;
+  const numChannels = 1;
+  const bitsPerSample = 16;
+  const dataSize = bytes.length;
+  const fileSize = 36 + dataSize;
+  
+  const header = new Uint8Array(44);
+  const view = new DataView(header.buffer);
+  
+  // RIFF header
+  view.setUint32(0, 0x46464952, true); // "RIFF"
+  view.setUint32(4, fileSize, true);
+  view.setUint32(8, 0x45564157, true); // "WAVE"
+  
+  // Format chunk
+  view.setUint32(12, 0x20746D66, true); // "fmt "
+  view.setUint32(16, 16, true); // chunk size
+  view.setUint16(20, 1, true); // PCM format
+  view.setUint16(22, numChannels, true);
+  view.setUint32(24, sampleRate, true);
+  view.setUint32(28, sampleRate * numChannels * bitsPerSample / 8, true); // byte rate
+  view.setUint16(32, numChannels * bitsPerSample / 8, true); // block align
+  view.setUint16(34, bitsPerSample, true);
+  
+  // Data chunk
+  view.setUint32(36, 0x61746164, true); // "data"
+  view.setUint32(40, dataSize, true);
+  
+  // Combine header with audio data
+  const wavData = new Uint8Array(header.length + bytes.length);
+  wavData.set(header);
+  wavData.set(bytes, header.length);
+  
+  return wavData;
+}
+
+// ---- Enhanced Prompt Builders ----
+function buildCourseRecommendationPrompt_(conceptName, targetAudience, sourceContext = '') {
+  return brandHeader_() + `You are an expert curriculum designer for Continuing Professional Development (CPD) in the Australian healthcare sector.
+
+Based on the following course details, generate a logical and comprehensive list of 10-12 module titles.
+
+**Course Concept:** "${conceptName}"
+**Target Audience:** "${targetAudience}"
+${sourceContext ? `**Context from Source Materials:** "${sourceContext.slice(0, 500)}..."` : ''}
+
+**Instructions:**
+1. Brainstorm a list of essential topics that would form a complete course on the concept.
+2. Structure these topics into a logical learning pathway.
+3. Each module title should be clear, descriptive, and engaging.
+4. Consider progression from foundational to advanced concepts.
+5. Ensure practical applicability for the target audience.
+6. Return ONLY the list of 10-12 module titles, each on a new line. Do not include numbers or bullet points.`;
+}
+
+function buildModuleDescriptionPrompt(moduleName, concept, targetAudience = 'Clinical') {
+  return brandHeader_() + `Generate a detailed, engaging module description (approx 180-220 words) for an online CPD course for Australian healthcare professionals.
+
+Course Concept: "${concept}"
+Module Name: "${moduleName}"
+Target Audience: "${targetAudience}"
+
+The description must:
+- State the module's purpose and learning outcomes
+- Outline key challenges and learning opportunities
+- Emphasise practical skills aligned with RACGP/ACRRM standards
+- Include specific workplace applications
+- Reference contemporary Australian healthcare context
+- Use engaging, professional language that motivates learning
+
+Return only the description.`;
+}
+
+function buildKeyConceptsPrompt(description, moduleName, concept) {
+  return brandHeader_() + `Based on the module description, identify and list 5-7 key concepts that must be covered. For each concept, provide a comprehensive one-sentence summary that captures both the theoretical foundation and practical application.
+
+Module: "${moduleName}"
+Course Concept: "${concept}"
+Description: ${description}
+
+Format as a numbered list with detailed explanations. Return only the list.`;
+}
+
+function buildSlideSpecsPrompt(description, concepts, moduleName, concept) {
+  return brandHeader_() + `Create a comprehensive 12-slide specification for the module "${moduleName}". Structure as follows:
+- Slide 1: Introduction and learning objectives
+- Slides 2-10: Core content covering key concepts
+- Slide 11: Integration and practical application
+- Slide 12: Summary and next steps
+
+For each slide, provide:
+- A clear, engaging title
+- 4-5 detailed content bullet points
+- Logical flow and progression
+
+Module Description: ${description}
+Key Concepts: ${concepts}
+
+Format each slide as "# Slide [Number]: [Title]" followed by bullet points. Return only the 12 slide specifications.`;
+}
+
+function buildEnhancedAssessmentsPrompt_(moduleName, moduleDescription, slideSpecs) {
+  return brandHeader_() + `You are an experienced educator creating comprehensive assessments for an iSpring Suite Max course for Australian healthcare professionals. 
+
+Develop a sophisticated assessment battery (6-8 questions total) based on the module details provided.
+
+**MODULE DETAILS:**
+* **Module Name:** ${moduleName}
+* **Module Description:** ${moduleDescription}
+* **Slide Content Outline:** ${slideSpecs}
+
+**TASK:** Create a diverse mix of assessment types that test higher-order thinking:
+- Scenario-Based MCQs (40%): Complex, multi-layered situations
+- True/False with Detailed Justification (25%): Professional standards and ethics
+- Matching/Drag-and-Drop Activities (20%): Process sequencing, priority ranking
+- Short Answer Reflection Questions (15%): Critical thinking and application
+
+**QUALITY STANDARDS:** 
+- Test practical application and professional judgment
+- Include cultural safety considerations
+- Reference Australian healthcare standards
+- Provide comprehensive rationales for all options
+
+**OUTPUT FORMAT (Use Markdown):**
+For each item, provide:
+### Assessment [Number]: [Question Type]
+**Scenario/Context:** [If applicable]
+**Question Stem:** ...
+**Options:** [For MCQs and matching]
+**Correct Answer:** ...
+**Comprehensive Rationale:**
+- **Correct:** [Detailed explanation with reasoning]
+- **Incorrect Options:** [Explanation for each distractor]
+- **Learning Objective Alignment:** [Which slide/concept this assesses]
+
+Return only the complete assessment battery in the specified format.`;
+}
+
+function buildEnhancedScenariosPrompt_(moduleName, moduleDescription, slideSpecs) {
+  return brandHeader_() + `You are an expert instructional designer creating immersive role-play scenarios for an iSpring Suite course for Australian healthcare professionals.
+
+**MODULE DETAILS:**
+* **Module Name:** ${moduleName}
+* **Module Description:** ${moduleDescription}
+* **Slide Content Outline:** ${slideSpecs}
+
+**TASK:** Create TWO detailed, branching role-play scenarios with realistic dialogue, meaningful choices, and immediate feedback.
+
+**SCENARIO REQUIREMENTS:**
+- Authentic Australian healthcare contexts
+- Diverse, culturally appropriate character representation
+- Multiple decision points with consequences
+- Realistic dialogue and professional language
+- Clear learning objectives alignment
+
+**OUTPUT FORMAT (Use Markdown):**
+
+## Scenario 1: [Title]
+### Learning Objectives
+### Character Profiles
+**Primary Character:** [Name, role, background]
+**Supporting Characters:** [Names, roles, relationships]
+
+### Scene Setup
+### Branching Dialogue Tree
+**Initial Situation:** [Context setting]
+- **Character says:** "..."
+- **Learner's Choice A:** "..." → **Outcome:** [Consequence and feedback]
+- **Learner's Choice B:** "..." → **Outcome:** [Consequence and feedback]
+- **Learner's Choice C:** "..." → **Outcome:** [Consequence and feedback]
+
+**Follow-up Decisions:** [Continue pattern]
+
+### Debriefing Points
+### Assessment Integration
+
+## Scenario 2: [Title]
+[Follow same structure]
+
+Return only the detailed scenarios in the specified format.`;
+}
+
+function buildDownloadablePrompt(slideSpecs, moduleName, concept) {
+  return brandHeader_() + `Generate COMPLETE and FINAL text for two comprehensive downloadable resources based on the module "${moduleName}". You must conduct research and write full content.
+
+**CRITICAL INSTRUCTIONS:**
+- NO placeholders - generate actual content
+- MUST use search tools for real, verifiable sources
+- Provide complete, ready-to-use resources
+
+---
+
+**Resource 1: Executive Quick Reference Guide (800 words)**
+Create a comprehensive summary covering:
+1. **Executive Summary** (150 words): Key takeaways and strategic value
+2. **Core Principles** (300 words): Essential concepts with practical context
+3. **Implementation Checklist** (200 words): Step-by-step action items
+4. **Troubleshooting Guide** (150 words): Common challenges and solutions
+
+Based on: ${slideSpecs.slice(0, 2000)}
+
+---
+
+**Resource 2: Evidence-Based Extended Learning (1200 words)**
+Generate an expanded resource including:
+
+**1. Advanced Case Studies (400 words):**
+Create 3 detailed, anonymised case studies reflecting real-world challenges related to "${moduleName}". Each should be 120-150 words with:
+- Realistic scenario setup
+- Key challenges and decision points
+- Multiple perspectives to consider
+- Discussion prompts for reflection
+
+**2. Current Research & Evidence Base (500 words):**
+Use search tools to find 6-10 relevant articles from 2020-2024 on "${moduleName}" and "${concept}". For each source:
+- **Citation:** Complete Vancouver-style reference
+- **Key Findings:** 2-3 sentences on main findings
+- **Practice Implications:** How this applies to Australian healthcare
+
+**3. Professional Development Pathway (300 words):**
+- Next steps for skill development
+- Advanced learning opportunities
+- Professional networks and resources
+- Continuing education pathways
+
+Return ONLY the final, complete content for both resources, formatted with clear Markdown headings.`;
+}
+
+function buildAbsorbLmsPrompt_(moduleName, slideSpecs, downloadableResources) {
+  return brandHeader_() + `Create a comprehensive text document optimized for Absorb LMS upload. This will be parsed into individual slides and must maintain educational flow and engagement.
+
+**Module Name:** ${moduleName}
+
+**Source - Slide Specifications:**
+---
+${slideSpecs}
+---
+
+**Integration Requirements:**
+1. Convert slide structure into flowing narrative content
+2. Maintain clear section breaks for LMS parsing
+3. Include interactive elements and engagement prompts
+4. Add navigation cues and progress indicators
+5. Ensure accessibility compliance
+6. Use engaging, conversational tone for online learning
+
+**Enhanced Features to Include:**
+- **Interactive Elements:** Questions, reflection prompts, practical exercises
+- **Multimedia Cues:** [IMAGE], [VIDEO], [AUDIO] placeholders where appropriate
+- **Assessment Integration:** Knowledge check opportunities
+- **Resource Links:** Connection points to downloadable materials
+- **Progress Tracking:** Clear milestones and completion indicators
+
+**Output Format:**
+Use clear Markdown formatting with:
+- # for main section headers (will become slide titles)
+- ## for subsections
+- **Bold** for key terms and concepts
+- *Italics* for emphasis and instructions
+- > Blockquotes for important callouts
+- Numbered lists for step-by-step processes
+- Bullet lists for key points
+
+**Engagement Standards:**
+- Include "Think About This" reflection boxes
+- Add "Try This" practical application prompts  
+- Insert "Key Takeaway" summary points
+- Use Australian healthcare examples throughout
+- Maintain professional but conversational tone
+
+Return ONLY the complete, LMS-ready content with all enhancements integrated.`;
+}
+
+function buildSpeakerNotesPrompt(slideContent, moduleName, concept) {
+  return brandHeader_() + `Generate a sophisticated, executive-level voiceover script for this presentation slide. The script must be suitable for a 75-90 second professional audio recording.
+
+**Slide Content:**
+---
+${slideContent}
+---
+
+**REQUIREMENTS:**
+1. **Executive Authority:** Speak as a senior healthcare leader sharing insights with peers
+2. **Natural Flow:** Conversational yet authoritative, avoiding academic jargon
+3. **Australian Context:** Reference local healthcare frameworks and challenges naturally
+4. **Practical Focus:** Connect concepts to real-world applications and outcomes
+5. **Engagement:** Use rhetorical questions and relatable examples
+6. **Professional Wisdom:** Demonstrate deep understanding without citing specific sources
+
+**TONE GUIDELINES:**
+- Address audience as experienced professionals
+- Use "we" language to build connection
+- Reference "established practices" rather than specific citations
+- Include brief, relevant examples from practice
+- Connect to broader healthcare challenges and opportunities
+
+**AVOID:**
+- Meta-commentary ("Here's what we'll cover")
+- Instructional language ("You should", "Make sure")
+- Academic citation format
+- Generic transitions ("Moving on", "Next")
+
+**TIMING:** Aim for 180-220 words at natural speaking pace (75-90 seconds).
+
+Return ONLY the polished voiceover script - no stage directions, formatting, or explanatory text.`;
+}
+
+function buildImagePrompt(slideContent, moduleName, concept) {
+  const slideTitle = slideContent.split('\n')[0].replace(/^#+\s*/, '');
+  
+  return brandHeader_() + `Create a detailed, single-sentence image generation prompt for a presentation slide.
+
+**Context:**
+- Course: ${concept}
+- Module: ${moduleName} 
+- Slide: ${slideTitle}
+
+**Content Summary:** ${slideContent.slice(0, 300)}...
+
+**Requirements:**
+- Professional Australian healthcare setting
+- Diverse, inclusive representation
+- Modern, clean visual style
+- No text overlay or embedded words
+- Culturally appropriate and safe
+- High contrast for accessibility
+
+**Visual Elements to Consider:**
+- Healthcare professionals in consultation
+- Modern clinical/office environment
+- Professional interactions and teamwork
+- Technology integration where relevant
+- Supportive, learning-focused atmosphere
+
+Return ONLY a single, detailed sentence describing the image to be generated.`;
+}
+
+function buildAlternateSlideContentPrompt(fullSlideContent, moduleName) {
+  const slideTitle = fullSlideContent.split('\n')[0].replace(/^#+\s*/, '');
+  
+  return brandHeader_() + `Transform this slide content from bullet points into an executive-level narrative paragraph suitable for senior healthcare professionals.
+
+**Module:** ${moduleName}
+**Original Slide Content:**
+---
+${fullSlideContent}
+---
+
+**TRANSFORMATION REQUIREMENTS:**
+1. **NO MARKDOWN:** No formatting characters like '#' or '**'
+2. **Title First:** Begin with the slide title exactly as shown, nothing else on line 1
+3. **Executive Narrative:** Convert bullet points into sophisticated, flowing prose
+4. **Professional Tone:** Write for peer-to-peer communication at senior level
+5. **Practical Focus:** Emphasize application and strategic thinking
+6. **Concise Excellence:** Maximum 60-80 words of substantive content
+
+**OUTPUT FORMAT:**
+Line 1: [Exact slide title]
+Line 2: [Empty line]
+Line 3+: [Single sophisticated paragraph combining all bullet points into flowing narrative]
+
+**Example Style:**
+Clinical Assessment Frameworks
+Clinical assessment in Australian healthcare requires integrated approaches that balance evidence-based standards with individualized patient care. Effective frameworks incorporate systematic observation, documentation protocols, and collaborative decision-making processes. Contemporary practice emphasizes cultural safety, shared decision-making, and continuous quality improvement to ensure optimal patient outcomes while supporting clinician professional development and organizational learning objectives.
+
+Return ONLY the formatted content as specified.`;
+}
+
+// ---- Specialized Content Generation Functions ----
+function generateAdvancedSlideContent_(slideSpecs, moduleName, concept, targetAudience = 'Clinical') {
+  const slides = parseSlideSpecs(slideSpecs);
+  const enhancedSlides = [];
+  
+  for (let i = 0; i < slides.length; i++) {
+    const slide = slides[i];
+    const prompt = brandHeader_() + `Create sophisticated slide content for senior healthcare professionals.
+
+**Context:** Module "${moduleName}" in "${concept}" course for ${targetAudience} audience
+**Slide ${i + 1}:** ${slide.title}
+**Original Concepts:** ${slide.body.join('; ')}
+
+**Create executive-level content that:**
+- Transforms concepts into strategic insights
+- Uses authoritative yet accessible language  
+- References Australian healthcare context naturally
+- Includes practical applications and implications
+- Demonstrates professional wisdom and experience
+- Avoids academic citations - speak from authority
+
+**Format:** Title + 2-3 cohesive paragraphs (60-80 words total)
+**Tone:** Senior colleague sharing insights with peers
+
+Return only the enhanced slide content.`;
+
+    try {
+      const enhanced = au(callGeminiWithRetry(prompt, 1200, 3, 0.6));
+      enhancedSlides.push(enhanced);
+      
+      // Rate limiting
+      if (i < slides.length - 1) {
+        Utilities.sleep(7000);
+      }
+    } catch (error) {
+      console.error(`Error enhancing slide ${i + 1}:`, error.message);
+      // Fallback to original format
+      enhancedSlides.push(`${slide.title}\n\n${slide.body.join('. ')}`);
+    }
+  }
+  
+  return enhancedSlides;
+}
+
+function generateContextualImagePrompts_(slideContent, concept, moduleName) {
+  const prompts = [];
+  const slides = Array.isArray(slideContent) ? slideContent : [slideContent];
+  
+  slides.forEach((slide, index) => {
+    const lines = String(slide).split('\n').filter(line => line.trim());
+    const title = lines[0] || `Slide ${index + 1}`;
+    
+    let contextualPrompt = '';
+    const content = slide.toLowerCase();
+    
+    // Context-specific image generation
+    if (content.includes('assessment') || content.includes('evaluation')) {
+      contextualPrompt = `Healthcare professional conducting clinical assessment in modern Australian medical facility - ${title}, diverse healthcare team, professional documentation, contemporary evaluation tools, supportive learning environment`;
+    } else if (content.includes('communication') || content.includes('feedback')) {
+      contextualPrompt = `Healthcare professionals engaged in mentoring conversation in Australian medical practice - ${title}, supervisor and learner interaction, supportive professional development, clinical supervision setting`;
+    } else if (content.includes('cultural') || content.includes('diversity')) {
+      contextualPrompt = `Diverse healthcare team collaboration in Australian clinical setting - ${title}, multicultural professionals, culturally safe practices, inclusive healthcare delivery`;
+    } else if (content.includes('technology') || content.includes('digital')) {
+      contextualPrompt = `Modern healthcare technology integration in Australian clinical practice - ${title}, digital health tools, professional training, contemporary medical equipment`;
+    } else if (content.includes('leadership') || content.includes('management')) {
+      contextualPrompt = `Healthcare leadership meeting in professional Australian medical setting - ${title}, senior clinicians, strategic discussion, executive healthcare environment`;
+    } else {
+      contextualPrompt = `Professional healthcare education scene in contemporary Australian medical setting - ${title}, clinical learning environment, diverse healthcare professionals, modern educational context`;
+    }
+    
+    prompts.push({
+      slideNumber: index + 1,
+      title: title,
+      prompt: contextualPrompt + ', photo-realistic professional photography style'
+    });
+  });
+  
+  return prompts;
+}
+
+// ---- Batch Processing Functions ----
+function batchGenerateModuleContent_(moduleData, batchSize = 3) {
+  const results = [];
+  const totalModules = moduleData.length;
+  
+  for (let i = 0; i < totalModules; i += batchSize) {
+    const batch = moduleData.slice(i, i + batchSize);
+    const batchResults = [];
+    
+    trackProgress('Batch Content Generation', i, totalModules, `Processing batch ${Math.floor(i/batchSize) + 1}...`);
+    
+    batch.forEach((module, index) => {
+      try {
+        const result = {
+          moduleName: module.name,
+          description: generateModuleDescription_(module.name, module.concept),
+          keyPoints: generateKeyPoints_(module.description, module.name),
+          slideSpecs: generateSlideSpecs_(module.description, module.keyPoints, module.name),
+          assessments: generateAssessments_(module.name, module.description),
+          scenarios: generateScenarios_(module.name, module.description)
+        };
+        batchResults.push(result);
+        
+        // Inter-module delay within batch
+        if (index < batch.length - 1) {
+          Utilities.sleep(3000);
+        }
+      } catch (error) {
+        console.error(`Error processing module ${module.name}:`, error.message);
+        batchResults.push({ moduleName: module.name, error: error.message });
+      }
+    });
+    
+    results.push(...batchResults);
+    
+    // Inter-batch delay
+    if (i + batchSize < totalModules) {
+      Utilities.sleep(10000); // 10 second delay between batches
+    }
+  }
+  
+  return results;
+}
+
+// ---- Quality Assurance Functions ----
+function validatePromptQuality_(prompt, expectedLength = 100) {
+  const issues = [];
+  
+  if (!prompt || typeof prompt !== 'string') {
+    issues.push('Prompt is not a valid string');
+  } else {
+    if (prompt.length < expectedLength) {
+      issues.push(`Prompt too short (${prompt.length} chars, expected ${expectedLength}+)`);
+    }
+    
+    if (!prompt.includes('Australian')) {
+      issues.push('Missing Australian healthcare context');
+    }
+    
+    if (!prompt.includes(CFG.BRAND_HEADER.slice(0, 20))) {
+      issues.push('Missing brand header');
+    }
+    
+    // Check for placeholder text
+    const placeholders = ['[INSERT]', '[TODO]', '[PLACEHOLDER]'];
+    placeholders.forEach(placeholder => {
+      if (prompt.includes(placeholder)) {
+        issues.push(`Contains placeholder: ${placeholder}`);
+      }
+    });
+  }
+  
+  return {
+    isValid: issues.length === 0,
+    issues: issues
+  };
+}
+
+function optimizePromptForModel_(prompt, modelType = 'gemini', maxLength = 8000) {
+  let optimized = String(prompt || '').trim();
+  
+  // Model-specific optimizations
+  switch (modelType.toLowerCase()) {
+    case 'gemini':
+      // Gemini prefers clear structure and specific instructions
+      if (optimized.length > maxLength) {
+        // Truncate while preserving structure
+        const sections = optimized.split('\n\n');
+        let truncated = sections[0]; // Keep header
+        
+        for (let i = 1; i < sections.length; i++) {
+          if (truncated.length + sections[i].length < maxLength - 100) {
+            truncated += '\n\n' + sections[i];
+          } else {
+            break;
+          }
+        }
+        optimized = truncated + '\n\n[Content truncated for optimal processing]';
+      }
+      break;
+      
+    default:
+      if (optimized.length > maxLength) {
+        optimized = optimized.slice(0, maxLength - 50) + '...[truncated]';
+      }
+  }
+  
+  return optimized;
+}
+
+// ---- Export for Testing ----
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    callGeminiWithRetry,
+    buildCourseRecommendationPrompt_,
+    buildModuleDescriptionPrompt,
+    generateAdvancedSlideContent_,
+    validatePromptQuality_
+  };
+}
+
+
+// ==== C) Menu & UI ====
+
+/**
+ * AESTHETICALLY PLEASING "HOW TO USE" TAB CREATION
+ * Creates a visually engaging instruction sheet within Google Sheets limitations
+ */
+
+function createHowToUseTab_() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName('How to Use');
+  
+  if (sheet) {
+    sheet.clear();
+  } else {
+    sheet = ss.insertSheet('How to Use');
+  }
+  
+  // Set up the visual design
+  setupHowToUseDesign_(sheet);
+  
+  // Add content sections
+  addHowToUseContent_(sheet);
+  
+  // Apply final formatting
+  finaliseHowToUseFormatting_(sheet);
+  
+  return sheet;
+}
+
+function setupHowToUseDesign_(sheet) {
+  // Set column widths for optimal display
+  sheet.setColumnWidths(1, 1, 60);  // A: Narrow for icons/bullets
+  sheet.setColumnWidths(2, 1, 500); // B: Main content
+  sheet.setColumnWidths(3, 1, 200); // C: Status/notes
+  sheet.setColumnWidths(4, 1, 150); // D: Time estimates
+  
+  // Set row heights
+  sheet.setRowHeights(1, 5, 35);    // Header rows
+  sheet.setRowHeights(6, 50, 30);   // Content rows
+  
+  // Freeze header
+  sheet.setFrozenRows(5);
+}
+
+function addHowToUseContent_(sheet) {
+  const content = [
+    // Header Section (Rows 1-5)
+    ['🎓', 'CONCEPT-TO-COURSE PROFESSIONAL TOOL', 'STATUS', 'TIME'],
+    ['', 'Transform Healthcare Education Ideas into Complete Course Materials', '', ''],
+    ['', '', '', ''],
+    ['📋', 'WORKFLOW OVERVIEW', 'READY ✓', 'TOTAL: ~3-4 HRS'],
+    ['', 'Follow the numbered steps below for professional course development', '', ''],
+    
+    // Step-by-step content (Rows 6+)
+    ['', '', '', ''],
+    ['1️⃣', 'INITIAL SETUP & COURSE PLANNING', '', ''],
+    ['📝', 'Setup & Add First Course', 'Required', '10 min'],
+    ['', '• Define your course concept and target audience', '', ''],
+    ['', '• Specify source materials (Drive folders, documents, URLs)', '', ''],
+    ['', '• Set course folder location and slides template', '', ''],
+    ['', 'OUTCOME: Foundation established for course development', '', ''],
+    
+    ['', '', '', ''],
+    ['2️⃣', 'AI-POWERED COURSE STRUCTURE', '', ''],
+    ['🤖', 'Generate Course Recommendation', 'Required', '15 min'],
+    ['', '• AI analyses your materials and creates 8-12 module structure', '', ''],
+    ['', '• Generates professional recommendation document', '', ''],
+    ['', '• Includes Vancouver-style citations and Australian context', '', ''],
+    ['', 'OUTCOME: Complete course blueprint with justified module breakdown', '', ''],
+    
+    ['', '', '', ''],
+    ['3️⃣', 'WORKSPACE PREPARATION', '', ''],
+    ['📁', 'Create Content Tabs & Subfolders', 'Required', '5 min'],
+    ['', '• Creates organised folder structure in Google Drive', '', ''],
+    ['', '• Sets up content tracking worksheets', '', ''],
+    ['', '• Prepares TTS (text-to-speech) management system', '', ''],
+    ['', 'OUTCOME: Organised workspace ready for content generation', '', ''],
+    
+    ['', '', '', ''],
+    ['4️⃣', 'COMPREHENSIVE CONTENT DEVELOPMENT', '', ''],
+    ['📚', 'Generate Full Suite of Resources', 'Per Module', '45-60 min'],
+    ['', '• Module descriptions and learning objectives', '', ''],
+    ['', '• Key concepts and slide specifications (12 slides per module)', '', ''],
+    ['', '• Interactive scenarios for role-play exercises', '', ''],
+    ['', '• Comprehensive assessments with detailed rationales', '', ''],
+    ['', '• Professional downloadable resources with research', '', ''],
+    ['', 'OUTCOME: Complete educational content suite per module', '', ''],
+    
+    ['', '', '', ''],
+    ['5️⃣', 'LMS-READY CONTENT', '', ''],
+    ['🎯', 'Generate LMS Upload Document', 'Per Module', '10 min'],
+    ['', '• Creates Absorb LMS-compatible content document', '', ''],
+    ['', '• Maintains educational flow and engagement standards', '', ''],
+    ['', '• Includes interactive elements and assessment integration', '', ''],
+    ['', 'OUTCOME: Ready-to-upload LMS content package', '', ''],
+    
+    ['', '', '', ''],
+    ['6️⃣', 'PRESENTATION DEVELOPMENT', '', ''],
+    ['📊', 'Generate Slides for Module', 'Per Module', '15 min'],
+    ['', '• Creates professional slide presentations', '', ''],
+    ['', '• Choice of standard or executive summary formats', '', ''],
+    ['', '• Organised in Drive subfolder with automated naming', '', ''],
+    ['', 'OUTCOME: Presentation-ready slides for training delivery', '', ''],
+    
+    ['', '', '', ''],
+    ['7️⃣', 'VOICE CUSTOMISATION', '', ''],
+    ['🎤', 'Set Voiceover Artist', 'Optional', '2 min'],
+    ['', '• Select from 6 professional voice options', '', ''],
+    ['', '• Applies to all audio generation for consistent experience', '', ''],
+    ['', '• Australian-accented professional delivery', '', ''],
+    ['', 'OUTCOME: Personalised audio branding for your courses', '', ''],
+    
+    ['', '', '', ''],
+    ['8️⃣', 'PROFESSIONAL AUDIO NARRATION', '', ''],
+    ['🎵', 'Generate All Audio for Module', 'Per Module', '30-45 min'],
+    ['', '• High-quality AI voiceover for each slide', '', ''],
+    ['', '• Executive-level narration scripts', '', ''],
+    ['', '• Organised audio files ready for LMS integration', '', ''],
+    ['', 'OUTCOME: Complete narrated course content', '', ''],
+    
+    ['', '', '', ''],
+    ['9️⃣', 'MAINTENANCE & UPDATES', '', ''],
+    ['🧹', 'Clean Module Audio Files', 'As Needed', '2 min'],
+    ['', '• Removes outdated audio files from Drive storage', '', ''],
+    ['', '• Maintains organised project folders', '', ''],
+    ['', '• Clears audio links from tracking sheets', '', ''],
+    ['', 'OUTCOME: Clean workspace for fresh audio generation', '', ''],
+    
+    ['', '', '', ''],
+    ['🔟', 'PROJECT COMPLETION', '', ''],
+    ['📦', 'Archive Course Project', 'Per Course', '5 min'],
+    ['', '• Creates backup of all course materials', '', ''],
+    ['', '• Removes working tabs from main spreadsheet', '', ''],
+    ['', '• Prepares project folder for long-term storage', '', ''],
+    ['', 'OUTCOME: Professional course archive ready for delivery', '', ''],
+    
+    ['', '', '', ''],
+    ['', '', '', ''],
+    ['💡', 'PROFESSIONAL WORKFLOW TIPS', '', ''],
+    ['', '', '', ''],
+    ['✅', 'QUALITY CONTROL', '', ''],
+    ['', '• Review each module recommendation before proceeding', '', ''],
+    ['', '• Test sample slides and audio before full generation', '', ''],
+    ['', '• Keep source materials organised and accessible', '', ''],
+    ['', '• Use modification requests between steps for refinements', '', ''],
+    
+    ['', '', '', ''],
+    ['⚡', 'EFFICIENCY OPTIMISATION', '', ''],
+    ['', '• Complete steps 1-3 for all courses first (bulk setup)', '', ''],
+    ['', '• Generate resources in batches to maximise API efficiency', '', ''],
+    ['', '• Archive completed courses to maintain workspace clarity', '', ''],
+    ['', '• Maintain consistent folder naming for easy navigation', '', ''],
+    
+    ['', '', '', ''],
+    ['🔧', 'TROUBLESHOOTING SUPPORT', '', ''],
+    ['', '• Status sheet tracks all operations and progress', '', ''],
+    ['', '• Toast notifications provide real-time feedback', '', ''],
+    ['', '• Contact Carla for any configuration or error issues', '', ''],
+    ['', '• Setup wizard available for initial configuration', '', ''],
+    
+    ['', '', '', ''],
+    ['📞', 'TECHNICAL SUPPORT', 'CONTACT CARLA', ''],
+    ['', 'For configuration issues, script errors, or advanced customisation', '', ''],
+    ['', 'Users should focus on content creation, not technical troubleshooting', '', '']
+  ];
+  
+  // Write content to sheet
+  const range = sheet.getRange(1, 1, content.length, 4);
+  range.setValues(content);
+}
+
+function finaliseHowToUseFormatting_(sheet) {
+  const maxRow = sheet.getLastRow();
+  
+  // Header formatting (rows 1-5)
+  const headerRange = sheet.getRange(1, 1, 5, 4);
+  headerRange.setBackground('#1c4587').setFontColor('white').setFontWeight('bold').setFontSize(11);
+  
+  // Title row special formatting
+  sheet.getRange(1, 2).setFontSize(14).setFontWeight('bold');
+  sheet.getRange(2, 2).setFontSize(10).setFontStyle('italic');
+  
+  // Step number formatting (emoji rows)
+  const stepRows = [7, 15, 23, 31, 39, 47, 55, 63, 71, 79];
+  stepRows.forEach(row => {
+    if (row <= maxRow) {
+      const stepRange = sheet.getRange(row, 1, 1, 4);
+      stepRange.setBackground('#e8f0fe').setFontWeight('bold').setFontSize(12);
+    }
+  });
+  
+  // Main action rows formatting
+  const actionRows = [8, 16, 24, 32, 40, 48, 56, 64, 72, 80];
+  actionRows.forEach(row => {
+    if (row <= maxRow) {
+      const actionRange = sheet.getRange(row, 1, 1, 4);
+      actionRange.setBackground('#f1f3f4').setFontWeight('bold');
+      
+      // Status column conditional formatting
+      const statusCell = sheet.getRange(row, 3);
+      const statusValue = statusCell.getValue();
+      if (statusValue === 'Required') {
+        statusCell.setBackground('#fce8e6').setFontColor('#d93025');
+      } else if (statusValue === 'Per Module') {
+        statusCell.setBackground('#e8f0fe').setFontColor('#1a73e8');
+      } else if (statusValue === 'Optional') {
+        statusCell.setBackground('#e6f4ea').setFontColor('#137333');
+      }
+    }
+  });
+  
+  // Outcome rows formatting
+  for (let row = 1; row <= maxRow; row++) {
+    const cellValue = sheet.getRange(row, 2).getValue();
+    if (typeof cellValue === 'string' && cellValue.startsWith('OUTCOME:')) {
+      const outcomeRange = sheet.getRange(row, 2, 1, 2);
+      outcomeRange.setFontStyle('italic').setBackground('#f8f9fa').setFontColor('#5f6368');
+    }
+  }
+  
+  // Tips section formatting
+  const tipsStartRow = findRowByContent_(sheet, 'PROFESSIONAL WORKFLOW TIPS');
+  if (tipsStartRow > 0) {
+    const tipsHeaderRange = sheet.getRange(tipsStartRow, 1, 1, 4);
+    tipsHeaderRange.setBackground('#34a853').setFontColor('white').setFontWeight('bold');
+    
+    // Sub-sections in tips
+    const subSectionRows = [
+      findRowByContent_(sheet, 'QUALITY CONTROL'),
+      findRowByContent_(sheet, 'EFFICIENCY OPTIMISATION'),
+      findRowByContent_(sheet, 'TROUBLESHOOTING SUPPORT'),
+      findRowByContent_(sheet, 'TECHNICAL SUPPORT')
+    ].filter(row => row > 0);
+    
+    subSectionRows.forEach(row => {
+      const subRange = sheet.getRange(row, 1, 1, 4);
+      subRange.setBackground('#e8f5e8').setFontWeight('bold');
+    });
+  }
+  
+  // Add borders and final touches
+  const allContent = sheet.getRange(1, 1, maxRow, 4);
+  allContent.setBorder(true, true, true, true, false, false, '#dadce0', SpreadsheetApp.BorderStyle.SOLID);
+  
+  // Alternating row backgrounds for better readability
+  for (let row = 6; row <= maxRow; row += 2) {
+    if (!isSpecialFormattedRow_(sheet, row)) {
+      sheet.getRange(row, 1, 1, 4).setBackground('#fafafa');
+    }
+  }
+  
+  // Center align status and time columns
+  sheet.getRange(1, 3, maxRow, 2).setHorizontalAlignment('center');
+  
+  // Wrap text in main content column
+  sheet.getRange(1, 2, maxRow, 1).setWrap(true);
+  
+  // Final row height adjustments
+  sheet.setRowHeights(1, 2, 40);  // Title rows
+  sheet.setRowHeights(3, 1, 20);  // Spacer
+  sheet.setRowHeights(4, 2, 35);  // Overview
+}
+
+function findRowByContent_(sheet, searchText) {
+  const data = sheet.getDataRange().getValues();
+  for (let i = 0; i < data.length; i++) {
+    for (let j = 0; j < data[i].length; j++) {
+      if (typeof data[i][j] === 'string' && data[i][j].includes(searchText)) {
+        return i + 1; // Convert to 1-based row number
+      }
+    }
+  }
+  return -1;
+}
+
+function isSpecialFormattedRow_(sheet, row) {
+  const cellValue = sheet.getRange(row, 2).getValue();
+  if (typeof cellValue !== 'string') return false;
+  
+  return cellValue.includes('OUTCOME:') || 
+         cellValue.includes('WORKFLOW TIPS') ||
+         cellValue.includes('QUALITY CONTROL') ||
+         cellValue.includes('EFFICIENCY') ||
+         cellValue.includes('TROUBLESHOOTING') ||
+         cellValue.includes('TECHNICAL SUPPORT') ||
+         /^[1-9]️⃣/.test(sheet.getRange(row, 1).getValue());
+}
+
+// Function to refresh the How to Use tab (useful for updates)
+function refreshHowToUseTab() {
+  const ui = SpreadsheetApp.getUi();
+  const response = ui.alert(
+    'Refresh Instructions',
+    'This will update the "How to Use" tab with the latest formatting and content.\n\nContinue?',
+    ui.ButtonSet.YES_NO
+  );
+  
+  if (response === ui.Button.YES) {
+    createHowToUseTab_();
+    ui.alert('✓ How to Use tab refreshed successfully');
+  }
+}
+
+// ---- Menu initialisation ----
+function onOpen() {
+  try {
+    const ui = SpreadsheetApp.getUi();
+    
+    // Main menu with all functionality
+    const menu = ui.createMenu('🎓 Concept-to-Course Enhanced')
+      .addItem('🚀 Launch Setup Wizard', 'launchSetupWizard')
+      .addItem('📖 Create How-to-Use Guide', 'createHowToUseTab_')
+      .addItem('🎯 Course Creation Wizard', 'launchCourseCreationWizard')
+      .addSeparator()
+      .addItem('📊 System Diagnostics', 'runSystemDiagnostics_')
+      .addItem('🔧 Validate Configuration', 'validateSystemConfiguration_')
+      .addSeparator()
+      .addSubMenu(ui.createMenu('📋 Original Workflow')
+        .addItem('1️⃣ Setup', 'step1Setup')
+        .addItem('2️⃣ Recommendation', 'step2Recommendation') 
+        .addItem('3️⃣ Workspace', 'step3Workspace')
+        .addItem('4️⃣ Content', 'step4Content')
+        .addItem('5️⃣ LMS', 'step5LMS')
+        .addItem('6️⃣ Slides', 'step6Slides')
+        .addItem('7️⃣ Voice', 'step7Voice')
+        .addItem('8️⃣ Audio', 'step8Audio')
+        .addItem('9️⃣ Maintenance', 'step9Maintenance')
+        .addItem('🔟 Archive', 'step10Archive'))
+      .addSeparator()
+      .addItem('❓ Help & Support', 'showHelpDialog_');
+    
+    menu.addToUi();
+    
+    // Show welcome message on first use
+    if (!hasUserSeenWelcome_()) {
+      showWelcomeDialog_();
+      markUserSeenWelcome_();
+    }
+    
+    // Validate system configuration silently
+    const validationResult = validateSystemConfiguration_(false);
+    if (!validationResult.isValid) {
+      ui.alert('⚠️ Configuration Issues Detected', 
+        'Some system components need attention. Please run Setup Wizard or System Diagnostics.', 
+        ui.AlertResponse.OK);
+    }
+    
+    Logger.log('Enhanced onOpen completed successfully');
+    
+  } catch (error) {
+    Logger.log('Error in enhanced onOpen: ' + error.toString());
+    SpreadsheetApp.getUi().alert('Initialisation Error', 
+      'There was an issue loading the enhanced menu system. Please check the logs.', 
+      SpreadsheetApp.getUi().AlertResponse.OK);
+  }
+}
+
+function addMenu_(menu, label, fnName) {
+  try {
+    if (typeof this[fnName] === 'function') menu.addItem(label, fnName);
+  } catch(_) { /* skip if missing */ }
+}
+
+
+// ==== D) Utilities & Mapping ====
+
+/**
+ * Extract module names from an AI recommendation doc/string.
+ * Looks for a "RECOMMENDED MODULES" block and normalises bullets.
+ */
+function extractModuleNames_(text){
+  const src = String(text || '');
+
+  // 1) Isolate the "RECOMMENDED MODULES" block up to next section heading
+  const blockMatch = src.match(/RECOMMENDED MODULES\s*:?\s*([\s\S]+?)(?:\n[A-Z ]{4,}\s*:|^\s*(?:ASSESSMENTS?|REFERENCES?|SOURCES|ADDITIONAL RECOMMENDED SOURCES)\b|$)/im);
+  const block = blockMatch ? blockMatch[1] : src;
+
+  // 2) Split lines, remove markdown noise, keep non-empty
+  const lines = block
+    .replace(/\r/g,'')
+    .split('\n')
+    .map(l => l.replace(/\*\*/g,'').trim())
+    .filter(Boolean);
+
+  const names = [];
+  const seen = new Set();
+
+  function pushName(raw){
+    if (!raw) return;
+    let name = String(raw).trim();
+
+    // remove leading bullets & ordering
+    name = name.replace(/^\s*(?:[-*•]|\d+[.)])\s*/,'');
+    // strip trailing punctuation
+    name = name.replace(/[.:;,-\s]+$/,'').trim();
+    // drop bracketed metadata
+    name = name.replace(/\s*\([^)]*\)\s*$/,'').trim();
+
+    // prune common prefixes if the AI returns “Module:” etc.
+    name = name.replace(/^module\s*[:\-]\s*/i,'').trim();
+
+    if (name && !seen.has(name.toLowerCase())){
+      seen.add(name.toLowerCase());
+      names.push(name);
+    }
+  }
+
+  lines.forEach(ln => {
+    // split composite bullets like "1) Title — subtitle"
+    const parts = ln.split(/—|–|:|•|\|/).filter(Boolean);
+    pushName(parts[0] || ln);
+  });
+
+  // heuristic safeguard: return unique, 2–100 chars
+  return names.filter(s => s.length >= 2 && s.length <= 100);
+}
+
+/**
+ * Take a recommendation doc (Google Doc URL or raw text), extract module names,
+ * and write into Mapping sheet module column.
+ */
+function refreshModulesFromRecommendation(){
+  const ss = SpreadsheetApp.getActive();
+  const map = ss.getSheetByName('Mapping');
+  if (!map) throw new Error('Mapping sheet not found.');
+
+  const recUrl = String(map.getRange('N2').getValue() || '').trim(); // Recommendation Doc URL (example placement)
+  const moduleCol = 5; // Column E (example) – adjust to your layout
+
+  let text = '';
+  if (recUrl){
+    const id = extractIdFromUrl_(recUrl);
+    if (!id) throw new Error('Invalid recommendation Doc URL.');
+    text = DocumentApp.openById(id).getBody().getText() || '';
+  } else {
+    text = String(map.getRange('N3').getValue() || ''); // optional raw paste
+  }
+
+  const modules = extractModuleNames_(text);
+  if (!modules.length){
+    SpreadsheetApp.getUi().alert('No modules detected in the recommendation content.');
+    return;
+  }
+
+  // clear existing module list (E3:E)
+  const last = map.getLastRow();
+  if (last >= 3){
+    map.getRange(3, moduleCol, last-2, 1).clearContent();
+  }
+
+  map.getRange(3, moduleCol, modules.length, 1).setValues(modules.map(m => [m]));
+  SpreadsheetApp.getUi().alert(`Inserted ${modules.length} modules into Mapping.`);
+}
+
+/**
+ * Create an "Approved Course" tab and seed headings for downstream use.
+ */
+function createApprovedCourseTab(){
+  const ss = SpreadsheetApp.getActive();
+  let sh = ss.getSheetByName('Approved Course');
+  if (!sh){
+    sh = ss.insertSheet('Approved Course');
+  } else {
+    sh.clear();
+  }
+  sh.getRange(1,1,1,6).setValues([[
+    'Module #','Module Name','Learning Objectives','Key Concepts','Assessment Items','Notes'
+  ]]);
+}
+
+/**
+ * Setup Mapping sheet with required fields and gentle defaults.
+ * (Non-destructive for existing content; ensures headings are present.)
+ */
+function setupMappingTab(){
+  const ss = SpreadsheetApp.getActive();
+  let sh = ss.getSheetByName('Mapping');
+  if (!sh){ sh = ss.insertSheet('Mapping'); }
+
+  const headers = [
+    'Course Concept',        // A
+    'Course Drive Folder',   // B (Folder URL)
+    'Slides Template',       // C (Slides template URL)
+    'Active Module',         // D
+    'Modules',               // E+
+    // ... your existing columns beyond E remain intact
+  ];
+
+  // Write headers into row1 where empty; don’t overwrite existing labels.
+  const existing = sh.getRange(1,1,1,headers.length).getValues()[0];
+  const out = existing.slice();
+  headers.forEach((h,i)=>{ if (!String(existing[i]||'').trim()) out[i]=h; });
+  sh.getRange(1,1,1,headers.length).setValues([out]);
+
+  // Leave data alone; simply ensure the tab exists and is minimally labelled.
+}
+
+/**
+ * Wrapper to gather all sources for the active Mapping row via collectAllSourceMaterials_.
+ * Returns only the combined text (status logs any warnings).
+ */
+function readSourceMaterials_(){
+  const sh = SpreadsheetApp.getActive().getSheetByName('Mapping');
+  if (!sh) throw new Error('Mapping sheet not found.');
+  const row = sh.getActiveRange().getRow();
+  const pack = collectAllSourceMaterials_(row); // B[row] + B[row+1..] + inline URLs (no T ingestion)
+
+  if (pack.errors && pack.errors.length){
+    const status = ensureStatusSheet_();
+    status.appendRow([new Date(), 'readSourceMaterials_', 'warn', pack.errors.join(' | ')]);
+  }
+  return String(pack.text || '');
+}
+
+/**
+ * (Robust) Ensure a TTS sheet exists for a module and return it.
+ */
+function ensureTTSSheet(concept, moduleName){
+  const ss = SpreadsheetApp.getActive();
+  const safeName = `TTS-${(String(moduleName||'').slice(0,32) || 'Module').replace(/[^\w -]/g,'_')}`;
+  let sh = ss.getSheetByName(safeName);
+  if (!sh){
+    sh = ss.insertSheet(safeName);
+    sh.getRange(1,1,1,10).setValues([[
+      'Module','Slide #','Script','Image Prompt','Alt Text','Voice',
+      'Backup Image Prompt','Audio File Id','Audio URL','Notes'
+    ]]);
+  }
+  return sh;
+}
+
+/**
+ * Given slide specs text, parse, enrich, and seed a TTS sheet.
+ * Uses parseSlideSpecs_ (Section F) and generateImagePrompt (Section F).
+ */
+function seedTTSFromSpecs(concept, moduleName, slideSpecsText){
+  const slides = parseSlideSpecs_(slideSpecsText);
+  const tts = ensureTTSSheet(concept, moduleName);
+  const rows = [];
+
+  for (let i = 0; i < slides.length; i++){
+    const slide = slides[i];
+    try {
+      // Build a concise, narrative script and an image prompt
+      const content = populateAlternateSlideContent(slide, concept, moduleName);
+      const imagePrompt = generateImagePromptForSlide(slide, concept, moduleName);
+      rows.push([moduleName, i+1, content, imagePrompt, '', '', '', '', '', '']);
+    } catch(e){
+      // Fallback to a simple bullet-massage if enrichment fails
+      const fallbackContent = `${slide.title}\n\n${(slide.body || []).map(b => b.replace(/^\s*[-*•]\s*/, '').trim()).join('. ')}`;
+      const fallbackImagePrompt = generateImagePrompt(fallbackContent, concept, moduleName);
+      rows.push([moduleName, i+1, fallbackContent, fallbackImagePrompt, '', '', '', '', '', '']);
+    }
+  }
+
+  if (rows.length){
+    const start = tts.getLastRow()+1;
+    tts.getRange(start,1,rows.length,10).setValues(rows);
+  }
+
+  trackProgress('Seed TTS from Specs', rows.length, rows.length, `Created TTS rows for "${moduleName}"`);
+}
+
+/** Extract URLs from text for optional augmentation */
+function extractUrls_(text){
+  const re = /\bhttps?:\/\/[^\s)<>"']+/gi;
+  const out = [];
+  let m;
+  while ((m = re.exec(String(text||''))) !== null){
+    out.push(m[0]);
+  }
+  return Array.from(new Set(out));
+}
+
+/** Light HTML→text normaliser for fetched web pages */
+function htmlToText_(html){
+  return String(html||'')
+    .replace(/<\s*script[^>]*>[\s\S]*?<\s*\/\s*script>/gi, ' ')
+    .replace(/<\s*style[^>]*>[\s\S]*?<\s*\/\s*style>/gi, ' ')
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/p>/gi, '\n\n')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/[ \t]{2,}/g, ' ')
+    .trim();
+}
+
+/** Fetch a single URL body with mild guardrails (type/size/timeouts) */
+function fetchUrlText_(url){
+  try{
+    const resp = UrlFetchApp.fetch(url, {
+      method: 'get',
+      followRedirects: true,
+      muteHttpExceptions: true,
+      validateHttpsCertificates: true,
+      contentType: 'text/plain',
+      timeout: 20000
+    });
+    const code = resp.getResponseCode();
+    if (code < 200 || code >= 300) return { text:'', error:`HTTP ${code} for ${url}` };
+    const ctype = String(resp.getHeaders()['Content-Type'] || '').toLowerCase();
+    if (!/(text|html|json|xml)/.test(ctype)) return { text:'', error:`Skipped non-text content: ${ctype} ${url}` };
+    const body = resp.getContentText() || '';
+    const text = /html/.test(ctype) ? htmlToText_(body) : body;
+    return { text, error:'' };
+  }catch(e){
+    return { text:'', error:`Fetch error for ${url}: ${e.message}` };
+  }
+}
+
+/** Fetch a bundle of URLs and concatenate text (limited) */
+function fetchUrlsBundle_(urls, limit=10){
+  const use = Array.from(new Set(urls||[])).slice(0, limit);
+  const parts = [];
+  const errors = [];
+  use.forEach(u=>{
+    const r = fetchUrlText_(u);
+    if (r.text) parts.push(`\n\n=== SOURCE: ${u} ===\n${r.text}`);
+    if (r.error) errors.push(r.error);
+  });
+  return { text: parts.join('\n'), errors };
+}
+
+/**
+ * Collect source materials for a course.
+ * Modes:
+ *  - Legacy: if arg is a Drive Folder, read it recursively (old behavior).
+ *  - Preferred: if arg is missing or a row number, read Mapping:
+ *      • B[row] primary + B[row+1..until next non-empty A] additional
+ *      • DOES NOT ingest from T[row] (T is for filing/archival only)
+ *  - In both modes: crawl inline URLs found in the aggregated text (guarded).
+ * Returns: { text, errors, sources }
+ */
+function collectAllSourceMaterials_(arg){
+  // ----- Legacy folder mode -----
+  if (arg && typeof arg.getFiles === 'function') {
+    const { text, errors } = readFromFolder_(arg);
+    const urls = extractUrls_(text || '');
+    const uniq = Array.from(new Set(urls)).slice(0, (typeof URL_CRAWL_LIMIT !== 'undefined' ? URL_CRAWL_LIMIT : 12));
+    let appended = '', appendedLen = 0, crawlErr = [];
+    uniq.forEach(u => {
+      const r = fetchUrlText_(u);
+      const t = (typeof r === 'string') ? r : (r && r.text) || '';
+      if (t) {
+        const chunk = `\n\n===== SOURCE: ${u} (Inline URL) =====\n${t}`;
+        const cap = (typeof URL_MAX_APPEND_CHARS !== 'undefined' ? URL_MAX_APPEND_CHARS : 20000);
+        if (appendedLen + chunk.length <= cap) { appended += chunk; appendedLen += chunk.length; }
+      }
+      if (r && r.error) crawlErr.push(r.error);
+    });
+    return { text: (text || '') + appended, errors: [].concat(errors || [], crawlErr), sources: [] };
+  }
+
+  // ----- Mapping B-block mode -----
+  const ss = SpreadsheetApp.getActive();
+  const sh = ss.getSheetByName('Mapping');
+  if (!sh) throw new Error('Mapping sheet not found.');
+
+  const row = (typeof arg === 'number' && arg >= 2) ? arg : sh.getActiveRange().getRow();
+  if (row < 2) throw new Error('Select a course row (row ≥ 2).');
+
+  const concept = String(sh.getRange(row, 1).getValue() || '').trim();
+  if (!concept) throw new Error('Course Concept (Column A) is empty on the selected row.');
+
+  // find end of this course block (next non-empty A)
+  const lastRow = sh.getLastRow();
+  let end = lastRow + 1;
+  for (let r = row + 1; r <= lastRow; r++){
+    if (String(sh.getRange(r, 1).getValue() || '').trim()) { end = r; break; }
+  }
+
+  const errors = [];
+  const parts = [];
+  /** @type {{type:'web'|'gdoc'|'gfolder'|'pdf'|'text', title?:string, url?:string, id?:string}[]} */
+  const sources = [];
+
+  function push(label, t){
+    if (t && String(t).trim()) parts.push(`\n\n===== SOURCE: ${label} =====\n${String(t).trim()}`);
+  }
+
+  function readDriveFileText_(id){
+    try{
+      const f   = DriveApp.getFileById(id);
+      const nm  = f.getName();
+      const mime= String(f.getMimeType()||'').toLowerCase();
+      if (mime.includes('document')){
+        sources.push({type:'gdoc', title:nm, id, url:`https://docs.google.com/document/d/${id}/edit`});
+        return DocumentApp.openById(id).getBody().getText() || '';
+      }
+      if (mime.includes('pdf')){
+        sources.push({type:'pdf', title:nm, id, url:`https://drive.google.com/file/d/${id}/view`});
+        try{
+          const parentId = f.getParents().hasNext() ? f.getParents().next().getId() : null;
+          const conv = Drive.Files.insert({title:'_ingest_'+nm, mimeType:'application/pdf', parents: parentId ? [{id: parentId}] : []}, f.getBlob(), {convert:true});
+          return DocumentApp.openById(conv.id).getBody().getText() || '';
+        } catch(e){
+          try { return f.getBlob().getDataAsString(); } catch(_) { errors.push(`${nm}: PDF conversion unavailable`); return ''; }
+        }
+      }
+      // generic text-ish
+      try { return f.getBlob().getDataAsString(); } catch(e){ errors.push(`${nm}: ${e.message}`); return ''; }
+    }catch(e){
+      errors.push(`Drive read failed (${id}): ${e.message}`); return '';
+    }
+  }
+
+  function processOne_(label, val){
+    const s = String(val||'').trim();
+    if (!s) return;
+
+    const folderMatch = s.match(/\/folders\/([A-Za-z0-9_-]{10,})/);
+    if (folderMatch){
+      try{
+        const folder = DriveApp.getFolderById(folderMatch[1]);
+        sources.push({type:'gfolder', title: folder.getName(), id: folderMatch[1], url: s});
+        const r = readFromFolder_(folder);
+        push(`${label} (Drive Folder)`, r.text);
+        if (r.errors && r.errors.length) errors.push.apply(errors, r.errors);
+      }catch(e){ errors.push(`Folder read failed (${s}): ${e.message}`); }
+      return;
+    }
+
+    const id = extractIdFromUrl_(s);
+    if (id){ push(`${label} (Drive File)`, readDriveFileText_(id)); return; }
+
+    if (/^https?:\/\//i.test(s)){
+      const r = fetchUrlText_(s);
+      const t = (typeof r === 'string') ? r : (r && r.text) || '';
+      push(`${label} (Web)`, t);
+      sources.push({type:'web', title: s, url: s});
+      if (r && r.error) errors.push(r.error);
+      return;
+    }
+
+    push(`${label} (Text)`, s);
+    sources.push({type:'text', title: label});
+  }
+
+  // B[row] + B[row+1..end-1]
+  const primary = sh.getRange(row,2).getValue();
+  if (primary) processOne_(`B${row}`, primary);
+  if (end > row + 1){
+    const more = sh.getRange(row+1,2, (end-row-1), 1).getValues();
+    more.forEach((a,i)=>{ const v=a[0]; if (String(v||'').trim()) processOne_(`B${row+1+i}`, v); });
+  }
+  // DO NOT ingest from T[row].
+
+  // inline URLs
+  let combined = parts.join('\n');
+  const urls = extractUrls_(combined || '');
+  const uniq = Array.from(new Set(urls)).slice(0, (typeof URL_CRAWL_LIMIT !== 'undefined' ? URL_CRAWL_LIMIT : 12));
+  let appended = '', appendedLen = 0, crawlErr = [];
+  uniq.forEach(u => {
+    const r = fetchUrlText_(u);
+    const t = (typeof r === 'string') ? r : (r && r.text) || '';
+    if (t){
+      const chunk = `\n\n===== SOURCE: ${u} (Inline URL) =====\n${t}`;
+      const cap = (typeof URL_MAX_APPEND_CHARS !== 'undefined' ? URL_MAX_APPEND_CHARS : 20000);
+      if (appendedLen + chunk.length <= cap) { appended += chunk; appendedLen += chunk.length; }
+    }
+    if (r && r.error) crawlErr.push(r.error);
+    sources.push({type:'web', title:u, url:u});
+  });
+
+  return { text: combined + appended, errors: crawlErr, sources };
+}
+
+/**
+ * Recursive folder reader. Tries to extract textual content from:
+ * - Google Docs (open & read body)
+ * - PDFs (convert to Doc if Advanced Drive is enabled; fallback to blob as text)
+ * - Other text-like blobs via getDataAsString()
+ */
+function readFromFolder_(folder){
+  let content = '';
+  const errors = [];
+
+  // files in the current folder
+  const files = folder.getFiles();
+  while (files.hasNext()){
+    const f = files.next();
+    const name = f.getName();
+    try {
+      const mime = String(f.getMimeType() || '').toLowerCase();
+      if (mime.indexOf('document') >= 0){
+        const t = DocumentApp.openById(f.getId()).getBody().getText() || '';
+        content += `\n\n--- ${name} ---\n${t}\n`;
+      } else if (mime.indexOf('pdf') >= 0){
+        try {
+          // Advanced Drive API conversion (needs enabling)
+          const converted = Drive.Files.insert(
+            {title:'_ingest_'+name, mimeType:'application/pdf', parents:[{id: folder.getId()}]},
+            f.getBlob(), {convert:true}
+          );
+          const t = DocumentApp.openById(converted.id).getBody().getText() || '';
+          content += `\n\n--- ${name} (PDF→Doc) ---\n${t}\n`;
+        } catch(e){
+          // fallback: attempt raw text
+          try { content += `\n\n--- ${name} (raw) ---\n` + f.getBlob().getDataAsString() + '\n'; }
+          catch(_) { errors.push(`${name}: PDF conversion not available`); }
+        }
+      } else {
+        // try blob text for txt/rtf/markdown/etc
+        try { content += `\n\n--- ${name} ---\n` + f.getBlob().getDataAsString() + '\n'; }
+        catch(e){ errors.push(`${name}: ${e.message}`); }
+      }
+    } catch(e){
+      errors.push(`${name}: ${e.message}`);
+    }
+  }
+
+  // recurse into sub-folders
+  const subs = folder.getFolders();
+  while (subs.hasNext()){
+    const sub = subs.next();
+    const r = readFromFolder_(sub);
+    content += r.text;
+    if (r.errors && r.errors.length) errors.push(...r.errors);
+  }
+
+  return { text: content, errors };
+}
+
+/** Drive/Slides URL → id extractor (generic 25+ char id) */
+function extractIdFromUrl_(u){
+  if (!u) return '';
+  const m = String(u).match(/[-\w]{25,}/);
+  return m ? m[0] : '';
+}
+function presIdFromUrl(u){ return extractIdFromUrl_(u); }
+
+/** Compatibility aliases if used elsewhere */
+function readAllFilesRecursive(folder){ return readFromFolder_(folder); }
+
+/** Return last used resource row in Mapping for a given column set */
+function getLastUsedResourceRow(sh){
+  const last = sh.getLastRow();
+  for (let r = last; r >= 3; r--){
+    const v = String(sh.getRange(r,2).getValue() || '').trim(); // col B default
+    if (v) return r;
+  }
+  return 2;
+}
+
+/** Convenience to fetch concept/module context from Mapping */
+function getActiveModuleInfo_(){
+  const ss = SpreadsheetApp.getActive();
+  const map = ss.getSheetByName('Mapping');
+  if (!map) throw new Error('Mapping sheet not found.');
+  const concept = String(map.getRange('A2').getValue() || '').trim();
+  const moduleName = String(map.getRange('D2').getValue() || '').trim();
+  if (!concept) throw new Error('Provide Course Concept in Mapping!A2.');
+  if (!moduleName) throw new Error('Provide Active Module in Mapping!D2.');
+  return { concept, moduleName };
+}
+
+/** Idempotent folder getter/creator within a parent folder */
+function getOrCreateFolder_(parentFolder, name){
+  const it = parentFolder.getFoldersByName(name);
+  if (it.hasNext()) return it.next();
+  return parentFolder.createFolder(name);
+}
+
+/** Create/get subfolder for a module under a course root */
+function getModuleSubfolder_(courseFolder, moduleName){
+  const safe = (String(moduleName||'').replace(/[^\w -]/g,'_') || 'Module');
+  return getOrCreateFolder_(courseFolder, safe);
+}
+
+/** Basic validation of Mapping inputs before running generators */
+function validateRequiredInputs(){
+  const ss = SpreadsheetApp.getActive();
+  const map = ss.getSheetByName('Mapping');
+  if (!map) throw new Error('Mapping sheet not found.');
+
+  const concept = String(map.getRange('A2').getValue() || '').trim();
+  const folderUrl = String(map.getRange('B2').getValue() || map.getRange('T2').getValue() || '').trim();
+  const templateUrl = String(map.getRange('C2').getValue() || '').trim();
+
+  const errors = [];
+  if (!concept) errors.push('Course Concept (A2)');
+  if (!folderUrl) errors.push('Course Drive Folder URL (B2 or T2)');
+  if (!templateUrl) errors.push('Slides Template URL (C2)');
+
+  if (errors.length) throw new Error('Missing required: ' + errors.join(', '));
+  return {
+    concept,
+    courseFolder: DriveApp.getFolderById(extractIdFromUrl_(folderUrl)),
+    templateId: extractIdFromUrl_(templateUrl)
+  };
+}
+
+/** Lightweight UI + logging progress tracker */
+function trackProgress(title, current, total, message){
+  try {
+    SpreadsheetApp.getActive().toast(`${title}: ${current}/${total} — ${message}`);
+    const sh = ensureStatusSheet_();
+    sh.appendRow([new Date(), title, `${current}/${total}`, message]);
+  } catch(_) {}
+}
+
+/** Ensure Status sheet exists */
+function ensureStatusSheet_(){
+  const ss = SpreadsheetApp.getActive();
+  const name = 'Status';
+  let sh = ss.getSheetByName(name);
+  if (!sh){
+    sh = ss.insertSheet(name);
+    sh.getRange(1,1,1,4).setValues([['Timestamp','Action','Progress','Details']]);
+  }
+  return sh;
+}
+
+
+// ==== E) Core Workflow Functions ====
+
+// --- Your exact TTS constants ---
+const VOICE_NAME = 'Schedar';
+const SPEECH_TEMPERATURE = 0.5;
+const AUSTRALIAN_PROMPT = `You are a highly educated Australian with a warm, personable delivery. Speak with the refined Australian accent of educated professionals - a subtle blend of American, western European and British influences with softer jaw movement than American English, but more open than formal British. Maintain professional warmth without any exaggerated regional characteristics. This is healthcare professional development content - absolutely NO colloquialisms, slang, or casual Australian expressions (no 'G'day', 'mate', 'fair dinkum', etc.). Use sophisticated, professional language appropriate for medical professionals and senior administrators. This is an educational offering for adult learners who are themselves educators, so infuse your tone with authority and sincerity, minimising chirpiness. Read this with confident executive presence as if the listener is a peer not a subordinate:`;
+
+// ---- Course recommendation & mapping ----
+function generateCourseRecommendation(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  if (sh.getName() !== 'Mapping') return SpreadsheetApp.getUi().alert('Run on the Mapping tab.');
+  const r = sh.getActiveRange().getRow();
+  if (r === 1) return SpreadsheetApp.getUi().alert('Select a data row.');
+
+  const concept = sh.getRange(r,1).getValue();
+  const audience = sh.getRange(r,3).getValue() || 'Clinical';
+  const courseFolderUrl = sh.getRange(r,20).getValue();
+  if (!concept) return SpreadsheetApp.getUi().alert('Fill Concept (A).');
+  if (!courseFolderUrl) return SpreadsheetApp.getUi().alert('Missing Course Project Folder (Column T).');
+
+  // Multi-source pack (B2 + B3:B + T + inline URLs)
+  const srcPack = collectAllSourceMaterials_(r);
+  if (srcPack.errors.length) SpreadsheetApp.getUi().alert('Some resources could not be fetched:\n' + srcPack.errors.join('\n'));
+  if (!srcPack.text.trim()) return SpreadsheetApp.getUi().alert('No source materials were retrieved.');
+
+  // Build the prompt: your brand header + course mapping prompt + Vancouver requirement
+  const mappingPrompt = brandHeader_() + '\n' + COURSE_MAPPING_PROMPT +
+    `\n\nCONCEPT: ${concept}\nSELECTED TARGET AUDIENCE: ${audience}\n` +
+    VANCOUVER_CITATION_INSTRUCTIONS +
+    `\n\nSOURCE MATERIALS PROVIDED:\n${String(srcPack.text).slice(0,12000)}`;
+
+  const rec = callGemini(mappingPrompt, 7000); // your existing helper
+
+  // Create/attach doc
+  const doc = DocumentApp.create(`${concept}_Recommendations_${new Date().toISOString().slice(0,16).replace('T','_')}`);
+  let file = DriveApp.getFileById(doc.getId());
+  DriveApp.getFolderById(courseFolderUrl.split('/folders/')[1]).addFile(file);
+  DriveApp.getRootFolder().removeFile(file);
+
+  // Append recommendation
+  const body = doc.getBody();
+  body.appendParagraph(rec);
+
+  // Deterministic Vancouver appendix (from the exact sources we ingested)
+  const refs = formatVancouverReferences_(srcPack.sources);
+  if (refs){
+    body.appendParagraph('\n\nReferences').setHeading(DocumentApp.ParagraphHeading.HEADING2);
+    body.appendParagraph(refs);
+  }
+  doc.saveAndClose();
+
+  // (Continue your existing module-name extraction + writeback)
+  const names = extractModuleNames_(rec);
+  sh.getRange(r,7).setValue(names.join('\n'));
+  for (let i=0;i<12;i++){ sh.getRange(r,8+i).setValue(names[i]||''); }
+
+  SpreadsheetApp.getUi().alert('Course recommendation generated with Vancouver-style citations.');
+}
+
+/**
+ * Canonical module audio generator (explicit parameters).
+ * - Reads TTS-{concept} for rows where Col A == module
+ * - Uses Speaker Notes (Col D) else Script (Col C)
+ * - Skips if Audio URL (Col I) exists unless REGENERATE_TTS=true
+ * - Writes File Id → Col H, URL → Col I, Notes → Col J
+ * - Files WAVs into the module subfolder
+ * Returns: { ok:number, skipped:number, errors:number }
+ */
+function generateModuleAudio_(concept, module, opts) {
+  const ui = SpreadsheetApp.getUi();
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const tts = ss.getSheetByName(`TTS-${concept}`);
+  if (!tts) { ui.alert(`TTS sheet for "${concept}" not found.`); return {ok:0,skipped:0,errors:1}; }
+
+  const moduleFolder = getModuleSubfolder_(concept, module);
+  if (!moduleFolder) { ui.alert(`Could not find or create module subfolder for "${module}".`); return {ok:0,skipped:0,errors:1}; }
+
+  const regen = (opts && typeof opts.regenerate === 'boolean')
+    ? opts.regenerate
+    : String(PropertiesService.getScriptProperties().getProperty('REGENERATE_TTS') || 'false').toLowerCase() === 'true';
+
+  const last = tts.getLastRow();
+  if (last < 2) return {ok:0,skipped:0,errors:0};
+
+  const rows = tts.getRange(2, 1, last - 1, 10).getValues(); // A..J
+  let ok=0, skipped=0, errors=0;
+
+  SpreadsheetApp.getActiveSpreadsheet().toast(`Generating audio for "${module}"...`);
+
+  for (let i = 0; i < rows.length; i++) {
+    const r = rows[i];
+    const mod = String(r[0] || '').trim();                // A: Module
+    if (mod !== String(module).trim()) continue;
+
+    const slideNo = r[1];                                  // B
+    const script  = String(r[3] || r[2] || '').trim();     // D speaker notes, fallback C script
+    const existingUrl = String(r[8] || '').trim();         // I: Audio URL
+
+    if (!script) continue;
+
+    if (existingUrl && !regen) {
+      const prev = String(r[9] || '');                     // J: Notes
+      tts.getRange(i + 2, 10).setValue(prev ? `${prev}\nSkipped: audio exists` : 'Skipped: audio exists');
+      skipped++;
+      continue;
+    }
+
+    try {
+      const full = `${AUSTRALIAN_PROMPT}\n\n${script}`;
+      const blob = callGeminiTTS_(full, VOICE_NAME, SPEECH_TEMPERATURE);
+
+      const safeModule = String(module).replace(/[\\/:*?"<>|]/g, '_');
+      const name = `${safeModule} — Slide ${slideNo}.wav`;
+      const file = moduleFolder.createFile(blob.setName(name));
+
+      tts.getRange(i + 2, 8).setValue(file.getId());      // H: Audio File Id
+      tts.getRange(i + 2, 9).setValue(file.getUrl());     // I: Audio URL
+      tts.getRange(i + 2, 10).setValue('OK');             // J: Notes
+      ok++;
+      Utilities.sleep(800);
+    } catch (e) {
+      const msg = String(e && e.message || e);
+      tts.getRange(i + 2, 10).setValue(`ERROR: ${msg}`);  // J
+      errors++;
+      Utilities.sleep(1200);
+    }
+  }
+
+  return { ok, skipped, errors };
+}
+
+/**
+ * Compatibility wrapper so existing calls keep working.
+ * Shown in your screenshot: return generateGeminiAudioForModule(concept, module);
+ */
+function generateGeminiAudioForModule(concept, module) {
+  const res = generateModuleAudio_(concept, module, null);
+  SpreadsheetApp.getUi().alert(
+    `Module audio complete for "${module}".\nGenerated: ${res.ok}\nSkipped: ${res.skipped}\nErrors: ${res.errors}`
+  );
+  return res; // preserves the return semantics used in your code
+}
+
+function processModificationRequest(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  if (sh.getName() !== 'Mapping') return SpreadsheetApp.getUi().alert('Run on the Mapping tab.');
+  const r = sh.getActiveRange().getRow();
+  const concept = sh.getRange(r,1).getValue();
+  const request = sh.getRange(r,6).getValue();
+  const docUrl = sh.getRange(r,4).getValue();
+  if (!request || !docUrl) return SpreadsheetApp.getUi().alert('Need Modification Request (F) and Recommendations link (D).');
+
+  const docId = presIdFromUrl(docUrl) || extractIdFromUrl_(docUrl);
+  let currentText = '';
+  try{ currentText = DocumentApp.openById(docId).getBody().getText(); }catch(e){}
+
+  const prompt = brandHeader_() + `
+Revise the existing course recommendation for "${concept}" based on this request:
+
+${request}
+
+Current document text:
+${currentText}
+
+Return the complete revised recommendation with the same headings and refreshed module list.`;
+  const revised = callGemini(prompt, 7000);
+  const doc = DocumentApp.openById(docId);
+  doc.getBody().clear(); doc.getBody().appendParagraph(revised); doc.saveAndClose();
+
+  const names = extractModuleNames_(revised);
+  sh.getRange(r,7).setValue(names.join('\n'));
+  for (let i=0;i<12;i++){ sh.getRange(r,8+i).setValue(names[i]||''); }
+  sh.getRange(r,6).clearContent();
+  SpreadsheetApp.getUi().alert('Recommendation updated and module list refreshed.');
+}
+
+function createCourseContentTabs() {
+  const ui = SpreadsheetApp.getUi();
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const mappingSheet = ss.getSheetByName('Mapping');
+  if (!mappingSheet) return ui.alert('Run "#1 Setup" first.');
+  
+  const row = mappingSheet.getActiveCell().getRow();
+  if (row < 2) return ui.alert('Select a row.');
+
+  const courseName = mappingSheet.getRange(row, 1).getValue();
+  const courseFolderUrl = mappingSheet.getRange(row, 20).getValue(); // Column T
+  if (!courseName || !courseFolderUrl) return ui.alert('Run steps #1 and #2 first.');
+  
+  const courseFolderId = extractIdFromUrl_(courseFolderUrl);
+  const courseFolder   = DriveApp.getFolderById(courseFolderId);
+  const moduleNames = mappingSheet.getRange(row, 8, 1, 12).getValues()[0].filter(String);
+  
+  if (moduleNames.length === 0) return ui.alert('No module names found in columns H-S. Please run step #2 first.');
+
+  SpreadsheetApp.getActiveSpreadsheet().toast('Creating module subfolders...');
+  moduleNames.forEach((name, index) => {
+    const sanitizedName = name.replace(/[^a-zA-Z0-9\s-]/g, '');
+    getOrCreateFolder_(courseFolder, `Module ${index + 1} - ${sanitizedName}`);
+  });
+  
+  const resourcesSheetName = `Module-Resources-${courseName}`;
+  if (!ss.getSheetByName(resourcesSheetName)) {
+      const template = ss.getSheetByName('Module-Resources-Template');
+      const newSheet = template ? template.copyTo(ss) : ss.insertSheet();
+      newSheet.setName(resourcesSheetName);
+      if(moduleNames.length > 0) {
+          const data = moduleNames.map(m => [m, courseName]);
+          newSheet.getRange(2, 1, data.length, 2).setValues(data);
+      }
+  }
+
+  const ttsSheetName = `TTS-${courseName}`;
+  if (!ss.getSheetByName(ttsSheetName)) {
+      const template = ss.getSheetByName('TTS-{ConceptName}');
+      const newSheet = template ? template.copyTo(ss) : ss.insertSheet();
+      newSheet.setName(ttsSheetName);
+  }
+  
+  ui.alert('Setup Complete', `Module subfolders have been created in your project folder, and the content tabs are ready.`, ui.ButtonSet.OK);
+}
+
+function generateFullSuiteOfResources() {
+  const { sheet, row, moduleName, conceptName } = getActiveModuleInfo_('Module-Resources');
+  if (!moduleName) return;
+
+  const moduleSubfolder = getModuleSubfolder_(conceptName, moduleName);
+  if (!moduleSubfolder) return;
+
+  if (!sheet.getRange(row, 3).getValue()) {
+      SpreadsheetApp.getActiveSpreadsheet().toast('Generating Module Description...');
+      const descPrompt = buildModuleDescriptionPrompt(moduleName, conceptName);
+      sheet.getRange(row, 3).setValue(callGeminiApi_(descPrompt));
+  }
+  const moduleDescription = sheet.getRange(row, 3).getValue();
+  if (!sheet.getRange(row, 4).getValue()) {
+      SpreadsheetApp.getActiveSpreadsheet().toast('Generating Key Concepts...');
+      const conceptsPrompt = buildKeyConceptsPrompt(moduleDescription, moduleName, conceptName);
+      sheet.getRange(row, 4).setValue(callGeminiApi_(conceptsPrompt));
+  }
+  if (!sheet.getRange(row, 8).getValue()) {
+      SpreadsheetApp.getActiveSpreadsheet().toast('Generating Slide Specifications...');
+      const specsPrompt = buildSlideSpecsPrompt(moduleDescription, sheet.getRange(row, 4).getValue(), moduleName, conceptName);
+      sheet.getRange(row, 8).setValue(callGeminiApi_(specsPrompt));
+  }
+  const slideSpecs = sheet.getRange(row, 8).getValue();
+  
+  try {
+    SpreadsheetApp.getActiveSpreadsheet().toast(`Generating Scenarios for "${moduleName}".`);
+    const scenariosPrompt = buildEnhancedScenariosPrompt_(moduleName, moduleDescription, slideSpecs);
+    sheet.getRange(row, 5).setValue(callGeminiApi_(scenariosPrompt, 1.0));
+
+    SpreadsheetApp.getActiveSpreadsheet().toast(`Generating Assessments for "${moduleName}".`);
+    const assessmentsPrompt = buildEnhancedAssessmentsPrompt_(moduleName, moduleDescription, slideSpecs);
+    sheet.getRange(row, 6).setValue(callGeminiApi_(assessmentsPrompt));
+
+    SpreadsheetApp.getActiveSpreadsheet().toast(`Generating Downloadable Resources Doc with research...`);
+    const downloadablePrompt = buildDownloadablePrompt(slideSpecs, moduleName, conceptName);
+    const researchedContent = callGeminiApi_(downloadablePrompt, 0.7, true);
+    const docUrl = createDownloadableDoc_(moduleSubfolder, conceptName, moduleName, researchedContent); 
+    sheet.getRange(row, 7).setValue(docUrl);
+  } catch (e) {
+    SpreadsheetApp.getUi().alert(`Error generating suite: ${e.toString()}`);
+    return;
+  }
+  
+  // Initialise TTS sheet with sophisticated slide content
+  seedTTSFromSpecs(conceptName, moduleName, slideSpecs);
+  SpreadsheetApp.getActiveSpreadsheet().toast(`Successfully generated all resources for "${moduleName}".`);
+}
+
+function generateAbsorbLmsFile() {
+  const { sheet, row, moduleName, conceptName } = getActiveModuleInfo_('Module-Resources');
+  if (!moduleName) return;
+
+  const moduleSubfolder = getModuleSubfolder_(conceptName, moduleName);
+  if (!moduleSubfolder) return;
+
+  const slideSpecs = sheet.getRange(row, 8).getValue();
+  const downloadableResourcesUrl = sheet.getRange(row, 7).getValue(); 
+  
+  if (!slideSpecs || !downloadableResourcesUrl) {
+    return SpreadsheetApp.getUi().alert('Slide Specs (Col H) and Downloadable Resources (Col G) must be generated first.');
+  }
+  
+  const absorbLmsPrompt = buildAbsorbLmsPrompt_(moduleName, slideSpecs, 'Note: Downloadable resources are provided in a separate document linked in the course.');
+  const markdownContent = callGeminiApi_(absorbLmsPrompt);
+  const docUrl = createGoogleDocFromMarkdown_(moduleSubfolder, conceptName, moduleName, markdownContent);
+  sheet.getRange(row, 9).setValue(docUrl); // Link in Col I
+  
+  SpreadsheetApp.getActiveSpreadsheet().toast(`Successfully created Absorb LMS Doc for "${moduleName}".`);
+}
+
+function generateVoiceoverScripts() {
+  const { sheet, row, moduleName, conceptName } = getActiveModuleInfo_('Module-Resources');
+  if (!moduleName) return;
+
+  const ui = SpreadsheetApp.getUi();
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  SpreadsheetApp.getActiveSpreadsheet().toast(`Generating voiceover scripts for "${moduleName}"...`);
+
+  const slideSpecs = sheet.getRange(row, 8).getValue();
+  if (!slideSpecs) {
+    return ui.alert('Slide Specs (Column H) are required to generate voiceover scripts.');
+  }
+
+  const ttsSheet = ss.getSheetByName(`TTS-${conceptName}`);
+  if (!ttsSheet) {
+    return ui.alert(`Could not find the TTS sheet: "TTS-${conceptName}". Run "#3" first.`);
+  }
+
+  const slideData = parseSlideSpecs(slideSpecs);
+  if (slideData.length === 0) {
+    return ui.alert("Could not parse slide specifications. Please check the format in Column H.");
+  }
+  
+  const ttsContent = [];
+  try {
+    for (let i = 0; i < slideData.length; i++) {
+      const slide = slideData[i];
+      const slideNumber = i + 1;
+      const combinedText = `${slide.title}\n\n${slide.body.join('\n')}`;
+      ss.toast(`Generating content for Slide ${slideNumber} of ${slideData.length}...`);
+      
+      const speakerNotesPrompt = buildSpeakerNotesPrompt(combinedText, moduleName, conceptName);
+      const speakerNotes = callGeminiApi_(speakerNotesPrompt);
+      
+      const imagePromptRaw = buildImagePrompt(combinedText, moduleName, conceptName);
+      const imagePromptResult = callGeminiApi_(imagePromptRaw);
+
+      const alternateContentPrompt = buildAlternateSlideContentPrompt(combinedText, moduleName);
+      const alternateContent = callGeminiApi_(alternateContentPrompt);
+
+      const duration = estimateAudioDuration_(speakerNotes);
+      
+      ttsContent.push([
+        moduleName, slideNumber, combinedText, speakerNotes, duration, '', '', 
+        imagePromptResult, '', alternateContent
+      ]);
+      
+      Utilities.sleep(1000); 
+    }
+  } catch (e) {
+    return ui.alert(`An error occurred during content generation: ${e.toString()}`);
+  }
+
+  if (ttsContent.length > 0) {
+    const firstEmptyRow = ttsSheet.getLastRow() + 1;
+    ttsSheet.getRange(firstEmptyRow, 1, ttsContent.length, 10).setValues(ttsContent);
+    ss.toast(`Successfully added content for ${ttsContent.length} slides to the TTS tab.`);
+  }
+}
+
+function generateSlidesForSelectedModule() {
+  const ui = SpreadsheetApp.getUi();
+  const { sheet, row, moduleName, conceptName } = getActiveModuleInfo_('Module-Resources');
+  if (!moduleName) return;
+
+  const ttsSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(`TTS-${conceptName}`);
+  if (!ttsSheet) {
+    return ui.alert(`Cannot find the required TTS sheet: "TTS-${conceptName}". Please run "#6 Generate Voiceover Scripts" first.`);
+  }
+
+  const contentChoice = ui.alert('Slide Content Source', 'Which content do you want to use for the slides?\n\nYES = Standard Slide Content (Col C)\nNO = Alternate Slide Content (Col J)', ui.ButtonSet.YES_NO_CANCEL);
+  if (contentChoice === ui.Button.CANCEL) {
+    SpreadsheetApp.getActiveSpreadsheet().toast('Slide generation cancelled.');
+    return;
+  }
+  const contentColumn = (contentChoice === ui.Button.YES) ? 3 : 10;
+  const contentType = (contentChoice === ui.Button.YES) ? 'Standard' : 'Abbreviated';
+  SpreadsheetApp.getActiveSpreadsheet().toast(`Generating slides using ${contentType} content...`);
+
+  const slideData = [];
+  const ttsValues = ttsSheet.getRange(2, 1, ttsSheet.getLastRow() - 1, contentColumn).getValues();
+  for (const ttsRow of ttsValues) {
+    if (String(ttsRow[0]).trim() === String(moduleName).trim()) {
+      const slideContent = ttsRow[contentColumn - 1];
+      const slideNumber = Number(ttsRow[1]);
+      if (slideContent && slideNumber) {
+        slideData.push({ content: slideContent, number: slideNumber });
+      }
+    }
+  }
+  
+  slideData.sort((a, b) => a.number - b.number);
+  const slideContents = slideData.map(slide => slide.content);
+
+  if (slideContents.length === 0) {
+    return ui.alert(`No content found for "${moduleName}" in Column ${contentColumn === 3 ? 'C' : 'J'}.`);
+  }
+
+  try {
+    const moduleSubfolder = getModuleSubfolder_(conceptName, moduleName);
+    if (!moduleSubfolder) return;
+
+    const presentation = createDeckFromTemplate_(`${conceptName} — ${moduleName}`);
+    buildSlidesFromContentArray_(presentation, slideContents);
+    
+    const file = DriveApp.getFileById(presentation.getId());
+    moduleSubfolder.addFile(file);
+    DriveApp.getRootFolder().removeFile(file);
+    
+    const url = file.getUrl();
+    writeSlidesLinkToTTS_(conceptName, moduleName, url);
+    
+    ui.alert(`${contentType} Slides created:\n${url}\n(Link saved to TTS Column F)`);
+  } catch (e) {
+    ui.alert(`An error occurred during slide generation: ${e.toString()}`);
+  }
+}
+
+// ===== Audio generation flows (kept, but hardened for idempotency + retries) =====
+function generateAllAudioForModule() {
+  const { moduleName, conceptName } = getActiveModuleInfo_('Module-Resources');
+  if (!moduleName) return;
+
+  const ui = SpreadsheetApp.getUi();
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const tts = ss.getSheetByName(`TTS-${conceptName}`);
+  if (!tts) return ui.alert(`TTS sheet for "${conceptName}" not found.`);
+
+  const moduleFolder = getModuleSubfolder_(conceptName, moduleName);
+  if (!moduleFolder) return;
+
+  const last = tts.getLastRow();
+  if (last < 2) return ui.alert('No TTS rows found.');
+
+  const data = tts.getRange(2, 1, last - 1, 10).getValues(); // A..J
+  let ok = 0, skipped = 0, errors = 0;
+
+  SpreadsheetApp.getActiveSpreadsheet().toast(`Generating audio for "${moduleName}"…`);
+
+  for (let i = 0; i < data.length; i++) {
+    const row = data[i];
+    const mod = String(row[0] || '').trim();          // Col A
+    if (mod !== String(moduleName).trim()) continue;
+
+    const slideNo = row[1];                            // Col B
+    const script  = String(row[3] || row[2] || '').trim(); // Col D speaker notes, fallback C
+    const existingUrl = String(row[8] || '').trim();   // Col I = Audio URL
+
+    if (!script) continue;
+    if (existingUrl) {                                  // always skip if audio exists
+      const prev = String(row[9] || '');
+      tts.getRange(i + 2, 10).setValue(prev ? (prev + '\nSkipped: audio exists') : 'Skipped: audio exists'); // J
+      skipped++;
+      continue;
+    }
+
+    try {
+      const fullText = `${AUSTRALIAN_PROMPT}\n\n${script}`;
+      const blob = callGeminiTTS_(fullText, getVoiceName_(), getSpeechTemperature_());
+      const safeMod = String(moduleName).replace(/[\\/:*?"<>|]/g, '_');
+      const fname = `${conceptName} — ${safeMod} — Slide ${slideNo}.wav`;
+      const file = moduleFolder.createFile(blob.setName(fname));
+      const url  = file.getUrl();
+
+      // H = File Id, I = URL, J = notes
+      tts.getRange(i + 2, 8).setValue(file.getId());
+      tts.getRange(i + 2, 9).setValue(url);
+      const prev = String(row[9] || '');
+      tts.getRange(i + 2, 10).setValue(prev ? (prev + '\nGenerated OK') : 'Generated OK');
+      ok++;
+      Utilities.sleep(800); // gentle pacing
+    } catch (e) {
+      const prev = String(row[9] || '');
+      tts.getRange(i + 2, 10).setValue(prev ? (prev + `\nERROR: ${e}`) : `ERROR: ${e}`);
+      errors++;
+    }
+  }
+
+  ui.alert(`Audio generation finished for "${moduleName}". OK: ${ok}, skipped: ${skipped}, errors: ${errors}.`);
+}
+
+function cleanModuleAudioFiles() {
+  const { moduleName, conceptName } = getActiveModuleInfo_('Module-Resources');
+  if (!moduleName) return;
+  
+  const ui = SpreadsheetApp.getUi();
+  const response = ui.alert('Confirm Deletion', `This will trash all .wav audio files for the module "${moduleName}". Are you sure?`, ui.ButtonSet.YES_NO);
+  if (response !== ui.Button.YES) return;
+
+  const targetFolder = getModuleSubfolder_(conceptName, moduleName);
+  if (!targetFolder) return;
+
+  const files = targetFolder.getFilesByType(MimeType.WAV);
+  let count = 0;
+  while (files.hasNext()) {
+    files.next().setTrashed(true);
+    count++;
+  }
+  
+  const ttsSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(`TTS-${conceptName}`);
+  if(ttsSheet){
+      const data = ttsSheet.getRange("A2:G").getValues();
+      for(let i=0; i < data.length; i++){
+          if(data[i][0] === moduleName){
+              ttsSheet.getRange(i+2, 7).clearContent(); // clear URL col G
+          }
+      }
+  }
+  
+  ui.alert(`Trashed ${count} audio files for "${moduleName}" and cleared links from the sheet.`);
+}
+
+function archiveCourse() {
+  const ui = SpreadsheetApp.getUi();
+  const mappingSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Mapping');
+  if (!mappingSheet) return ui.alert('Mapping sheet not found.');
+  
+  const row = mappingSheet.getActiveCell().getRow();
+  if (row < 2) return ui.alert('Select a course row to archive.');
+  
+  const courseName = mappingSheet.getRange(row, 1).getValue();
+  const courseFolderUrl = mappingSheet.getRange(row, 20).getValue(); // Column T
+  if (!courseName || !courseFolderUrl) return ui.alert('Cannot archive: course name or folder not found.');
+
+  const response = ui.alert('Confirm Archival', `This will move the content tabs for "${courseName}" into a new backup spreadsheet inside your project folder and then remove this row from the Mapping tab. This action cannot be undone. Proceed?`, ui.ButtonSet.YES_NO);
+  if (response !== ui.Button.YES) return;
+
+  try {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const courseFolderId = extractIdFromUrl_(courseFolderUrl);
+    const courseFolder   = DriveApp.getFolderById(courseFolderId);
+
+    const backupSpreadsheet = SpreadsheetApp.create(`${courseName} - Course Content Backup`);
+    const backupFile = DriveApp.getFileById(backupSpreadsheet.getId());
+    courseFolder.addFile(backupFile);
+    DriveApp.getRootFolder().removeFile(backupFile);
+
+    const resourcesSheet = ss.getSheetByName(`Module-Resources-${courseName}`);
+    const ttsSheet = ss.getSheetByName(`TTS-${courseName}`);
+    
+    if (resourcesSheet) resourcesSheet.copyTo(backupSpreadsheet);
+    if (ttsSheet) ttsSheet.copyTo(backupSpreadsheet);
+    
+    const placeholderSheet = backupSpreadsheet.getSheetByName('Sheet1');
+    if (placeholderSheet) backupSpreadsheet.deleteSheet(placeholderSheet);
+
+    if (resourcesSheet) ss.deleteSheet(resourcesSheet);
+    if (ttsSheet) ss.deleteSheet(ttsSheet);
+
+    mappingSheet.deleteRow(row);
+
+    ui.alert('Archival Complete', `The content for "${courseName}" has been backed up. It is now safe to move the project folder "${courseName}" out of the main tool folder if you wish.`, ui.ButtonSet.OK);
+  } catch (e) {
+    ui.alert(`Archival failed: ${e.toString()}`);
+  }
+}
+
+// ===== Sophisticated script generation (unchanged logic, AU context retained) =====
+
+function populateTTSWithAIGeneratedVoiceovers(){
+  const mres = SpreadsheetApp.getActiveSheet();
+  if (!mres.getName().startsWith('Module-Resources-')) {
+    SpreadsheetApp.getUi().alert('Run this on a Module-Resources-{Concept} tab (select a module row).');
+    return;
+  }
+  const concept = mres.getName().replace(/^Module-Resources-/, '');
+  const row = mres.getActiveRange().getRow();
+  const moduleName = mres.getRange(row, 1).getValue();
+  const norm = s => String(s||'').replace(/\s+/g,' ').trim();
+
+  if (!norm(moduleName)) { 
+    SpreadsheetApp.getUi().alert('No Module Name in Column A for the selected row.'); 
+    return; 
+  }
+
+  const tts = ensureTTSSheet(concept);
+  const last = tts.getLastRow();
+  const slideContents = [];
+  const rows = [];
+  
+  for (let r=2; r<=last; r++){
+    if (norm(tts.getRange(r,1).getValue()) === norm(moduleName)) {
+      const slideContent = tts.getRange(r, 3).getValue(); // Column C: Slide Content
+      const slideNumber = Number(tts.getRange(r,2).getValue()) || r;
+      const slideTitle = String(slideContent || '').split('\n')[0].replace(/^#+\s*/, '').trim();
+      
+      if (slideContent && String(slideContent).trim()) {
+        slideContents.push({
+          title: slideTitle,
+          content: String(slideContent).trim(),
+          slideNumber: slideNumber
+        });
+        rows.push({ r, n: slideNumber });
+      }
+    }
+  }
+  
+  if (!slideContents.length) { 
+    SpreadsheetApp.getUi().alert('No slide content found in TTS tab Column C for this module. Run "Generate Full Module Resource Suite" first.'); 
+    return; 
+  }
+  
+  slideContents.sort((a,b) => a.slideNumber - b.slideNumber);
+  rows.sort((a,b) => a.n - b.n);
+
+  const prompts = slideContents.map((slide, i) => {
+    const lines = slide.content.split('\n').filter(line => line.trim());
+    const title = lines[0].replace(/^#+\s*/, '').trim();
+    const bodyLines = lines.slice(1).filter(line => 
+      line.trim() && 
+      !line.match(/^#+\s/) &&
+      !line.match(/^\s*[-*•]\s*$/)
+    );
+    
+    const bodyContent = bodyLines
+      .map(line => line.replace(/^\s*[-*•]\s*/, '').trim())
+      .filter(line => line.length > 0)
+      .join('. ');
+    
+    return brandHeader_() + `
+Create a sophisticated voiceover script for an executive-level healthcare education presentation. This is slide ${i+1} of ${slideContents.length} in the "${concept}" professional development module.
+
+SLIDE TITLE: ${title}
+SLIDE CONTENT TO ENHANCE: ${bodyContent}
+
+[... requirements unchanged for brevity in this paste, keep your original block here verbatim ...]`;
+  });
+
+  if (!prompts.length){ 
+    SpreadsheetApp.getUi().alert('No prompts built for this module.'); 
+    return; 
+  }
+
+  const scripts = [];
+  const durations = [];
+  
+  trackProgress('Enhanced Voiceover Generation', 0, prompts.length, 'Generating executive-level voiceover scripts...');
+  
+  for (let i=0; i<prompts.length; i++){
+    try{
+      trackProgress('Enhanced Voiceover Generation', i + 1, prompts.length, `Generating sophisticated script for slide ${i + 1}...`);
+      const script = au(callGeminiWithRetry(prompts[i], 1500));
+      const trimmed = String(script||'').trim();
+      if (!trimmed) throw new Error('Empty response from model');
+      scripts.push([trimmed]);
+      const words = trimmed.split(/\s+/).filter(Boolean).length;
+      const mins = Math.max(0.5, Math.round((words / 160) * 10) / 10);
+      durations.push([`${mins} min`]);
+    }catch(e){
+      scripts.push([`[[ERROR: ${e.message}]]`]);
+      durations.push(['']);
+    }
+    Utilities.sleep(8000);
+  }
+
+  if (rows.length < scripts.length){
+    SpreadsheetApp.getUi().alert(
+      `Parsed ${scripts.length} slides but found only ${rows.length} TTS rows for "${moduleName}". Re-run "Resync: Seed TTS rows…" and try again.`
+    );
+    return;
+  }
+  const start = rows[0].r;
+  tts.getRange(start, 4, scripts.length, 1).setValues(scripts);   // Col D: speaker notes
+  tts.getRange(start, 5, durations.length, 1).setValues(durations); // Col E
+
+  const wrote = scripts.filter(x => String(x[0]||'').trim() && !/^\[\[ERROR:/.test(x[0])).length;
+  if (!wrote){
+    SpreadsheetApp.getUi().alert('No voiceover text was generated. Check slide content in TTS tab Column C and try again.');
+    return;
+  }
+  SpreadsheetApp.getUi().alert(`Generated ${wrote} executive-level voiceover script(s) for "${moduleName}" using enhanced slide content from TTS tab.`);
+}
+
+function generateImagePromptsForTab(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  if (!sh.getName().startsWith('Module-Resources-')) return SpreadsheetApp.getUi().alert('Run on Module-Resources-{Concept}.');
+  const concept = sh.getName().replace('Module-Resources-','');
+  let img = SpreadsheetApp.getActive().getSheetByName(`IMG-${concept}`);
+  if (!img){ img=SpreadsheetApp.getActive().insertSheet(`IMG-${concept}`); img.getRange(1,1,1,4).setValues([[ 'Module Name','Slide #','Prompt (AU context)','Drive File ID (optional)' ]]).setFontWeight('bold'); }
+  const last = sh.getLastRow();
+  for (let r=2; r<=last; r++){
+    const module = sh.getRange(r,1).getValue();
+    const spec = sh.getRange(r,8).getValue();
+    if (!module || !spec) continue;
+    const slides = parseSlideSpecs(spec);
+    slides.forEach(function(s,i){
+      const phrases = s.body.map(function(l){ return String(l).replace(/^\s*[-*•]\s*/,'').trim(); }).filter(Boolean).slice(0,6).join('; ');
+      const p = `AU healthcare visual for "${s.title}". Emphasise clinical context; accessible contrast; no baked-in text; culturally safe. Ideas: ${phrases}.`;
+      img.appendRow([module, i+1, p, '']);
+    });
+  }
+  SpreadsheetApp.getUi().alert('Image prompts written.');
+}
+
+function exportTTSForSelectedModuleToCSV(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  let concept, module;
+  
+  if (sh.getName().startsWith('TTS-')) {
+    concept = sh.getName().replace('TTS-','');
+    const row = sh.getActiveRange().getRow();
+    module = sh.getRange(row,1).getValue();
+  } else if (sh.getName().startsWith('Module-Resources-')) {
+    concept = sh.getName().replace('Module-Resources-','');
+    const row = sh.getActiveRange().getRow();
+    module = sh.getRange(row,1).getValue();
+  } else {
+    return SpreadsheetApp.getUi().alert('Run on TTS-{Concept} or Module-Resources-{Concept} tab.');
+  }
+  
+  if (!module) return SpreadsheetApp.getUi().alert('Select a row with a module name.');
+  const url = exportTTSModuleToCSV_(concept, module);
+  SpreadsheetApp.getUi().alert('CSV saved:\n' + url);
+}
+
+function exportTTSForAllModulesToCSV(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  let concept;
+  
+  if (sh.getName().startsWith('TTS-')) {
+    concept = sh.getName().replace('TTS-','');
+  } else if (sh.getName().startsWith('Module-Resources-')) {
+    concept = sh.getName().replace('Module-Resources-','');
+  } else {
+    return SpreadsheetApp.getUi().alert('Run on TTS-{Concept} or Module-Resources-{Concept} tab.');
+  }
+  
+  const tts = ensureTTSSheet(concept);
+  const processedModules = new Set();
+  let count = 0, lastUrl = '';
+  
+  for (let r = 2; r <= tts.getLastRow(); r++) {
+    const module = tts.getRange(r, 1).getValue();
+    if (module && !processedModules.has(module)) {
+      lastUrl = exportTTSModuleToCSV_(concept, module);
+      processedModules.add(module);
+      count++;
+      Utilities.sleep(120);
+    }
+  }
+  
+  SpreadsheetApp.getUi().alert(`CSV files created for ${count} modules. Last file:\n${lastUrl}`);
+}
+
+function generateGeminiAudioForSelectedModule(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  let concept, module;
+  
+  if (sh.getName().startsWith('TTS-')) {
+    concept = sh.getName().replace('TTS-','');
+    const row = sh.getActiveRange().getRow();
+    module = sh.getRange(row,1).getValue();
+  } else if (sh.getName().startsWith('Module-Resources-')) {
+    concept = sh.getName().replace('Module-Resources-','');
+    const row = sh.getActiveRange().getRow();
+    module = sh.getRange(row,1).getValue();
+  } else {
+    return SpreadsheetApp.getUi().alert('Run on TTS-{Concept} or Module-Resources-{Concept} tab.');
+  }
+  
+  if (!module) return SpreadsheetApp.getUi().alert('Select a row with a module name.');
+  return generateGeminiAudioForModule_(concept, module);
+}
+
+function generateGeminiAudioForAllModules(){
+  const sh = SpreadsheetApp.getActiveSheet();
+  let concept;
+  
+  if (sh.getName().startsWith('TTS-')) {
+    concept = sh.getName().replace('TTS-','');
+  } else if (sh.getName().startsWith('Module-Resources-')) {
+    concept = sh.getName().replace('Module-Resources-','');
+  } else {
+    return SpreadsheetApp.getUi().alert('Run on TTS-{Concept} or Module-Resources-{Concept} tab.');
+  }
+  
+  const tts = ensureTTSSheet(concept);
+  const processedModules = new Set();
+  
+  for (let r = 2; r <= tts.getLastRow(); r++) {
+    const module = tts.getRange(r, 1).getValue();
+    if (module && !processedModules.has(module)) {
+      generateGeminiAudioForModule_(concept, module);
+      processedModules.add(module);
+      Utilities.sleep(120);
+    }
+  }
+  
+  SpreadsheetApp.getUi().alert(`Audio generated for ${processedModules.size} modules.`);
+}
+
+function purgeTtsAudioWithConfirm(){
+  const ui = SpreadsheetApp.getUi();
+  const resp = ui.alert('Purge audio files?', 'This will move MP3/WAV files in the working folder to Trash. Continue?', ui.ButtonSet.YES_NO);
+  if (resp !== ui.Button.YES) return;
+  purgeTtsAudioInWorkingFolder();
+}
+
+function purgeTtsAudioInWorkingFolder(conceptFilter){
+  const folder = DriveApp.getFolderById(CFG.DRIVE_FOLDER_ID);
+  const it = folder.getFiles();
+  const re = conceptFilter
+    ? new RegExp('^' + String(conceptFilter).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s—\\s.*\\.(mp3|wav)$','i')
+    : /\.(mp3|wav)$/i;
+
+  let removed = 0, kept = 0;
+  while (it.hasNext()){
+    const f = it.next();
+    const name = f.getName();
+    const mime = String(f.getMimeType()||'').toLowerCase();
+    if (re.test(name) || mime.startsWith('audio/')){
+      try { f.setTrashed(true); removed++; } catch(_) { kept++; }
+    } else {
+      kept++;
+    }
+  }
+  SpreadsheetApp.getUi().alert(`Audio clean-out complete.\nRemoved: ${removed}\nKept: ${kept}\nFolder: ${folder.getName()}`);
+}
+
+function exportTTSModuleToCSV_(concept, module){
+  const tts = ensureTTSSheet(concept);
+  const rows = [];
+  for (let r=2; r<=tts.getLastRow(); r++){
+    if (String(tts.getRange(r,1).getValue()).trim() !== String(module).trim()) continue;
+    const slideNo = tts.getRange(r,2).getValue();
+    const script  = tts.getRange(r,3).getValue();
+    rows.push([module, slideNo, script, getVoiceName_(), getSpeechTemperature_(), AUSTRALIAN_PROMPT]);
+  }
+  if (!rows.length) throw new Error('No TTS rows found for module: ' + module);
+
+  const csvLines = [['Module Name','Slide Number','Script','Voice','Temperature','Voice Direction']]
+    .concat(rows)
+    .map(cols => cols.map(v => {
+      const s = (v==null ? '' : String(v)).replace(/"/g, '""');
+      return '"' + s + '"';
+    }).join(','));
+
+  const blob = Utilities.newBlob(csvLines.join('\n'), 'text/csv', `${concept} — ${module} — TTS.csv`);
+  const file = DriveApp.getFolderById(CFG.DRIVE_FOLDER_ID).createFile(blob);
+  return file.getUrl();
+}
+
+// === Hardened: idempotent + retry + AUSTRALIAN_PROMPT + temperature preserved ===
+function generateGeminiAudioForModule_(concept, module){
+  const tts = ensureTTSSheet(concept);
+  const folder = DriveApp.getFolderById(CFG.DRIVE_FOLDER_ID);
+  const regenerate = String(PropertiesService.getScriptProperties().getProperty('REGENERATE_TTS') || 'false').toLowerCase() === 'true';
+
+  let count=0;
+  const maxRetries = 3;
+  const baseDelayMs = 1500;
+
+  for (let r=2;r<=tts.getLastRow();r++){
+    const mod = String(tts.getRange(r,1).getValue()).trim();
+    if (mod !== String(module).trim()) continue;
+
+    const slideNo  = tts.getRange(r,2).getValue();
+    const script   = tts.getRange(r,4).getValue();  // Column D: speaker notes
+    const existing = tts.getRange(r,7).getValue();  // Column G: Audio URL
+
+    if (!script) continue;
+    if (existing && !regenerate){
+      // Note the skip in Col J (Notes) and continue
+      const prevNote = String(tts.getRange(r,10).getValue()||'');
+      tts.getRange(r,10).setValue(prevNote ? `${prevNote}\nSkipped: already has audio` : 'Skipped: already has audio');
+      continue;
+    }
+
+    let attempt = 0, ok = false, fileUrl = '', lastErr = '';
+    while (attempt < maxRetries && !ok){
+      try{
+        const audioBlob = callGeminiTTS_(AUSTRALIAN_PROMPT + ' ' + script, VOICE_NAME, SPEECH_TEMPERATURE);
+        if (!audioBlob) { lastErr = 'TTS returned empty audio'; }
+        else {
+          // Overwrite behaviour if regenerating: delete older files for this slide in the working folder
+          if (regenerate){
+            const it = folder.getFilesByName(`${concept} — ${module} — Slide ${slideNo}.wav`);
+            while (it.hasNext()){ try { it.next().setTrashed(true); } catch(_) {} }
+          }
+          const name = `${concept} — ${module} — Slide ${slideNo}.wav`;
+          const file = folder.createFile(audioBlob.setName(name));
+          fileUrl = file.getUrl();
+          ok = true;
+        }
+      }catch(e){
+        lastErr = e.message || String(e);
+      }
+      if (!ok){ Utilities.sleep(baseDelayMs * Math.pow(2, attempt)); }
+      attempt++;
+    }
+
+    if (ok){
+      tts.getRange(r,7).setValue(fileUrl); // URL
+      const prevNote = String(tts.getRange(r,10).getValue()||'');
+      tts.getRange(r,10).setValue(prevNote ? `${prevNote}\nGenerated OK` : 'Generated OK');
+      count++;
+    } else {
+      const prevNote = String(tts.getRange(r,10).getValue()||'');
+      tts.getRange(r,10).setValue(prevNote ? `${prevNote}\nERROR: ${lastErr}` : `ERROR: ${lastErr}`);
+    }
+  }
+
+  SpreadsheetApp.getUi().alert(`Audio generation complete for "${module}". Files created: ${count}`);
+}
+
+
+// ==== F) Helper Functions & Misc ====
+
+// ---------- Formatting helpers ----------
+function safeClearTextStyle(el){
+  try { el.getTextStyle().clear(); } catch(_) {}
+}
+function safeClearRangeStyle(rg){
+  try { rg.clearFormat(); } catch(_) {}
+}
+
+function formatVancouverReferences_(sources){
+  // De-duplicate by driveId/url/title
+  const seen = new Set();
+  const items = [];
+  for (const s of (sources || [])){
+    const key = (s.driveId || s.url || s.title || s.label || '').toLowerCase();
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+
+    let line = '';
+    if (s.type === 'web'){
+      // Org/Title. [Internet]. [cited YYYY Mon DD]. Available from: URL
+      const org = (s.title && s.title.length > 6) ? s.title : 'Website';
+      const date = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyy MMM dd');
+      line = `${org}. ${s.title || s.url} [Internet]. [cited ${date}]. Available from: ${s.url}`;
+    } else if (s.type === 'drive-file'){
+      // File name as Title; use Drive as publisher.
+      const year = (new Date()).getFullYear();
+      line = `${s.title || s.label}. Google Drive; ${year}.`;
+    } else if (s.type === 'drive-folder'){
+      const year = (new Date()).getFullYear();
+      line = `${s.title || s.label}. Google Drive folder; ${year}.`;
+    } else {
+      line = `${s.title || s.label}.`;
+    }
+    items.push(line);
+  }
+  if (!items.length) return '';
+  return items.map((l,i)=>`${i+1}. ${l}`).join('\n');
+}
+
+function getVoiceName_(){
+  return PropertiesService.getScriptProperties().getProperty('VOICE_NAME_OVERRIDE') || VOICE_NAME;
+}
+function getSpeechTemperature_(){
+  const p = PropertiesService.getScriptProperties().getProperty('SPEECH_TEMPERATURE_OVERRIDE');
+  const n = p === null ? NaN : Number(p);
+  return isFinite(n) ? n : SPEECH_TEMPERATURE;
+}
+
+/**
+ * Normalise and prettify content for professional docs.
+ */
+function formatDocumentContent_(txt){
+  let t = String(txt||'')
+    .replace(/\r/g,'')
+    .replace(/[ \t]+\n/g,'\n')
+    .replace(/\n{3,}/g,'\n\n')
+    .trim();
+
+  // Light touch: ensure bullet-like lines are bullets in target surfaces
+  t = t.replace(/^\s*[-*•]\s+/gm, '• ');
+  return t;
+}
+
+/**
+ * Create a polished Google Doc and write content.
+ */
+function createSophisticatedContentDoc_(parentFolder, title, content){
+  const doc = DocumentApp.create(title);
+  DriveApp.getFileById(doc.getId()).moveTo(parentFolder);
+  const body = doc.getBody();
+  body.clear();
+  body.appendParagraph(title).setHeading(DocumentApp.ParagraphHeading.HEADING1);
+  body.appendParagraph('\n');
+  const formatted = formatDocumentContent_(content);
+  formatted.split('\n\n').forEach(block=>{
+    if (/^•\s/.test(block)){
+      const lines = block.split('\n').map(x=>x.replace(/^•\s/,'').trim()).filter(Boolean);
+      const list = body.appendListItem(lines.shift()||'').setGlyphType(DocumentApp.GlyphType.BULLET);
+      lines.forEach(l => body.appendListItem(l).setGlyphType(DocumentApp.GlyphType.BULLET));
+    } else {
+      body.appendParagraph(block);
+    }
+  });
+  return doc.getId();
+}
+
+// ---------- Audio / TTS helpers ----------
+/**
+ * If Gemini TTS returns PCM L16 bytes, wrap into a proper WAV.
+ * If it returns audio/wav already, just return that blob.
+ */
+function convertL16ToWav_(pcmBlob, sampleRateHz){
+  const bytes = pcmBlob.getBytes();
+  const numChannels = 1;
+  const blockAlign = numChannels * 2;
+  const byteRate = sampleRateHz * blockAlign;
+  const dataSize = bytes.length;
+
+  const buffer = Utilities.newBlob('', 'audio/wav', 'out.wav').getBytes();
+  function push32(arr, v){ arr.push(v & 255, (v>>8)&255, (v>>16)&255, (v>>24)&255); }
+  function push16(arr, v){ arr.push(v & 255, (v>>8)&255); }
+
+  const header = [];
+  // RIFF header
+  header.push(82,73,70,70);                 // 'RIFF'
+  push32(header, 36 + dataSize);
+  header.push(87,65,86,69);                 // 'WAVE'
+  // fmt subchunk
+  header.push(102,109,116,32);              // 'fmt '
+  push32(header, 16);                       // PCM
+  push16(header, 1);                        // audio format = PCM
+  push16(header, numChannels);
+  push32(header, sampleRateHz);
+  push32(header, byteRate);
+  push16(header, blockAlign);
+  push16(header, 16);                       // bitsPerSample
+  // data subchunk
+  header.push(100,97,116,97);               // 'data'
+  push32(header, dataSize);
+
+  const wav = Utilities.newBlob(header.concat(Array.prototype.slice.call(bytes)), 'audio/wav', 'tts.wav');
+  return wav;
+}
+
+/**
+ * Turn a slide (title/body) into a script with voice and audience in mind.
+ * (For seeding TTS sheets; not the actual audio synthesis call.)
+ */
+function generateTTSScript(slide, concept, moduleName){
+  const title = String(slide.title||'').trim();
+  const body = (slide.body||[]).map(b => b.replace(/^\s*[-*•]\s*/, '').trim()).filter(Boolean);
+  const audience = getTargetAudience(concept, moduleName);
+
+  // Crisp voiceover paragraph oriented to executives
+  const lines = [];
+  lines.push(`${title}.`);
+  if (body.length){
+    lines.push(body.join('. ') + '.');
+  }
+  lines.push(`For ${audience} in Australia, focus on clarity, brevity, and actionable insight.`);
+  return lines.join(' ');
+}
+
+/**
+ * Build a scene description for image generation (prompt only).
+ */
+function generateImagePrompt(content, concept, moduleName){
+  const topic = (moduleName || concept || 'topic').trim();
+  return [
+    `Clean, modern illustration for executive education on "${topic}".`,
+    `Neutral background, high contrast, clear focal iconography.`,
+    `Accessible design suitable for professional slides, uncluttered composition.`,
+    `Avoid text in the image; no logos.`
+  ].join(' ');
+}
+
+/**
+ * Simple audience resolver – can be extended per concept.
+ */
+function getTargetAudience(concept, moduleName){
+  return 'senior healthcare and business leaders';
+}
+
+/**
+ * Enrich slide content for TTS script (alt pathway).
+ */
+function populateAlternateSlideContent(slide, concept, moduleName){
+  const base = generateTTSScript(slide, concept, moduleName);
+  // Subtle tightening
+  return base.replace(/\s{2,}/g,' ').trim();
+}
+
+function removeBulletsPreserveFormatting(text){
+  return String(text||'').split('\n').map(l => l.replace(/^\s*[-*•]\s*/,'')).join('\n');
+}
+
+/** Build a slightly more slide-aware image prompt from the structured slide */
+function generateImagePromptForSlide(slide, concept, moduleName){
+  const content = `${slide.title}\n${(slide.body||[]).join('\n')}`;
+  return generateImagePrompt(content, concept, moduleName);
+}
+
+/**
+ * Pre-check before audio generation – ensures sheet and columns exist.
+ */
+function ttsPreflightCheck(sh){
+  const headers = sh.getRange(1,1,1,10).getValues()[0];
+  const required = ['Module','Slide #','Script','Image Prompt','Alt Text','Voice','Backup Image Prompt','Audio File Id','Audio URL','Notes'];
+  const missing = required.filter((h,i)=> String(headers[i]||'').trim() !== h);
+  if (missing.length){
+    sh.getRange(1,1,1,10).setValues([required]);
+  }
+}
+
+/**
+ * Create a new deck from a template and return the new presentation ID.
+ */
+function createDeckFromTemplate_(templateId, parentFolder, title){
+  const templFile = DriveApp.getFileById(templateId);
+  const newFile = templFile.makeCopy(title, parentFolder);
+  return newFile.getId();
+}
+
+/**
+ * Given an array of slide objects [{title, body:[]}] write into Slides.
+ */
+function buildSlidesFromContentArray_(presentationId, slides){
+  const deck = SlidesApp.openById(presentationId);
+  const master = deck.getSlides()[0];
+  // Simple approach: duplicate first slide as a template
+  for (let i = 0; i < slides.length; i++){
+    const s = i === 0 ? master : master.duplicate();
+    fillSlide_(s, slides[i]);
+  }
+}
+
+/** Link the deck back to the TTS sheet */
+function writeSlidesLinkToTTS_(ttsSheet, presentationId){
+  const url = 'https://docs.google.com/presentation/d/' + presentationId + '/edit';
+  ttsSheet.getRange(1,12).setValue('Slides URL'); // L1 marker (optional)
+  ttsSheet.getRange(2,12).setValue(url);
+}
+
+/** Put title + bullet body into a slide */
+function fillSlide_(slide, obj){
+  const tShape = findShape_(slide, 'TITLE') || slide.getPageElements()[0];
+  const bShape = findShape_(slide, 'BODY') || slide.getPageElements()[1];
+
+  if (tShape && tShape.asShape){
+    const tText = tShape.asShape().getText();
+    safeClearTextStyle(tText);
+    tText.setText(obj.title || 'Slide');
+  }
+  if (bShape && bShape.asShape){
+    const bText = bShape.asShape().getText();
+    safeClearTextStyle(bText);
+    const bullets = (obj.body||[]).filter(Boolean);
+    if (bullets.length){
+      bText.setText(bullets[0]);
+      for (let i = 1; i < bullets.length; i++){
+        bText.appendParagraph(bullets[i]);
+      }
+      bText.getListStyle().applyListPreset(SlidesApp.ListPreset.BULLETED_LIST);
+    } else {
+      bText.setText('');
+    }
+  }
+}
+
+/**
+ * Find a shape by its placeholder type or partial description.
+ * (Assumes your template labels title/body shapes or uses placeholders.)
+ */
+function findShape_(slide, kind){
+  const els = slide.getPageElements();
+  for (let i = 0; i < els.length; i++){
+    const e = els[i];
+    try{
+      const shape = e.asShape();
+      const txt = shape.getText().asString().toUpperCase();
+      if (kind === 'TITLE' && /TITLE|HEADING/.test(txt)) return e;
+      if (kind === 'BODY'  && /BODY|CONTENT|TEXT/.test(txt)) return e;
+    } catch(_) {}
+  }
+  return null;
+}
+
+/**
+ * Create a simplified, downloadable .docx by converting a Google Doc
+ * (Drive handles the export).
+ */
+function createDownloadableDoc_(docId){
+  const file = DriveApp.getFileById(docId);
+  // Consumers can export via File > Download > Microsoft Word (.docx)
+  return file.getUrl();
+}
+
+/** Create a Google Doc from Markdown-like input (basic parsing) */
+function createGoogleDocFromMarkdown_(parentFolder, title, markdown){
+  return createSophisticatedContentDoc_(parentFolder, title, markdown);
+}
+
+/** Basic duration estimator (160 wpm ~ 2.67 wps) */
+function estimateAudioDuration_(text){
+  const words = String(text||'').trim().split(/\s+/).filter(Boolean).length;
+  return Math.round((words / 2.67)); // seconds
+}
+
+/**
+ * Generate audio for a single slide row (expects columns A:J per TTS sheet schema).
+ * NOTE: Keeps Gemini TTS usage. If API returns audio/wav, we persist as-is.
+ */
+function generateAudioForSlide_(rowValues, moduleFolder){
+  const moduleName = rowValues[0];
+  const slideNo = rowValues[1];
+  const script = String(rowValues[2]||'').trim();
+  const voice = String(rowValues[5]||'VOICE_NAME').trim();
+
+  if (!script){
+    return { ok:false, error:`Slide ${slideNo}: empty script` };
+  }
+
+  // ---- Gemini TTS call (example payload; adjust to your exact endpoint usage) ----
+  const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key='
+    + CFG.GEMINI_API_KEY;
+
+  const body = {
+    contents: [{ parts: [{ text: script }]}],
+    audioConfig: { audioEncoding: 'LINEAR16', sampleRateHertz: 24000 }, // request PCM; service may return wav
+    generationConfig: { responseMimeType: 'audio/wav' }, // prefer WAV if supported
+    // You can embed voice hints in text prompt; left light-touch here per your preference.
+  };
+
+  const resp = UrlFetchApp.fetch(url, {
+    method: 'post',
+    contentType: 'application/json',
+    payload: JSON.stringify(body),
+    muteHttpExceptions: true,
+    timeout: 60000
+  });
+  if (resp.getResponseCode() !== 200){
+    return { ok:false, error:`Gemini TTS error ${resp.getResponseCode()}: ${resp.getContentText().slice(0,180)}` };
+  }
+
+  const data = JSON.parse(resp.getContentText());
+  const part = data?.candidates?.[0]?.content?.parts?.find(p => p.inlineData && p.inlineData.mimeType);
+  if (!part){
+    return { ok:false, error:'TTS: no audio content returned' };
+  }
+
+  let blob;
+  const mime = String(part.inlineData.mimeType || '').toLowerCase();
+
+  if (mime.includes('audio/wav')){
+    blob = Utilities.newBlob(Utilities.base64Decode(part.inlineData.data), 'audio/wav', `Slide${slideNo}.wav`);
+  } else if (mime.includes('pcm') || mime.includes('l16')){
+    const pcm = Utilities.newBlob(Utilities.base64Decode(part.inlineData.data), 'application/octet-stream', 'pcm.raw');
+    blob = convertL16ToWav_(pcm, 24000);
+    blob.setName(`Slide${slideNo}.wav`);
+  } else if (mime.includes('audio/mpeg') || mime.includes('mp3')){
+    blob = Utilities.newBlob(Utilities.base64Decode(part.inlineData.data), 'audio/mpeg', `Slide${slideNo}.mp3`);
+  } else {
+    return { ok:false, error:`Unexpected audio mimeType ${mime}` };
+  }
+
+  const file = moduleFolder.createFile(blob);
+  return { ok:true, fileId:file.getId(), url:file.getUrl(), durationSec: estimateAudioDuration_(script) };
+}
+
+/**
+ * Parse slide specs text into [{title, body:[]}] form.
+ * Accepts headings like "# Slide 1: Title" or "Slide 1 — Title".
+ */
+function parseSlideSpecs_(specText){
+  const src = String(specText||'').replace(/\r/g,'');
+  const blocks = src.split(/\n(?=(?:#\s*)?Slide\s+\d+\s*(?:[:\-—]\s*|)\s)/i);
+
+  const slides = [];
+  for (let i=0; i<blocks.length; i++){
+    const blk = blocks[i].trim();
+    if (!blk) continue;
+
+    // Title
+    let title = 'Slide ' + (slides.length + 1);
+    const m = blk.match(/^(?:#\s*)?Slide\s+\d+\s*(?:[:\-—]\s*|)\s*(.+)$/im);
+    if (m) title = m[1].trim();
+
+    // Body bullets: lines starting with -, *, •, or normal sentences
+    const bodyLines = blk
+      .replace(/^(?:#\s*)?Slide\s+\d+[^\n]*\n?/i, '')
+      .split('\n')
+      .map(l => l.trim())
+      .filter(Boolean);
+
+    const bullets = [];
+    bodyLines.forEach(l=>{
+      if (/^[-*•]\s+/.test(l)) bullets.push(l.replace(/^[-*•]\s+/, '').trim());
+      else bullets.push(l);
+    });
+
+    slides.push({ title, body: bullets });
+  }
+
+  if (!slides.length) slides.push({ title:'Slide 1', body:[] });
+  return slides;
+}
+
+const refs = formatVancouverReferences_(srcPack.sources || []);
+if (refs){
+  body.appendParagraph('\n\nReferences').setHeading(DocumentApp.ParagraphHeading.HEADING2);
+  body.appendParagraph(refs);
+}
+
+/**
+ * Navigate to sheet (wizard-specific version to avoid conflicts)
+ */
+function wizardNavigateToSheet_(sheetName) {
+  try {
+    const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    let sheet = spreadsheet.getSheetByName(sheetName);
+    
+    if (!sheet) {
+      Logger.log(`Creating missing sheet: ${sheetName}`);
+      sheet = spreadsheet.insertSheet(sheetName);
+    }
+    
+    spreadsheet.setActiveSheet(sheet);
+    return sheet;
+  } catch (error) {
+    Logger.log(`Error navigating to sheet ${sheetName}: ${error.toString()}`);
+    throw new Error(`Failed to navigate to sheet ${sheetName}: ${error.message}`);
+  }
+}
+
+/**
+ * Ensure correct row (wizard-specific version to avoid conflicts)
+ */
+function wizardEnsureCorrectRow_(sheet, concept) {
+  try {
+    const dataRange = sheet.getDataRange();
+    if (dataRange.getNumRows() === 0) {
+      return 1; // First row for empty sheet
+    }
+    
+    const values = dataRange.getValues();
+    
+    // Look for existing concept row
+    for (let i = 0; i < values.length; i++) {
+      if (values[i][0] && values[i][0].toString().toLowerCase() === concept.toLowerCase()) {
+        return i + 1; // Convert to 1-based indexing
+      }
+    }
+    
+    // If not found, return next available row
+    return values.length + 1;
+  } catch (error) {
+    Logger.log(`Error ensuring correct row for concept ${concept}: ${error.toString()}`);
+    return 1; // Default to first row
+  }
+}
+
+// ===============================
+// MISSING HELPER FUNCTIONS (New)
+// ===============================
+
+/**
+ * Get active module information from current context
+ */
+function getActiveModuleInfo_() {
+  try {
+    const sheet = SpreadsheetApp.getActiveSheet();
+    const sheetName = sheet.getName();
+    
+    // Parse concept from sheet name (Module-Resources-{Concept} format)
+    const conceptMatch = sheetName.match(/Module-Resources-(.+)/);
+    if (conceptMatch) {
+      return {
+        concept: conceptMatch[1],
+        sheetName: sheetName,
+        sheet: sheet,
+        type: 'module'
+      };
+    }
+    
+    // Parse from TTS sheet name
+    const ttsMatch = sheetName.match(/TTS-(.+)/);
+    if (ttsMatch) {
+      return {
+        concept: ttsMatch[1], 
+        sheetName: sheetName,
+        sheet: sheet,
+        type: 'tts'
+      };
+    }
+    
+    // Check if on Mapping sheet
+    if (sheetName === 'Mapping') {
+      const activeRow = sheet.getActiveCell().getRow();
+      if (activeRow > 1) {
+        const concept = sheet.getRange(activeRow, 1).getValue();
+        return {
+          concept: concept,
+          sheetName: sheetName,
+          sheet: sheet,
+          type: 'mapping',
+          row: activeRow
+        };
+      }
+    }
+    
+    return null;
+  } catch (error) {
+    Logger.log('Error getting active module info: ' + error.toString());
+    return null;
+  }
+}
+
+/**
+ * Track wizard progress with enhanced status updates
+ */
+function trackWizardProgress_(step, status, details = '') {
+  try {
+    const statusSheet = ensureStatusSheet_();
+    const timestamp = new Date().toISOString();
+    
+    // Find or create progress row
+    const dataRange = statusSheet.getDataRange();
+    let progressRow = -1;
+    
+    if (dataRange.getNumRows() > 1) {
+      const values = dataRange.getValues();
+      for (let i = 1; i < values.length; i++) {
+        if (values[i][0] === 'Wizard Progress') {
+          progressRow = i + 1;
+          break;
+        }
+      }
+    }
+    
+    if (progressRow === -1) {
+      progressRow = statusSheet.getLastRow() + 1;
+      statusSheet.getRange(progressRow, 1).setValue('Wizard Progress');
+    }
+    
+    // Update progress information
+    statusSheet.getRange(progressRow, 2).setValue(step);
+    statusSheet.getRange(progressRow, 3).setValue(status);
+    statusSheet.getRange(progressRow, 4).setValue(timestamp);
+    statusSheet.getRange(progressRow, 5).setValue(details);
+    
+    Logger.log(`Wizard progress tracked: ${step} - ${status}`);
+    
+  } catch (error) {
+    Logger.log('Error tracking wizard progress: ' + error.toString());
+  }
+}
+
+/**
+ * Validate system configuration with comprehensive checks
+ */
+function validateSystemConfiguration_(showResults = true) {
+  const results = {
+    isValid: true,
+    issues: [],
+    warnings: [],
+    info: []
+  };
+  
+  try {
+    const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    const ui = SpreadsheetApp.getUi();
+    
+    // Check for required sheets
+    const requiredSheets = ['Mapping'];
+    requiredSheets.forEach(sheetName => {
+      if (!spreadsheet.getSheetByName(sheetName)) {
+        results.issues.push(`Missing required sheet: ${sheetName}`);
+        results.isValid = false;
+      }
+    });
+    
+    // Check Properties Service for API configuration
+    const properties = PropertiesService.getScriptProperties();
+    const geminiApiKey = properties.getProperty('GEMINI_API_KEY');
+    
+    if (!geminiApiKey) {
+      results.warnings.push('Gemini API key not configured');
+    } else if (geminiApiKey.length < 20) {
+      results.warnings.push('Gemini API key appears invalid (too short)');
+    } else {
+      results.info.push('Gemini API key configured');
+    }
+    
+    // Check Drive folder configuration
+    const projectFolderId = properties.getProperty('PROJECT_FOLDER_ID');
+    if (!projectFolderId) {
+      results.warnings.push('Project folder not configured');
+    } else {
+      try {
+        DriveApp.getFolderById(projectFolderId);
+        results.info.push('Project folder accessible');
+      } catch (error) {
+        results.issues.push('Project folder not accessible');
+        results.isValid = false;
+      }
+    }
+    
+    // Check Mapping sheet structure
+    const mappingSheet = spreadsheet.getSheetByName('Mapping');
+    if (mappingSheet) {
+      const headers = mappingSheet.getRange(1, 1, 1, 20).getValues()[0];
+      const expectedHeaders = ['Concept', 'Sources', 'Audience'];
+      
+      expectedHeaders.forEach((header, index) => {
+        if (!headers[index] || headers[index] !== header) {
+          results.warnings.push(`Mapping sheet header mismatch at column ${index + 1}: expected "${header}"`);
+        }
+      });
+    }
+    
+    // Show results if requested
+    if (showResults) {
+      let message = '🔧 System Configuration Validation\n\n';
+      
+      if (results.issues.length > 0) {
+        message += '❌ Issues Found:\n';
+        results.issues.forEach(issue => message += `• ${issue}\n`);
+        message += '\n';
+      }
+      
+      if (results.warnings.length > 0) {
+        message += '⚠️ Warnings:\n';
+        results.warnings.forEach(warning => message += `• ${warning}\n`);
+        message += '\n';
+      }
+      
+      if (results.info.length > 0) {
+        message += '✅ Configuration OK:\n';
+        results.info.forEach(info => message += `• ${info}\n`);
+      }
+      
+      if (results.isValid && results.warnings.length === 0) {
+        message += '\n🎉 System fully configured and ready!';
+      }
+      
+      ui.alert('System Validation Results', message, ui.AlertResponse.OK);
+    }
+    
+  } catch (error) {
+    Logger.log('Error in system validation: ' + error.toString());
+    results.issues.push(`Validation error: ${error.message}`);
+    results.isValid = false;
+  }
+  
+  return results;
+}
+
+/**
+ * Ensure status sheet exists for progress tracking
+ */
+function ensureStatusSheet_() {
+  try {
+    const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    let statusSheet = spreadsheet.getSheetByName('System Status');
+    
+    if (!statusSheet) {
+      statusSheet = spreadsheet.insertSheet('System Status');
+      
+      // Set up headers
+      const headers = [
+        'Component', 'Current Step', 'Status', 'Timestamp', 'Details'
+      ];
+      statusSheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+      statusSheet.getRange(1, 1, 1, headers.length).setFontWeight('bold');
+      statusSheet.setFrozenRows(1);
+      
+      Logger.log('Created System Status sheet');
+    }
+    
+    return statusSheet;
+  } catch (error) {
+    Logger.log('Error ensuring status sheet: ' + error.toString());
+    throw new Error('Failed to create or access status sheet');
+  }
+}
+
+// ===============================
+// ENHANCED ERROR RECOVERY (New)
+// ===============================
+
+/**
+ * Enhanced error recovery wrapper with contextual error handling
+ */
+function withErrorRecovery_(operation, context = '', fallbackAction = null) {
+  try {
+    return operation();
+  } catch (error) {
+    Logger.log(`Error in ${context}: ${error.toString()}`);
+    
+    // Track error in status sheet
+    try {
+      trackWizardProgress_(`Error in ${context}`, 'Failed', error.message);
+    } catch (trackingError) {
+      Logger.log('Failed to track error: ' + trackingError.toString());
+    }
+    
+    // Show user-friendly error message
+    const ui = SpreadsheetApp.getUi();
+    let message = `An error occurred in ${context}:\n\n${error.message}`;
+    
+    if (fallbackAction) {
+      message += '\n\nAttempting automatic recovery...';
+      ui.alert('Error with Recovery', message, ui.AlertResponse.OK);
+      
+      try {
+        return fallbackAction();
+      } catch (fallbackError) {
+        Logger.log(`Fallback action failed: ${fallbackError.toString()}`);
+        ui.alert('Recovery Failed', 
+          'Automatic recovery was unsuccessful. Please check the logs and try again.', 
+          ui.AlertResponse.OK);
+        throw fallbackError;
+      }
+    } else {
+      message += '\n\nPlease check the logs and try again.';
+      ui.alert('Operation Error', message, ui.AlertResponse.OK);
+      throw error;
+    }
+  }
+}
+
+// ===============================
+// WELCOME AND HELP SYSTEM (New)
+// ===============================
+
+/**
+ * Check if user has seen welcome message
+ */
+function hasUserSeenWelcome_() {
+  const properties = PropertiesService.getDocumentProperties();
+  return properties.getProperty('WELCOME_SHOWN') === 'true';
+}
+
+/**
+ * Mark that user has seen welcome message
+ */
+function markUserSeenWelcome_() {
+  const properties = PropertiesService.getDocumentProperties();
+  properties.setProperty('WELCOME_SHOWN', 'true');
+}
+
+/**
+ * Show welcome dialog for first-time users
+ */
+function showWelcomeDialog_() {
+  const ui = SpreadsheetApp.getUi();
+  
+  const message = `🎓 Welcome to Concept-to-Course Enhanced!
+
+This enhanced version provides:
+• 🚀 Setup Wizard for easy configuration
+• 📖 Visual How-to-Use guide
+• 🎯 Guided Course Creation Wizard
+• 📊 System diagnostics and validation
+
+To get started:
+1. Run the Setup Wizard to configure your API keys
+2. Create a How-to-Use guide for reference
+3. Use the Course Creation Wizard for guided workflow
+
+Need help? Use the Help & Support option from the menu.`;
+
+  ui.alert('Welcome to Enhanced Concept-to-Course', message, ui.AlertResponse.OK);
+}
+
+/**
+ * Show help and support information
+ */
+function showHelpDialog_() {
+  const ui = SpreadsheetApp.getUi();
+  
+  const message = `🎓 Concept-to-Course Help & Support
+
+📋 QUICK START:
+1. Setup Wizard → Configure API keys and folders
+2. How-to-Use Guide → Visual instructions in new sheet
+3. Course Creation Wizard → Guided 10-step workflow
+
+🔧 TROUBLESHOOTING:
+• System Diagnostics → Check configuration issues
+• Validate Configuration → Verify all settings
+• System Status sheet → Track progress and errors
+
+📖 WORKFLOW STEPS:
+The 10-step process guides you from concept to complete course:
+Setup → Recommendation → Workspace → Content → LMS → Slides → Voice → Audio → Maintenance → Archive
+
+⚡ ADVANCED FEATURES:
+• Automatic error recovery
+• Progress tracking
+• Drive folder organisation
+• Gemini AI integration
+
+Need additional support? Check the logs (Extensions → Apps Script → View Logs)`;
+
+  ui.alert('Help & Support', message, ui.AlertResponse.OK);
+}
+
+// ===============================
+// SYSTEM DIAGNOSTICS (New)
+// ===============================
+
+/**
+ * Run comprehensive system diagnostics
+ */
+function runSystemDiagnostics_() {
+  const ui = SpreadsheetApp.getUi();
+  
+  try {
+    let report = '🔧 SYSTEM DIAGNOSTICS REPORT\n\n';
+    
+    // Check spreadsheet structure
+    report += '📊 SPREADSHEET STRUCTURE:\n';
+    const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    const sheets = spreadsheet.getSheets();
+    report += `• Total sheets: ${sheets.length}\n`;
+    
+    const sheetNames = sheets.map(sheet => sheet.getName());
+    report += `• Sheet names: ${sheetNames.join(', ')}\n`;
+    
+    // Check for required sheets
+    const requiredSheets = ['Mapping'];
+    const missingSheets = requiredSheets.filter(name => !sheetNames.includes(name));
+    if (missingSheets.length > 0) {
+      report += `• ❌ Missing sheets: ${missingSheets.join(', ')}\n`;
+    } else {
+      report += `• ✅ All required sheets present\n`;
+    }
+    
+    // Check Properties Service
+    report += '\n🔑 CONFIGURATION:\n';
+    const properties = PropertiesService.getScriptProperties();
+    const keys = properties.getKeys();
+    report += `• Configured properties: ${keys.length}\n`;
+    
+    if (keys.includes('GEMINI_API_KEY')) {
+      const keyLength = properties.getProperty('GEMINI_API_KEY').length;
+      report += `• ✅ Gemini API key: ${keyLength} characters\n`;
+    } else {
+      report += `• ❌ Gemini API key: Not configured\n`;
+    }
+    
+    if (keys.includes('PROJECT_FOLDER_ID')) {
+      report += `• ✅ Project folder: Configured\n`;
+    } else {
+      report += `• ❌ Project folder: Not configured\n`;
+    }
+    
+    // Check Drive permissions
+    report += '\n📁 DRIVE ACCESS:\n';
+    try {
+      const rootFolder = DriveApp.getRootFolder();
+      report += `• ✅ Drive access: Available\n`;
+      
+      if (keys.includes('PROJECT_FOLDER_ID')) {
+        const folderId = properties.getProperty('PROJECT_FOLDER_ID');
+        try {
+          const folder = DriveApp.getFolderById(folderId);
+          report += `• ✅ Project folder: Accessible (${folder.getName()})\n`;
+        } catch (error) {
+          report += `• ❌ Project folder: Not accessible\n`;
+        }
+      }
+    } catch (error) {
+      report += `• ❌ Drive access: Limited or unavailable\n`;
+    }
+    
+    // Check function availability
+    report += '\n⚙️ FUNCTION AVAILABILITY:\n';
+    const criticalFunctions = [
+      'launchSetupWizard',
+      'createHowToUseTab_',
+      'launchCourseCreationWizard',
+      'validateSystemConfiguration_'
+    ];
+    
+    criticalFunctions.forEach(funcName => {
+      try {
+        if (typeof eval(funcName) === 'function') {
+          report += `• ✅ ${funcName}: Available\n`;
+        } else {
+          report += `• ❌ ${funcName}: Not available\n`;
+        }
+      } catch (error) {
+        report += `• ❌ ${funcName}: Error checking availability\n`;
+      }
+    });
+    
+    report += '\n📝 RECOMMENDATIONS:\n';
+    if (missingSheets.length > 0) {
+      report += '• Run Setup Wizard to create missing sheets\n';
+    }
+    if (!keys.includes('GEMINI_API_KEY')) {
+      report += '• Configure Gemini API key in Setup Wizard\n';
+    }
+    if (!keys.includes('PROJECT_FOLDER_ID')) {
+      report += '• Set up project folder in Setup Wizard\n';
+    }
+    
+    // Show report
+    ui.alert('System Diagnostics Complete', report, ui.AlertResponse.OK);
+    
+    // Log detailed report
+    Logger.log('System Diagnostics Report:\n' + report);
+    
+  } catch (error) {
+    Logger.log('Error running system diagnostics: ' + error.toString());
+    ui.alert('Diagnostics Error', 
+      'Unable to complete system diagnostics. Please check the logs.', 
+      ui.AlertResponse.OK);
+  }
+}
+
+/**
+ * DEPLOYMENT VALIDATION FUNCTION
+ * Run this after copying all functions to verify integration
+ */
+function validateDeployment_() {
+  const ui = SpreadsheetApp.getUi();
+  
+  try {
+    let message = '✅ DEPLOYMENT VALIDATION\n\n';
+    
+    // Check all required functions exist
+    const requiredFunctions = [
+      'onOpen',
+      'wizardNavigateToSheet_',
+      'wizardEnsureCorrectRow_',
+      'getActiveModuleInfo_',
+      'trackWizardProgress_',
+      'validateSystemConfiguration_',
+      'ensureStatusSheet_',
+      'withErrorRecovery_',
+      'runSystemDiagnostics_'
+    ];
+    
+    let allFunctionsPresent = true;
+    requiredFunctions.forEach(funcName => {
+      try {
+        if (typeof eval(funcName) === 'function') {
+          message += `✅ ${funcName}\n`;
+        } else {
+          message += `❌ ${funcName} - Missing\n`;
+          allFunctionsPresent = false;
+        }
+      } catch (error) {
+        message += `❌ ${funcName} - Error\n`;
+        allFunctionsPresent = false;
+      }
+    });
+    
+    if (allFunctionsPresent) {
+      message += '\n🎉 All functions successfully deployed!';
+      message += '\n\nNext steps:';
+      message += '\n1. Test the enhanced menu (refresh spreadsheet)';
+      message += '\n2. Run Setup Wizard';
+      message += '\n3. Create How-to-Use guide';
+      message += '\n4. Test Course Creation Wizard';
+    } else {
+      message += '\n⚠️ Some functions are missing. Please copy all functions from the integration file.';
+    }
+    
+    ui.alert('Deployment Validation', message, ui.AlertResponse.OK);
+    
+  } catch (error) {
+    ui.alert('Validation Error', 
+      'Unable to validate deployment: ' + error.message, 
+      ui.AlertResponse.OK);
+  }
+}
+
+function launchCourseCreationWizard() {
+  const ui = SpreadsheetApp.getUi();
+  
+  // Verify system is configured
+  try {
+    CFG.validateConfiguration();
+  } catch (error) {
+    ui.alert(
+      'Configuration Required',
+      'The tool needs to be configured before creating courses.\n\n' +
+      'Please contact Carla for system setup, or run the Setup Wizard if you have administrator access.',
+      ui.ButtonSet.OK
+    );
+    return;
+  }
+  
+  // Welcome and course selection
+  const wizardChoice = ui.alert(
+    'Course Creation Wizard',
+    'Welcome to guided course development!\n\n' +
+    'This wizard will walk you through creating professional healthcare education courses from concept to completion.\n\n' +
+    'Choose your path:\n' +
+    'YES = Start a new course from scratch\n' +
+    'NO = Continue working on an existing course\n' +
+    'CANCEL = Exit wizard',
+    ui.ButtonSet.YES_NO_CANCEL
+  );
+  
+  if (wizardChoice === ui.Button.CANCEL) return;
+  
+  if (wizardChoice === ui.Button.YES) {
+    startNewCourseWizard_();
+  } else {
+    continueExistingCourseWizard_();
+  }
+}
+
+function startNewCourseWizard_() {
+  const ui = SpreadsheetApp.getUi();
+  
+  ui.alert(
+    'New Course Creation',
+    'Great! Let\'s create a new professional course.\n\n' +
+    'The wizard will guide you through each step, explain what to expect, and help you make quality decisions along the way.\n\n' +
+    'Estimated total time: 3-4 hours (spread across multiple sessions)\n' +
+    'You can stop and resume at any point.',
+    ui.ButtonSet.OK
+  );
+  
+  // Start with Step 1
+  executeWizardStep_(1, null);
+}
+
+function continueExistingCourseWizard_() {
+  const ui = SpreadsheetApp.getUi();
+  
+  // Detect existing courses and their progress
+  const courseStatus = analyseExistingCourses_();
+  
+  if (courseStatus.courses.length === 0) {
+    const startNew = ui.alert(
+      'No Existing Courses Found',
+      'I couldn\'t find any courses in progress.\n\n' +
+      'Would you like to start a new course instead?',
+      ui.ButtonSet.YES_NO
+    );
+    
+    if (startNew === ui.Button.YES) {
+      startNewCourseWizard_();
+    }
+    return;
+  }
+  
+  // Present course options
+  let message = 'Found courses in progress:\n\n';
+  courseStatus.courses.forEach((course, index) => {
+    message += `${index + 1}. "${course.name}" - ${course.status}\n`;
+  });
+  message += '\nWhich course would you like to continue?';
+  
+  const courseChoice = ui.prompt(
+    'Continue Existing Course',
+    message + '\n\nEnter the number (1, 2, etc.):',
+    ui.ButtonSet.OK_CANCEL
+  );
+  
+  if (courseChoice.getSelectedButton() !== ui.Button.OK) return;
+  
+  const selectedIndex = parseInt(courseChoice.getResponseText().trim()) - 1;
+  if (selectedIndex >= 0 && selectedIndex < courseStatus.courses.length) {
+    const selectedCourse = courseStatus.courses[selectedIndex];
+    continueWizardForCourse_(selectedCourse);
+  } else {
+    ui.alert('Invalid selection. Please try again.');
+  }
+}
+
+function executeWizardStep_(stepNumber, courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  switch (stepNumber) {
+    case 1:
+      return executeStep1_Setup_(courseContext);
+    case 2:
+      return executeStep2_Recommendation_(courseContext);
+    case 3:
+      return executeStep3_Workspace_(courseContext);
+    case 4:
+      return executeStep4_Content_(courseContext);
+    case 5:
+      return executeStep5_LMS_(courseContext);
+    case 6:
+      return executeStep6_Slides_(courseContext);
+    case 7:
+      return executeStep7_Voice_(courseContext);
+    case 8:
+      return executeStep8_Audio_(courseContext);
+    case 9:
+      return executeStep9_Maintenance_(courseContext);
+    case 10:
+      return executeStep10_Archive_(courseContext);
+    default:
+      ui.alert('Course Creation Complete!', 'Congratulations! Your professional course is ready for delivery.', ui.ButtonSet.OK);
+      return false;
+  }
+}
+
+// ==== STEP 1: SETUP & COURSE PLANNING ====
+
+function executeStep1_Setup_(courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  // Introduction to Step 1
+  ui.alert(
+    'Step 1: Setup & Course Planning',
+    'Time Required: ~10 minutes\n\n' +
+    'In this step, you\'ll:\n' +
+    '• Define your course concept clearly\n' +
+    '• Identify your target audience\n' +
+    '• Organise your source materials\n' +
+    '• Set up the foundation for AI analysis\n\n' +
+    'This step is crucial - good planning makes everything else smoother!',
+    ui.ButtonSet.OK
+  );
+  
+  // Navigate to Mapping sheet
+  navigateToSheet_('Mapping');
+  
+  ui.alert(
+    'Course Concept Definition',
+    'You\'re now on the Mapping sheet.\n\n' +
+    'WHAT TO DO NOW:\n' +
+    '1. Click on cell A2 (first empty row)\n' +
+    '2. Enter your course concept (e.g., "Clinical Supervision Excellence")\n' +
+    '3. Be specific and professional - this drives all AI generation\n\n' +
+    'TIPS:\n' +
+    '• Use clear, descriptive language\n' +
+    '• Think about your end goal\n' +
+    '• Consider your professional audience\n\n' +
+    'Click OK when you\'ve entered your course concept.',
+    ui.ButtonSet.OK
+  );
+  
+  // Validate course concept was entered
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const mappingSheet = ss.getSheetByName('Mapping');
+  const concept = mappingSheet.getRange('A2').getValue();
+  
+  if (!concept || String(concept).trim().length < 5) {
+    const retry = ui.alert(
+      'Course Concept Needed',
+      'I don\'t see a course concept in cell A2 yet.\n\n' +
+      'Would you like to:\n' +
+      'YES = Continue anyway (you can add it later)\n' +
+      'NO = Go back and add the concept now',
+      ui.ButtonSet.YES_NO
+    );
+    
+    if (retry === ui.Button.NO) {
+      return executeStep1_Setup_(courseContext);
+    }
+  }
+  
+  // Target audience selection
+  ui.alert(
+    'Target Audience Selection',
+    'Now let\'s define your target audience.\n\n' +
+    'WHAT TO DO NOW:\n' +
+    '1. Click on cell C2 (Target Audience column)\n' +
+    '2. Choose from: Clinical, Administrative, Combined, or Other\n' +
+    '3. This affects how the AI generates content tone and examples\n\n' +
+    'AUDIENCE GUIDE:\n' +
+    '• Clinical: Practicing healthcare professionals\n' +
+    '• Administrative: Healthcare managers and support staff\n' +
+    '• Combined: Mixed clinical and administrative learners\n' +
+    '• Other: Specify your unique audience\n\n' +
+    'Click OK when you\'ve selected your audience.',
+    ui.ButtonSet.OK
+  );
+  
+  // Source materials guidance
+  ui.alert(
+    'Source Materials Organisation',
+    'Now for the most important part - your source materials!\n\n' +
+    'WHAT TO DO NOW:\n' +
+    '1. Click on cell B2 (Course Drive Folder column)\n' +
+    '2. Add your PRIMARY source material:\n' +
+    '   - Google Drive folder URL (with all your documents)\n' +
+    '   - Single Google Doc URL\n' +
+    '   - Website URL with relevant content\n' +
+    '   - Or paste text content directly\n\n' +
+    'QUALITY TIP:\n' +
+    'Better source materials = better AI-generated courses!\n' +
+    'Include research, guidelines, existing content, and your expertise.\n\n' +
+    'Click OK when your primary source is added.',
+    ui.ButtonSet.OK
+  );
+  
+  // Additional sources
+  const additionalSources = ui.alert(
+    'Additional Source Materials',
+    'Do you have additional source materials to add?\n\n' +
+    'You can add multiple sources in rows B3, B4, etc.\n' +
+    'This gives the AI more context for better recommendations.\n\n' +
+    'YES = I\'ll add more sources now\n' +
+    'NO = I\'m ready to proceed with what I have',
+    ui.ButtonSet.YES_NO
+  );
+  
+  if (additionalSources === ui.Button.YES) {
+    ui.alert(
+      'Adding Additional Sources',
+      'WHAT TO DO NOW:\n' +
+      '1. Click on cells B3, B4, B5, etc. to add more sources\n' +
+      '2. Each row can contain:\n' +
+      '   - Another folder or document URL\n' +
+      '   - Website URLs with relevant content\n' +
+      '   - Additional text content\n\n' +
+      'ORGANISATION TIP:\n' +
+      'Keep related materials together and use clear, descriptive sources.\n\n' +
+      'Click OK when you\'re finished adding sources.',
+      ui.ButtonSet.OK
+    );
+  }
+  
+  // Completion and next step
+  const step1Complete = ui.alert(
+    'Step 1 Complete - Ready for AI Analysis!',
+    'Excellent! You\'ve set up the foundation:\n\n' +
+    '✓ Course concept defined\n' +
+    '✓ Target audience selected\n' +
+    '✓ Source materials organised\n\n' +
+    'WHAT HAPPENS NEXT:\n' +
+    'The AI will analyse your materials and create a professional course structure with 8-12 modules.\n\n' +
+    'Ready to proceed to Step 2: AI-Powered Course Structure?',
+    ui.ButtonSet.YES_NO
+  );
+  
+  if (step1Complete === ui.Button.YES) {
+    return executeWizardStep_(2, { concept: concept });
+  }
+  
+  return true; // Step completed, user can continue later
+}
+
+// ==== STEP 2: AI-POWERED COURSE STRUCTURE ====
+
+function executeStep2_Recommendation_(courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  ui.alert(
+    'Step 2: AI-Powered Course Structure',
+    'Time Required: ~15 minutes\n\n' +
+    'In this step, the AI will:\n' +
+    '• Analyse all your source materials\n' +
+    '• Create a professional course structure\n' +
+    '• Generate 8-12 logical learning modules\n' +
+    '• Provide educational justification\n' +
+    '• Include Vancouver-style citations\n\n' +
+    'This is where your source materials are transformed into a professional course blueprint!',
+    ui.ButtonSet.OK
+  );
+  
+  // Check if user is on correct row
+  const mappingSheet = ensureCorrectRow_('Mapping');
+  if (!mappingSheet) return false;
+  
+  ui.alert(
+    'Generate Course Recommendation',
+    'WHAT TO DO NOW:\n' +
+    '1. Ensure you\'re on the correct row with your course data\n' +
+    '2. From the menu, select: Concept-to-Course → #2 Generate Course Recommendation\n' +
+    '3. Wait for the AI analysis (this takes 2-3 minutes)\n' +
+    '4. A new Google Doc will be created with your course structure\n\n' +
+    'WHAT TO EXPECT:\n' +
+    '• Professional recommendation document\n' +
+    '• Detailed module breakdown with rationale\n' +
+    '• Research-backed educational design\n\n' +
+    'Click OK, then run the menu function.',
+    ui.ButtonSet.OK
+  );
+  
+  // Wait for completion and validate
+  const completed = waitForStepCompletion_('recommendation', 
+    'Waiting for AI Analysis...',
+    'The AI is analysing your materials and generating the course structure.\n' +
+    'This process takes 2-3 minutes.\n\n' +
+    'You\'ll see toast notifications showing progress.\n' +
+    'A new document will appear in your Drive folder when complete.'
+  );
+  
+  if (!completed) return false;
+  
+  // Review guidance
+  ui.alert(
+    'Review Your Course Structure',
+    'The AI has created your course recommendation!\n\n' +
+    'WHAT TO DO NOW:\n' +
+    '1. Open the new recommendation document from your Drive folder\n' +
+    '2. Review the proposed module structure carefully\n' +
+    '3. Check that modules flow logically\n' +
+    '4. Ensure the educational rationale makes sense\n\n' +
+    'QUALITY CHECK:\n' +
+    '• Do the 8-12 modules cover your topic comprehensively?\n' +
+    '• Is the learning progression logical?\n' +
+    '• Does each module justify its place in the course?\n\n' +
+    'Click OK when you\'ve reviewed the recommendation.',
+    ui.ButtonSet.OK
+  );
+  
+  // Modification option
+  const needsChanges = ui.alert(
+    'Course Structure Approval',
+    'How does the generated course structure look?\n\n' +
+    'YES = Perfect! Ready to proceed with this structure\n' +
+    'NO = Needs changes - I\'d like to request modifications',
+    ui.ButtonSet.YES_NO_CANCEL
+  );
+  
+  if (needsChanges === ui.Button.CANCEL) return false;
+  
+  if (needsChanges === ui.Button.NO) {
+    handleModificationRequest_();
+    // After modification, re-run this step
+    return executeStep2_Recommendation_(courseContext);
+  }
+  
+  // Success - proceed to next step
+  const step2Complete = ui.alert(
+    'Step 2 Complete - Course Structure Approved!',
+    'Excellent! Your course structure is approved:\n\n' +
+    '✓ AI analysis complete\n' +
+    '✓ Professional course structure created\n' +
+    '✓ Module breakdown approved\n\n' +
+    'WHAT HAPPENS NEXT:\n' +
+    'We\'ll set up organised workspaces for developing each module\'s content.\n\n' +
+    'Ready to proceed to Step 3: Workspace Preparation?',
+    ui.ButtonSet.YES_NO
+  );
+  
+  if (step2Complete === ui.Button.YES) {
+    return executeWizardStep_(3, courseContext);
+  }
+  
+  return true;
+}
+
+// ==== STEP 3: WORKSPACE PREPARATION ====
+
+function executeStep3_Workspace_(courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  ui.alert(
+    'Step 3: Workspace Preparation',
+    'Time Required: ~5 minutes\n\n' +
+    'This step creates your organised development workspace:\n' +
+    '• Individual folders for each module in Google Drive\n' +
+    '• Content tracking worksheets\n' +
+    '• Audio management system\n' +
+    '• Progress monitoring tools\n\n' +
+    'Think of this as setting up your professional course development office!',
+    ui.ButtonSet.OK
+  );
+  
+  ui.alert(
+    'Create Organised Workspace',
+    'WHAT TO DO NOW:\n' +
+    '1. Ensure you\'re on the correct row in the Mapping sheet\n' +
+    '2. From the menu, select: Concept-to-Course → #3 Create Content Tabs & Subfolders\n' +
+    '3. Wait for the workspace creation (about 1 minute)\n\n' +
+    'WHAT WILL BE CREATED:\n' +
+    '• Module subfolders in your Drive project folder\n' +
+    '• Module-Resources worksheet for tracking content\n' +
+    '• TTS worksheet for audio management\n' +
+    '• Organised structure for professional development\n\n' +
+    'Click OK, then run the menu function.',
+    ui.ButtonSet.OK
+  );
+  
+  const completed = waitForStepCompletion_('workspace',
+    'Creating Workspace...',
+    'Setting up your organised development environment.\n\n' +
+    'This creates all the folders and worksheets you\'ll need for professional course development.'
+  );
+  
+  if (!completed) return false;
+  
+  ui.alert(
+    'Explore Your New Workspace',
+    'Your development workspace is ready!\n\n' +
+    'WHAT TO EXPLORE:\n' +
+    '1. Check your Drive folder - you\'ll see new module subfolders\n' +
+    '2. Look at the new worksheet tabs in this spreadsheet\n' +
+    '3. Notice the organised structure for tracking progress\n\n' +
+    'WORKSPACE BENEFITS:\n' +
+    '• Each module has its own organised folder\n' +
+    '• Progress tracking keeps you on track\n' +
+    '• Audio files will be systematically organised\n' +
+    '• Professional project management built-in\n\n' +
+    'Click OK when you\'ve explored the workspace.',
+    ui.ButtonSet.OK
+  );
+  
+  const step3Complete = ui.alert(
+    'Step 3 Complete - Workspace Ready!',
+    'Perfect! Your development workspace is organised:\n\n' +
+    '✓ Module folders created in Drive\n' +
+    '✓ Content tracking worksheets ready\n' +
+    '✓ Audio management system prepared\n\n' +
+    'WHAT HAPPENS NEXT:\n' +
+    'We\'ll start generating comprehensive content for each module.\n' +
+    'This is where your course really comes to life!\n\n' +
+    'Ready to proceed to Step 4: Content Development?',
+    ui.ButtonSet.YES_NO
+  );
+  
+  if (step3Complete === ui.Button.YES) {
+    return executeWizardStep_(4, courseContext);
+  }
+  
+  return true;
+}
+
+// ==== STEP 4: COMPREHENSIVE CONTENT DEVELOPMENT ====
+
+function executeStep4_Content_(courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  ui.alert(
+    'Step 4: Comprehensive Content Development',
+    'Time Required: ~45-60 minutes per module\n\n' +
+    'This is the heart of course creation! For each module, you\'ll generate:\n' +
+    '• Detailed learning objectives and descriptions\n' +
+    '• Key concepts with practical applications\n' +
+    '• 12-slide presentation specifications\n' +
+    '• Interactive scenarios for role-play\n' +
+    '• Comprehensive assessments with rationales\n' +
+    '• Professional downloadable resources\n\n' +
+    'IMPORTANT: Complete one full module before starting the next!',
+    ui.ButtonSet.OK
+  );
+  
+  // Navigate to Module Resources sheet
+  const courseResourceSheet = findModuleResourcesSheet_();
+  if (!courseResourceSheet) {
+    ui.alert('Error', 'Cannot find Module Resources sheet. Please ensure Step 3 was completed successfully.', ui.ButtonSet.OK);
+    return false;
+  }
+  
+  navigateToSheet_(courseResourceSheet);
+  
+  ui.alert(
+    'Select Your First Module',
+    'You\'re now on the Module Resources worksheet.\n\n' +
+    'WHAT TO DO NOW:\n' +
+    '1. Click on row 2 (your first module)\n' +
+    '2. Review the module name - this is from your approved course structure\n' +
+    '3. This module will be your focus for the next 45-60 minutes\n\n' +
+    'PROFESSIONAL TIP:\n' +
+    'Complete one module completely (Steps 4-8) before starting another.\n' +
+    'This ensures quality and prevents confusion.\n\n' +
+    'Click OK when you\'ve selected your first module row.',
+    ui.ButtonSet.OK
+  );
+  
+  ui.alert(
+    'Generate Complete Module Content',
+    'WHAT TO DO NOW:\n' +
+    '1. Ensure you\'re on the module row you want to develop\n' +
+    '2. From the menu, select: Concept-to-Course → #4 Generate Full Suite of Resources\n' +
+    '3. Wait for content generation (this takes 15-20 minutes)\n\n' +
+    'WHAT WILL BE GENERATED:\n' +
+    '• Professional module description and learning objectives\n' +
+    '• Key concepts with healthcare context\n' +
+    '• Detailed 12-slide specifications\n' +
+    '• Interactive scenarios for workplace application\n' +
+    '• Comprehensive assessments with expert rationales\n' +
+    '• Research-backed downloadable resources\n\n' +
+    'Click OK, then run the menu function.',
+    ui.ButtonSet.OK
+  );
+  
+  const completed = waitForStepCompletion_('content',
+    'Generating Module Content...',
+    'The AI is creating comprehensive educational content for your module.\n\n' +
+    'This includes learning objectives, slide specs, scenarios, assessments, and downloadable resources.\n\n' +
+    'Process time: 15-20 minutes with progress notifications.'
+  );
+  
+  if (!completed) return false;
+  
+  ui.alert(
+    'Review Your Module Content',
+    'Your module content suite is complete!\n\n' +
+    'WHAT TO REVIEW:\n' +
+    '1. Module Description (Column C) - engaging and professional?\n' +
+    '2. Key Concepts (Column D) - comprehensive coverage?\n' +
+    '3. Slide Specifications (Column H) - logical flow and appropriate depth?\n' +
+    '4. Interactive Scenarios (Column E) - realistic workplace applications?\n' +
+    '5. Assessments (Column F) - appropriate difficulty and clear rationales?\n' +
+    '6. Downloadable Resources (Column G) - click link to review document\n\n' +
+    'QUALITY STANDARDS:\n' +
+    '• Content should meet professional healthcare education standards\n' +
+    '• All elements should align with learning objectives\n' +
+    '• Australian context and cultural safety throughout\n\n' +
+    'Click OK when you\'ve reviewed the content.',
+    ui.ButtonSet.OK
+  );
+  
+  // Quality check
+  const contentApproved = ui.alert(
+    'Content Quality Approval',
+    'How does the generated module content look?\n\n' +
+    'YES = Excellent! Ready to proceed with this content\n' +
+    'NO = Needs improvement - I\'d like to regenerate or modify\n\n' +
+    'Remember: It\'s better to get the content right now than fix it later!',
+    ui.ButtonSet.YES_NO_CANCEL
+  );
+  
+  if (contentApproved === ui.Button.CANCEL) return false;
+  
+  if (contentApproved === ui.Button.NO) {
+    ui.alert(
+      'Content Refinement',
+      'For content modifications:\n\n' +
+      '1. You can regenerate individual sections by running Step 4 again\n' +
+      '2. For major changes, consider modifying your source materials\n' +
+      '3. Contact Carla if you need help with specific improvements\n\n' +
+      'Would you like to try regenerating now, or continue with current content?',
+      ui.ButtonSet.OK
+    );
+    // Could add regeneration logic here
+  }
+  
+  const step4Complete = ui.alert(
+    'Step 4 Complete - Module Content Ready!',
+    'Outstanding! Your first module content is complete:\n\n' +
+    '✓ Professional module description and objectives\n' +
+    '✓ Comprehensive key concepts\n' +
+    '✓ Detailed slide specifications (12 slides)\n' +
+    '✓ Interactive workplace scenarios\n' +
+    '✓ Expert-level assessments\n' +
+    '✓ Research-backed downloadable resources\n\n' +
+    'WHAT HAPPENS NEXT:\n' +
+    'We\'ll create LMS-ready content for easy upload to your learning system.\n\n' +
+    'Ready to proceed to Step 5: LMS-Ready Content?',
+    ui.ButtonSet.YES_NO
+  );
+  
+  if (step4Complete === ui.Button.YES) {
+    return executeWizardStep_(5, courseContext);
+  }
+  
+  return true;
+}
+
+// ==== STEP 5: LMS-READY CONTENT ====
+
+function executeStep5_LMS_(courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  ui.alert(
+    'Step 5: LMS-Ready Content Creation',
+    'Time Required: ~10 minutes\n\n' +
+    'This step packages your module content for Learning Management Systems:\n' +
+    '• Converts slide specs into flowing narrative content\n' +
+    '• Adds interactive elements and engagement prompts\n' +
+    '• Creates proper navigation and progress indicators\n' +
+    '• Ensures accessibility compliance\n' +
+    '• Formats for Absorb LMS compatibility\n\n' +
+    'The result: Upload-ready content that maintains learner engagement!',
+    ui.ButtonSet.OK
+  );
+  
+  ui.alert(
+    'Generate LMS Upload Document',
+    'WHAT TO DO NOW:\n' +
+    '1. Ensure you\'re on the same module row from Step 4\n' +
+    '2. From the menu, select: Concept-to-Course → #5 Generate LMS Upload Doc\n' +
+    '3. Wait for document creation (about 2-3 minutes)\n\n' +
+    'WHAT WILL BE CREATED:\n' +
+    '• Comprehensive LMS-compatible document\n' +
+    '• Flowing narrative content from your slide specs\n' +
+    '• Interactive elements and learner engagement prompts\n' +
+    '• Professional online learning experience design\n\n' +
+    'Click OK, then run the menu function.',
+    ui.ButtonSet.OK
+  );
+  
+  const completed = waitForStepCompletion_('lms',
+    'Creating LMS Content...',
+    'Converting your professional slide specifications into engaging, LMS-ready content.\n\n' +
+    'This creates flowing narrative suitable for online learning platforms.'
+  );
+  
+  if (!completed) return false;
+  
+  ui.alert(
+    'Review LMS-Ready Content',
+    'Your LMS upload document is ready!\n\n' +
+    'WHAT TO REVIEW:\n' +
+    '1. Click the link in Column I to open the LMS document\n' +
+    '2. Read through as if you were a learner\n' +
+    '3. Check for smooth flow and engagement\n' +
+    '4. Verify interactive elements are well-placed\n' +
+    '5. Ensure content maintains professional tone\n\n' +
+    'QUALITY CHECK:\n' +
+    '• Does the content read smoothly online?\n' +
+    '• Are there enough engagement points to maintain attention?\n' +
+    '• Is the learning progression clear and logical?\n\n' +
+    'Click OK when you\'ve reviewed the LMS content.',
+    ui.ButtonSet.OK
+  );
+  
+  const step5Complete = ui.alert(
+    'Step 5 Complete - LMS Content Ready!',
+    'Excellent! Your module is ready for LMS upload:\n\n' +
+    '✓ Professional narrative content created\n' +
+    '✓ Interactive elements integrated\n' +
+    '✓ Absorb LMS compatibility ensured\n' +
+    '✓ Learner engagement optimised\n\n' +
+    'WHAT HAPPENS NEXT:\n' +
+    'We\'ll create professional slide presentations for instructor-led or self-paced delivery.\n\n' +
+    'Ready to proceed to Step 6: Slide Presentation Creation?',
+    ui.ButtonSet.YES_NO
+  );
+  
+  if (step5Complete === ui.Button.YES) {
+    return executeWizardStep_(6, courseContext);
+  }
+  
+  return true;
+}
+
+// ==== STEP 6: PRESENTATION DEVELOPMENT ====
+
+function executeStep6_Slides_(courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  ui.alert(
+    'Step 6: Professional Presentation Development',
+    'Time Required: ~15 minutes\n\n' +
+    'This step creates professional slide presentations:\n' +
+    '• Uses your configured Google Slides template\n' +
+    '• Creates 12 slides with professional content\n' +
+    '• Choice of detailed or executive summary formats\n' +
+    '• Organised storage in appropriate module folder\n' +
+    '• Ready for instructor-led or self-paced delivery\n\n' +
+    'Perfect for training sessions, webinars, or learner reference!',
+    ui.ButtonSet.OK
+  );
+  
+  ui.alert(
+    'Generate Professional Slides',
+    'WHAT TO DO NOW:\n' +
+    '1. Ensure you\'re on the same module row\n' +
+    '2. From the menu, select: Concept-to-Course → SLIDES & AUDIO → #6 Generate Slides for Module\n' +
+    '3. Choose your content format when prompted:\n' +
+    '   - Standard: Detailed content (recommended for most uses)\n' +
+    '   - Abbreviated: Executive summary format\n' +
+    '4. Wait for slide generation (about 3-5 minutes)\n\n' +
+    'TIP: Standard format works best for comprehensive training.',
+    ui.ButtonSet.OK
+  );
+  
+  const completed = waitForStepCompletion_('slides',
+    'Creating Professional Slides...',
+    'Generating your slide presentation using the configured template.\n\n' +
+    'This creates a complete 12-slide presentation ready for delivery.'
+  );
+  
+  if (!completed) return false;
+  
+  ui.alert(
+    'Review Your Presentation',
+    'Your slide presentation is complete!\n\n' +
+    'WHAT TO REVIEW:\n' +
+    '1. Open the presentation link from the completion message\n' +
+    '2. Review each slide for content and visual appeal\n' +
+    '3. Check slide progression and learning flow\n' +
+    '4. Ensure branding and template are applied correctly\n' +
+    '5. Verify content matches your quality standards\n\n' +
+    'PRESENTATION CHECKLIST:\n' +
+    '• Professional visual design throughout\n' +
+    '• Clear, readable content on each slide\n' +
+    '• Logical progression from slide to slide\n' +
+    '• Appropriate level of detail for your audience\n\n' +
+    'Click OK when you\'ve reviewed the presentation.',
+    ui.ButtonSet.OK
+  );
+  
+  const step6Complete = ui.alert(
+    'Step 6 Complete - Presentation Ready!',
+    'Fantastic! Your presentation is ready for delivery:\n\n' +
+    '✓ Professional 12-slide presentation created\n' +
+    '✓ Template branding applied consistently\n' +
+    '✓ Content optimised for your chosen format\n' +
+    '✓ Organised in appropriate Drive folder\n\n' +
+    'WHAT HAPPENS NEXT:\n' +
+    'Optional: We can set up voice customisation and generate professional audio narration.\n\n' +
+    'Ready to proceed to Step 7: Voice Customisation (Optional)?',
+    ui.ButtonSet.YES_NO
+  );
+  
+  if (step6Complete === ui.Button.YES) {
+    return executeWizardStep_(7, courseContext);
+  }
+  
+  return true;
+}
+
+// ==== STEP 7: VOICE CUSTOMISATION ====
+
+function executeStep7_Voice_(courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  const skipVoice = ui.alert(
+    'Step 7: Voice Customisation (Optional)',
+    'Time Required: ~2 minutes\n\n' +
+    'This optional step lets you customise the voice for audio narration:\n' +
+    '• Choose from 6 professional Australian voices\n' +
+    '• Apply consistent voice across all modules\n' +
+    '• Personalise your course audio branding\n\n' +
+    'Would you like to customise the voice, or use the default professional voice?\n\n' +
+    'YES = Customise voice selection\n' +
+    'NO = Skip and use default (Schedar - Female, Professional)',
+    ui.ButtonSet.YES_NO_CANCEL
+  );
+  
+  if (skipVoice === ui.Button.CANCEL) return false;
+  
+  if (skipVoice === ui.Button.YES) {
+    ui.alert(
+      'Voice Selection Process',
+      'WHAT TO DO NOW:\n' +
+      '1. From the menu, select: Concept-to-Course → SLIDES & AUDIO → #7 Set Voiceover Artist\n' +
+      '2. You\'ll see a list of available professional voices\n' +
+      '3. Enter the voice name when prompted (e.g., "Schedar", "Charon")\n' +
+      '4. The voice will be applied to all future audio generation\n\n' +
+      'VOICE OPTIONS:\n' +
+      '• Schedar: Female, even, professional (default)\n' +
+      '• Vindemiatrix: Female, gentle\n' +
+      '• Gacrux: Female, mature authority\n' +
+      '• Puck: Male, upbeat, engaging\n' +
+      '• Charon: Male, informative, deep\n' +
+      '• Orus: Male, firm, authoritative\n\n' +
+      'Click OK, then run the menu function.',
+      ui.ButtonSet.OK
+    );
+    
+    // Wait for voice selection
+    waitForStepCompletion_('voice',
+      'Setting Voice Preference...',
+      'Applying your voice selection for consistent audio branding across all modules.'
+    );
+  }
+  
+  const step7Complete = ui.alert(
+    'Step 7 Complete - Voice Configured!',
+    'Voice customisation complete:\n\n' +
+    '✓ Professional voice selected for audio narration\n' +
+    '✓ Consistent branding across all modules\n' +
+    '✓ Australian professional delivery ensured\n\n' +
+    'WHAT HAPPENS NEXT:\n' +
+    'Generate high-quality audio narration for your slide presentation.\n\n' +
+    'Ready to proceed to Step 8: Professional Audio Generation?',
+    ui.ButtonSet.YES_NO
+  );
+  
+  if (step7Complete === ui.Button.YES) {
+    return executeWizardStep_(8, courseContext);
+  }
+  
+  return true;
+}
+
+// ==== STEP 8: PROFESSIONAL AUDIO NARRATION ====
+
+function executeStep8_Audio_(courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  ui.alert(
+    'Step 8: Professional Audio Narration',
+    'Time Required: ~30-45 minutes\n\n' +
+    'This step creates professional voiceover for your presentation:\n' +
+    '• Executive-level narration scripts for each slide\n' +
+    '• High-quality AI voice with Australian professional delivery\n' +
+    '• WAV audio files organised in your module folder\n' +
+    '• Ready for LMS integration or presentation use\n\n' +
+    'The result: Fully narrated course content with professional audio quality!',
+    ui.ButtonSet.OK
+  );
+  
+  ui.alert(
+    'Generate Professional Audio',
+    'WHAT TO DO NOW:\n' +
+    '1. Ensure you\'re on the same module row\n' +
+    '2. From the menu, select: Concept-to-Course → SLIDES & AUDIO → #8 Generate All Audio for Module\n' +
+    '3. Wait for audio generation (this takes 20-30 minutes)\n' +
+    '4. Monitor progress through toast notifications\n\n' +
+    'WHAT WILL BE CREATED:\n' +
+    '• Professional voiceover script for each slide (12 total)\n' +
+    '• High-quality WAV audio files\n' +
+    '• Executive-level delivery suitable for senior professionals\n' +
+    '• Organised file storage with systematic naming\n\n' +
+    'Click OK, then run the menu function.',
+    ui.ButtonSet.OK
+  );
+  
+  const completed = waitForStepCompletion_('audio',
+    'Generating Professional Audio...',
+    'Creating executive-level voiceover narration for all slides.\n\n' +
+    'This process generates professional scripts and high-quality audio files.\n\n' +
+    'Time required: 20-30 minutes with progress updates.'
+  );
+  
+  if (!completed) return false;
+  
+  ui.alert(
+    'Review Audio Quality',
+    'Your professional audio narration is complete!\n\n' +
+    'WHAT TO REVIEW:\n' +
+    '1. Check your module folder in Google Drive for audio files\n' +
+    '2. Listen to a few sample files to verify quality\n' +
+    '3. Ensure voice and delivery meet your standards\n' +
+    '4. Verify all slides have corresponding audio files\n\n' +
+    'AUDIO QUALITY CHECKLIST:\n' +
+    '• Clear, professional delivery\n' +
+    '• Appropriate pace for learning\n' +
+    '• Consistent voice across all files\n' +
+    '• Executive-level tone and authority\n\n' +
+    'Click OK when you\'ve reviewed the audio quality.',
+    ui.ButtonSet.OK
+  );
+  
+  const moduleComplete = ui.alert(
+    'Module Development Complete!',
+    'Congratulations! Your first module is completely developed:\n\n' +
+    '✓ Professional content suite generated\n' +
+    '✓ LMS-ready content package created\n' +
+    '✓ Presentation slides with professional design\n' +
+    '✓ High-quality audio narration completed\n\n' +
+    'YOUR MODULE IS READY FOR DELIVERY!\n\n' +
+    'Do you want to:\n' +
+    'YES = Develop another module (repeat Steps 4-8)\n' +
+    'NO = Proceed to final course completion steps',
+    ui.ButtonSet.YES_NO_CANCEL
+  );
+  
+  if (moduleComplete === ui.Button.CANCEL) return false;
+  
+  if (moduleComplete === ui.Button.YES) {
+    // Return to Step 4 for next module
+    ui.alert(
+      'Develop Next Module',
+      'Excellent! Let\'s develop another module.\n\n' +
+      'WORKFLOW TIP:\n' +
+      'Select the next module row in your Module Resources sheet, then we\'ll repeat Steps 4-8 for comprehensive development.\n\n' +
+      'This ensures each module receives the same professional quality and attention to detail.',
+      ui.ButtonSet.OK
+    );
+    return executeWizardStep_(4, courseContext);
+  }
+  
+  // Proceed to maintenance/completion steps
+  return executeWizardStep_(9, courseContext);
+}
+
+// ==== STEP 9: MAINTENANCE & QUALITY CONTROL ====
+
+function executeStep9_Maintenance_(courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  const needsMaintenance = ui.alert(
+    'Step 9: Maintenance & Quality Control (Optional)',
+    'Time Required: ~2 minutes as needed\n\n' +
+    'This optional step helps maintain organised project files:\n' +
+    '• Clean outdated audio files\n' +
+    '• Remove superseded versions\n' +
+    '• Maintain folder organisation\n' +
+    '• Prepare for final course completion\n\n' +
+    'Do you need to clean up any outdated files?\n\n' +
+    'YES = Run cleanup process\n' +
+    'NO = Skip to final course completion',
+    ui.ButtonSet.YES_NO_CANCEL
+  );
+  
+  if (needsMaintenance === ui.Button.CANCEL) return false;
+  
+  if (needsMaintenance === ui.Button.YES) {
+    ui.alert(
+      'File Cleanup Process',
+      'WHAT TO DO NOW:\n' +
+      '1. Select the module row that needs cleanup\n' +
+      '2. From the menu, select: Concept-to-Course → DATA & ARCHIVAL → #9 Clean Module Audio Files\n' +
+      '3. Confirm the cleanup when prompted\n\n' +
+      'WHAT WILL BE CLEANED:\n' +
+      '• Outdated audio files moved to trash\n' +
+      '• Audio links cleared from tracking sheets\n' +
+      '• Clean workspace for fresh generation if needed\n\n' +
+      'Use this when you\'ve regenerated content and want to remove old versions.\n\n' +
+      'Click OK, then run the menu function if needed.',
+      ui.ButtonSet.OK
+    );
+  }
+  
+  return executeWizardStep_(10, courseContext);
+}
+
+// ==== STEP 10: PROFESSIONAL COURSE COMPLETION ====
+
+function executeStep10_Archive_(courseContext) {
+  const ui = SpreadsheetApp.getUi();
+  
+  const readyToComplete = ui.alert(
+    'Step 10: Professional Course Completion',
+    'Time Required: ~5 minutes\n\n' +
+    'Congratulations! You\'re ready to complete your professional course:\n' +
+    '• Archive all course materials for long-term storage\n' +
+    '• Create comprehensive backup spreadsheet\n' +
+    '• Clean main workspace for new course development\n' +
+    '• Prepare final deliverable package\n\n' +
+    'This creates a complete, professional course archive ready for delivery or storage.\n\n' +
+    'Are you ready to complete and archive this course?',
+    ui.ButtonSet.YES_NO_CANCEL
+  );
+  
+  if (readyToComplete !== ui.Button.YES) return false;
+  
+  ui.alert(
+    'Archive Course Project',
+    'WHAT TO DO NOW:\n' +
+    '1. Ensure you\'re on the correct course row in the Mapping sheet\n' +
+    '2. From the menu, select: Concept-to-Course → DATA & ARCHIVAL → #10 Archive Course Project\n' +
+    '3. Confirm archival when prompted\n\n' +
+    'WHAT WILL BE CREATED:\n' +
+    '• Complete backup spreadsheet with all course content\n' +
+    '• All materials preserved in your Drive project folder\n' +
+    '• Clean workspace ready for your next course\n' +
+    '• Professional archive suitable for delivery\n\n' +
+    'This is the final step - your course will be complete!\n\n' +
+    'Click OK, then run the menu function.',
+    ui.ButtonSet.OK
+  );
+  
+  const completed = waitForStepCompletion_('archive',
+    'Archiving Course...',
+    'Creating comprehensive backup and cleaning workspace for future projects.\n\n' +
+    'Your complete course archive will be ready in your Drive folder.'
+  );
+  
+  if (!completed) return false;
+  
+  // Final celebration
+  ui.alert(
+    '🎉 Course Creation Complete! 🎉',
+    'CONGRATULATIONS!\n\n' +
+    'You have successfully created a professional healthcare education course:\n\n' +
+    '✓ Complete course structure with 8-12 modules\n' +
+    '✓ Professional content suite for each module\n' +
+    '✓ LMS-ready content packages\n' +
+    '✓ Professional slide presentations\n' +
+    '✓ High-quality audio narration\n' +
+    '✓ Comprehensive course archive\n\n' +
+    'Your course materials are ready for:\n' +
+    '• LMS upload and delivery\n' +
+    '• Instructor-led training sessions\n' +
+    '• Professional development programs\n' +
+    '• Accreditation submissions\n\n' +
+    'NEXT STEPS:\n' +
+    '• Review final materials in your Drive folder\n' +
+    '• Upload to your LMS or delivery platform\n' +
+    '• Begin delivery to your professional audience\n\n' +
+    'Ready to create another course? Run the Course Creation Wizard again!',
+    ui.ButtonSet.OK
+  );
+  
+  return false; // Wizard complete
+}
+
+// ==== HELPER FUNCTIONS ====
+
+function analyseExistingCourses_() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const mappingSheet = ss.getSheetByName('Mapping');
+  
+  if (!mappingSheet) return { courses: [] };
+  
+  const courses = [];
+  const lastRow = mappingSheet.getLastRow();
+  
+  for (let row = 2; row <= lastRow; row++) {
+    const concept = mappingSheet.getRange(row, 1).getValue();
+    if (!concept) continue;
+    
+    // Determine status based on what exists
+    let status = 'Setup Complete';
+    
+    // Check if recommendation exists
+    const hasRecommendation = mappingSheet.getRange(row, 4).getValue();
+    if (hasRecommendation) status = 'Structure Created';
+    
+    // Check if workspace exists
+    const conceptName = String(concept).trim();
+    if (ss.getSheetByName(`Module-Resources-${conceptName}`)) {
+      status = 'Workspace Ready';
+    }
+    
+    // Check if content exists
+    const resourceSheet = ss.getSheetByName(`Module-Resources-${conceptName}`);
+    if (resourceSheet && resourceSheet.getLastRow() > 1) {
+      status = 'Content Development';
+    }
+    
+    courses.push({
+      name: conceptName,
+      row: row,
+      status: status
+    });
+  }
+  
+  return { courses: courses };
+}
+
+function continueWizardForCourse_(courseInfo) {
+  const ui = SpreadsheetApp.getUi();
+  
+  // Determine appropriate next step based on course status
+  let nextStep = 1;
+  
+  switch (courseInfo.status) {
+    case 'Setup Complete':
+      nextStep = 2;
+      break;
+    case 'Structure Created':
+      nextStep = 3;
+      break;
+    case 'Workspace Ready':
+      nextStep = 4;
+      break;
+    case 'Content Development':
+      nextStep = 5;
+      break;
+    default:
+      nextStep = 1;
+  }
+  
+  ui.alert(
+    `Continue Course: "${courseInfo.name}"`,
+    `Course status: ${courseInfo.status}\n\n` +
+    `I recommend continuing from Step ${nextStep}.\n\n` +
+    'The wizard will guide you through the remaining steps to complete your professional course development.',
+    ui.ButtonSet.OK
+  );
+  
+  // Navigate to appropriate sheet and row
+  const mappingSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Mapping');
+  mappingSheet.getRange(courseInfo.row, 1).activate();
+  
+  executeWizardStep_(nextStep, { concept: courseInfo.name });
+}
+
+function navigateToSheet_(sheetName) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName(sheetName);
+  if (sheet) {
+    ss.setActiveSheet(sheet);
+  }
+}
+
+function ensureCorrectRow_(sheetName) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName(sheetName);
+  if (!sheet) return null;
+  
+  // Ensure user is on a data row (not header)
+  const activeRange = sheet.getActiveRange();
+  if (!activeRange || activeRange.getRow() < 2) {
+    sheet.getRange('A2').activate();
+  }
+  
+  return sheet;
+}
+
+function findModuleResourcesSheet_() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheets = ss.getSheets();
+  
+  for (const sheet of sheets) {
+    if (sheet.getName().startsWith('Module-Resources-')) {
+      return sheet.getName();
+    }
+  }
+  
+  return null;
+}
+
+function waitForStepCompletion_(stepType, progressTitle, progressMessage) {
+  const ui = SpreadsheetApp.getUi();
+  
+  // Show progress dialog
+  ui.alert(
+    progressTitle,
+    progressMessage + '\n\nClick OK to continue when the process is complete.\n\n' +
+    'You\'ll see toast notifications showing progress, and a completion message when finished.',
+    ui.ButtonSet.OK
+  );
+  
+  // In a real implementation, this could poll for completion
+  // For now, we assume the user clicked OK after completion
+  return true;
+}
+
+function handleModificationRequest_() {
+  const ui = SpreadsheetApp.getUi();
+  
+  ui.alert(
+    'Request Course Structure Changes',
+    'To modify the course structure:\n\n' +
+    '1. In the Mapping sheet, find the "Modification Request" column\n' +
+    '2. Describe the specific changes you want\n' +
+    '3. Run the modification process from the menu\n' +
+    '4. Review the updated recommendation\n\n' +
+    'EXAMPLE REQUESTS:\n' +
+    '• "Combine modules 3 and 4 into one comprehensive module"\n' +
+    '• "Add a module on cultural safety considerations"\n' +
+    '• "Reorder modules to start with practical applications"\n\n' +
+    'Be specific about what changes you want to see.',
+    ui.ButtonSet.OK
+  );
+}
+
+// Add menu item for the wizard
+function addCourseWizardToMenu_() {
+  const ui = SpreadsheetApp.getUi();
+  
+  // This would be integrated into your existing onOpen function
+  ui.createMenu('🧙‍♂️ Course Wizard')
+      .addItem('🚀 Start Course Creation Wizard', 'launchCourseCreationWizard')
+      .addSeparator()
+      .addItem('📋 Check Course Progress', 'showCourseProgressSummary')
+      .addItem('🔄 Resume Course Development', 'continueExistingCourseWizard_')
+      .addToUi();
+}
+
+function showCourseProgressSummary() {
+  const ui = SpreadsheetApp.getUi();
+  const courseStatus = analyseExistingCourses_();
+  
+  if (courseStatus.courses.length === 0) {
+    ui.alert(
+      'No Courses Found',
+      'No courses found in development.\n\nUse the Course Creation Wizard to start your first course!',
+      ui.ButtonSet.OK
+    );
+    return;
+  }
+  
+  let summary = 'COURSE DEVELOPMENT PROGRESS:\n\n';
+  courseStatus.courses.forEach((course, index) => {
+    summary += `${index + 1}. "${course.name}"\n   Status: ${course.status}\n\n`;
+  });
+  
+  summary += 'Use "Resume Course Development" to continue any course.';
+  
+  ui.alert('Course Progress Summary', summary, ui.ButtonSet.OK);
+}

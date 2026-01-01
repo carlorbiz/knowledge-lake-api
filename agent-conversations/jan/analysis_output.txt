@@ -1,0 +1,8 @@
+================================================================================
+JAN CONVERSATION LEARNING ANALYSIS
+================================================================================
+
+[QUERY] Fetching all Jan conversations from Knowledge Lake...
+[FAIL] Error fetching conversations: 400 Client Error: Bad Request for url: https://knowledge-lake-api-production.up.railway.app/api/conversations/search
+
+[FAIL] No conversations found or error occurred
