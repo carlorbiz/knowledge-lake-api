@@ -610,7 +610,7 @@
       "to_thread_id": 13,
       "connection_type": "builds_on",
       "explanation": "Thread 13 references concepts from Thread 4",
-      "evidence": "echo API_KEY=sk-proj-SkNpmXo77ZI4q-f85UM9lkJ_mxuJl1LmLGOQ4Xl_Yk_bwsR0ewQ6m4mBzQRAkwtY44PiPtx7AZT3BlbkFJJ82CeArY9H2BVzqVkDVSq0KWweFmnxHxRG1rFp6Ul3ak8Be"
+      "evidence": "echo API_KEY=[OPENAI_KEY_REDACTED]"
     },
     {
       "from_thread_id": 5,
@@ -666,7 +666,7 @@
       "to_thread_id": 13,
       "connection_type": "builds_on",
       "explanation": "Thread 13 references concepts from Thread 5",
-      "evidence": "echo API_KEY=sk-proj-SkNpmXo77ZI4q-f85UM9lkJ_mxuJl1LmLGOQ4Xl_Yk_bwsR0ewQ6m4mBzQRAkwtY44PiPtx7AZT3BlbkFJJ82CeArY9H2BVzqVkDVSq0KWweFmnxHxRG1rFp6Ul3ak8Be"
+      "evidence": "echo API_KEY=[OPENAI_KEY_REDACTED]"
     },
     {
       "from_thread_id": 5,
@@ -771,7 +771,7 @@
       "to_thread_id": 13,
       "connection_type": "builds_on",
       "explanation": "Thread 13 references concepts from Thread 6",
-      "evidence": "echo API_KEY=sk-proj-SkNpmXo77ZI4q-f85UM9lkJ_mxuJl1LmLGOQ4Xl_Yk_bwsR0ewQ6m4mBzQRAkwtY44PiPtx7AZT3BlbkFJJ82CeArY9H2BVzqVkDVSq0KWweFmnxHxRG1rFp6Ul3ak8Be"
+      "evidence": "echo API_KEY=[OPENAI_KEY_REDACTED]"
     },
     {
       "from_thread_id": 6,
@@ -1030,7 +1030,7 @@
       "to_thread_id": 13,
       "connection_type": "builds_on",
       "explanation": "Thread 13 references concepts from Thread 9",
-      "evidence": "echo API_KEY=sk-proj-SkNpmXo77ZI4q-f85UM9lkJ_mxuJl1LmLGOQ4Xl_Yk_bwsR0ewQ6m4mBzQRAkwtY44PiPtx7AZT3BlbkFJJ82CeArY9H2BVzqVkDVSq0KWweFmnxHxRG1rFp6Ul3ak8Be"
+      "evidence": "echo API_KEY=[OPENAI_KEY_REDACTED]"
     },
     {
       "from_thread_id": 9,
@@ -1107,7 +1107,7 @@
       "to_thread_id": 13,
       "connection_type": "builds_on",
       "explanation": "Thread 13 references concepts from Thread 10",
-      "evidence": "echo API_KEY=sk-proj-SkNpmXo77ZI4q-f85UM9lkJ_mxuJl1LmLGOQ4Xl_Yk_bwsR0ewQ6m4mBzQRAkwtY44PiPtx7AZT3BlbkFJJ82CeArY9H2BVzqVkDVSq0KWweFmnxHxRG1rFp6Ul3ak8Be"
+      "evidence": "echo API_KEY=[OPENAI_KEY_REDACTED]"
     },
     {
       "from_thread_id": 10,
@@ -1177,7 +1177,7 @@
       "to_thread_id": 13,
       "connection_type": "builds_on",
       "explanation": "Thread 13 references concepts from Thread 11",
-      "evidence": "echo API_KEY=sk-proj-SkNpmXo77ZI4q-f85UM9lkJ_mxuJl1LmLGOQ4Xl_Yk_bwsR0ewQ6m4mBzQRAkwtY44PiPtx7AZT3BlbkFJJ82CeArY9H2BVzqVkDVSq0KWweFmnxHxRG1rFp6Ul3ak8Be"
+      "evidence": "echo API_KEY=[OPENAI_KEY_REDACTED]"
     },
     {
       "from_thread_id": 11,
